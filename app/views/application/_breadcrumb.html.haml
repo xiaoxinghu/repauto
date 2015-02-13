@@ -1,0 +1,6 @@
+%ol.breadcrumb
+  - if defined? project
+    %li= link_to project.stream.name, stream_path(project.stream.id)
+    %li.active= project.name 
+  - if defined? stream
+    %li.active= stream.name 

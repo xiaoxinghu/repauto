@@ -1,0 +1,12 @@
+.tree
+  %ul
+    - Stream.all.each do |stream|
+      %li
+        = link_to stream.name, stream_path(stream.id)
+        %ul
+          - stream.projects.each do |project|
+            %li
+              = link_to project.name, stream_project_path(stream.id, project.id)
+              -# %ul
+              -#   %li= link_to "dashboards", stream_project_dashboards_path(stream.id, project.id)
+              -#   %li= link_to "reports", stream_project_reports_path(stream.id, project.id)

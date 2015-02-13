@@ -1,0 +1,6 @@
+= render partial: "breadcrumb", locals: {project: @project}
+= render partial: "projects/menu", locals: {project: @project}
+
+%ul
+  - @project.dashboards.each do |d|
+    %li= link_to d.name, d.url

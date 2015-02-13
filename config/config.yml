@@ -1,0 +1,11 @@
+production:
+  report_host: http://testeng-1-w1.mcom.local/
+
+development:
+  report_host: http://10.28.251.114/
+  report_root: "reports"
+
+test:
+  report_host: http://testeng-1-w1.mcom.local/
+
+  

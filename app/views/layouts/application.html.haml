@@ -1,0 +1,24 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Tereport
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-inverse.navbar-fixed-top{:role => "navigation"}
+      .container-fluid
+        .navbar-header
+          = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
+        %ul.nav.navbar-nav
+          -# %li{:class => "#{'active' if params[:controller] == 'reports'}"}= link_to "Reports", reports_path
+          -# %li{:class => "#{'active' if params[:controller] == 'dashboards'}"}= link_to "Dashboards", dashboards_path
+        = link_to "refresh", welcome_index_path(:refresh => true), {:class => "btn btn-default navbar-right"}
+    .container-fluid
+      .row
+        #sidebar.col-sm-3.hidden-xs.fixed
+          = render partial: 'tree'
+
+        #main.col-sm-9.scrollit{:role => "main"}
+          = yield

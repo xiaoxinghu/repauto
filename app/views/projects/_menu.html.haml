@@ -1,0 +1,10 @@
+%ul.nav.nav-tabs
+  %li{:role => "presentation", :class => ("active" if controller_name == "projects")}
+    = link_to "home", stream_project_path(project.stream.id, project.id)
+  %li{:role => "presentation", :class => ("active" if controller_name == "reports")}
+    = link_to "reports", stream_project_reports_path(project.stream.id, project.id)
+  %li{:role => "presentation", :class => ("active" if controller_name == "dashboards")}
+    = link_to "dashboards", stream_project_dashboards_path(project.stream.id, project.id)
+    
+
+

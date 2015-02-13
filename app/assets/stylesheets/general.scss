@@ -1,0 +1,31 @@
+$top-bar-height: 50px;
+
+body {
+    padding-top: $top-bar-height;
+}
+
+#sidebar {
+    position: fixed;
+    //top: $top-bar-height;
+    background-color: #d1d1d1;
+    color: #fff;
+    height: 100%;
+}
+
+.navbar {
+    margin-bottom: 0;
+    color: white;
+}
+
+#main {
+}
+
+.tree {
+    ul {
+        list-style-type: none;
+    }
+}
+
+.scrollit {
+    float: right;
+}
