@@ -10,8 +10,7 @@ class ReportsController < ApplicationController
     # tags << params[:type] if params[:type].present?
 
     # @reports = Report.all.select{ |report| (tags - report.tags).empty? }
-    @stream = Stream.find(params[:stream_id])
-    @project = @stream.project(params[:project_id])
+    @project = Project.find(params[:project_id])
     @reports = @project.reports
   end
 

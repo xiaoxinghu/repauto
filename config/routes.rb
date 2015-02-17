@@ -1,22 +1,8 @@
 Rails.application.routes.draw do
 
-  get 'reports/index'
-
-  get 'reports/show'
-
-  get 'dashboards/index'
-
-  get 'dashboards/show'
-
-  get 'streams/index'
-
-  get 'streams/show'
-
-  resources :streams, only: [:index, :show] do
-    resources :projects, only: [:index, :show] do
-      resources :reports, only: [:index, :show]
-      resources :dashboards, only: [:index, :show]
-    end
+  resources :projects, only: [:index, :show] do
+    resources :reports, only: [:index, :show]
+    resources :dashboards, only: [:index, :show]
   end
   
   get 'welcome/index'

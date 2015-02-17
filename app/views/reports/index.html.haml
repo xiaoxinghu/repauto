@@ -1,14 +1,16 @@
 = render partial: "breadcrumb", locals: {project: @project}
 = render partial: "projects/menu", locals: {project: @project}
 
-- if false
+- if true
   = form_tag({controller: "reports", action: "index"}, method: "get") do
     .input-group
-      - [{:name => 'stream', :level => 0},
-      {:name => 'project', :level => 1},
-      {:name => 'category', :level => 2},
-      {:name => 'type', :level => 3}].each do |filter|
-        = select_tag filter[:name], options_from_collection_for_select(tags(@reports, filter[:level]), 'to_s', 'to_s', params[filter[:name]]), include_blank: "Any", onchange: "this.form.submit();"
+      = select_tag 'category', options_from_collection_for_select(categories(@reports), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
+      = select_tag 'seconds', options_from_collection_for_select(date_filter, 'value', 'human', params[:seconds]), include_blank: "Any Time", onchange: "this.form.submit();"
+      -# - [{:name => 'stream', :level => 0},
+      -# {:name => 'project', :level => 1},
+      -# {:name => 'category', :level => 2},
+      -# {:name => 'type', :level => 3}].each do |filter|
+      -#   = select_tag filter[:name], options_from_collection_for_select(tags(@reports, filter[:level]), 'to_s', 'to_s', params[filter[:name]]), include_blank: "Any", onchange: "this.form.submit();"
 
       -# = select_tag 'last', options_from_collection_for_select(date_scopes, 'ago', 'ago', params[:last]), include_blank: "Any", onchange: "this.form.submit();"
 
@@ -16,17 +18,21 @@
       = button_tag(type: "submit", class: "btn btn-default") do
         %i.glyphicon.glyphicon-search
 
-- if @reports.size > 0
+
+- filtered = filter(@reports, params[:category], params[:seconds])
+- if filtered.size > 0
   %table.table.table-hover
     %tr
       %th date
       %th tags
 
-    - @reports.each do |report|
+    - filtered.sort_by { |r| DateTime.now - r.date }.each do |report|
       %tr
         %td
-          = link_to report.date, report.url
-        %td= report.tags
+          = link_to report.date.strftime("%a, %b %d %Y"), report.url
+        %td
+          %ul
+            - report.tags.each do |tag|
+              %li.label.label-default= tag
 - else
-  %td= report.url
-
+  %p No Results

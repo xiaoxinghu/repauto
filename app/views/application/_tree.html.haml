@@ -1,12 +1,12 @@
-.tree
-  %ul
-    - Stream.all.each do |stream|
+.tree.well.well-lg
+  %ul.nav.nav-list
+    - grouped = Project.all.group_by { |p| p.stream }
+    - grouped.keys.each do |stream|
       %li
-        = link_to stream.name, stream_path(stream.id)
-        %ul
-          - stream.projects.each do |project|
+        %label.nav-header.tree-toggler= stream
+        %ul.nav.nav-list.tree
+          - grouped[stream].each do |project|
             %li
-              = link_to project.name, stream_project_path(stream.id, project.id)
-              -# %ul
-              -#   %li= link_to "dashboards", stream_project_dashboards_path(stream.id, project.id)
-              -#   %li= link_to "reports", stream_project_reports_path(stream.id, project.id)
+              = link_to project_path(project.id) do
+                %label= project.name
+

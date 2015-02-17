@@ -7,9 +7,12 @@ body {
 #sidebar {
     position: fixed;
     //top: $top-bar-height;
-    background-color: #d1d1d1;
-    color: #fff;
+    //background-color: #d1d1d1;
+    //color: #fff;
     height: 100%;
+    .tree {
+        height: 100%;
+    }
 }
 
 .navbar {
