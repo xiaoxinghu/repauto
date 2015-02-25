@@ -1,27 +1,23 @@
-class Project < Folder
-  include ActiveSupport::Cache
+class Project < ActiveRecord::Base
+  include Crawler
 
-  attr_accessor :reports, :dashboards, :meta, :stream
+  def self.sync
+    puts "Sync projects ..."
+    yml_files = []
+    find_files 'project.yml', APP_CONFIG['report_root'], yml_files, ['log', 'allure']
 
-  def initialize(path)
-    super(path)
-    yaml = self.class.http_get(path).body
-    @meta = YAML::load(yaml)
-    @reports = Report.under self
-    @dashboards = Dashboard.load @meta['dashboards']
-    @stream = @meta['stream']
-  end
+    yml_files.each do |f|
+      yaml = http_get(f).body
+      meta = YAML::load(yaml)
+      path = f.gsub( /[^\/]+$/, '' )
+      p = Project.find_or_create_by path: path
+      p.path = path
+      p.name = path.split('/').last
+      p.stream = meta['stream']
+      p.save
+      puts "- Project: #{p.name}"
 
-  def self.all
-    Rails.cache.fetch("projects", expire_in: 12.hours) do
-      yml_files = []
-      find_files 'project.yml', APP_CONFIG['report_root'], yml_files, ['log', 'allure']
-      yml_files.map {|f| Project.new f }
+      TestRun.sync p
     end
   end
-
-  def report(id)
-    @reports.find { |r| r.id == id }
-  end
-
 end

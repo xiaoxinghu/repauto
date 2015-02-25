@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
 
+  get 'test_runs/index'
+
+  get 'test_runs/show'
+
   resources :projects, only: [:index, :show] do
-    resources :reports, only: [:index, :show]
-    resources :dashboards, only: [:index, :show]
+    resources :test_runs, only: [:index, :show] do
+      resources :test_suites, only: [:index, :show] do
+        resources :test_cases, only: [:index, :show]
+      end
+    end
   end
-  
+
   get 'welcome/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

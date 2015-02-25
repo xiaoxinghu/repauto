@@ -1,5 +1,4 @@
-module ReportsHelper
-
+module TestRunsHelper
   class ActiveSupport::Duration
     def human
       s = value
@@ -39,8 +38,8 @@ module ReportsHelper
     tags.to_set
   end
 
-  def categories(reports)
-    categories = reports.map {|report| report.tags[2] }
+  def categories(test_runs)
+    categories = test_runs.map {|report| report.name }
     categories.to_set
   end
 
@@ -52,26 +51,25 @@ module ReportsHelper
     scopes << 14.days
   end
 
-  def filter_by_category(reports, category)
+  def filter_by_category(test_runs, category)
     if category.blank?
-      reports
+      test_runs
     else
-      reports.select {|report| report.tags.include? category }
+      test_runs.select {|test_run| test_run.name == category }
     end
   end
 
-  def filter_by_date(reports, seconds)
+  def filter_by_date(test_runs, seconds)
     if seconds.blank?
-      reports
+      test_runs
     else
-      reports.select {|report| report.date > seconds.to_i.seconds.ago}
+      test_runs.select {|test_run| test_run.start > seconds.to_i.seconds.ago}
     end
   end
 
-  def filter(reports, category, seconds)
-    filtered = filter_by_category reports, category
+  def filter(test_runs, category, seconds)
+    filtered = filter_by_category test_runs, category
     filtered = filter_by_date filtered, seconds
     filtered
   end
-
 end

@@ -2,9 +2,9 @@
 = render partial: "projects/menu", locals: {project: @project}
 
 - if true
-  = form_tag({controller: "reports", action: "index"}, method: "get") do
+  = form_tag({controller: "test_runs", action: "index"}, method: "get") do
     .input-group
-      = select_tag 'category', options_from_collection_for_select(categories(@reports), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
+      = select_tag 'category', options_from_collection_for_select(categories(@test_runs), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
       = select_tag 'seconds', options_from_collection_for_select(date_filter, 'value', 'human', params[:seconds]), include_blank: "Any Time", onchange: "this.form.submit();"
       -# - [{:name => 'stream', :level => 0},
       -# {:name => 'project', :level => 1},
@@ -19,20 +19,21 @@
         %i.glyphicon.glyphicon-search
 
 
-- filtered = filter(@reports, params[:category], params[:seconds])
+- filtered = filter(@test_runs, params[:category], params[:seconds])
 - if filtered.size > 0
   %table.table.table-hover
     %tr
-      %th date
-      %th tags
+      %th duration
+      %th start
+      %th end
+      %th link
 
-    - filtered.sort_by { |r| DateTime.now - r.date }.each do |report|
+    - filtered.sort_by { |r| Time.now - r.start }.each do |test_run|
       %tr
+        %td= distance_of_time_in_words test_run.end, test_run.start
+        %td= test_run.start.strftime("%a, %b %d %Y %H:%M:%S")
+        %td= test_run.end.strftime("%a, %b %d %Y %H:%M:%S")
         %td
-          = link_to report.date.strftime("%a, %b %d %Y"), report.url
-        %td
-          %ul
-            - report.tags.each do |tag|
-              %li.label.label-default= tag
+          = link_to test_run.name, link(test_run.path)
 - else
   %p No Results

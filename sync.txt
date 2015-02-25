@@ -1,0 +1,1613 @@
+Sync projects ...
+Scanning for file project.yml... <reports>
+Scanning for file project.yml... </reports/automation/>
+Scanning for file project.yml... </reports/automation/BASP/>
+Scanning for file project.yml... </reports/automation/FP5/>
+- Project: BASP
+- Test Run: All1
+- Test Run: All1
+- Test Run: All1
+- Test Run: Defect
+- Test Suite: Transfers
+5 test cases.
+- Test Suite: SecurityChallenge
+13 test cases.
+- Test Suite: View Account Balance Feature
+6 test cases.
+- Test Suite: Settings
+2 test cases.
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: DynamicPrompts
+2 test cases.
+- Test Run: Defect
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: Transfers
+5 test cases.
+- Test Suite: SecurityChallenge
+13 test cases.
+- Test Suite: Settings
+2 test cases.
+- Test Suite: DynamicPrompts
+2 test cases.
+- Test Suite: View Account Balance Feature
+6 test cases.
+- Test Run: Defect
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: Settings
+2 test cases.
+- Test Suite: View Account Balance Feature
+6 test cases.
+- Test Suite: DynamicPrompts
+2 test cases.
+- Test Suite: SecurityChallenge
+13 test cases.
+- Test Suite: Transfers
+5 test cases.
+- Test Run: Defect
+- Test Suite: Transfers
+5 test cases.
+- Test Suite: DynamicPrompts
+2 test cases.
+- Test Suite: Settings
+2 test cases.
+- Test Suite: SecurityChallenge
+13 test cases.
+- Test Suite: View Account Balance Feature
+6 test cases.
+- Test Suite: MFA Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Transfers
+14 test cases.
+- Test Suite: Approvals
+8 test cases.
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: SecurityChallenge
+1 test cases.
+- Test Suite: DepositCapture
+40 test cases.
+- Test Suite: Login Flow Feature
+22 test cases.
+- Test Run: Investigation
+- Test Suite: SecurityChallenge
+1 test cases.
+- Test Suite: DepositCapture
+40 test cases.
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: Approvals
+8 test cases.
+- Test Suite: Transfers
+14 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Login Flow Feature
+22 test cases.
+- Test Run: Investigation
+- Test Suite: Approvals
+8 test cases.
+- Test Suite: DepositCapture
+40 test cases.
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: Login Flow Feature
+22 test cases.
+- Test Suite: SecurityChallenge
+1 test cases.
+- Test Suite: Transfers
+14 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Run: Investigation
+- Test Suite: SecurityChallenge
+1 test cases.
+- Test Suite: DepositCapture
+43 test cases.
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: Approvals
+8 test cases.
+- Test Suite: Transfers
+14 test cases.
+- Test Suite: Login Flow Feature
+22 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Approvals
+3 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: DepositCapture
+2 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: DepositCapture
+1 test cases.
+- Test Run: Investigation
+- Test Suite: Login Flow Feature
+1 test cases.
+- Test Suite: Transfers
+7 test cases.
+- Test Suite: Approvals
+5 test cases.
+- Test Suite: DepositCapture
+26 test cases.
+- Test Suite: MFA Feature
+1 test cases.
+- Test Suite: View Account Balance Feature
+10 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Transfers
+16 test cases.
+- Test Suite: Settings
+2 test cases.
+- Test Suite: Login Flow Feature
+6 test cases.
+- Test Suite: MFA Feature
+15 test cases.
+- Test Suite: SecurityChallenge
+1 test cases.
+- Test Suite: DepositCapture
+43 test cases.
+- Test Suite: Approvals
+8 test cases.
+- Test Suite: DepositHistory
+2 test cases.
+- Test Run: Investigation
+- Test Suite: Approvals
+8 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Investigation
+- Test Run: Regression
+- Test Suite: Transfers
+170 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: DepositHistory
+38 test cases.
+- Test Suite: Settings
+14 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: MFA Feature
+37 test cases.
+- Test Suite: DepositCapture
+58 test cases.
+- Test Suite: Login Flow Feature
+111 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+170 test cases.
+- Test Suite: DepositHistory
+38 test cases.
+- Test Suite: Login Flow Feature
+111 test cases.
+- Test Suite: DepositCapture
+58 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: Settings
+14 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: MFA Feature
+37 test cases.
+- Test Run: Regression
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: Settings
+14 test cases.
+- Test Suite: DepositCapture
+58 test cases.
+- Test Suite: MFA Feature
+37 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: Login Flow Feature
+111 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: Transfers
+170 test cases.
+- Test Suite: DepositHistory
+38 test cases.
+- Test Run: Regression
+- Test Suite: Settings
+14 test cases.
+- Test Suite: DepositHistory
+38 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: Transfers
+170 test cases.
+- Test Suite: MFA Feature
+37 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: DepositCapture
+58 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: Login Flow Feature
+111 test cases.
+- Test Run: Regression
+- Test Run: Regression
+- Test Suite: Transfers
+170 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: MFA Feature
+37 test cases.
+- Test Suite: DepositCapture
+58 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: DepositHistory
+38 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: Login Flow Feature
+111 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: Settings
+14 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Run: Regression
+- Test Suite: DepositCapture
+55 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: DepositHistory
+38 test cases.
+- Test Suite: Settings
+14 test cases.
+- Test Suite: Transfers
+170 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: Login Flow Feature
+111 test cases.
+- Test Suite: MFA Feature
+37 test cases.
+- Test Run: Regression
+- Test Suite: Settings
+14 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: DepositHistory
+38 test cases.
+- Test Suite: MFA Feature
+37 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: DepositCapture
+55 test cases.
+- Test Suite: Login Flow Feature
+132 test cases.
+- Test Suite: Transfers
+170 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: Login Flow Feature
+127 test cases.
+- Test Suite: DepositCapture
+55 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: DepositHistory
+36 test cases.
+- Test Suite: Transfers
+168 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: MFA Feature
+23 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: Settings
+12 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Run: Regression
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: Settings
+12 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: Login Flow Feature
+127 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: Transfers
+168 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: DepositCapture
+55 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: MFA Feature
+23 test cases.
+- Test Suite: DepositHistory
+36 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Run: Regression
+- Test Suite: MFA Feature
+23 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: DepositHistory
+36 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: Settings
+12 test cases.
+- Test Suite: DepositCapture
+55 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: Login Flow Feature
+127 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: Transfers
+168 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Run: Regression
+- Test Run: Regression
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: Login Flow Feature
+127 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: Settings
+12 test cases.
+- Test Suite: Transfers
+168 test cases.
+- Test Suite: DepositHistory
+36 test cases.
+- Test Suite: DepositCapture
+55 test cases.
+- Test Suite: MFA Feature
+23 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Run: Regression
+- Test Run: Regression
+- Test Suite: Transfers
+1 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+1 test cases.
+- Test Run: Regression
+- Test Run: Regression
+- Test Suite: Transfers
+1 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+1 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+1 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+2 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+2 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+2 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+4 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+2 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+4 test cases.
+- Test Run: Regression
+- Test Suite: Transfers
+168 test cases.
+- Test Suite: View Account Balance Feature
+40 test cases.
+- Test Suite: MFA Feature
+23 test cases.
+- Test Suite: DepositHistory
+36 test cases.
+- Test Suite: ApplicationMessages
+2 test cases.
+- Test Suite: Navigation Feature
+9 test cases.
+- Test Suite: Settings
+12 test cases.
+- Test Suite: DepositCapture
+55 test cases.
+- Test Suite: SecurityChallenge
+12 test cases.
+- Test Suite: Login Flow Feature
+127 test cases.
+- Test Suite: Approvals
+155 test cases.
+- Test Suite: PushAlertsSubscription
+26 test cases.
+- Test Suite: PushAlertsRegistration
+5 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: Login Flow Feature
+1 test cases.
+- Project: FP5
+- Test Run: Flaky
+- Test Suite: Payments Navigation
+8 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Suite: SettingsServices
+12 test cases.
+- Test Suite: Login Flow Feature
+7 test cases.
+- Test Suite: Navigation
+2 test cases.
+- Test Suite: Payments
+2 test cases.
+- Test Suite: Settings Manage FI
+2 test cases.
+- Test Run: Flaky
+- Test Suite: Settings Manage FI
+2 test cases.
+- Test Suite: Login Flow Feature
+7 test cases.
+- Test Suite: Payments Navigation
+8 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Suite: Payments
+2 test cases.
+- Test Suite: SettingsServices
+12 test cases.
+- Test Run: Flaky
+- Test Suite: Payments
+2 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: SettingsServices
+12 test cases.
+- Test Suite: Payments Navigation
+8 test cases.
+- Test Suite: Login Flow Feature
+3 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Run: Flaky
+- Test Suite: Login Flow Feature
+3 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: SettingsServices
+12 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Run: Flaky
+- Test Suite: SettingsServices
+12 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Suite: Login Flow Feature
+3 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Run: Flaky
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Login Flow Feature
+3 test cases.
+- Test Suite: SettingsServices
+12 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Run: Flaky
+- Test Suite: Login Flow Feature
+3 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Suite: SettingsServices
+12 test cases.
+- Test Run: Flaky
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Security Question Feature
+5 test cases.
+- Test Suite: SettingsServices
+12 test cases.
+- Test Suite: Login Flow Feature
+3 test cases.
+- Test Run: Ghost
+- Test Suite: Popmoney Make Deposit
+2 test cases.
+- Test Suite: Logout
+10 test cases.
+- Test Suite: Message Input
+2 test cases.
+- Test Suite: ApplicationMessages
+5 test cases.
+- Test Suite: AmountInput
+56 test cases.
+- Test Suite: Settings Sidebar
+20 test cases.
+- Test Suite: Settings Manage FI
+3 test cases.
+- Test Suite: ApplicationLifecycle
+11 test cases.
+- Test Suite: Device Back Button Navigation
+4 test cases.
+- Test Suite: Login Flow Feature
+59 test cases.
+- Test Suite: Popmoney Send Money
+6 test cases.
+- Test Suite: DepositCapture
+20 test cases.
+- Test Suite: Transfers
+3 test cases.
+- Test Suite: AccountSelector
+24 test cases.
+- Test Suite: Security Question Feature
+40 test cases.
+- Test Suite: SettingsServices
+54 test cases.
+- Test Run: Ghost
+- Test Suite: SettingsServices
+54 test cases.
+- Test Suite: Message Input
+2 test cases.
+- Test Suite: Settings Sidebar
+20 test cases.
+- Test Suite: DepositCapture
+20 test cases.
+- Test Suite: Logout
+10 test cases.
+- Test Suite: Settings Manage FI
+3 test cases.
+- Test Suite: Transfers
+3 test cases.
+- Test Suite: ApplicationLifecycle
+11 test cases.
+- Test Suite: Popmoney Send Money
+6 test cases.
+- Test Suite: ApplicationMessages
+5 test cases.
+- Test Suite: Security Question Feature
+40 test cases.
+- Test Suite: AccountSelector
+24 test cases.
+- Test Suite: Login Flow Feature
+59 test cases.
+- Test Suite: AmountInput
+56 test cases.
+- Test Suite: Device Back Button Navigation
+4 test cases.
+- Test Suite: Popmoney Make Deposit
+2 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+27 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Navigation
+10 test cases.
+- Test Suite: Make a Payment
+31 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Login Flow Feature
+57 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: DepositHistory
+24 test cases.
+- Test Run: Regression
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: View Account Balance Feature
+27 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Navigation
+10 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: DepositHistory
+24 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Make a Payment
+28 test cases.
+- Test Suite: Login Flow Feature
+57 test cases.
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: Make a Payment
+31 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Navigation
+10 test cases.
+- Test Suite: View Account Balance Feature
+19 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Run: Regression
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: Make a Payment
+31 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: Navigation
+10 test cases.
+- Test Suite: View Account Balance Feature
+19 test cases.
+- Test Suite: Make a Payment
+28 test cases.
+- Test Suite: View Account Balance Feature
+27 test cases.
+- Test Suite: Navigation
+10 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: DepositHistory
+24 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Login Flow Feature
+57 test cases.
+- Test Run: Regression
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: DepositHistory
+24 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Make a Payment
+31 test cases.
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Make a Payment
+28 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: Login Flow Feature
+57 test cases.
+- Test Suite: View Account Balance Feature
+19 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Navigation
+10 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Run: Regression
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: Popmoney Send Money
+77 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: Make a Payment
+28 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Run: Regression
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Payments
+25 test cases.
+- Test Suite: Login Flow Feature
+53 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: Make a Payment
+30 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: DepositHistory
+24 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Run: Regression
+- Test Suite: Make a Payment
+32 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Payments
+28 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: Login Flow Feature
+47 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: Login Flow Feature
+53 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: DepositHistory
+24 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Run: Regression
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Login Flow Feature
+47 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Run: Regression
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: DepositHistory
+25 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Login Flow Feature
+49 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Settings Manage FI
+4 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Run: Regression
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Run: Regression
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Login Flow Feature
+49 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: DepositHistory
+25 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Settings Manage FI
+4 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Run: Regression
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Run: Regression
+- Test Suite: Settings Manage FI
+4 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Login Flow Feature
+49 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: DepositHistory
+25 test cases.
+- Test Run: Regression
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: Login Flow Feature
+49 test cases.
+- Test Suite: DepositHistory
+25 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Settings Manage FI
+4 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Run: Regression
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Run: Regression
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: DepositHistory
+25 test cases.
+- Test Suite: Settings Manage FI
+6 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Login Flow Feature
+62 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Run: Regression
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Run: Regression
+- Test Suite: Security Question Feature
+9 test cases.
+- Test Suite: View Account Balance Feature
+15 test cases.
+- Test Suite: Transfers
+42 test cases.
+- Test Suite: DepositCapture
+13 test cases.
+- Test Suite: Settings Manage FI
+6 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: Login Flow Feature
+62 test cases.
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: DepositMenu
+3 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: DepositHistory
+25 test cases.
+- Test Run: Regression
+- Test Suite: Navigation
+11 test cases.
+- Test Suite: Popmoney Send Money
+76 test cases.
+- Test Suite: DepositCapture
+2 test cases.
+- Test Suite: Security Question Feature
+12 test cases.
+- Test Suite: Message Input
+8 test cases.
+- Test Suite: Settings Manage FI
+1 test cases.
+- Test Suite: Login Flow Feature
+45 test cases.
+- Test Suite: SystemSmokeTests
+1 test cases.
+- Test Suite: View Account Balance Feature
+9 test cases.
+- Test Suite: DepositMenu
+2 test cases.
+- Test Suite: Transfers
+41 test cases.
+- Test Suite: Popmoney Add New Contact
+20 test cases.
+- Test Suite: DepositHistory
+18 test cases.
+- Test Run: Regression
+- Test Suite: Login Flow Feature
+3 test cases.
+- Test Run: Regression
+- Test Suite: Login Flow Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: Login Flow Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Regression
+- Test Suite: View Account Balance Feature
+1 test cases.
+- Test Run: Release
+- Test Suite: Logout
+10 test cases.
+- Test Suite: Settings Sidebar
+20 test cases.
+- Test Suite: Scheduled Payments
+2 test cases.
+- Test Suite: Popmoney Send Money
+4 test cases.
+- Test Suite: Popmoney Make Deposit
+2 test cases.
+- Test Suite: ApplicationMessages
+5 test cases.
+- Test Suite: Make a Payment
+8 test cases.
+- Test Suite: Device Back Button Navigation
+4 test cases.
+- Test Suite: ApplicationLifecycle
+11 test cases.
+- Test Suite: AccountSelector
+24 test cases.
+- Test Suite: Transfers
+3 test cases.
+- Test Suite: DepositCapture
+20 test cases.
+- Test Suite: Payments
+2 test cases.
+- Test Suite: Security Question Feature
+40 test cases.
+- Test Suite: SettingsServices
+54 test cases.
+- Test Suite: AmountInput
+56 test cases.
+- Test Suite: Login Flow Feature
+53 test cases.
+- Test Suite: Message Input
+2 test cases.
+- Test Run: Release
+- Test Suite: Settings Sidebar
+20 test cases.
+- Test Suite: Transfers
+3 test cases.
+- Test Suite: DepositCapture
+20 test cases.
+- Test Suite: Payments
+2 test cases.
+- Test Suite: Security Question Feature
+40 test cases.
+- Test Suite: ApplicationLifecycle
+11 test cases.
+- Test Suite: Message Input
+2 test cases.
+- Test Suite: SettingsServices
+54 test cases.
+- Test Suite: Scheduled Payments
+2 test cases.
+- Test Suite: AccountSelector
+24 test cases.
+- Test Suite: ApplicationMessages
+5 test cases.
+- Test Suite: Make a Payment
+8 test cases.
+- Test Suite: AmountInput
+56 test cases.
+- Test Suite: Popmoney Make Deposit
+2 test cases.
+- Test Suite: Logout
+10 test cases.
+- Test Suite: Login Flow Feature
+53 test cases.
+- Test Suite: Popmoney Send Money
+4 test cases.
+- Test Suite: Device Back Button Navigation
+4 test cases.
+- Test Run: Release
+- Test Suite: Login Flow Feature
+74 test cases.
+- Test Suite: Message Input
+6 test cases.
+- Test Suite: Payments Navigation
+2 test cases.
+- Test Suite: Navigation
+8 test cases.
+- Test Suite: DepositHistory
+8 test cases.
+- Test Suite: Transfers
+30 test cases.
+- Test Suite: Payments
+24 test cases.
+- Test Suite: Popmoney Add New Contact
+17 test cases.
+- Test Suite: Popmoney Send Money
+67 test cases.
+- Test Suite: View Account Balance Feature
+18 test cases.
+- Test Suite: Make a Payment
+24 test cases.
+- Test Suite: Security Question Feature
+6 test cases.
