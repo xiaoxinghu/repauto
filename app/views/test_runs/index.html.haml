@@ -4,7 +4,7 @@
 - if true
   = form_tag({controller: "test_runs", action: "index"}, method: "get") do
     .input-group
-      = select_tag 'category', options_from_collection_for_select(categories(@test_runs), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
+      = select_tag 'category', options_from_collection_for_select(categories(@project.test_runs), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
       = select_tag 'seconds', options_from_collection_for_select(date_filter, 'value', 'human', params[:seconds]), include_blank: "Any Time", onchange: "this.form.submit();"
       -# - [{:name => 'stream', :level => 0},
       -# {:name => 'project', :level => 1},
@@ -19,14 +19,14 @@
         %i.glyphicon.glyphicon-search
 
 
-- filtered = filter(@test_runs, params[:category], params[:seconds])
+- filtered = filter(@project.test_runs, params[:category], params[:seconds])
 - if filtered.size > 0
   %table.table.table-hover
     %tr
       %th duration
       %th start
       %th end
-      %th link
+      %th
 
     - filtered.sort_by { |r| Time.now - r.start }.each do |test_run|
       %tr
@@ -34,6 +34,6 @@
         %td= test_run.start.strftime("%a, %b %d %Y %H:%M:%S")
         %td= test_run.end.strftime("%a, %b %d %Y %H:%M:%S")
         %td
-          = link_to test_run.name, link(test_run.path)
+          = link_to "details", project_test_run_path(@project, test_run)
 - else
   %p No Results

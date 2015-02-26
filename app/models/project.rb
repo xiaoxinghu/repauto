@@ -1,5 +1,6 @@
 class Project < ActiveRecord::Base
   include Crawler
+  has_many :test_runs
 
   def self.sync
     puts "Sync projects ..."
@@ -20,4 +21,5 @@ class Project < ActiveRecord::Base
       TestRun.sync p
     end
   end
+
 end

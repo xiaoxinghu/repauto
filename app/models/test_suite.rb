@@ -1,6 +1,7 @@
 class TestSuite < ActiveRecord::Base
   include Crawler
   belongs_to :test_run
+  has_many :test_cases
 
   def self.sync(test_run)
     found = 0
@@ -23,5 +24,9 @@ class TestSuite < ActiveRecord::Base
         TestCase.sync(test_suite, ts)
       end
     end
+  end
+
+  def count(status)
+    test_cases.count { |tc| tc.status == status }
   end
 end

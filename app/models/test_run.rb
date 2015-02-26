@@ -1,6 +1,7 @@
 class TestRun < ActiveRecord::Base
   include Crawler
   belongs_to :project
+  has_many :test_suites
 
   def self.sync(project)
     ls_dir(project.path, []).each do |d|

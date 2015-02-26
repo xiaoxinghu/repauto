@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'test_suites/index'
+
+  get 'test_suites/show'
+
   get 'test_runs/index'
 
   get 'test_runs/show'

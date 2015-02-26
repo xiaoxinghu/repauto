@@ -72,4 +72,17 @@ module TestRunsHelper
     filtered = filter_by_date filtered, seconds
     filtered
   end
+
+  def context(status)
+    case status
+    when "passed"
+      "success"
+    when "failed"
+      "danger"
+    when "broken"
+      "warning"
+    else
+      "muted"
+    end
+  end
 end

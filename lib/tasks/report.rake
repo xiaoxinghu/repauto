@@ -22,36 +22,37 @@ namespace :report do
     # tr.project = Project.first
     # #tr.save
 
-    Project.all.each do |p|
-      puts "Project: #{p.name}"
-      puts "- Path: #{p.path}"
-      puts "- Stream: #{p.stream}"
-      test_runs = TestRun.where(project: p)
-      #test_runs = p.test_runs
-      if test_runs
-        test_runs.each do |tr|
-          puts "+++ TestRun: #{tr.name}"
-          puts "+++ path: #{tr.path}"
-          puts "+++ Start: #{tr.start}"
-          test_suites = TestSuite.where(test_run: tr)
-          if test_suites
-            test_suites.each do |ts|
-              puts ">>>>> TestSuit: #{ts.name}"
-              puts ">>>>> path: #{ts.path}"
-              puts ">>>>> start: #{ts.start}"
-              puts ">>>>> end: #{ts.end}"
-              test_cases = TestCase.where(test_suite: ts)
-              if test_cases
-                test_cases.each do |tc|
-                  puts "******** TestCase: #{tc.name}"
-                end
-              end
-            end
-          end
-        end
-      end
-    end
+    # Project.all.each do |p|
+    #   puts "Project: #{p.name}"
+    #   puts "- Path: #{p.path}"
+    #   puts "- Stream: #{p.stream}"
+    #   test_runs = TestRun.where(project: p)
+    #   #test_runs = p.test_runs
+    #   if test_runs
+    #     test_runs.each do |tr|
+    #       puts "+++ TestRun: #{tr.name}"
+    #       puts "+++ path: #{tr.path}"
+    #       puts "+++ Start: #{tr.start}"
+    #       test_suites = TestSuite.where(test_run: tr)
+    #       if test_suites
+    #         test_suites.each do |ts|
+    #           puts ">>>>> TestSuit: #{ts.name}"
+    #           puts ">>>>> path: #{ts.path}"
+    #           puts ">>>>> start: #{ts.start}"
+    #           puts ">>>>> end: #{ts.end}"
+    #           test_cases = TestCase.where(test_suite: ts)
+    #           if test_cases
+    #             test_cases.each do |tc|
+    #               puts "******** TestCase: #{tc.name}"
+    #             end
+    #           end
+    #         end
+    #       end
+    #     end
+    #   end
+    # end
 
+    puts TestCase.uniq.pluck(:status)
 
   end
 

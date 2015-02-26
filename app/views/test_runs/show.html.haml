@@ -1,2 +1,15 @@
-%h1 TestRuns#show
-%p Find me in app/views/test_runs/show.html.haml
+= render partial: "breadcrumb", locals: {test_run: @test_run}
+= render partial: "projects/menu", locals: {project: @test_run.project}
+
+.page-header
+  %h1
+    = @test_run.name
+    %small= @test_run.start.strftime("%a, %b %d %Y")
+
+%ul.list-group
+- @test_run.test_suites.each do |test_suite|
+  = link_to project_test_run_test_suite_path(@test_run.project, @test_run, test_suite), class: "list-group-item" do
+    %span.label.label-success= test_suite.test_cases.select{ |tc| tc.status == "passed" }.count
+    %span.label.label-warning= test_suite.test_cases.select{ |tc| tc.status == "broken" }.count
+    %span.label.label-danger= test_suite.test_cases.select{ |tc| tc.status == "failed" }.count
+    = test_suite.name
