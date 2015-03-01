@@ -1,0 +1,18 @@
+= render partial: "projects/menu", locals: {project: @test_case.test_suite.test_run.project}
+= render partial: "breadcrumb", locals: {test_case: @test_case}
+
+.panel.panel-primary
+  .panel-heading
+    %span{ :class => "label label-#{status_map(@test_case.status)}"}= @test_case.status
+    =@test_case.name
+  .panel-body
+    %table.table.table-hover
+      %tr
+        %th duration
+        %td= distance_of_time_in_words @test_case.end, @test_case.start
+      %tr
+        %th start
+        %td= @test_case.start
+      %tr
+        %th end
+        %td= @test_case.end

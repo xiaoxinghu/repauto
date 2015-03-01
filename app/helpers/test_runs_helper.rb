@@ -9,7 +9,7 @@ module TestRunsHelper
       d = (h / 24).floor
       h = h % 24
 
-      output = "Last "
+      output = ''
       output << "#{d} days" if d > 0
       output << "#{h} hours" if h > 0
       output << "#{m} minutes" if m > 0
@@ -44,11 +44,15 @@ module TestRunsHelper
   end
 
   def date_filter
-    scopes = []
-    scopes << 24.hours
-    scopes << 48.hours
-    scopes << 7.days
-    scopes << 14.days
+    [ 24.hours, 48.hours, 7.days, 14.days ]
+  end
+
+  def duration_filter
+    [30.minutes, 1.hours, 5.hours]
+  end
+
+  def number_filter
+    [5, 10, 50, 100, 200, 300]
   end
 
   def filter_by_category(test_runs, category)
@@ -67,10 +71,27 @@ module TestRunsHelper
     end
   end
 
-  def filter(test_runs, category, seconds)
+  def filter_by_duration(test_runs, duration)
+    if duration.blank?
+      test_runs
+    else
+      test_runs.select { |tr| (tr.end - tr.start) > duration.to_i }
+    end
+  end
+
+  def filter_by_number(test_runs, number)
+    if number.blank?
+      test_runs
+    else
+      test_runs.select { |tr| tr.count > number.to_i }
+    end
+  end
+
+  def filter(test_runs, category, seconds, duration, number)
     filtered = filter_by_category test_runs, category
     filtered = filter_by_date filtered, seconds
-    filtered
+    filtered = filter_by_duration filtered, duration
+    filtered = filter_by_number filtered, number
   end
 
   def context(status)

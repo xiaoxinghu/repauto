@@ -1,15 +1,17 @@
-= render partial: "breadcrumb", locals: {test_run: @test_run}
 = render partial: "projects/menu", locals: {project: @test_run.project}
+= render partial: "breadcrumb", locals: {test_run: @test_run}
 
 .page-header
   %h1
     = @test_run.name
     %small= @test_run.start.strftime("%a, %b %d %Y")
 
+  = link_to "report", link(@test_run.path), class: "btn btn-info"
+
 %ul.list-group
 - @test_run.test_suites.each do |test_suite|
-  = link_to project_test_run_test_suite_path(@test_run.project, @test_run, test_suite), class: "list-group-item" do
-    %span.label.label-success= test_suite.test_cases.select{ |tc| tc.status == "passed" }.count
-    %span.label.label-warning= test_suite.test_cases.select{ |tc| tc.status == "broken" }.count
-    %span.label.label-danger= test_suite.test_cases.select{ |tc| tc.status == "failed" }.count
+  = link_to test_suite_path(test_suite), class: "list-group-item" do
+    %span.label.label-success= test_suite.count("passed")
+    %span.label.label-warning= test_suite.count("broken")
+    %span.label.label-danger= test_suite.count("failed")
     = test_suite.name

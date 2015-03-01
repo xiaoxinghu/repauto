@@ -24,6 +24,15 @@ class TestRun < ActiveRecord::Base
         end
       end
     end
-
   end
+
+  def count(status = nil)
+    sum = 0
+    test_suites.each do |ts|
+      sum += ts.count(status)
+    end
+    puts "sum: #{sum}"
+    sum
+  end
+
 end

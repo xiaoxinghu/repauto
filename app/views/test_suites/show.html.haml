@@ -1,5 +1,5 @@
-= render partial: "breadcrumb", locals: {test_suite: @test_suite}
 = render partial: "projects/menu", locals: {project: @test_suite.test_run.project}
+= render partial: "breadcrumb", locals: {test_suite: @test_suite}
 
 %p Sorting tools here
 
@@ -7,17 +7,14 @@
 
 %ul.list-group
   - @test_suite.test_cases.select{|tc| tc.status == "failed"}.each do |test_case|
-    -#%li.list-group-item.list-group-item-info= test_case.name
-    %li{ :class => "list-group-item list-group-item-#{context(test_case.status)}" }= test_case.name
+    = link_to test_case.name, test_case_path(test_case), class: "list-group-item list-group-item-danger"
 
 %h2 Broken
 %ul.list-group
   - @test_suite.test_cases.select{|tc| tc.status == "broken"}.each do |test_case|
-    -#%li.list-group-item.list-group-item-info= test_case.name
-    %li{ :class => "list-group-item list-group-item-#{context(test_case.status)}" }= test_case.name
+    = link_to test_case.name, test_case_path(test_case), class: "list-group-item list-group-item-warning"
 
 %h2 Passed
 %ul.list-group
   - @test_suite.test_cases.select{|tc| tc.status == "passed"}.each do |test_case|
-    -#%li.list-group-item.list-group-item-info= test_case.name
-    %li{ :class => "list-group-item list-group-item-#{context(test_case.status)}" }= test_case.name
+    = link_to test_case.name, test_case_path(test_case), class: "list-group-item list-group-item-success"

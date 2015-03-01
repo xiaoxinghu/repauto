@@ -1,39 +1,39 @@
-= render partial: "breadcrumb", locals: {project: @project}
 = render partial: "projects/menu", locals: {project: @project}
+= render partial: "breadcrumb", locals: {project: @project}
 
 - if true
   = form_tag({controller: "test_runs", action: "index"}, method: "get") do
     .input-group
       = select_tag 'category', options_from_collection_for_select(categories(@project.test_runs), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
       = select_tag 'seconds', options_from_collection_for_select(date_filter, 'value', 'human', params[:seconds]), include_blank: "Any Time", onchange: "this.form.submit();"
-      -# - [{:name => 'stream', :level => 0},
-      -# {:name => 'project', :level => 1},
-      -# {:name => 'category', :level => 2},
-      -# {:name => 'type', :level => 3}].each do |filter|
-      -#   = select_tag filter[:name], options_from_collection_for_select(tags(@reports, filter[:level]), 'to_s', 'to_s', params[filter[:name]]), include_blank: "Any", onchange: "this.form.submit();"
-
-      -# = select_tag 'last', options_from_collection_for_select(date_scopes, 'ago', 'ago', params[:last]), include_blank: "Any", onchange: "this.form.submit();"
+      = select_tag 'duration', options_from_collection_for_select(duration_filter, 'value', 'human', params[:duration]), include_blank: "All", onchange: "this.form.submit();"
+      = select_tag 'number', options_from_collection_for_select(number_filter, 'to_s', 'to_s', params[:number]), include_blank: "All", onchange: "this.form.submit();"
 
     .input-group-btn
       = button_tag(type: "submit", class: "btn btn-default") do
         %i.glyphicon.glyphicon-search
 
 
-- filtered = filter(@project.test_runs, params[:category], params[:seconds])
+- filtered = filter(@project.test_runs, params[:category], params[:seconds], params[:duration], params[:number])
 - if filtered.size > 0
   %table.table.table-hover
     %tr
+      %th start time
       %th duration
-      %th start
-      %th end
+      %th type
+      %th status
       %th
 
     - filtered.sort_by { |r| Time.now - r.start }.each do |test_run|
       %tr
-        %td= distance_of_time_in_words test_run.end, test_run.start
         %td= test_run.start.strftime("%a, %b %d %Y %H:%M:%S")
-        %td= test_run.end.strftime("%a, %b %d %Y %H:%M:%S")
+        %td= distance_of_time_in_words test_run.end, test_run.start
+        %td= test_run.name
         %td
-          = link_to "details", project_test_run_path(@project, test_run)
+          %span.label.label-success= test_run.count("passed")
+          %span.label.label-warning= test_run.count("broken")
+          %span.label.label-danger= test_run.count("failed")
+        %td
+          = link_to "details", test_run_path(test_run)
 - else
   %p No Results

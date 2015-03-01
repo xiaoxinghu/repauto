@@ -1,7 +1,12 @@
 %ol.breadcrumb
+  - if defined? test_case
+    %li= link_to test_case.test_suite.test_run.project.name, project_path(test_case.test_suite.test_run.project)
+    %li= link_to "#{test_case.test_suite.test_run.name} - #{test_case.test_suite.test_run.start.strftime("%a, %b %d %Y")}", test_run_path(test_case.test_suite.test_run)
+    %li= link_to test_case.test_suite.name, test_suite_path(test_case.test_suite)
+    %li.active= test_case.name
   - if defined? test_suite
     %li= link_to test_suite.test_run.project.name, project_path(test_suite.test_run.project)
-    %li= link_to "#{test_suite.test_run.name} - #{test_suite.test_run.start.strftime("%a, %b %d %Y")}", project_test_run_path(test_suite.test_run.project, test_suite.test_run)
+    %li= link_to "#{test_suite.test_run.name} - #{test_suite.test_run.start.strftime("%a, %b %d %Y")}", test_run_path(test_suite.test_run)
     %li.active= test_suite.name
   - if defined? test_run
     %li= link_to test_run.project.name, project_path(test_run.project)

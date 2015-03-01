@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'test_cases/index'
+
+  get 'test_cases/show'
+
   get 'test_suites/index'
 
   get 'test_suites/show'
@@ -9,9 +13,9 @@ Rails.application.routes.draw do
   get 'test_runs/show'
 
   resources :projects, only: [:index, :show] do
-    resources :test_runs, only: [:index, :show] do
-      resources :test_suites, only: [:index, :show] do
-        resources :test_cases, only: [:index, :show]
+    resources :test_runs, only: [:index, :show], shallow: true do
+      resources :test_suites, only: [:index, :show], shallow: true do
+        resources :test_cases, only: [:index, :show], shallow: true
       end
     end
   end

@@ -26,7 +26,11 @@ class TestSuite < ActiveRecord::Base
     end
   end
 
-  def count(status)
-    test_cases.count { |tc| tc.status == status }
+  def count(status = nil)
+    if status.blank?
+      test_cases.count
+    else
+      test_cases.select { |tc| tc.status == status }.count
+    end
   end
 end
