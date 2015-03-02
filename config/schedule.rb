@@ -18,3 +18,10 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+set :environment, "development"
+set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
+
+every 1.hours do
+  rake "report:sync"
+end

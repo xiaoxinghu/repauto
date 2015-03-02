@@ -52,7 +52,7 @@ namespace :report do
     #   end
     # end
 
-    puts TestCase.uniq.pluck(:status)
+    puts 'Hello World.'
 
   end
 
