@@ -13,8 +13,6 @@ class TestRun < ActiveRecord::Base
           tr = TestRun.find_or_create_by(path: folder)
           tr.name = name
           tr.project = project
-          tr.start = dt
-          tr.end = dt
           tr.save
 
           puts "- Test Run: #{tr.name}"

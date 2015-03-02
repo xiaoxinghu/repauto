@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220034620) do
+ActiveRecord::Schema.define(version: 20150301231759) do
+
+  create_table "attachments", force: :cascade do |t|
+    t.string   "title"
+    t.string   "source"
+    t.string   "kind"
+    t.integer  "position"
+    t.integer  "test_case_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "attachments", ["test_case_id"], name: "index_attachments_on_test_case_id"
+
+  create_table "failures", force: :cascade do |t|
+    t.text     "message"
+    t.text     "stack_trace"
+    t.integer  "test_case_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "failures", ["test_case_id"], name: "index_failures_on_test_case_id"
 
   create_table "projects", force: :cascade do |t|
     t.string   "stream"
@@ -21,6 +43,29 @@ ActiveRecord::Schema.define(version: 20150220034620) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "steps", force: :cascade do |t|
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "status"
+    t.string   "name"
+    t.integer  "test_case_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "steps", ["test_case_id"], name: "index_steps_on_test_case_id"
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.string   "value"
+    t.string   "kind"
+    t.integer  "test_case_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "tags", ["test_case_id"], name: "index_tags_on_test_case_id"
 
   create_table "test_cases", force: :cascade do |t|
     t.string   "name"

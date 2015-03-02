@@ -92,6 +92,7 @@ module TestRunsHelper
     filtered = filter_by_date filtered, seconds
     filtered = filter_by_duration filtered, duration
     filtered = filter_by_number filtered, number
+    filtered.select { |tr| tr.start and tr.end }
   end
 
   def context(status)

@@ -16,8 +16,12 @@ class TestSuite < ActiveRecord::Base
         test_suite.test_run = test_run
         test_suite.save
 
-        if test_suite.end > test_run.end
+        if not test_run.end or test_suite.end > test_run.end
           test_run.end = test_suite.end
+          test_run.save
+        end
+        if not test_run.start or test_suite.start < test_run.start
+          test_run.start = test_suite.start
           test_run.save
         end
         puts "- Test Suite: #{test_suite.name}"

@@ -13,6 +13,8 @@ module ApplicationHelper
       "danger"
     when "broken"
       "warning"
+    when "canceled"
+      "danger"
     else
       "muted"
     end

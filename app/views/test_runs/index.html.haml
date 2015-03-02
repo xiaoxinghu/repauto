@@ -14,8 +14,8 @@
         %i.glyphicon.glyphicon-search
 
 
-- filtered = filter(@project.test_runs, params[:category], params[:seconds], params[:duration], params[:number])
-- if filtered.size > 0
+- if @test_runs.size > 0
+  = paginate @test_runs
   %table.table.table-hover
     %tr
       %th start time
@@ -24,7 +24,7 @@
       %th status
       %th
 
-    - filtered.sort_by { |r| Time.now - r.start }.each do |test_run|
+    - @test_runs.each do |test_run|
       %tr
         %td= test_run.start.strftime("%a, %b %d %Y %H:%M:%S")
         %td= distance_of_time_in_words test_run.end, test_run.start

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  message: MyText
+  stack_trace: MyText
+  test_case_id: 
+
+two:
+  message: MyText
+  stack_trace: MyText
+  test_case_id: 
