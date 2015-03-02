@@ -13,10 +13,10 @@
           = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
 
         %ul.nav.navbar-nav
-          %li= "#{controller_name} -> #{action_name}"
+          -# %li= "#{controller_name} -> #{action_name}"
           -# %li{:class => "#{'active' if params[:controller] == 'reports'}"}= link_to "Reports", reports_path
           -# %li{:class => "#{'active' if params[:controller] == 'dashboards'}"}= link_to "Dashboards", dashboards_path
-        = link_to "refresh", welcome_index_path(:refresh => true), {:class => "btn btn-default navbar-right"}
+        -# = link_to "refresh", welcome_index_path(:refresh => true), {:class => "btn btn-default navbar-right"}
     .container-fluid
       .row
         #sidebar.col-sm-3.hidden-xs.fixed
