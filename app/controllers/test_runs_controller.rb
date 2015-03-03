@@ -21,7 +21,7 @@ class TestRunsController < ApplicationController
     elsif query.respond_to? 'sort_by!'
       query.sort_by! { |x| x.start }.reverse!
     end
-    @test_runs = Kaminari.paginate_array(query).page(params[:page])
+    @test_runs = Kaminari.paginate_array(query).page(params[:page]).per(10)
   end
 
   def show
