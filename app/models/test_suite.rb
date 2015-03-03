@@ -5,15 +5,15 @@ class TestSuite < ActiveRecord::Base
 
   def self.sync(test_run)
     found = 0
-    ls_xml(File.join(test_run.path, 'allure')).each do |xml|
+    ls_xml(File.join(test_run.full_path, 'allure')).each do |xml|
       found += 1
       content = Nokogiri::XML(http_get(xml).body)
+      xml.slice! test_run.full_path
       content.xpath("xmlns:test-suite").each do |ts|
-        test_suite = TestSuite.find_or_create_by(path: xml)
+        test_suite = TestSuite.find_or_create_by(test_run: test_run, path: xml)
         test_suite.name = ts.xpath('name').first.content
         test_suite.start = Time.zone.at(ts['start'].to_i / 1000)
         test_suite.end = Time.zone.at(ts['stop'].to_i / 1000)
-        test_suite.test_run = test_run
         test_suite.save
 
         if not test_run.end or test_suite.end > test_run.end
@@ -28,6 +28,10 @@ class TestSuite < ActiveRecord::Base
         TestCase.sync(test_suite, ts)
       end
     end
+  end
+
+  def full_path
+    self.test_run.full_path + self.path
   end
 
   def count(status = nil)

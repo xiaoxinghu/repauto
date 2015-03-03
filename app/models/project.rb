@@ -11,9 +11,9 @@ class Project < ActiveRecord::Base
       yaml = http_get(f).body
       meta = YAML::load(yaml)
       path = f.gsub( /[^\/]+$/, '' )
+      #p = Project.find_or_create_by name: meta['project'], stream: meta['stream']
       p = Project.find_or_create_by path: path
-      p.path = path
-      p.name = path.split('/').last
+      p.name = meta['project']
       p.stream = meta['stream']
       p.save
       puts "- Project: #{p.name}"

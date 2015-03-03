@@ -8,7 +8,7 @@ module Crawler
   end
 
   module ClassMethods
-    
+
     def html(path)
       Nokogiri::HTML(http_get(path))
     end
@@ -45,6 +45,7 @@ module Crawler
     end
 
     def ls_dir(path, skip)
+      puts "ls_dir -> #{path}"
       ls(path, skip).select {|p| p.end_with? '/' }
     end
 

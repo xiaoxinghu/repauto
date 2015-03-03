@@ -8,11 +8,14 @@ class TestRun < ActiveRecord::Base
       name = d.split('/').last
       ls_dir(d, []).each do |folder|
         dt = get_datetime folder
-        next if TestRun.where(path: folder).any?
+        folder.slice! project.path
+        if TestRun.where(project: project, path: folder).any?
+          puts "test_run exists"
+          next
+        end
         if dt
-          tr = TestRun.find_or_create_by(path: folder)
+          tr = TestRun.find_or_create_by(project: project, path: folder)
           tr.name = name
-          tr.project = project
           tr.save
 
           puts "- Test Run: #{tr.name}"
@@ -22,6 +25,14 @@ class TestRun < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def full_path
+    self.project.path + self.path
+  end
+
+  def report_path
+    File.join(self.full_path, 'report')
   end
 
   def count(status = nil)
