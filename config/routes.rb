@@ -1,16 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'test_cases/index'
-
-  get 'test_cases/show'
-
-  get 'test_suites/index'
-
-  get 'test_suites/show'
-
-  get 'test_runs/index'
-
-  get 'test_runs/show'
 
   resources :projects, only: [:index, :show] do
     resources :test_runs, only: [:index, :show], shallow: true do
