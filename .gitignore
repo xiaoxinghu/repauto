@@ -22,3 +22,7 @@
 
 # for mac
 *.DS_Store
+
+# project specific
+.env*
+public/assets/
