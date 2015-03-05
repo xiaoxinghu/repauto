@@ -10,7 +10,6 @@ class TestRun < ActiveRecord::Base
         dt = get_datetime folder
         folder.slice! project.path
         if TestRun.where(project: project, path: folder).any?
-          puts "test_run exists"
           next
         end
         if dt

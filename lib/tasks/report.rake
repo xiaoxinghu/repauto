@@ -1,7 +1,10 @@
 namespace :report do
   desc "Sync data to database"
   task sync: :environment do
+    start = Time.now
     Project.sync
+    finish = Time.now
+    puts "Sync Started at #{start}. Took #{finish - start} seconds."
   end
 
   desc "testing"

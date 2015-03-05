@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150301231759) do
+ActiveRecord::Schema.define(version: 20150304231345) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "title",        limit: 255
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 20150301231759) do
   end
 
   add_index "attachments", ["test_case_id"], name: "index_attachments_on_test_case_id", using: :btree
+
+  create_table "dashboards", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "link",       limit: 255
+    t.string   "desc",       limit: 255
+    t.integer  "project_id", limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "dashboards", ["project_id"], name: "index_dashboards_on_project_id", using: :btree
 
   create_table "failures", force: :cascade do |t|
     t.text     "message",      limit: 65535
@@ -103,4 +114,5 @@ ActiveRecord::Schema.define(version: 20150301231759) do
 
   add_index "test_suites", ["test_run_id"], name: "index_test_suites_on_test_run_id", using: :btree
 
+  add_foreign_key "dashboards", "projects"
 end

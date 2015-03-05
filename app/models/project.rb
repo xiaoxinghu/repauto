@@ -1,6 +1,7 @@
 class Project < ActiveRecord::Base
   include Crawler
   has_many :test_runs
+  has_many :dashboards
 
   def self.sync
     puts "Sync projects ..."
@@ -17,6 +18,19 @@ class Project < ActiveRecord::Base
       p.stream = meta['stream']
       p.save
       puts "- Project: #{p.name}"
+
+
+      #Dashboard.where.not(project: p, name: meta['dashboards'].map { |x| x['name'] }).delete
+      meta['dashboards'].each do |d|
+        dashboard = Dashboard.find_or_create_by name: d['name'], project: p
+        dashboard.link = d['url']
+        if d.has_key? 'desc'
+          dashboard.desc = d['desc']
+        else
+          dashboard.desc = "Dashboard #{dashboard.name} for project #{p.name}."
+        end
+        dashboard.save
+      end
 
       TestRun.sync p
     end
