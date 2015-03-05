@@ -37,7 +37,7 @@
             %span.label.label-default= step.status
 
     - if test_case.failure
-      .well
+      .well{ :style => "overflow: hidden;"}
         %h4 Message
         %p= test_case.failure.message
         %h4 Stack Trace
