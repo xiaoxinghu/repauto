@@ -9,9 +9,7 @@ class TestRun < ActiveRecord::Base
       ls_dir(d, []).each do |folder|
         dt = get_datetime folder
         folder.slice! project.path
-        if TestRun.where(project: project, path: folder).any?
-          next
-        end
+        #next if TestRun.where(project: project, path: folder).any?
         if dt
           tr = TestRun.find_or_create_by(project: project, path: folder)
           tr.name = name
