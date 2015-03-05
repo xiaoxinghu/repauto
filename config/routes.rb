@@ -5,7 +5,11 @@ Rails.application.routes.draw do
     resources :dashboards, only: [:index, :show], shallow: true
     resources :test_runs, only: [:index, :show], shallow: true do
       resources :test_suites, only: [:index, :show], shallow: true do
-        resources :test_cases, only: [:index, :show], shallow: true
+        resources :test_cases, only: [:index, :show], shallow: true do
+          member do
+            get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
+          end
+        end
       end
     end
   end
