@@ -6,7 +6,10 @@
     = @test_run.name
     %small= @test_run.start.strftime("%a, %b %d %Y")
 
-  = link_to "report", link(@test_run.report_path), class: "btn btn-info"
+  .btn-group{ role: "group"}
+    = link_to "report", link(@test_run.report_path), class: "btn btn-default"
+    = link_to "errors", errors_test_run_path(@test_run), class: "btn btn-default"
+    = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
 
 %ul.list-group
 - @test_run.test_suites.each do |test_suite|

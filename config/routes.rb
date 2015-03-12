@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   resources :projects, only: [:index, :show] do
     resources :dashboards, only: [:index, :show], shallow: true
     resources :test_runs, only: [:index, :show], shallow: true do
+      member do
+        get 'errors'
+        get 'timeline'
+      end
       resources :test_suites, only: [:index, :show], shallow: true do
         resources :test_cases, only: [:index, :show], shallow: true do
           member do

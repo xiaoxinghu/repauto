@@ -1,0 +1,11 @@
+= render partial: "projects/menu", locals: {project: @test_run.project}
+= render partial: "breadcrumb", locals: {test_run: @test_run}
+
+.container-fluid
+  .row
+    .btn-group.btn-group-xs.pull-right{role: "group"}
+      = link_to test_run_path(@test_run), class: "btn btn-default pull-right" do
+        .glyphicon.glyphicon-remove
+
+  .row
+    %h1 Under construction ...

@@ -28,4 +28,16 @@ class TestRunsController < ApplicationController
     @test_run = TestRun.find(params[:id])
   end
 
+  def errors
+    @test_run = TestRun.find(params[:id])
+    query = TestCase.all.where(test_suite: @test_run.test_suites)
+    query = query.order("start DESC")
+    @test_cases = query
+    @group = @test_cases.select{ |tc| tc.failure }.group_by { |tc| tc.failure.message }
+  end
+
+  def timeline
+    @test_run = TestRun.find(params[:id])
+  end
+
 end
