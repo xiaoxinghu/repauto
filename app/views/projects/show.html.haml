@@ -1,3 +1,25 @@
-= render partial: "menu", locals: {project: @project}
-
-%h3= @project.name
+= render partial: 'menu', locals: { project: @project }
+%h2 Summary
+%p This page shows an overview of the last #{@show_num} runs.
+%table.table.table-hover
+  %tr
+    %th Type
+    %th Latest Run
+    - (@show_num - 1).times do
+      %th Previous ...
+  - @matrix.keys.each do |k|
+    %tr
+      %th= k
+      - @matrix[k].each do |run|
+        %td
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title= run.start.strftime('%a, %b %d %Y %H:%M:%S')
+            .panel-body
+              %span.label.label-success= run.count('passed')
+              %span.label.label-warning= run.count('broken')
+              %span.label.label-danger= run.count('failed')
+              %span= distance_of_time_in_words run.end, run.start
+              %span.pull-right
+                = link_to 'view', test_run_path(run),
+                class: 'btn btn-xs btn-info'
