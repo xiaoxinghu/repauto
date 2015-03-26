@@ -1,9 +1,18 @@
+require 'action_view'
 class TestCase < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
   belongs_to :test_suite
   has_many :steps
   has_many :attachments
   has_many :tags
   has_one :failure
+
+  def inspect
+    %(
+    name: #{name}
+    duration: #{distance_of_time_in_words self.end, start}
+    )
+  end
 
   def self.sync(test_suite, doc)
     tcs = doc.xpath("test-cases/test-case")

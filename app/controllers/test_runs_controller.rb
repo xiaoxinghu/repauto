@@ -39,6 +39,28 @@ class TestRunsController < ApplicationController
 
   def timeline
     @test_run = TestRun.find(params[:id])
+    query = TestCase.all.where(test_suite: @test_run.test_suites)
+    @test_cases = query
+    @timeline_data = []
+    @test_cases.each do |test_case|
+      lane = 'N/A'
+      if test_case.status == 'passed'
+        lane = 'passed'
+      elsif test_case.status == 'failed'
+        lane = 'failed'
+      elsif test_case.failure
+        lane = test_case.failure.message
+      end
+      d = { id: test_case.id,
+            name: test_case.name,
+            lane: lane,
+            start: test_case.start,
+            end: test_case.end,
+            url: Rails.application.routes.url_helpers.test_case_path(test_case),
+            status: test_case.status,
+            desc: test_case.inspect }
+      @timeline_data << d
+    end
   end
 
 end
