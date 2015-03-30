@@ -36,11 +36,18 @@ class TestSuite < ActiveRecord::Base
     self.test_run.full_path + self.path
   end
 
-  def count(status = nil)
-    if status.blank?
-      test_cases.count
-    else
-      test_cases.select { |tc| tc.status == status }.count
+  def count(status = nil, platform = nil)
+    query = test_cases
+    if not status.blank?
+      query = query.where(status: status)
     end
+
+    if not platform.blank?
+      query = query.select do |tc|
+        tc.tags.any? { |t| t.name == 'Platform' && t.value == platform }
+      end
+    end
+
+    query.count
   end
 end

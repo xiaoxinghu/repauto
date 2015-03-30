@@ -32,16 +32,26 @@ var DrawTimeline = function(selection, timelineData) {
       return false;
     };
 
+    function localize(date) {
+      var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+      var offset = date.getTimezoneOffset() / 60;
+      var hours = date.getHours();
+
+      newDate.setHours(hours - offset);
+
+      return newDate; 
+    }
+
     var parseData = function (data) {
       var i = 0, length = data.length, node;
       chart = { lanes: {} };
 
       for (i; i < length; i++) {
         var item = data[i];
-        item.start = new Date(item.start)
-          item.end = new Date(item.end)
+        item.start = new Date(item.start);
+        item.end = new Date(item.end);
 
-          addToLane(chart, item);
+        addToLane(chart, item);
 
 
       }
@@ -84,54 +94,6 @@ var DrawTimeline = function(selection, timelineData) {
       }
 
       return {lanes: lanes, items: items};
-    }
-
-    var randomNumber = function(min, max) {
-      return Math.floor(Math.random(0, 1) * (max - min)) + min;
-    };
-
-    var generateRandomWorkItems = function () {
-      var data = [];
-      var laneCount = randomNumber(5,7)
-        , totalWorkItems = randomNumber(20,30)
-        , startMonth = randomNumber(0,1)
-        , startDay = randomNumber(1,28)
-        , totalMonths = randomNumber(4,10);
-
-      for (var i = 0; i < laneCount; i++) {
-        var dt = new Date(2012, startMonth, startDay);
-        for (var j = 0; j < totalWorkItems; j++) {
-
-          var dtS = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + randomNumber(1,5), randomNumber(8, 16), 0, 0);
-
-          var dateOffset =  randomNumber(0,7);
-          var dt = new Date(dtS.getFullYear(), dtS.getMonth(), dtS.getDate() + dateOffset, randomNumber(dateOffset === 0 ? dtS.getHours() + 2 : 8, 18), 0, 0);
-
-          var workItem = {
-            id: i * totalWorkItems + j,
-            name: 'work item ' + j,
-            lane: 'lane ' + i,
-            start: dtS,
-            end: dt,
-            desc: 'This is a description.'
-          };
-
-          data.push(workItem);
-        }
-      }
-      return data;
-    };
-
-    var generateData = function () {
-      var data = [{"id": "1", "name": "item1", 'lane': 'regression', 'start': new Date(), 'end': new Date(), 'desc': '' },
-      {"id": "2", "name": "item2", 'lane': 'flaky', 'start': new Date(), 'end': new Date(), 'desc': '' },
-      {"id": "3", "name": "item3", 'lane': 'regression', 'start': new Date(), 'end': new Date(), 'desc': '' },
-      {"id": "4", "name": "item4", 'lane': 'defect', 'start': new Date(), 'end': new Date(), 'desc': '' },
-        {"id": "5", "name": "item5", 'lane': 'regression', 'start': new Date(), 'end': new Date(), 'desc': '' }];
-
-
-      return data
-
     }
 
     // return parseData(generateRandomWorkItems());
@@ -382,18 +344,18 @@ var DrawTimeline = function(selection, timelineData) {
 
             x1.domain([minExtent, maxExtent]);
 
-              if ((maxExtent - minExtent) > 10800000) {
-                x1MinuteAxis.ticks(d3.time.minutes, 30).tickFormat(d3.time.format('%H:%M'))
-                  x1HourAxis.ticks(d3.time.hours, 1).tickFormat(d3.time.format('%H:%M'))
-              }
-              else if ((maxExtent - minExtent) > 3600000) {
-                x1MinuteAxis.ticks(d3.time.minutes, 10).tickFormat(d3.time.format('%H:%M'))
-                  x1HourAxis.ticks(d3.time.minutes, 30).tickFormat(d3.time.format('%H:%M'))
-              }
-              else {
-                x1MinuteAxis.ticks(d3.time.minutes, 5).tickFormat(d3.time.format('%H:%M'))
-                  x1HourAxis.ticks(d3.time.minutes, 10).tickFormat(d3.time.format('%H:%M'))
-              }
+            if ((maxExtent - minExtent) > 10800000) {
+              x1MinuteAxis.ticks(d3.time.minutes, 30).tickFormat(d3.time.format('%H:%M'))
+                x1HourAxis.ticks(d3.time.hours, 1).tickFormat(d3.time.format('%H:%M'))
+            }
+            else if ((maxExtent - minExtent) > 3600000) {
+              x1MinuteAxis.ticks(d3.time.minutes, 10).tickFormat(d3.time.format('%H:%M'))
+                x1HourAxis.ticks(d3.time.minutes, 30).tickFormat(d3.time.format('%H:%M'))
+            }
+            else {
+              x1MinuteAxis.ticks(d3.time.minutes, 5).tickFormat(d3.time.format('%H:%M'))
+                x1HourAxis.ticks(d3.time.minutes, 10).tickFormat(d3.time.format('%H:%M'))
+            }
 
 
             //x1Offset.range([0, x1(d3.time.day.ceil(now) - x1(d3.time.day.floor(now)))]);
@@ -412,8 +374,8 @@ var DrawTimeline = function(selection, timelineData) {
 
             console.log(visItems.length)
 
-            // upate the item rects
-            rects = itemRects.selectAll('rect')
+              // upate the item rects
+              rects = itemRects.selectAll('rect')
               .data(visItems, function (d) { return d.id; })
               .attr('x', function(d) { return x1(d.start); })
               .attr('width', function(d) { 

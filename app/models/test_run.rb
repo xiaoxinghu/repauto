@@ -40,5 +40,4 @@ class TestRun < ActiveRecord::Base
     puts "sum: #{sum}"
     sum
   end
-
 end

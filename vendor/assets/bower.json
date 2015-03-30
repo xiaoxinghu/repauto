@@ -3,6 +3,8 @@
   "dependencies": {
     "bootstrap": "latest",
     "d3": "latest",
-    "tipsy": "latest"
+    "tipsy": "latest",
+    "jstzdetect": "latest",
+    "moment": "latest"
   }
 }

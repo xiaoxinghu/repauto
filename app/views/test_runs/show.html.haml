@@ -10,11 +10,31 @@
     = link_to "report", link(@test_run.report_path), class: "btn btn-default"
     = link_to "errors", errors_test_run_path(@test_run), class: "btn btn-default"
     = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
+    .btn-group{ role: 'group' }
+      %button.btn.btn-default.dropdown-toggle{ type: 'button', 'data-toggle': 'dropdown', id: 'platform' }
+        = params[:platform] or 'any platform'
+        %span.caret
+      %ul.dropdown-menu{ role: 'menu' }
+        %li= link_to 'any', params.merge(platform: nil)
+        - Tag.get_all(:platform).each do |t|
+          %li
+            = link_to t, params.merge(platform: t)
 
-%ul.list-group
-- @test_run.test_suites.each do |test_suite|
-  = link_to test_suite_path(test_suite), class: "list-group-item" do
-    %span.label.label-success= test_suite.count("passed")
-    %span.label.label-warning= test_suite.count("broken")
-    %span.label.label-danger= test_suite.count("failed")
-    = test_suite.name
+.panel-group#accordion{ role: 'tablist', 'aria-multiselectable': 'false'}
+  - @test_run.test_suites.each do |test_suite|
+    .panel.panel-default
+      .panel-heading{ role: 'tab', id: "tsh_#{test_suite.id}" }
+        %h4.panel-title
+          = link_to "#ts_#{test_suite.id}", 'data-toggle': 'collapse', 'data-parent': '#accordion', 'aria-expanded': 'false', 'aria-controls': "ts_#{test_suite.id}" do
+            %span.label.label-success= test_suite.count("passed", params[:platform])
+            %span.label.label-warning= test_suite.count("broken", params[:platform])
+            %span.label.label-danger= test_suite.count("failed", params[:platform])
+            = test_suite.name
+
+      .panel-collapse.collapse{ id: "ts_#{test_suite.id}", role: 'tabpanel', 'aria-labelledby': "tsh_#{test_suite.id}" }
+        %ul.list-group
+          - test_suite.test_cases.each do |test_case|
+            - if params[:platform]
+              - if test_case.tags.any?{|t| t.name == 'Platform' && t.value != params[:platform]}
+                - next
+            = link_to test_case.name, test_case_path(test_case), class: "list-group-item list-group-item-#{status_map(test_case.status)}" 

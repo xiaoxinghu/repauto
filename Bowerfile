@@ -4,3 +4,5 @@
 asset 'bootstrap'
 asset 'd3'
 asset 'tipsy'
+asset 'jstzdetect'
+asset 'moment'

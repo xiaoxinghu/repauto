@@ -26,3 +26,6 @@
 # project specific
 .env*
 public/assets/
+
+# vim
+*.swp
