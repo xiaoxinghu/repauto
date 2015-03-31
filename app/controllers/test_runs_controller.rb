@@ -66,7 +66,7 @@ class TestRunsController < ApplicationController
   def trend
     @project = Project.find(params[:project_id])
     @trend_data = []
-    test_runs = @project.test_runs.where(name: params[:run_type])
+    test_runs = @project.test_runs.where(name: params[:run_type]).select { |tr| (tr.end - tr.start) > 30.minutes }
     test_runs.each do |tr|
       ['passed', 'failed', 'broken'].each do |s|
         next if not tr.start
