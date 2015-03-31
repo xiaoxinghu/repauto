@@ -5,6 +5,7 @@
     "d3": "latest",
     "tipsy": "latest",
     "jstzdetect": "latest",
-    "moment": "latest"
+    "moment": "latest",
+    "dimple": "latest"
   }
 }

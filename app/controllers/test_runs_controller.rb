@@ -63,4 +63,28 @@ class TestRunsController < ApplicationController
     end
   end
 
+  def trend
+    @project = Project.find(params[:project_id])
+    @trend_data = []
+    test_runs = @project.test_runs.where(name: params[:run_type])
+    test_runs.each do |tr|
+      ['passed', 'failed', 'broken'].each do |s|
+        @trend_data << {
+            time: tr.start,
+            date: tr.start.to_date,
+            status: s,
+            number: tr.count(s)
+        }
+      end
+    end
+    # @trend_data = test_runs.map { |tr|
+    #   { time: tr.start,
+    #     pass: tr.count('passed'),
+    #     failed: tr.count('failed'),
+    #     broken: tr.count('broken')
+    #   }
+    # }
+
+  end
+
 end

@@ -1,0 +1,9 @@
+= render partial: 'projects/menu', locals: { project: @project }
+
+#trend{ data: { data: @trend_data.to_json } }
+
+:javascript
+  $(document).ready( function() {
+    var data = $("#trend").data("data");
+    d3.select("#trend").call(draw_trend, data);
+  });

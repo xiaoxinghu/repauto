@@ -6,6 +6,7 @@
 //= require "tipsy/src/javascripts/jquery.tipsy"
 //= require jstzdetect
 //= require moment
+//= require "dimple/dist/dimple.v2.1.2.min"
 //= require_tree .
 
 @PageSpinner =

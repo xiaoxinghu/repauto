@@ -13,7 +13,9 @@
       %th Previous ...
   - @sorted_c.each do |k|
     %tr
-      %th= k
+      %th
+        %p= k
+        %p= link_to 'trend',trend_project_test_runs_path(params[:id], k), type: 'button', class: 'btn.btn-default.btn-lg'
       - @matrix[k].each do |run|
         %td
           .panel.panel-default
