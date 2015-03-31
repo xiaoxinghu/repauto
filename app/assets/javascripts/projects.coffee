@@ -11,8 +11,12 @@ window.draw_trend = (selection, data) ->
   chart.setBounds(60, 30, 705, 505)
   x = chart.addCategoryAxis('x', 'date')
   x.addOrderRule('date')
-  chart.addMeasureAxis("y", "number")
+  y = chart.addMeasureAxis("y", "number")
+  y.tickFormat = ',.1d'
   s = chart.addSeries("status", dimple.plot.area)
-  s.interpolation = "cardinal"
+  #s.interpolation = "cardinal"
   chart.addLegend(60, 10, 500, 20, "right")
+  chart.assignColor("passed", "#5cb85c")
+  chart.assignColor("broken", "#f0ad4e")
+  chart.assignColor("failed", "#d9534f")
   chart.draw()
