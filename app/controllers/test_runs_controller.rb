@@ -69,6 +69,7 @@ class TestRunsController < ApplicationController
     test_runs = @project.test_runs.where(name: params[:run_type])
     test_runs.each do |tr|
       ['passed', 'failed', 'broken'].each do |s|
+        next if not tr.start
         @trend_data << {
             time: tr.start,
             date: tr.start.to_date,
