@@ -12,7 +12,7 @@ window.draw_trend = (selection, data) ->
   x = chart.addCategoryAxis('x', 'date')
   x.addOrderRule('date')
   chart.addMeasureAxis("y", "number")
-  s = chart.addSeries("status", dimple.plot.line)
+  s = chart.addSeries("status", dimple.plot.area)
   s.interpolation = "cardinal"
   chart.addLegend(60, 10, 500, 20, "right")
   chart.draw()
