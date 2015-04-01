@@ -25,6 +25,7 @@
               %span.label.label-success= run.count('passed')
               %span.label.label-warning= run.count('broken')
               %span.label.label-danger= run.count('failed')
+              %span.label.label-default= run.count('pending')
               %span= distance_of_time_in_words run.end, run.start
               %span.pull-right
                 = link_to 'view', test_run_path(run),

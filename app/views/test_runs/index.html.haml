@@ -33,6 +33,7 @@
           %span.label.label-success= test_run.count("passed")
           %span.label.label-warning= test_run.count("broken")
           %span.label.label-danger= test_run.count("failed")
+          %span.label.label-default= test_run.count("pending")
         %td
           = link_to "details", test_run_path(test_run)
 - else
