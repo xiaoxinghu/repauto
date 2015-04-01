@@ -20,4 +20,13 @@ class ProjectsController < ApplicationController
                 .sort_by { |_k, v| v[0] ? -v[0].count : 1 }
                 .map { |x| x[0] }
   end
+
+  def sync
+    SyncJob.perform_async
+  end
+
+  private
+  def redis
+    @redis ||= Redis.new
+  end
 end

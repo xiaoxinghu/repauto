@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
 
   resources :projects, only: [:index, :show] do
+    collection do
+      post :sync
+    end
     resources :dashboards, only: [:index, :show], shallow: true
     resources :test_runs, only: [:index, :show], shallow: true do
       member do

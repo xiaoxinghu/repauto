@@ -8,18 +8,23 @@
     = csrf_meta_tags
   %body
     %nav.navbar.navbar-inverse.navbar-fixed-top.navbar-small{:role => "navigation"}
-      .container-fluid
-        .navbar-header
-          = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
+      .navbar-header
+        = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
+      .navbar-inner
+        .container
+          -# %button.btn.btn-primary.navbar-btn.pull-right{ type: 'button' } refresh
+          = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'
 
-        %ul.nav.navbar-nav
-          - if Rails.env == 'development'
-            %li= "#{controller_name} -> #{action_name}"
+
+        -# %ul.nav.navbar-nav
+        -#   %li
+        -#   - if Rails.env == 'development'
+        -#     %li= "#{controller_name} -> #{action_name}"
           -# %li{:class => "#{'active' if params[:controller] == 'reports'}"}= link_to "Reports", reports_path
           -# %li{:class => "#{'active' if params[:controller] == 'dashboards'}"}= link_to "Dashboards", dashboards_path
         -# = link_to "refresh", welcome_index_path(:refresh => true), {:class => "btn btn-default navbar-right"}
-        .three-quarters.pull-right#loading
-          Loading...
+        -# .three-quarters.pull-right#loading
+        -#   Loading...
     .container-fluid
       .row
         #sidebar.col-sm-3.hidden-xs.fixed
