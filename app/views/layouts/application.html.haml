@@ -13,7 +13,8 @@
       .navbar-inner
         .container
           -# %button.btn.btn-primary.navbar-btn.pull-right{ type: 'button' } refresh
-          = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'
+          - if Rails.env == 'development'
+            = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'
 
 
         -# %ul.nav.navbar-nav

@@ -1,3 +1,10 @@
+# pre-request
+
+- rails 4+
+- redis
+- node.js
+- bower
+
 # commands
 
 Get latest.
