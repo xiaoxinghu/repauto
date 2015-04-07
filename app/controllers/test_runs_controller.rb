@@ -91,9 +91,9 @@ class TestRunsController < ApplicationController
     @max_run = sample.max_by { |r| r.count }.count
     puts "max value: #{@max_run}"
 
-    test_runs.reject!{ |r| r.count < @max_run * @min_proportion }
-    puts "resulting in #{test_runs.count} items"
-    test_runs.first(@plot_amount).each do |tr|
+    chosen = test_runs.select{ |r| r.count > @max_run * @min_proportion }
+    puts "resulting in #{chosen.count} items"
+    chosen.first(@plot_amount).each do |tr|
       ['passed', 'failed', 'broken'].each do |s|
         @trend_data << {
             time: tr.start,
