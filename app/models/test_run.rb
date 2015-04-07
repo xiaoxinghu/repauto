@@ -7,10 +7,11 @@ class TestRun < ActiveRecord::Base
     ls_dir(project.path, []).each do |d|
       name = d.split('/').last
       ls_dir(d, []).each do |folder|
-        dt = get_datetime folder
+        time = get_time folder
         folder.slice! project.path
         #next if TestRun.where(project: project, path: folder).any?
-        if dt
+        if time
+          next if Time.now - time > 2.days
           tr = TestRun.find_or_create_by(project: project, path: folder)
           tr.name = name
           tr.save

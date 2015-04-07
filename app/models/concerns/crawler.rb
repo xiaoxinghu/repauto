@@ -76,13 +76,13 @@ module Crawler
     end
 
 
-    def get_datetime(path)
+    def get_time(path)
       path.split('/').reverse_each do |p|
         begin
           if p.size == 10
-            return DateTime.strptime(p, '%Y-%m-%d')
+            return Time.strptime(p, '%Y-%m-%d')
           elsif p.size == 19
-            return DateTime.strptime(p, '%Y-%m-%d-%H-%M-%S')
+            return Time.strptime(p, '%Y-%m-%d-%H-%M-%S')
           else
             next
           end
