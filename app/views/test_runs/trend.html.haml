@@ -1,5 +1,13 @@
 = render partial: 'projects/menu', locals: { project: @project }
 
+%h2 Summary
+%p
+  This page shows the trend of the last #{@plot_amount} runs.
+  The ones that has test cases less then
+  #{number_to_percentage(@min_proportion * 100, precision: 0)}
+  of the test run who has most test cases in the last #{@sample_amount} runs
+  (which is #{@max_run}) are filtered out.
+
 #trend{ data: { data: @trend_data.to_json } }
 
 :javascript
