@@ -71,6 +71,23 @@ class TestRunsController < ApplicationController
                 .where.not(end: nil)
                 .where(name: params[:run_type])
                 .select { |tr| (tr.end - tr.start) > 30.minutes }
+                .sort_by!(&:start).reverse!
+
+    # filter out small runs
+    # sample_period = 7.days
+    # sample = test_runs.select do |r|
+    #   Time.now - r.start < sample_period
+    # end
+    # puts "got #{sample.count} items for last #{sample_period}"
+    sample_amount = 10
+    sample = test_runs.last(sample_amount)
+    puts "got #{sample.count} items out of #{test_runs.count}"
+
+    max = sample.max_by { |r| r.count }.count
+    puts "max value: #{max}"
+
+    test_runs.reject!{ |r| r.count < max * 0.5 }
+    puts "resulting in #{test_runs.count} items"
     test_runs.each do |tr|
       ['passed', 'failed', 'broken'].each do |s|
         @trend_data << {

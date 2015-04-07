@@ -9,8 +9,8 @@ window.draw_trend = (selection, data) ->
   svg = dimple.newSvg('#trend', 800, 600)
   chart = new dimple.chart(svg, data)
   chart.setBounds(60, 30, 705, 505)
-  x = chart.addCategoryAxis('x', 'date')
-  x.addOrderRule('date')
+  x = chart.addCategoryAxis('x', 'time')
+  x.addOrderRule('time')
   y = chart.addMeasureAxis("y", "number")
   y.tickFormat = ',.1d'
   s = chart.addSeries("status", dimple.plot.area)
