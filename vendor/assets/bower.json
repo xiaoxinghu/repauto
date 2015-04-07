@@ -1,0 +1,11 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "bootstrap": "latest",
+    "d3": "latest",
+    "tipsy": "latest",
+    "jstzdetect": "latest",
+    "moment": "latest",
+    "dimple": "latest"
+  }
+}

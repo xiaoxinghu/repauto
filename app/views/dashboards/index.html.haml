@@ -1,0 +1,11 @@
+= render partial: "projects/menu", locals: {project: @project}
+
+.row
+  - @project.dashboards.each do |d|
+    .col-xs-3.col-md-6
+      = link_to d.link, class: "thumbnail" do
+        .embed-responsive.embed-responsive-16by9
+          %iframe.embed-responsive-item{:src => d.link, :width => "100%", :height => "200px"}
+        .caption
+          %h3= d.name
+          %p= d.desc

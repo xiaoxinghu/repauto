@@ -1,0 +1,40 @@
+= render partial: "projects/menu", locals: {project: @project}
+= render partial: "breadcrumb", locals: {project: @project}
+
+- if true
+  = form_tag({controller: "test_runs", action: "index"}, method: "get") do
+    .input-group.form-control
+      = select_tag 'category', options_from_collection_for_select(categories(@project.test_runs), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
+      = select_tag 'seconds', options_from_collection_for_select(date_filter, 'value', 'human', params[:seconds]), include_blank: "Any Time", onchange: "this.form.submit();"
+      = select_tag 'duration', options_from_collection_for_select(duration_filter, 'value', 'human', params[:duration]), include_blank: "All", onchange: "this.form.submit();"
+      = select_tag 'number', options_from_collection_for_select(number_filter, 'to_s', 'to_s', params[:number]), include_blank: "All", onchange: "this.form.submit();"
+
+    -# .input-group-btn
+    -#   = button_tag(type: "submit", class: "btn btn-default") do
+    -#     %i.glyphicon.glyphicon-search
+
+
+- if @test_runs.size > 0
+  = paginate @test_runs
+  %table.table.table-hover
+    %tr
+      %th start time
+      %th duration
+      %th type
+      %th status
+      %th
+
+    - @test_runs.each do |test_run|
+      %tr
+        %td= test_run.start.strftime("%a, %b %d %Y %H:%M:%S")
+        %td= distance_of_time_in_words test_run.end, test_run.start
+        %td= test_run.name
+        %td
+          %span.label.label-success= test_run.count("passed")
+          %span.label.label-warning= test_run.count("broken")
+          %span.label.label-danger= test_run.count("failed")
+          %span.label.label-default= test_run.count("pending")
+        %td
+          = link_to "details", test_run_path(test_run)
+- else
+  %p No Results

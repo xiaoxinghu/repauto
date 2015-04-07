@@ -1,0 +1,18 @@
+= render partial: 'projects/menu', locals: { project: @test_run.project }
+= render partial: 'breadcrumb', locals: { test_run: @test_run }
+
+.container-fluid
+  .row
+    .btn-group.btn-group-xs.pull-right{ role: 'group' }
+      = link_to test_run_path(@test_run), class: 'btn btn-default pull-right' do
+        .glyphicon.glyphicon-remove
+
+  .row
+    #timeline{ data: { data: @timeline_data.to_json } }
+
+:javascript
+  $(document).ready( function() {
+    //var data = JSON.parse($("#timeline").data("data"));
+    var data = $("#timeline").data("data");
+    d3.select("#timeline").call(DrawTimeline, data);
+  });

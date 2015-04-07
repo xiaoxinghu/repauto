@@ -1,0 +1,8 @@
+= render partial: "projects/menu", locals: {project: @test_case.test_suite.test_run.project}
+= render partial: "breadcrumb", locals: {test_case: @test_case}
+= link_to 'back', test_case_path(@test_case), class: "btn btn-default"
+.row
+  .col-md-6
+    = render partial: "test_case", locals: {test_case: @test_case}
+  .col-md-6
+    = render partial: "test_case", locals: {test_case: @target}
