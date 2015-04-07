@@ -77,7 +77,7 @@ class TestRunsController < ApplicationController
                 .where.not(end: nil)
                 .where(name: params[:run_type])
                 .order('start DESC')
-                .last(@plot_amount)
+                #.last(@plot_amount)
 
     # filter out small runs
     # sample_period = 7.days
@@ -85,7 +85,7 @@ class TestRunsController < ApplicationController
     #   Time.now - r.start < sample_period
     # end
     # puts "got #{sample.count} items for last #{sample_period}"
-    sample = test_runs.last(@sample_amount)
+    sample = test_runs.first(@sample_amount)
     puts "got #{sample.count} items out of #{test_runs.count}"
 
     @max_run = sample.max_by { |r| r.count }.count
@@ -93,7 +93,7 @@ class TestRunsController < ApplicationController
 
     test_runs.reject!{ |r| r.count < @max_run * @min_proportion }
     puts "resulting in #{test_runs.count} items"
-    test_runs.each do |tr|
+    test_runs.first(@plot_amount).each do |tr|
       ['passed', 'failed', 'broken'].each do |s|
         @trend_data << {
             time: tr.start,
