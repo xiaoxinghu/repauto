@@ -40,9 +40,9 @@ class TestRunsController < ApplicationController
   def timeline
     @test_run = TestRun.find(params[:id])
     query = TestCase.all.where(test_suite: @test_run.test_suites)
-    @test_cases = query
+    @test_cases = query.order('start')
     @timeline_data = []
-    @test_cases.each do |test_case|
+    @test_cases.each_with_index do |i, test_case|
       lane = 'N/A'
       if test_case.status == 'passed'
         lane = 'passed'
@@ -50,6 +50,14 @@ class TestRunsController < ApplicationController
         lane = 'failed'
       elsif test_case.failure
         lane = test_case.failure.message
+      end
+      # fix bad data
+      if test_case.end > test_case.test_suite.end || test_case.end < test_case.test_suite.start
+        if i == @test_cases.size - 1
+          test_case.end = test_case.test_suite.end
+        else
+          test_case.end = @test_cases[i + 1].start
+        end
       end
       d = { id: test_case.id,
             name: test_case.name,
@@ -73,10 +81,6 @@ class TestRunsController < ApplicationController
         end
       end
     end
-  end
-
-  def invalid_time(time)
-    time == 0
   end
 
   def trend
