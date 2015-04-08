@@ -42,7 +42,7 @@ class TestRunsController < ApplicationController
     query = TestCase.all.where(test_suite: @test_run.test_suites)
     @test_cases = query.order('start')
     @timeline_data = []
-    @test_cases.each_with_index do |i, test_case|
+    @test_cases.each_with_index do |test_case, i|
       lane = 'N/A'
       if test_case.status == 'passed'
         lane = 'passed'
@@ -71,16 +71,16 @@ class TestRunsController < ApplicationController
     end
 
     # fix bad data
-    @timeline_data.sort_by! { |k| k[:start] }
-    @timeline_data.each_with_index do |i, d|
-      if invalid_time d[:end]
-        if i == @timeline_data.size - 1
-          d[:end] = d[:start]
-        else
-          d[:end] = @timeline_data[i + 1][:start]
-        end
-      end
-    end
+    # @timeline_data.sort_by! { |k| k[:start] }
+    # @timeline_data.each_with_index do |i, d|
+    #   if invalid_time d[:end]
+    #     if i == @timeline_data.size - 1
+    #       d[:end] = d[:start]
+    #     else
+    #       d[:end] = @timeline_data[i + 1][:start]
+    #     end
+    #   end
+    # end
   end
 
   def trend
