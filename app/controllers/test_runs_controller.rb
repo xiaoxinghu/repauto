@@ -48,6 +48,8 @@ class TestRunsController < ApplicationController
         lane = 'passed'
       elsif test_case.status == 'failed'
         lane = 'failed'
+      elsif test_case.status == 'pending'
+        lane = 'pending'
       elsif test_case.failure
         lane = test_case.failure.message
       end
@@ -59,6 +61,14 @@ class TestRunsController < ApplicationController
           test_case.end = @test_cases[i + 1].start
         end
       end
+      if test_case.start > test_case.test_suite.end || test_case.start < test_case.test_suite.start
+        if i == 0
+          test_case.start = test_case.test_suite.start
+        else
+          test_case.start = @test_cases[i - 1].end
+        end
+      end
+
       d = { id: test_case.id,
             name: test_case.name,
             lane: lane,

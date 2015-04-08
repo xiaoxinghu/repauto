@@ -292,6 +292,7 @@ var DrawTimeline = function(selection, timelineData) {
           miniPassed = items.filter(function (d) { return d.status === 'passed'});
           miniFailed = items.filter(function (d) { return d.status === 'failed'});
           miniBroken = items.filter(function (d) { return d.status === 'broken'});
+          miniPending = items.filter(function (d) { return d.status === 'pending'});
           mini.append('g').selectAll('miniItems')
             .data(getPaths(miniPassed))
             .enter().append('path')
@@ -306,6 +307,11 @@ var DrawTimeline = function(selection, timelineData) {
             .data(getPaths(miniBroken))
             .enter().append('path')
             .attr('class', function(d) { return 'miniItem broken'; })
+            .attr('d', function(d) { return d.path; });
+          mini.append('g').selectAll('miniItems')
+            .data(getPaths(miniPending))
+            .enter().append('path')
+            .attr('class', function(d) { return 'miniItem pending'; })
             .attr('d', function(d) { return d.path; });
 
 
