@@ -61,6 +61,22 @@ class TestRunsController < ApplicationController
             desc: test_case.inspect }
       @timeline_data << d
     end
+
+    # fix bad data
+    @timeline_data.sort_by! { |k| k[:start] }
+    @timeline_data.each_with_index do |i, d|
+      if invalid_time d[:end]
+        if i == @timeline_data.size - 1
+          d[:end] = d[:start]
+        else
+          d[:end] = @timeline_data[i + 1][:start]
+        end
+      end
+    end
+  end
+
+  def invalid_time(time)
+    time == 0
   end
 
   def trend

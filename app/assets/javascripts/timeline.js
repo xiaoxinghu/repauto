@@ -39,7 +39,7 @@ var DrawTimeline = function(selection, timelineData) {
 
       newDate.setHours(hours - offset);
 
-      return newDate; 
+      return newDate;
     }
 
     var parseData = function (data) {
@@ -378,7 +378,7 @@ var DrawTimeline = function(selection, timelineData) {
               rects = itemRects.selectAll('rect')
               .data(visItems, function (d) { return d.id; })
               .attr('x', function(d) { return x1(d.start); })
-              .attr('width', function(d) { 
+              .attr('width', function(d) {
                 return x1(d.end) - x1(d.start); });
 
             rects.enter().append('a')
@@ -386,7 +386,7 @@ var DrawTimeline = function(selection, timelineData) {
               .append('rect')
               .attr('x', function(d) { return x1(d.start); })
               .attr('y', function(d) { return y1(d.lane) + .1 * y1(1) + 0.5; })
-              .attr('width', function(d) { 
+              .attr('width', function(d) {
                 return x1(d.end) - x1(d.start); })
               .attr('height', function(d) { return .8 * y1(1); })
               .attr('desc', function(d) { return d.desc; })
