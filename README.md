@@ -1,7 +1,7 @@
 # pre-request
 
 - rails 4+
-- redis
+- redis (not using it anymore)
 - node.js
 - bower
 
