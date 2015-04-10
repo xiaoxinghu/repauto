@@ -12,7 +12,7 @@
         = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
       .navbar-inner
         .container
-          = link_to 'consolidate', url_for(params.merge(consolidate: true)), class: 'btn btn-primary navbar-btn pull-right', type: 'button'
+          = link_to 'consolidate', url_for(params.merge(consolidate: true)), id: 'consolidate', class: 'btn btn-primary navbar-btn pull-right', type: 'button'
           - if Rails.env == 'development'
             %p.nav.navbar-nav= "#{controller_name} -> #{action_name}"
             = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'
@@ -27,6 +27,15 @@
         -# = link_to "refresh", welcome_index_path(:refresh => true), {:class => "btn btn-default navbar-right"}
         -# .three-quarters.pull-right#loading
         -#   Loading...
+
+    .modal.fade{ id: 'processing', tabindex: '-1', role: 'dialog', 'aria-labelledby': 'myModalLabel', 'aria-hidden': true }
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %h4#myModalLabel.modal-title Consolidating, Please Wait...
+          .modal-body
+            .progress
+              .progress-bar.progress-bar-striped.active{ role: 'progressbar', 'aria-valuenow': '100', 'aria-valuemin': '0', 'aria-valuemax': '100', style: 'width: 100%'}
     .container-fluid
       .row
         #sidebar.col-sm-3.hidden-xs.fixed

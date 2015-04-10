@@ -45,10 +45,12 @@ ready = ->
   $('label.tree-toggler').click ->
     $(this).parent().children('ul.tree').toggle 300
 
-    $('a').click ->
+    $('#consolidate').click ->
       # PageSpinner.spin()
       $('#loading').show()
 
+  $('#consolidate').click ->
+    $('#processing').modal 'show'
   return
 
 $(document).ready ready
