@@ -1,10 +1,12 @@
 = render partial: 'menu', locals: { project: @project }
-%h2 Summary
-%p
-  This page shows an overview of the last #{@show_num} runs.
-  Test runs that run under
-  #{distance_of_time_in_words @min_duration}
-  won't show up here.
+.page-header
+  %h2 Summary
+  %p
+    This page shows an overview of the last #{@show_num} runs.
+    Test runs that run under
+    #{distance_of_time_in_words @min_duration}
+    won't show up here.
+
 %table.table.table-hover
   %tr
     %th Type
@@ -22,7 +24,7 @@
             .panel-heading
               %h3.panel-title= run.start.strftime('%a, %b %d %Y %H:%M:%S')
             .panel-body
-              = render partial: 'mini_status', locals: { target: run }
+              = render partial: 'mini_status', locals: { target: run, consolidate: params[:consolidate] }
               %span= distance_of_time_in_words run.end, run.start
               %span.pull-right
                 = link_to 'view', test_run_path(run),

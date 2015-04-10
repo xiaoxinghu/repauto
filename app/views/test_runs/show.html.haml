@@ -28,7 +28,7 @@
           = link_to "#ts_#{test_suite.id}", 'data-toggle': 'collapse', 'data-parent': '#accordion', 'aria-expanded': 'false', 'aria-controls': "ts_#{test_suite.id}" do
             .row
               .col-md-9= test_suite.name
-              .col-md-3= render partial: 'mini_status', locals: { target: test_suite }
+              .col-md-3= render partial: 'mini_status', locals: { target: test_suite, consolidate: params[:consolidate] }
 
       .panel-collapse.collapse{ id: "ts_#{test_suite.id}", role: 'tabpanel', 'aria-labelledby': "tsh_#{test_suite.id}" }
         %ul.list-group

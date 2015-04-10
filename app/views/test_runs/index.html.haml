@@ -30,7 +30,7 @@
         %td= distance_of_time_in_words test_run.end, test_run.start
         %td= test_run.name
         %td
-          = render partial: 'mini_status', locals: { target: test_run }
+          = render partial: 'mini_status', locals: { target: test_run, consolidate: params[:consolidate] }
         %td
           = link_to "details", test_run_path(test_run)
 - else
