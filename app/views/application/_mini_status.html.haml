@@ -1,0 +1,6 @@
+.status
+  - target.status_count.each do |status, count|
+    %span{ class: "label label-#{status_map(status)}"}= count
+  %span.small
+    - target.status_count(nil, consolidate = 5).each do |status, count|
+      %span{ class: "label label-#{status_map(status)}"}= count

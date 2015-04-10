@@ -34,7 +34,15 @@ class TestRunsController < ApplicationController
     query = TestCase.all.where(test_suite: @test_run.test_suites)
     query = query.order('start DESC')
     @test_cases = query
-    @group = @test_cases.select(&:failure).group_by { |tc| tc.failure.message }
+    @group = @test_cases.select(&:failure).group_by { |tc| group_error_message tc.failure.message }
+  end
+
+  def group_error_message(message)
+    grouped = message
+    if ['time out', 'timeout'].any? { |word| message.include? word }
+      grouped = 'time out'
+    end
+    grouped
   end
 
   def timeline
@@ -51,7 +59,7 @@ class TestRunsController < ApplicationController
       elsif test_case.status == 'pending'
         lane = 'pending'
       elsif test_case.failure
-        lane = test_case.failure.message
+        lane = group_error_message test_case.failure.message
       end
       # fix bad data
       if test_case.end > test_case.test_suite.end || test_case.end < test_case.test_suite.start

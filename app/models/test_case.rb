@@ -15,8 +15,8 @@ class TestCase < ActiveRecord::Base
   end
 
   def self.sync(test_suite, doc)
-    tcs = doc.xpath("test-cases/test-case")
-    puts "#{tcs.count} test cases."
+    tcs = doc.xpath('test-cases/test-case')
+    puts '#{tcs.count} test cases.'
     tcs.each do |tc|
       name = tc.xpath('name').first.content
       start_time = Time.zone.at(tc['start'].to_i / 1000)
@@ -28,7 +28,7 @@ class TestCase < ActiveRecord::Base
       test_case.save
 
       # sync steps
-      tc.xpath("steps/step").each do |s|
+      tc.xpath('steps/step').each do |s|
         step_name = s.xpath('name').first.content
         step = Step.find_or_create_by(test_case: test_case, name: step_name)
         step.start = Time.zone.at(s['start'].to_i / 1000)
@@ -38,7 +38,7 @@ class TestCase < ActiveRecord::Base
       end
 
       # sync attachments
-      tc.xpath("attachments/attachment").each_with_index do |a, i|
+      tc.xpath('attachments/attachment').each_with_index do |a, i|
         attachment = Attachment.find_or_create_by(test_case: test_case, source: a['source'])
         attachment.title = a['title']
         attachment.kind = a['type']
@@ -47,7 +47,7 @@ class TestCase < ActiveRecord::Base
       end
 
       # sync failure
-      f = tc.xpath("failure").first
+      f = tc.xpath('failure').first
       if f
         failure = Failure.find_or_create_by(test_case: test_case)
         failure.message = f.xpath('message').first.content if f.xpath('message').first
@@ -56,12 +56,25 @@ class TestCase < ActiveRecord::Base
       end
 
       # sync tags
-      tc.xpath("parameters/parameter").each do |t|
+      tc.xpath('parameters/parameter').each do |t|
         tag = Tag.find_or_create_by(test_case: test_case, name: t['name'])
         tag.value = t['value']
         tag.kind = t['kind']
         tag.save
       end
     end
+  end
+
+  def history(count = 10)
+    TestCase.where(name: name)
+      .where.not(id: id).order('start DESC').limit(count)
+  end
+
+  def consolidated_status(amount = 5)
+    return status if status != 'broken'
+    history(amount).each do |h|
+      return h.status if %w(passed failed).include? h.status
+    end
+    status
   end
 end

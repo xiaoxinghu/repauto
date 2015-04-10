@@ -36,18 +36,50 @@ class TestSuite < ActiveRecord::Base
     self.test_run.full_path + self.path
   end
 
-  def count(status = nil, platform = nil)
+  # def count(status = nil, platform = nil)
+  #   query = test_cases
+  #   if not status.blank?
+  #     query = query.where(status: status)
+  #   end
+
+  #   if not platform.blank?
+  #     query = query.select do |tc|
+  #       tc.tags.any? { |t| t.name == 'Platform' && t.value == platform }
+  #     end
+  #   end
+
+  #   query.count
+  # end
+
+  def get_test_cases(status = nil, platform = nil)
     query = test_cases
-    if not status.blank?
+    if platform
+      query = query.includes(:tags).where(tags: { value: platform })
+    end
+    if status
       query = query.where(status: status)
     end
+    query
+  end
 
-    if not platform.blank?
-      query = query.select do |tc|
-        tc.tags.any? { |t| t.name == 'Platform' && t.value == platform }
+  def status_count(platform = nil, consolidate = 0)
+    query = test_cases
+    if platform
+      query = query.includes(:tags).where(tags: { value: platform })
+    end
+    count = query.group(:status).count
+    if consolidate > 1
+      get_test_cases('broken', platform).each do |tc|
+        count['broken'] -= 1
+        count[tc.consolidated_status] = 0 unless count[tc.consolidated_status]
+        count[tc.consolidated_status] += 1
       end
     end
+    count
+  end
 
-    query.count
+  def consolidated_count
+    query = test_cases
+    query = query.where(status: 'broken')
   end
 end

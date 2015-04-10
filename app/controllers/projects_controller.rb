@@ -7,7 +7,9 @@ class ProjectsController < ApplicationController
     @min_duration = 30.minutes
     @matrix = {}
     @project = Project.find(params[:id])
-    categories = @project.test_runs.select(:name).distinct.map(&:name)
+    #categories = @project.test_runs.select(:name).distinct.map(&:name)
+    #categories = @project.test_runs.distinct.pluck(:name)
+    categories = TestRun.where(project: @project).distinct.pluck(:name)
     categories.each do |c|
       @matrix[c] = @project.test_runs
                    .where.not(end: nil)
@@ -16,9 +18,12 @@ class ProjectsController < ApplicationController
                    .sort_by!(&:start)
                    .reverse!.take(@show_num)
     end
-    @sorted_c = @matrix
-                .sort_by { |_k, v| v[0] ? -v[0].count : 1 }
-                .map { |x| x[0] }
+
+    #@matrix = @project.test_runs.group(:name)
+    # @sorted_c = @matrix
+    #             .sort_by { |_k, v| v[0] ? -v[0].count : 1 }
+    #             .map { |x| x[0] }
+    #@sorted_c = @matrix.map { |x| x[0] }
   end
 
   def sync

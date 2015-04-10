@@ -26,11 +26,9 @@
       .panel-heading{ role: 'tab', id: "tsh_#{test_suite.id}" }
         %h4.panel-title
           = link_to "#ts_#{test_suite.id}", 'data-toggle': 'collapse', 'data-parent': '#accordion', 'aria-expanded': 'false', 'aria-controls': "ts_#{test_suite.id}" do
-            %span.label.label-success= test_suite.count("passed", params[:platform])
-            %span.label.label-warning= test_suite.count("broken", params[:platform])
-            %span.label.label-danger= test_suite.count("failed", params[:platform])
-            %span.label.label-default= test_suite.count("pending", params[:platform])
-            = test_suite.name
+            .row
+              .col-md-9= test_suite.name
+              .col-md-3= render partial: 'mini_status', locals: { target: test_suite }
 
       .panel-collapse.collapse{ id: "ts_#{test_suite.id}", role: 'tabpanel', 'aria-labelledby': "tsh_#{test_suite.id}" }
         %ul.list-group
