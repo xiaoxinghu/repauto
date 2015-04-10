@@ -33,14 +33,14 @@ class TestRun < ActiveRecord::Base
     File.join(self.full_path, 'report')
   end
 
-  # def count(status = nil)
-  #   sum = 0
-  #   test_suites.each do |ts|
-  #     sum += ts.count(status)
-  #   end
-  #   puts "sum: #{sum}"
-  #   sum
-  # end
+  def count(status = nil)
+    sum = 0
+    test_suites.each do |ts|
+      sum += ts.get_test_cases(status).count
+    end
+    puts "sum: #{sum}"
+    sum
+  end
 
   def status_count(platform = nil, consolidate = 0)
     count = {}
