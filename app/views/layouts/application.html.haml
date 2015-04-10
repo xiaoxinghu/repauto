@@ -12,9 +12,7 @@
         = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
       .navbar-inner
         .container
-          -# %button.btn.btn-primary.navbar-btn.pull-right{ type: 'button' } refresh
-          .nav-bar-btn-group
-            = link_to 'consolidate', url_for(params.merge(consolidate: true)), class: 'btn btn-primary navbar-btn pull-right', type: 'button'
+          = link_to 'consolidate', url_for(params.merge(consolidate: true)), class: 'btn btn-primary navbar-btn pull-right', type: 'button'
           - if Rails.env == 'development'
             %p.nav.navbar-nav= "#{controller_name} -> #{action_name}"
             = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'
