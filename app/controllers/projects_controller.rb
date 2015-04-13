@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  include Filter
+
   def index
   end
 
@@ -14,12 +16,7 @@ class ProjectsController < ApplicationController
     cat_count = TestRun.joins(test_suites: :test_cases).where(project: @project).group('test_runs.name').count
     categories = cat_count.sort_by { |_k, v| -v }.map { |x| x[0] }
     categories.each do |c|
-      @matrix[c] = @project.test_runs
-                   .where.not(end: nil)
-                   .where(name: c)
-                   .select { |tr| (tr.end - tr.start) > @min_duration }
-                   .sort_by!(&:start)
-                   .reverse!.take(@show_num)
+      @matrix[c] = filter @project.test_runs, c, @show_num
     end
 
     #@matrix = @project.test_runs.group(:name)

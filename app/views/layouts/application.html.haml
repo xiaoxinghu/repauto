@@ -32,6 +32,7 @@
           - if Rails.env == 'development'
             %p.nav.navbar-nav= "#{controller_name} -> #{action_name}"
             = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'
+            = link_to 'test', '#', class: 'btn btn-primary navbar-btn pull-right', type: 'button'
 
 
         -# %ul.nav.navbar-nav

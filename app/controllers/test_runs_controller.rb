@@ -1,4 +1,5 @@
 class TestRunsController < ApplicationController
+  include Filter
 
   def index
     @project = Project.find(params[:project_id])
@@ -105,33 +106,8 @@ class TestRunsController < ApplicationController
     @project = Project.find(params[:project_id])
     @trend_data = []
 
-    @plot_amount =  30
-    @sample_amount = 10
-    @max_run = 0
-    @min_proportion = 0.5
-
-    test_runs = @project.test_runs
-                .where.not(start: nil)
-                .where.not(end: nil)
-                .where(name: params[:run_type])
-                .order('start DESC')
-                #.last(@plot_amount)
-
-    # filter out small runs
-    # sample_period = 7.days
-    # sample = test_runs.select do |r|
-    #   Time.now - r.start < sample_period
-    # end
-    # puts "got #{sample.count} items for last #{sample_period}"
-    sample = test_runs.first(@sample_amount)
-    puts "got #{sample.count} items out of #{test_runs.count}"
-
-    @max_run = sample.max_by { |r| r.count }.count
-    puts "max value: #{@max_run}"
-
-    chosen = test_runs.select{ |r| r.count > @max_run * @min_proportion }
-    puts "resulting in #{chosen.count} items"
-    chosen.first(@plot_amount).each do |tr|
+    test_runs = filter @project.test_runs, params[:run_type], 30
+    test_runs.each do |tr|
       ['passed', 'failed', 'broken'].each do |s|
         @trend_data << {
             time: tr.start,
