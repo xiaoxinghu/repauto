@@ -36,4 +36,16 @@ module ApplicationHelper
       concat content_tag(:span, "#{pass_rate}%", class: 'label label-info')
     end
   end
+
+  def trace_project
+    if defined? @project
+      return @project
+    elsif defined? @test_run
+      return @test_run.project
+    elsif defined? @test_suite
+      return @test_suite.test_run.project
+    elsif defined? @test_case
+      return @test_case.test_suite.test_run.project
+    end
+  end
 end

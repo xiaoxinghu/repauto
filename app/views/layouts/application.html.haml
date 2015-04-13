@@ -10,7 +10,23 @@
     %nav.navbar.navbar-inverse.navbar-fixed-top.navbar-small{:role => "navigation"}
       .navbar-header
         = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
-      .navbar-inner
+      #nav-project.collapse.navbar-collapse
+        %ul.nav.navbar-nav
+          %li.dropdown
+            = link_to 'project', class: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-expanded': 'false' do
+              - p = trace_project
+              - if p
+                = "Project: #{p.name}"
+              - else
+                Select Project
+            %ul.dropdown-menu{ role: 'menu' }
+              - grouped = Project.all.group_by { |p| p.stream }
+              - grouped.keys.each do |stream|
+                %li.dropdown-header= stream
+                - grouped[stream].each do |project|
+                  %li
+                    = link_to project.name, project_path(project.id)
+
         .container
           = link_to 'Rolling Average', url_for(params.merge(consolidate: true)), id: 'consolidate', class: 'btn btn-primary navbar-btn pull-right', type: 'button', 'data-toggle': 'tooltip', 'data-placement': 'left', title: 'Test results where failures due to network related issues have been replaced with a tests last genuine result from last 5 test runs.'
           - if Rails.env == 'development'
@@ -37,9 +53,10 @@
             .progress
               .progress-bar.progress-bar-striped.active{ role: 'progressbar', 'aria-valuenow': '100', 'aria-valuemin': '0', 'aria-valuemax': '100', style: 'width: 100%'}
     .container-fluid
-      .row
-        #sidebar.col-sm-3.hidden-xs.fixed
-          = render partial: 'tree'
+      = content_for?(:content) ? yield(:content) : yield
+      -# .row
+      -#   #sidebar.col-sm-3.hidden-xs.fixed
+      -#     = render partial: 'tree'
 
-        #main.col-sm-9.scrollit{:role => "main"}
-          = content_for?(:content) ? yield(:content) : yield
+      -#   #main.col-sm-9.scrollit{:role => "main"}
+      -#     = content_for?(:content) ? yield(:content) : yield
