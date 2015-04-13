@@ -6,7 +6,6 @@ class ProjectsController < ApplicationController
 
   def show
     @show_num = 2
-    @min_duration = 30.minutes
     @matrix = {}
     @project = Project.find(params[:id])
     #categories = @project.test_runs.select(:name).distinct.map(&:name)
