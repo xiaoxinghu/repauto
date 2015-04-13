@@ -48,4 +48,15 @@ module ApplicationHelper
       return @test_case.test_suite.test_run.project
     end
   end
+
+  def consolidate_button
+    tooltip = 'Test results where failures due to network related issues have been replaced with a tests last genuine result from last 5 test runs.'
+    link_to 'Rolling Average',
+            url_for(params.merge(consolidate: true)),
+            id: 'consolidate',
+            class: 'btn btn-primary navbar-btn ladda-button pull-right',
+            type: 'button',
+            title: tooltip, 'data-toggle': 'tooltip', 'data-placement': 'left',
+            'data-style': 'zoom-in'
+  end
 end

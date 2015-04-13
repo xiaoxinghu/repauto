@@ -7,6 +7,8 @@
 //= require jstzdetect
 //= require moment
 //= require "dimple/dist/dimple.v2.1.2.min"
+//= require "ladda-bootstrap/dist/spin.min"
+//= require "ladda-bootstrap/dist/ladda.min"
 //= require_tree .
 
 @PageSpinner =
@@ -45,12 +47,15 @@ ready = ->
   $('label.tree-toggler').click ->
     $(this).parent().children('ul.tree').toggle 300
 
-    $('#consolidate').click ->
-      # PageSpinner.spin()
-      $('#loading').show()
+  # $('.ladda-button').click = (e) ->
+  #   $('#processing').modal 'show'
+  #   e.preventDefault
 
-  $('#consolidate').click ->
-    $('#processing').modal 'show'
+  #   l = Ladda.create(this)
+  #   l.start
+  #   return false
+
+  Ladda.bind('.ladda-button')
 
   $('[data-toggle="tooltip"]').tooltip()
   return

@@ -6,6 +6,7 @@
     "tipsy": "latest",
     "jstzdetect": "latest",
     "moment": "latest",
-    "dimple": "latest"
+    "dimple": "latest",
+    "ladda-bootstrap": "git@github.com:msurguy/ladda-bootstrap.git"
   }
 }
