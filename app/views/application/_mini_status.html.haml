@@ -1,12 +1,12 @@
 .status
   - if defined?(target) && target.respond_to?('status_count')
-    - counts = target.status_count
+    - counts = target.status_count(defined?(platform)? platform : nil)
     - status = %w(passed broken failed pending)
     - status.each do |status|
       - if counts[status]
         %span{ class: "label label-#{status_map(status)}"}= counts[status]
     - if defined?(consolidate) && consolidate
-      - ccounts = target.status_count(nil, consolidate = 5)
+      - ccounts = target.status_count(defined?(platform)? platform : nil, consolidate = 5)
       %span.small
         - status.each do |status|
           - if ccounts[status]
