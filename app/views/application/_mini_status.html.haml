@@ -1,13 +1,35 @@
 .status
+  - compact = defined?(compact) && compact
+  - consolidate = defined?(consolidate) && consolidate
   - if defined?(target) && target.respond_to?('status_count')
     - counts = target.status_count(defined?(platform)? platform : nil)
-    - status = %w(passed broken failed pending)
-    - status.each do |status|
-      - if counts[status]
-        %span{ class: "label label-#{status_map(status)}"}= counts[status]
-    - if defined?(consolidate) && consolidate
+    - if consolidate
       - ccounts = target.status_count(defined?(platform)? platform : nil, consolidate = 5)
-      %span.small
-        - status.each do |status|
-          - if ccounts[status]
-            %span{ class: "label label-#{status_map(status)}"}= ccounts[status]
+
+    - if !consolidate
+      .row
+        .col-md-12
+          = status_view(counts)
+    - else
+      - if compact
+        - if consolidate
+          .row
+            .col-md-6
+              = status_view(counts)
+            .col-md-6.small
+              = status_view(ccounts)
+        - else
+          .row
+            .col-md-12
+              = status_view(counts)
+      - else
+        .row.small
+          .col-md-4
+            %p Actual
+          .col-md-8
+            = status_view(counts)
+        .row.small
+          .col-md-4
+            %abbr{ title: 'Rolling Average'} RA
+          .col-md-8
+            = status_view(ccounts)

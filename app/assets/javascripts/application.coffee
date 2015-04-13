@@ -51,6 +51,8 @@ ready = ->
 
   $('#consolidate').click ->
     $('#processing').modal 'show'
+
+  $('[data-toggle="tooltip"]').tooltip()
   return
 
 $(document).ready ready

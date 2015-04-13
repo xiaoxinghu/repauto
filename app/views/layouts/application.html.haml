@@ -12,7 +12,7 @@
         = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
       .navbar-inner
         .container
-          = link_to 'consolidate', url_for(params.merge(consolidate: true)), id: 'consolidate', class: 'btn btn-primary navbar-btn pull-right', type: 'button'
+          = link_to 'Rolling Average', url_for(params.merge(consolidate: true)), id: 'consolidate', class: 'btn btn-primary navbar-btn pull-right', type: 'button', 'data-toggle': 'tooltip', 'data-placement': 'left', title: 'Test results where failures due to network related issues have been replaced with a tests last genuine result from last 5 test runs.'
           - if Rails.env == 'development'
             %p.nav.navbar-nav= "#{controller_name} -> #{action_name}"
             = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'
