@@ -4,7 +4,6 @@ class Project < ActiveRecord::Base
   has_many :dashboards
 
   def self.sync
-    puts "Sync projects ..."
     yml_files = []
     find_files 'project.yml', APP_CONFIG['report_root'], yml_files, ['log', 'allure']
 
@@ -17,7 +16,7 @@ class Project < ActiveRecord::Base
       p.name = meta['project']
       p.stream = meta['stream']
       p.save
-      puts "- Project: #{p.name}"
+      logger.info "- Sync Project: #{p.name}"
 
 
       #Dashboard.where.not(project: p, name: meta['dashboards'].map { |x| x['name'] }).delete

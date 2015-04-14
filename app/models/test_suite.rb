@@ -26,7 +26,6 @@ class TestSuite < ActiveRecord::Base
           test_run.start = test_suite.start
           test_run.save
         end
-        puts "- Test Suite: #{test_suite.name}"
         TestCase.sync(test_suite, ts)
       end
     end

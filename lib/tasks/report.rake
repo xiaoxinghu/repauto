@@ -1,10 +1,25 @@
 namespace :report do
-  desc "Sync data to database"
+  desc 'Sync data to database'
   task sync: :environment do
     start = Time.now
+    logger = Logger.new(STDOUT)
+    logger.level = Rails.logger.level
+    Rails.logger = logger
+    logger.info 'Start Syncing...'
     Project.sync
     finish = Time.now
-    puts "Sync Started at #{start}. Took #{finish - start} seconds."
+    logger.info "Sync Finished. Started at #{start}. Took #{finish - start} seconds."
+  end
+
+  desc 'Manually sync data to database'
+  task msync: :environment do
+    # turn off cron task
+    `crontab -r`
+
+    Rake::Task['report:sync'].invoke
+
+    # turn cron task back on
+    `whenever --update-crontab`
   end
 
   desc "testing"

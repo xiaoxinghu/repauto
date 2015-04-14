@@ -16,8 +16,6 @@ class TestRun < ActiveRecord::Base
           tr.name = name
           tr.save
 
-          puts "- Test Run: #{tr.name}"
-
           TestSuite.sync tr
 
         end
@@ -38,7 +36,6 @@ class TestRun < ActiveRecord::Base
     test_suites.each do |ts|
       sum += ts.get_test_cases(status).count
     end
-    puts "sum: #{sum}"
     sum
   end
 

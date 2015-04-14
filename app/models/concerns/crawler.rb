@@ -20,7 +20,7 @@ module Crawler
         url = Addressable::URI::join(APP_CONFIG['report_host'], p).to_s
         HTTParty.get(url)
       rescue URI::InvalidURIError
-        puts "got invalid uri #{url}"
+        logger.warn "got invalid uri #{url}"
         nil
       end
     end
@@ -45,12 +45,12 @@ module Crawler
     end
 
     def ls_dir(path, skip)
-      puts "ls_dir -> #{path}"
+      logger.debug "ls_dir -> #{path}"
       ls(path, skip).select {|p| p.end_with? '/' }
     end
 
     def find_files(file_name, path, files, skip = [])
-      puts "Scanning for file #{file_name}... <#{path}>"
+      logger.debug "Scanning for file #{file_name}... <#{path}>"
       ls(path, skip).each do |p|
         if p.end_with? file_name
           files << p
@@ -63,7 +63,7 @@ module Crawler
     end
 
     def find_title(title, path, results, skip = [])
-      puts "Scanning for title #{title}... <#{path}>"
+      logger.debug "Scanning for title #{title}... <#{path}>"
       html_doc = html(path)
       return if html_doc.css('title').size == 0
       if html_doc.css('title')[0].text.include? title

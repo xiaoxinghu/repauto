@@ -16,7 +16,7 @@ class TestCase < ActiveRecord::Base
 
   def self.sync(test_suite, doc)
     tcs = doc.xpath('test-cases/test-case')
-    puts '#{tcs.count} test cases.'
+    logger.info "Found #{tcs.count} new test cases."
     tcs.each do |tc|
       name = tc.xpath('name').first.content
       start_time = Time.zone.at(tc['start'].to_i / 1000)
