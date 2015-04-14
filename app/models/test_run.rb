@@ -3,22 +3,20 @@ class TestRun < ActiveRecord::Base
   belongs_to :project
   has_many :test_suites
 
-  def self.sync(project)
+  def self.sync(project:, deep: false)
     ls_dir(project.path, []).each do |d|
       name = d.split('/').last
       ls_dir(d, []).each do |folder|
         time = get_time folder
         folder.slice! project.path
-        #next if TestRun.where(project: project, path: folder).any?
-        if time
-          next if Time.now - time > 2.days
-          tr = TestRun.find_or_create_by(project: project, path: folder)
-          tr.name = name
-          tr.save
+        # next if TestRun.where(project: project, path: folder).any?
+        next unless time
+        next if !deep && (Time.now - time > 1.days)
+        tr = TestRun.find_or_create_by(project: project, path: folder)
+        tr.name = name
+        tr.save
 
-          TestSuite.sync tr
-
-        end
+        TestSuite.sync tr
       end
     end
   end

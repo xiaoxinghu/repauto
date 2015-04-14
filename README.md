@@ -111,4 +111,16 @@ To manually sync data to database
 
     RAILS_ENV=production rake report:msync
 
+To sync only one project
+
+    RAILS_ENV=production rake report:msync[FP5]
+
+The sync task will sync with test runs which happened within last 24 hours, to sync all, which will take significant amount of time (don't do this), you can:
+
+    RAILS_ENV=production rake report:sync_all
+
+In case this document is out dated. To see an up to date command list.
+
+    rake -T report
+
 This rake task will turn off the background syncing task first, then do the syncing, and turn the background task back on when finished.

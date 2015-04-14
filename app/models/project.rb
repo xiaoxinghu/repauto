@@ -3,13 +3,16 @@ class Project < ActiveRecord::Base
   has_many :test_runs
   has_many :dashboards
 
-  def self.sync
+  def self.sync(name: nil, deep: false)
     yml_files = []
     find_files 'project.yml', APP_CONFIG['report_root'], yml_files, ['log', 'allure']
 
     yml_files.each do |f|
       yaml = http_get(f).body
       meta = YAML::load(yaml)
+      if name
+        next if meta['project'] != name
+      end
       path = f.gsub( /[^\/]+$/, '' )
       #p = Project.find_or_create_by name: meta['project'], stream: meta['stream']
       p = Project.find_or_create_by path: path
@@ -31,7 +34,7 @@ class Project < ActiveRecord::Base
         dashboard.save
       end
 
-      TestRun.sync p
+      TestRun.sync project: p, deep: deep
     end
   end
 
