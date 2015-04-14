@@ -23,7 +23,7 @@ class Project < ActiveRecord::Base
       meta['dashboards'].each do |d|
         dashboard = Dashboard.find_or_create_by name: d['name'], project: p
         dashboard.link = d['url']
-        if d.has_key? 'desc'
+        if d.key? 'desc'
           dashboard.desc = d['desc']
         else
           dashboard.desc = "Dashboard #{dashboard.name} for project #{p.name}."

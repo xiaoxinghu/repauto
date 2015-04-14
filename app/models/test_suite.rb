@@ -9,11 +9,11 @@ class TestSuite < ActiveRecord::Base
       begin
         found += 1
         content = Nokogiri::XML(http_get(xml).body)
-        p = xml.slice test_run.full_path
+        xml.slice! test_run.full_path
 
-        next if TestSuite.where(test_run: test_run, path: p).any?
+        next if TestSuite.where(test_run: test_run, path: xml).any?
         content.xpath("xmlns:test-suite").each do |ts|
-          test_suite = TestSuite.find_or_create_by(test_run: test_run, path: p)
+          test_suite = TestSuite.find_or_create_by(test_run: test_run, path: xml)
           test_suite.name = ts.xpath('name').first.content
           test_suite.start = Time.zone.at(ts['start'].to_i / 1000)
           test_suite.end = Time.zone.at(ts['stop'].to_i / 1000)
@@ -30,7 +30,7 @@ class TestSuite < ActiveRecord::Base
           TestCase.sync(test_suite, ts)
         end
       rescue Nokogiri::XML::XPath::SyntaxError => e
-        logger.error "syntax error when parsing #{xml}, ignored"
+        logger.error "syntax error when parsing #{File.join(test_run.full_path, xml)}, ignored"
       end
     end
   end
