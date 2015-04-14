@@ -81,6 +81,16 @@ Deployment for production.
 
     RAILS_ENV=production rake fiserv:deploy
 
+# diagnostic
+
+Check the log files when you think something went wrong.
+The log files are located in `log` folder directly in the root folder.
+They are separated by environment (i.e. development, production, test).
+The file `cron_error_log.log` and `cron_log.log` are for background tasks like syncing.
+
+**Notice** that when you run the website on in development, the logs are output directly to `STDOUT`.
+
+
 # tweaking
 
 ## update background syncing schedule
@@ -94,3 +104,11 @@ Then update the schedule:
 To list all jobs.
 
     crontab -l
+
+## manually sync data
+
+To manually sync data to database
+
+    RAILS_ENV=production rake report:msync
+
+This rake task will turn off the background syncing task first, then do the syncing, and turn the background task back on when finished.
