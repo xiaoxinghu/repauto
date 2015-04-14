@@ -30,8 +30,7 @@ class TestSuite < ActiveRecord::Base
           TestCase.sync(test_suite, ts)
         end
       rescue Nokogiri::XML::XPath::SyntaxError => e
-        logger.error "syntax error when parsing #{xml}"
-        raise e
+        logger.error "syntax error when parsing #{xml}, ignored"
       end
     end
   end
