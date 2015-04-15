@@ -126,3 +126,11 @@ In case this document is out dated. To see an up to date command list.
     rake -T report
 
 This rake task will turn off the background syncing task first, then do the syncing, and turn the background task back on when finished.
+
+## ssh to production environment
+
+Make sure you know the credential for that mac.
+
+    ssh xhu@mcmac15.mcom.local
+
+Then input the password for user `xhu`
