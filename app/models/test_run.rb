@@ -11,7 +11,7 @@ class TestRun < ActiveRecord::Base
         folder.slice! project.path
         # next if TestRun.where(project: project, path: folder).any?
         next unless time
-        next if !deep && (Time.now - time > 1.days)
+        next if !deep && (Time.now - time > 2.days)
         tr = TestRun.find_or_create_by(project: project, path: folder)
         tr.name = name
         tr.save
