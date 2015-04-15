@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304231345) do
+ActiveRecord::Schema.define(version: 20150415215010) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "title",        limit: 255
@@ -91,13 +91,14 @@ ActiveRecord::Schema.define(version: 20150304231345) do
   add_index "test_cases", ["test_suite_id"], name: "index_test_cases_on_test_suite_id", using: :btree
 
   create_table "test_runs", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name",        limit: 255
     t.datetime "start"
     t.datetime "end"
-    t.string   "path",       limit: 255
-    t.integer  "project_id", limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "path",        limit: 255
+    t.integer  "project_id",  limit: 4
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "in_progress", limit: 1,   default: false
   end
 
   add_index "test_runs", ["project_id"], name: "index_test_runs_on_project_id", using: :btree
