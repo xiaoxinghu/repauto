@@ -7,6 +7,7 @@ module Filter
     trs = test_runs
           .where.not(start: nil)
           .where.not(end: nil)
+          .where(in_progress: false)
           .where(name: name)
           .order('start DESC')
 

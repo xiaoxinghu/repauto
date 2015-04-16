@@ -16,8 +16,9 @@ class TestRun < ActiveRecord::Base
         tr.name = name
         puts "#{File.join(project.path, folder)}"
         if ls_file(File.join(project.path, folder), 'in_progress').size > 0
-          puts ">>>>> test_run in progress"
           tr.in_progress = true
+        else
+          tr.in_progress = false
         end
         tr.save
 

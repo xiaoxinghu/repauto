@@ -4,7 +4,10 @@
 .page-header
   %h1
     = @test_run.name
-    %small= @test_run.start.strftime("%a, %b %d %Y")
+    %small
+      = @test_run.start.strftime("%a, %b %d %Y")
+      - if @test_run.in_progress
+        %span.label.label-default in progress
 
   .btn-group{ role: "group"}
     = link_to "report", link(@test_run.report_path), class: "btn btn-default"
