@@ -38,7 +38,7 @@ class TestRunsController < ApplicationController
     @group = @test_cases.select(&:failure).group_by { |tc| group_error_message tc.failure.message }
   end
 
-  UUID = /\A([0-9a-fA-F]{32}|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\z/
+  UUID = /([0-9a-fA-F]{32}|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/
 
   def group_error_message(message)
     # grouped = message
