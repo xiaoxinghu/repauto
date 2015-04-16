@@ -49,6 +49,10 @@ module Crawler
       ls(path, skip).select {|p| p.end_with? '/' }
     end
 
+    def ls_file(path, file)
+      ls(path, []).select { |p| p.end_with? file }
+    end
+
     def find_files(file_name, path, files, skip = [])
       logger.debug "Scanning for file #{file_name}... <#{path}>"
       ls(path, skip).each do |p|

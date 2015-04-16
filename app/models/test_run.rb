@@ -14,6 +14,10 @@ class TestRun < ActiveRecord::Base
         next if !deep && (Time.now - time > 2.days)
         tr = TestRun.find_or_create_by(project: project, path: folder)
         tr.name = name
+        if ls_file(File.join(project.path, folder), 'in_progress').size > 0
+          puts ">>>>> test_run in progress"
+          tr.in_progress = true
+        end
         tr.save
 
         TestSuite.sync tr
