@@ -38,12 +38,15 @@ class TestRunsController < ApplicationController
     @group = @test_cases.select(&:failure).group_by { |tc| group_error_message tc.failure.message }
   end
 
+  UUID = /\A([0-9a-fA-F]{32}|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\z/
+
   def group_error_message(message)
-    grouped = message
-    if ['time out', 'timeout'].any? { |word| message.include? word }
-      grouped = 'time out'
-    end
-    grouped
+    # grouped = message
+    # if ['time out', 'timeout'].any? { |word| message.include? word }
+    #   grouped = 'time out'
+    # end
+    # grouped
+    message.gsub(UUID, '<UUID>')
   end
 
   def timeline

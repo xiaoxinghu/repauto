@@ -5,10 +5,6 @@ module Filter
     @sample_amount = 10
     @max_run = 0
     @min_proportion = 0.5
-    puts ">>>>>> #{@plot_amount}"
-    puts ">>>>>> #{@sample_amount}"
-    puts ">>>>>> #{@max_run}"
-    puts ">>>>>> #{@min_proportion}"
 
     trs = test_runs
           .where.not(start: nil)
