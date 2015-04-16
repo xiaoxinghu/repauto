@@ -27,7 +27,10 @@
     - @test_runs.each do |test_run|
       %tr
         %td= test_run.start.strftime("%a, %b %d %Y %H:%M:%S")
-        %td= distance_of_time_in_words test_run.end, test_run.start
+        %td
+          = distance_of_time_in_words test_run.end, test_run.start
+          - if test_run.in_progress
+            %span.label.label-default in progress
         %td= test_run.name
         %td
           = render partial: 'mini_status', locals: { target: test_run, consolidate: params[:consolidate] }
