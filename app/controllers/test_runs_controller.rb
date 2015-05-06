@@ -16,7 +16,7 @@ class TestRunsController < ApplicationController
       query = query.select { |tr| (tr.end - tr.start) > params[:duration].to_i }
     end
     if params[:number] && !params[:number].blank?
-      query = query.select { |tr| tr.count > params[:number].to_i }
+      query = query.select { |tr| tr.test_cases.count > params[:number].to_i }
     end
 
     if query.respond_to? 'order'
