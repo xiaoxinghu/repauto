@@ -1,10 +1,12 @@
 .status
   - compact = defined?(compact) && compact
   - consolidate = defined?(consolidate) && consolidate
-  - if defined?(target) && target.respond_to?('status_count')
-    - counts = target.status_count(defined?(platform)? platform : nil)
+  - if defined?(target) && target.respond_to?('test_cases')
+    - counts = group_by_status(target.test_cases, platform: defined?(platform)? platform : nil)
+    -# counts = target.status_count(defined?(platform)? platform : nil)
     - if consolidate
-      - ccounts = target.status_count(defined?(platform)? platform : nil, consolidate = 5)
+      -# ccounts = target.status_count(defined?(platform)? platform : nil, consolidate = 5)
+      - ccounts = group_by_status(target.test_cases, platform: defined?(platform)? platform : nil, consolidate: 5)
 
     - if !consolidate
       .row

@@ -1,7 +1,10 @@
 class TestRun < ActiveRecord::Base
+  #default_scope { where('removed_at IS NULL') }
+  default_scope { where removed_at: nil }
   include Crawler
   belongs_to :project
   has_many :test_suites
+  has_many :test_cases, through: :test_suites
 
   def self.sync(project:, deep: false)
     ls_dir(project.path, []).each do |d|
@@ -35,19 +38,32 @@ class TestRun < ActiveRecord::Base
     File.join(self.full_path, 'report')
   end
 
-  def count(status = nil)
-    sum = 0
-    test_suites.each do |ts|
-      sum += ts.get_test_cases(status).count
-    end
-    sum
-  end
+  # def count(status = nil)
+  #   query = test_cases
+  #   query = query.where(status: status) unless status.blank?
+  #   query.count
+  # end
 
-  def status_count(platform = nil, consolidate = 0)
-    count = {}
-    test_suites.each do |ts|
-      count.merge!(ts.status_count(platform, consolidate)) { |_k, o, n| o + n }
-    end
-    count
-  end
+  # def status_count(platform = nil, consolidate = 0)
+  #   count = {}
+  #   # test_suites.each do |ts|
+  #   #   count.merge!(ts.status_count(platform, consolidate)) { |_k, o, n| o + n }
+  #   # end
+  #   # count
+
+  #   query = test_cases
+  #   if platform
+  #     query = query.includes(:tags).where(tags: { value: platform })
+  #   end
+  #   count = query.group(:status).count
+  #   if consolidate > 1
+  #     get_test_cases('broken', platform).each do |tc|
+  #       count['broken'] -= 1
+  #       count[tc.consolidated_status] = 0 unless count[tc.consolidated_status]
+  #       count[tc.consolidated_status] += 1
+  #     end
+  #   end
+  #   count
+  # end
+
 end

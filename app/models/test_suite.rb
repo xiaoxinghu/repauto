@@ -1,4 +1,5 @@
 class TestSuite < ActiveRecord::Base
+  default_scope { joins(:test_run) }
   include Crawler
   belongs_to :test_run
   has_many :test_cases
@@ -39,32 +40,32 @@ class TestSuite < ActiveRecord::Base
     self.test_run.full_path + self.path
   end
 
-  def get_test_cases(status = nil, platform = nil)
-    query = test_cases
-    if !platform.blank?
-      query = query.includes(:tags).where(tags: { value: platform })
-    end
-    if !status.blank?
-      query = query.where(status: status)
-    end
-    query
-  end
+  # def get_test_cases(status = nil, platform = nil)
+  #   query = test_cases
+  #   if !platform.blank?
+  #     query = query.includes(:tags).where(tags: { value: platform })
+  #   end
+  #   if !status.blank?
+  #     query = query.where(status: status)
+  #   end
+  #   query
+  # end
 
-  def status_count(platform = nil, consolidate = 0)
-    query = test_cases
-    if platform
-      query = query.includes(:tags).where(tags: { value: platform })
-    end
-    count = query.group(:status).count
-    if consolidate > 1
-      get_test_cases('broken', platform).each do |tc|
-        count['broken'] -= 1
-        count[tc.consolidated_status] = 0 unless count[tc.consolidated_status]
-        count[tc.consolidated_status] += 1
-      end
-    end
-    count
-  end
+  # def status_count(platform = nil, consolidate = 0)
+  #   query = test_cases
+  #   if platform
+  #     query = query.includes(:tags).where(tags: { value: platform })
+  #   end
+  #   count = query.group(:status).count
+  #   if consolidate > 1
+  #     get_test_cases('broken', platform).each do |tc|
+  #       count['broken'] -= 1
+  #       count[tc.consolidated_status] = 0 unless count[tc.consolidated_status]
+  #       count[tc.consolidated_status] += 1
+  #     end
+  #   end
+  #   count
+  # end
 
   def consolidated_count
     query = test_cases

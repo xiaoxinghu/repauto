@@ -59,4 +59,30 @@ module ApplicationHelper
             title: tooltip, 'data-toggle': 'tooltip', 'data-placement': 'left',
             'data-style': 'zoom-in'
   end
+
+  def confirmation(to, id)
+    content_tag(:div,
+                class: 'modal fade',
+                id: id, tabindex: '-1',
+                role: 'dialog',
+                'aria-labelledby': 'confirmModalLabel',
+                'aria-hidden': 'true') do
+      content_tag(:div, class: 'modal-dialog') do
+        content_tag(:div, class: 'modal-content') do
+          concat(content_tag(:div, class: 'modal-header') do
+                   content_tag(:h4, 'Warning', class: 'modal-title')
+                 end)
+          concat(content_tag(:div, class: 'modal-body') do
+                   'Are you sure you want to delete this test run?'
+                 end)
+          concat(content_tag(:div, class: 'modal-footer') do
+                   concat(content_tag(:button, 'Cancel',
+                                      class: 'btn btn-default',
+                                      'data-dismiss': 'modal'))
+                   concat(link_to('Yes', to, class: 'btn btn-primary'))
+                 end)
+        end
+      end
+    end
+  end
 end

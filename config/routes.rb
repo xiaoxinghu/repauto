@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       member do
         get 'errors'
         get 'timeline'
+        get 'archive'
       end
       collection do
         get 'trend/:run_type', to: 'test_runs#trend', as: 'trend'

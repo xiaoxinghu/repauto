@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415215010) do
+ActiveRecord::Schema.define(version: 20150505214830) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "title",        limit: 255
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20150415215010) do
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.boolean  "in_progress", limit: 1,   default: false
+    t.datetime "removed_at"
   end
 
   add_index "test_runs", ["project_id"], name: "index_test_runs_on_project_id", using: :btree

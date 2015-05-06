@@ -1,5 +1,6 @@
 class TestRunsController < ApplicationController
   include Filter
+  include TestCasesHelper
 
   def index
     @project = Project.find(params[:project_id])
@@ -116,7 +117,7 @@ class TestRunsController < ApplicationController
             time: tr.start,
             date: tr.start.to_date,
             status: s,
-            number: tr.count(s)
+            number: filter_test_cases(tr.test_cases, status: s).count
         }
       end
     end
@@ -127,7 +128,12 @@ class TestRunsController < ApplicationController
     #     broken: tr.count('broken')
     #   }
     # }
-
   end
 
+  def archive
+    test_run = TestRun.find(params[:id])
+    test_run.removed_at = Time.now
+    test_run.save
+    redirect_to project_test_runs_path test_run.project
+  end
 end

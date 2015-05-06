@@ -1,7 +1,9 @@
 require 'action_view'
 class TestCase < ActiveRecord::Base
+  default_scope { joins(:test_run) }
   include ActionView::Helpers::DateHelper
   belongs_to :test_suite
+  has_one :test_run, through: :test_suite
   has_many :steps
   has_many :attachments
   has_many :tags

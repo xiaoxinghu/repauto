@@ -13,9 +13,9 @@ module Filter
 
     sample = trs.first(@sample_amount)
 
-    max_run = sample.max_by { |r| r.count }.count
+    max_run = sample.max_by { |r| r.test_cases.count }.test_cases.count
 
-    chosen = trs.select{ |r| r.count > max_run * @min_proportion }
+    chosen = trs.select{ |r| r.test_cases.count > max_run * @min_proportion }
     chosen.first(number)
   end
 end
