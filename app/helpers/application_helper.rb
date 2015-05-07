@@ -32,7 +32,8 @@ module ApplicationHelper
           total += counts[status]
         end
       end
-      pass_rate = counts['passed'] ? counts['passed'] * 100 / total : 0
+      pass_rate = counts['passed'] ? counts['passed'] * 100.0 / total : 0
+      pass_rate = pass_rate.round 1
       concat content_tag(:span, "#{pass_rate}%", class: 'label label-info')
     end
   end
