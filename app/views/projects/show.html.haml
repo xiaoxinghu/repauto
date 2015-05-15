@@ -21,7 +21,14 @@
             .panel-heading
               %h3.panel-title= run.start.strftime('%a, %b %d %Y %H:%M:%S')
             .panel-body
-              = render partial: 'mini_status', locals: { target: run, consolidate: params[:consolidate] }
+              - if params[:consolidate]
+                .row
+                  .col-md-6
+                    = render partial: 'mini_status', locals: { test_cases: run.test_cases }
+                  .col-md-6
+                    = render partial: 'mini_status', locals: { test_cases: run.test_cases, consolidate: true }
+              - else
+                = render partial: 'mini_status', locals: { test_cases: run.test_cases }
               %span= distance_of_time_in_words run.end, run.start
               %span.pull-right
                 = link_to 'view', test_run_path(run),

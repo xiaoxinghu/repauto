@@ -33,7 +33,14 @@
             %span.label.label-default in progress
         %td= test_run.name
         %td
-          = render partial: 'mini_status', locals: { target: test_run, consolidate: params[:consolidate] }
+          - if params[:consolidate]
+            .row
+              .col-md-6
+                = render partial: 'mini_status', locals: { test_cases: test_run.test_cases }
+              .col-md-6
+                = render partial: 'mini_status', locals: { test_cases: test_run.test_cases, consolidate: true }
+          - else
+            = render partial: 'mini_status', locals: { test_cases: test_run.test_cases }
         %td
           = link_to "details", test_run_path(test_run)
 - else

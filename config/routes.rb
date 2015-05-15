@@ -17,8 +17,11 @@ Rails.application.routes.draw do
       end
       resources :test_suites, only: [:index, :show], shallow: true do
         resources :test_cases, only: [:index, :show], shallow: true do
-          member do
-            get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
+          # member do
+          #   get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
+          # end
+          collection do
+            post 'diff', to: 'test_cases#diff', as: 'diff'
           end
         end
       end

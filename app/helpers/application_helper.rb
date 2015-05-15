@@ -22,7 +22,7 @@ module ApplicationHelper
     end
   end
 
-  def status_view(counts)
+  def status_view(counts, no_rate: false)
     status_in_order = %w(passed broken failed pending)
     total = 0
     content_tag(:div) do
@@ -32,9 +32,11 @@ module ApplicationHelper
           total += counts[status]
         end
       end
-      pass_rate = counts['passed'] ? counts['passed'] * 100.0 / total : 0
-      pass_rate = pass_rate.round 1
-      concat content_tag(:span, "#{pass_rate}%", class: 'label label-info')
+      unless no_rate
+        pass_rate = counts['passed'] ? counts['passed'] * 100.0 / total : 0
+        pass_rate = pass_rate.round 1
+        concat content_tag(:span, "#{pass_rate}%", class: 'label label-info')
+      end
     end
   end
 

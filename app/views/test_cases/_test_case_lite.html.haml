@@ -1,0 +1,18 @@
+%div{class: "panel panel-#{status_map(test_case.status)}"}
+  .panel-heading
+    .row-fluid
+      = check_box_tag 'selected[]', test_case.id
+      %div{ :class => "label label-#{status_map(test_case.status)}"}= test_case.status
+      - test_case.tags.each do |tag|
+        %div.label.label-default= tag.value
+  .panel-body
+    %table.table.table-hover
+      %tr
+        %td
+          = distance_of_time_in_words test_case.end, test_case.start
+
+    - if test_case.attachments
+      - test_case.attachments.order('position').each do |a|
+        .row
+          = link_to a.get_link, class: "thumbnail" do
+            %img{ :src => a.get_link, :alt => ""}

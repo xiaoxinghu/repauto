@@ -1,4 +1,12 @@
-= render partial: "projects/menu", locals: {project: @test_case.test_suite.test_run.project}
-= render partial: "breadcrumb", locals: {test_case: @test_case}
+= render partial: "projects/menu", locals: {project: @test_cases[0].test_suite.test_run.project}
+= render partial: "breadcrumb", locals: {test_case: @test_cases[0]} if @test_cases.size == 1
 
-= render partial: "test_case", locals: {test_case: @test_case}
+
+.row.row-horizon
+  - col_width = 12/@test_cases.size
+  - col_width = 3 if col_width < 3
+  - view = 'test_case'
+  - view = 'test_case_lite' if @test_cases.size > 3
+  - @test_cases.each do |tc|
+    %div{:class => "col-md-#{col_width}"}
+      = render partial: view, locals: {test_case: tc}

@@ -1,37 +1,34 @@
 .status
-  - compact = defined?(compact) && compact
   - consolidate = defined?(consolidate) && consolidate
-  - if defined?(target) && target.respond_to?('test_cases')
-    - counts = group_by_status(target.test_cases, platform: defined?(platform)? platform : nil)
-    -# counts = target.status_count(defined?(platform)? platform : nil)
-    - if consolidate
-      -# ccounts = target.status_count(defined?(platform)? platform : nil, consolidate = 5)
-      - ccounts = group_by_status(target.test_cases, platform: defined?(platform)? platform : nil, consolidate: 5)
-
-    - if !consolidate
-      .row
-        .col-md-12
-          = status_view(counts)
-    - else
-      - if compact
-        - if consolidate
-          .row
-            .col-md-6
-              = status_view(counts)
-            .col-md-6.small
-              = status_view(ccounts)
-        - else
-          .row
-            .col-md-12
-              = status_view(counts)
-      - else
-        .row.small
-          .col-md-4
-            %p Actual
-          .col-md-8
-            = status_view(counts)
-        .row.small
-          .col-md-4
-            %abbr{ title: 'Rolling Average'} RA
-          .col-md-8
-            = status_view(ccounts)
+  - if defined?(test_cases)
+    - ra = (5 if consolidate) || 0
+    - counts = group_by_status(test_cases, consolidate: ra)
+    - no_rate = defined?(no_rate) && no_rate
+    = status_view(counts, no_rate: no_rate)
+    -# - if !consolidate
+    -#   .row
+    -#     .col-md-12
+    -#       = status_view(counts, no_rate: no_rate)
+    -# - else
+    -#   - if compact
+    -#     - if consolidate
+    -#       .row
+    -#         .col-md-6
+    -#           = status_view(counts, no_rate: no_rate)
+    -#         .col-md-6.small
+    -#           = status_view(ccounts, no_rate: no_rate)
+    -#     - else
+    -#       .row
+    -#         .col-md-12
+    -#           = status_view(counts, no_rate: no_rate)
+    -#   - else
+    -#     .row.small
+    -#       .col-md-4
+    -#         %p Actual
+    -#       .col-md-8
+    -#         = status_view(counts, no_rate: no_rate)
+    -#     .row.small
+    -#       .col-md-4
+    -#         %abbr{ title: 'Rolling Average'} RA
+    -#       .col-MD-8
+    -#         = status_view(ccounts, no_rate: no_rate)

@@ -1,8 +1,20 @@
-= render partial: "projects/menu", locals: {project: @test_case.test_suite.test_run.project}
-= render partial: "breadcrumb", locals: {test_case: @test_case}
-= link_to 'back', test_case_path(@test_case), class: "btn btn-default"
-.row
-  .col-md-6
-    = render partial: "test_case", locals: {test_case: @test_case}
-  .col-md-6
-    = render partial: "test_case", locals: {test_case: @target}
+= render partial: "projects/menu", locals: {project: @test_cases[0].test_suite.test_run.project}
+= render partial: "breadcrumb", locals: {test_case: @test_cases[0]} if @test_cases.size == 1
+
+.page-header
+  %h1
+    = @name
+
+= form_tag(diff_test_suite_test_cases_path(@test_cases[0].test_suite)) do
+  = hidden_field_tag :name, @name
+  = hidden_field_tag :all, @test_cases.collect(&:id)
+  .btn-group{ role: 'group'}
+    = button_tag 'diff', class: 'btn btn-default', name: 'type', value: 'selected'
+  .row.row-horizon
+    - col_width = 12/@test_cases.size
+    - col_width = 3 if col_width < 3
+    - view = 'test_case'
+    - view = 'test_case_lite' if @test_cases.size > 1
+    - @test_cases.each do |tc|
+      %div{:class => "col-md-#{col_width}"}
+        = render partial: view, locals: {test_case: tc}

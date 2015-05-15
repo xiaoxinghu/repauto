@@ -1,4 +1,4 @@
-.panel.panel-primary
+%div{class: "panel panel-#{status_map(test_case.status)}"}
   .panel-heading
     %span{ :class => "label label-#{status_map(test_case.status)}"}= test_case.status
     =test_case.name
@@ -24,17 +24,18 @@
             %div{ :class => "list-group-item list-group-item-#{status_map(tc.status)} clearfix"}
               %span{ :class => "label label-#{status_map(tc.status)}"}= tc.status
               %span.glyphicon.glyphicon-file= link_to tc.start, test_case_path(tc)
-              %span.pull-right= link_to 'diff', diff_test_case_path(test_case, tc), class: "btn btn-xs btn-info"
+              -#%span.pull-right= link_to 'diff', diff_test_suite_test_cases_path(test_case.test_suite, :ids => [test_case.id, tc.id]), class: "btn btn-xs btn-info"
+              %span.pull-right= link_to 'diff', test_case_path([ test_case, tc ]), class: "btn btn-xs btn-info"
 
     -# steps
     %ul.list-group
       - test_case.steps.order("start").each do |step|
         %li{ :class => "list-group-item list-group-item-#{status_map(step.status)}"}
-          %h4.list-group-item-heading= step.name
-          %p.list-group-item-text
-            "#{step.start.strftime('%H:%M:%S')} -> #{step.end.strftime('%H:%M:%S')}"
+          %h5.list-group-item-heading
+            = "#{step.start.strftime('%H:%M:%S')} -> #{step.end.strftime('%H:%M:%S')}"
             %span.label.label-default= distance_of_time_in_words step.end, step.start
             %span.label.label-default= step.status
+          %p.list-group-item-text= step.name
 
     - if test_case.failure
       .well{ :style => "overflow: hidden;"}
@@ -49,5 +50,5 @@
           .col-xs-6.col-md-3
             = link_to a.get_link, class: "thumbnail" do
               %img{ :src => a.get_link, :alt => ""}
-              .caption
-                %p= a.title
+              -# .caption
+              -#   %p= a.title
