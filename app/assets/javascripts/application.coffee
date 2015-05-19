@@ -9,6 +9,8 @@
 //= require "dimple/dist/dimple.v2.1.2.min"
 //= require "ladda-bootstrap/dist/spin.min"
 //= require "ladda-bootstrap/dist/ladda.min"
+//= require "typeahead.js/dist/typeahead.bundle"
+//= require bootstrap-multiselect
 //= require_tree .
 
 @PageSpinner =
@@ -58,6 +60,22 @@ ready = ->
   Ladda.bind('.ladda-button')
 
   $('[data-toggle="tooltip"]').tooltip()
+  # $('#tag-list').tags
+  #   tagData: [
+  #     'boilerplate'
+  #     'tags'
+  #   ]
+  #   suggestions: [
+  #     'basic'
+  #     'suggestions'
+  #   ]
+  #   excludeList: [
+  #     'not'
+  #     'these'
+  #     'words'
+  #   ]
+  $('#tags').multiselect()
+
   return
 
 $(document).ready ready

@@ -9,22 +9,30 @@
       - if @test_run.in_progress
         %span.label.label-default in progress
 
-  .btn-group{ role: "group"}
-    -# = link_to "delete", archive_test_run_path(@test_run), class: "btn btn-danger"
-    %button.btn.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
-    = confirmation archive_test_run_path(@test_run), 'confirm'
-    = link_to "report", link(@test_run.report_path), class: "btn btn-default"
-    = link_to "errors", errors_test_run_path(@test_run), class: "btn btn-default"
-    = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
-    -# .btn-group{ role: 'group' }
-    -#   %button.btn.btn-default.dropdown-toggle{ type: 'button', 'data-toggle': 'dropdown', id: 'platform' }
-    -#     = params[:platform] or 'any platform'
-    -#     %span.caret
-    -#   %ul.dropdown-menu{ role: 'menu' }
-    -#     %li= link_to 'any', params.merge(platform: nil)
-    -#     - Tag.get_all(:platform).each do |t|
-    -#       %li
-    -#         = link_to t, params.merge(platform: t)
+  .btn-toolbar{ role: 'toolbar' }
+    .btn-group{ role: "group"}
+      -# = link_to "delete", archive_test_run_path(@test_run), class: "btn btn-danger"
+      %button.btn.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
+      = confirmation archive_test_run_path(@test_run), 'confirm'
+      = link_to "report", link(@test_run.report_path), class: "btn btn-default"
+      = link_to "errors", errors_test_run_path(@test_run), class: "btn btn-default"
+      = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
+    .btn-group
+      = form_tag('google.com') do
+        %select#tags{multiple: 'multiple'}
+          %option{value: 'android'} Android
+          %option{value: 'ios'} iOS
+          %option{value: 'windows'} Windows
+        = button_tag 'Go', class: 'btn btn-default'
+      -# .btn-group{ role: 'group' }
+      -#   %button.btn.btn-default.dropdown-toggle{ type: 'button', 'data-toggle': 'dropdown', id: 'platform' }
+      -#     = params[:platform] or 'any platform'
+      -#     %span.caret
+      -#   %ul.dropdown-menu{ role: 'menu' }
+      -#     %li= link_to 'any', params.merge(platform: nil)
+      -#     - Tag.get_all(:platform).each do |t|
+      -#       %li
+      -#         = link_to t, params.merge(platform: t)
 
 .panel-group#accordion1
   - @test_run.test_suites.each do |test_suite|
@@ -56,7 +64,7 @@
                           .col-md-10= name
                 .panel-collapse.collapse{ id: "tc_#{tcs[0].id}" }
                   .panel-body
-                    = form_tag(diff_test_suite_test_cases_path(test_suite)) do |form|
+                    = form_tag(diff_test_suite_test_cases_path(test_suite))
                       = hidden_field_tag :all, tcs.collect(&:id)
                       = hidden_field_tag :name, name
                       %ul.list-group
