@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
       if name
         next if meta['project'] != name
       end
-      path = f.gsub( /[^\/]+$/, '' )
+      path = f.gsub(/[^\/]+$/, '')
       #p = Project.find_or_create_by name: meta['project'], stream: meta['stream']
       p = Project.find_or_create_by path: path
       p.name = meta['project']

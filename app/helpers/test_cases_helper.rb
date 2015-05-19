@@ -31,11 +31,20 @@ module TestCasesHelper
     query = query.includes(:tags).where(tags: { value: platform }) if platform
     query.each do |tc|
       # get raw scenario name
-      name = tc.name.split('_').first
+      name = stripped_name tc
       group[name] ||= []
       group[name] << tc
     end
     group
+  end
+
+  def stripped_name(test_case)
+    tags = test_case.tags.collect(&:value)
+    name = test_case.name
+    tags.each do |tag|
+      name = name.gsub(/_#{tag}/i, '')
+    end
+    name
   end
 
   def status_count(test_cases)
