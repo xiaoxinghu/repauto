@@ -9,7 +9,6 @@
 //= require "dimple/dist/dimple.v2.1.2.min"
 //= require "ladda-bootstrap/dist/spin.min"
 //= require "ladda-bootstrap/dist/ladda.min"
-//= require "typeahead.js/dist/typeahead.bundle"
 //= require bootstrap-multiselect
 //= require_tree .
 
