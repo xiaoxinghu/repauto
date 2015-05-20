@@ -74,7 +74,7 @@ ready = ->
   #     'these'
   #     'words'
   #   ]
-  $('#tags').multiselect()
+  $('#tags').multiselect checkboxName: 'tags[]'
 
   return
 

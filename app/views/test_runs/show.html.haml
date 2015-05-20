@@ -18,12 +18,14 @@
       = link_to "errors", errors_test_run_path(@test_run), class: "btn btn-default"
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
     .btn-group
-      = form_tag('google.com') do
+      = form_tag(test_run_path(@test_run), method: 'get') do
         %select#tags{multiple: 'multiple'}
-          %option{value: 'android'} Android
-          %option{value: 'ios'} iOS
-          %option{value: 'windows'} Windows
-        = button_tag 'Go', class: 'btn btn-default'
+          - Tag.get_all.each do |t|
+            - if params[:tags] && params[:tags].any?{ |tag| tag == t }
+              %option{value: t, selected: 'selected'}= t
+            - else
+              %option{value: t}= t
+        = button_tag 'Go', class: 'btn btn-default', name: 'type', value: 'selected'
       -# .btn-group{ role: 'group' }
       -#   %button.btn.btn-default.dropdown-toggle{ type: 'button', 'data-toggle': 'dropdown', id: 'platform' }
       -#     = params[:platform] or 'any platform'
@@ -47,7 +49,8 @@
       .panel-collapse.collapse{ id: "ts_#{test_suite.id}" }
         .panel-body
           .panel-group#accordion2
-            - group_by_name(test_suite.test_cases).each do |name, tcs|
+            - group_by_name(test_suite.test_cases, tags: params[:tags]).each do |name, tcs|
+              -# group_by_name(test_suite.test_cases.with_tag(params[:tags][0])).each do |name, tcs|
               .panel.panel-default
                 .panel-heading
                   %h4.panel-title
@@ -64,7 +67,7 @@
                           .col-md-10= name
                 .panel-collapse.collapse{ id: "tc_#{tcs[0].id}" }
                   .panel-body
-                    = form_tag(diff_test_suite_test_cases_path(test_suite))
+                    = form_tag(diff_test_suite_test_cases_path(test_suite)) do |form|
                       = hidden_field_tag :all, tcs.collect(&:id)
                       = hidden_field_tag :name, name
                       %ul.list-group

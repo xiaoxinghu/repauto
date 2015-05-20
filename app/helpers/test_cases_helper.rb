@@ -25,15 +25,25 @@ module TestCasesHelper
     count
   end
 
-  def group_by_name(test_cases, platform: nil)
+  def filter_by_tags(test_cases, tags)
+    test_cases.select { |tc| tc.with_tags? tags }
+  end
+
+  def group_by_name(test_cases, tags: nil)
     group = {}
     query = test_cases
-    query = query.includes(:tags).where(tags: { value: platform }) if platform
     query.each do |tc|
       # get raw scenario name
-      name = stripped_name tc
-      group[name] ||= []
-      group[name] << tc
+      catch :wrong_tags do
+        if tags
+          tags.each do |tag|
+            throw :wrong_tags unless tc.tags.any? { |t| t.value == tag }
+          end
+        end
+        name = stripped_name tc
+        group[name] ||= []
+        group[name] << tc
+      end
     end
     group
   end
