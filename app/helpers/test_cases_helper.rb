@@ -37,7 +37,7 @@ module TestCasesHelper
       catch :wrong_tags do
         if tags
           tags.each do |tag|
-            throw :wrong_tags unless tc.tags.any? { |t| t.value == tag }
+            throw :wrong_tags unless tc.tags.any? { |t| 0 == t.value.casecmp(tag) }
           end
         end
         name = stripped_name tc
