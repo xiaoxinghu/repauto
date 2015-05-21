@@ -1,0 +1,9 @@
+.panel.panel-default
+  .panel-heading
+    %h4.panel-title
+      - name = stripped_name(test_case)
+      = link_to test_case_path(test_case) do
+        .row
+          %div{class: 'col-md-2'}
+            %div{class: "label label-#{status_map(test_case.status)}"}= test_case.status
+          .col-md-10= test_case.name

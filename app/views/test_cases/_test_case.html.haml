@@ -24,9 +24,7 @@
             %div{ :class => "list-group-item list-group-item-#{status_map(tc.status)} clearfix"}
               %span{ :class => "label label-#{status_map(tc.status)}"}= tc.status
               %span.glyphicon.glyphicon-file= link_to tc.start, test_case_path(tc)
-              %span.pull-right= button_to 'diff', diff_test_suite_test_cases_path(test_case.test_suite, selected: [test_case.id, tc.id], name: stripped_name(test_case)), class: "btn btn-xs btn-info"
-              -# %span.pull-right= link_to 'diff', test_case_path([ test_case, tc ]), class: "btn btn-xs btn-info"
-              -# %span.pull-right= button_to 'diff', diff_test_suite_test_cases_path(test_case.test_suite), class: "btn btn-xs btn-info"
+              %span.pull-right= link_to 'diff', test_case_path(:diff, selected: [test_case.id, tc.id], name: stripped_name(test_case)), class: "btn btn-xs btn-info"
 
     -# steps
     %ul.list-group

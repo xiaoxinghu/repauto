@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   resources :projects, only: [:index, :show] do
     collection do
       post :sync
@@ -20,9 +19,9 @@ Rails.application.routes.draw do
           # member do
           #   get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
           # end
-          collection do
-            post 'diff', to: 'test_cases#diff', as: 'diff'
-          end
+          # collection do
+          #   post 'diff', to: 'test_cases#diff', as: 'diff'
+          # end
         end
       end
     end

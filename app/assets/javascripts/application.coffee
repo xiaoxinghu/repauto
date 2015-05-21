@@ -12,6 +12,7 @@
 //= require bootstrap-multiselect
 //= require_tree .
 
+
 @PageSpinner =
 spin: (ms=50)->
   @spinner = setTimeout( (=> @add_spinner()), ms)
@@ -48,15 +49,16 @@ ready = ->
   $('label.tree-toggler').click ->
     $(this).parent().children('ul.tree').toggle 300
 
-  # $('.ladda-button').click = (e) ->
+  # $('.btn').click ->
   #   $('#processing').modal 'show'
-  #   e.preventDefault
+  # $('.btn').bind 'ajax:beforeSend', ->
+  #   $('#processing').modal 'show'
+  #   return
+  # $('.btn').bind 'ajax:complete', ->
+  #   $('#processing').modal 'hide'
+  #   return
 
-  #   l = Ladda.create(this)
-  #   l.start
-  #   return false
-
-  Ladda.bind('.ladda-button')
+  # Ladda.bind('.ladda-button')
 
   $('[data-toggle="tooltip"]').tooltip()
   # $('#tag-list').tags
@@ -78,4 +80,10 @@ ready = ->
   return
 
 $(document).ready ready
-$(document).on 'page:load', ready
+#$(document).on 'page:load', ready
+$(document).on 'page:change', ready
+# $(window).unload ->
+#   $('#processing').modal 'hide'
+#   alert 'leaving this page'
+#   return
+#$(document).on('click', 'a[data-remote=true]')

@@ -1,0 +1,16 @@
+.panel.panel-default
+  .panel-heading
+    %h4.panel-title
+      = link_to "#ts_#{test_suite.id}", 'data-toggle': 'collapse', 'data-parent': '#accordion1' do
+        .row
+          .col-md-2= render partial: 'mini_status', locals: { test_cases: test_suite.test_cases, consolidate: params[:consolidate] }
+          .col-md-10= test_suite.name
+
+  .panel-collapse.collapse{ id: "ts_#{test_suite.id}" }
+    .panel-body
+      .panel-group#accordion2
+        - group_by_name(test_suite.test_cases, tags: params[:tags]).each do |name, tcs|
+          - if tcs.size == 1
+            = render partial: "test_cases/test_case_li", locals: {test_case: tcs[0]}
+          - else
+            = render partial: "test_cases/test_case_group", locals: {test_cases: tcs, name: name}

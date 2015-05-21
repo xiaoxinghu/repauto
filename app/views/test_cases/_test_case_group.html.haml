@@ -1,0 +1,25 @@
+.panel.panel-default
+  .panel-heading
+    %h4.panel-title
+      = link_to "#tc_#{test_cases[0].id}", 'data-toggle': 'collapse', 'data-parent': '#accordion2' do
+        .row
+          .col-md-2= render partial: 'mini_status', locals: { test_cases: test_cases, compact: true, no_rate: true }
+          .col-md-10= name
+  .panel-collapse.collapse{ id: "tc_#{test_cases[0].id}" }
+    .panel-body
+      = form_tag(test_case_path(:diff), method: 'get') do
+        = hidden_field_tag :all, test_cases.collect(&:id)
+        = hidden_field_tag :name, name
+        %ul.list-group
+          - test_cases.each do |tc|
+            -#= collection_check_boxes(:selected, :ids, test_cases, :id, :name) do |b|
+            %li.list-group-item.list-group-item-default
+              = check_box_tag 'selected[]', tc.id
+              = label_tag do
+                = link_to test_case_path(tc) do
+                  %span{ :class => "label label-#{status_map(tc.status)}"}= tc.status
+                  - tc.tags.each do |tag|
+                    %span.label.label-default= tag.value
+        .btn-group{ role: 'group'}
+          = button_tag 'diff', class: 'btn btn-default', name: 'type', value: 'selected'
+          = button_tag 'diff all', class: 'btn btn-default', name: 'type', value: 'all'
