@@ -52,7 +52,7 @@ module TestCasesHelper
     tags = test_case.tags.collect(&:value)
     name = test_case.name
     tags.each do |tag|
-      name = name.gsub(/_#{tag}/i, '')
+      name = name.gsub(/_#{tag}(_|$)/i, '\1')
     end
     name
   end
