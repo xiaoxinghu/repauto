@@ -52,7 +52,7 @@ module TestCasesHelper
     tags = test_case.tags.collect(&:value)
     n = test_case.name.split '_'
     filtered = n.select do |x|
-      !tags.include? x
+      !tags.any?{ |t| t.casecmp(x) == 0 }
     end
     name = filtered.join '_'
     name
