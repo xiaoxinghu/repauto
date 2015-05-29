@@ -50,10 +50,11 @@ module TestCasesHelper
 
   def stripped_name(test_case)
     tags = test_case.tags.collect(&:value)
-    name = test_case.name
-    tags.each do |tag|
-      name = name.gsub(/_#{tag}(_|$)/i, '\1')
+    n = test_case.name.split '_'
+    filtered = n.select do |x|
+      !tags.include? x
     end
+    name = filtered.join '_'
     name
   end
 
