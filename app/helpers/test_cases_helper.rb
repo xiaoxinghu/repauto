@@ -49,13 +49,14 @@ module TestCasesHelper
   end
 
   def stripped_name(test_case)
-    tags = test_case.tags.collect(&:value)
-    n = test_case.name.split '_'
-    filtered = n.select do |x|
-      !tags.any?{ |t| t.casecmp(x) == 0 }
-    end
-    name = filtered.join '_'
-    name
+    # tags = test_case.tags.collect(&:value)
+    # n = test_case.name.split '_'
+    # filtered = n.select do |x|
+    #   !tags.any?{ |t| t.casecmp(x) == 0 }
+    # end
+    # name = filtered.join '_'
+    # name
+    test_case.name.split('_').first
   end
 
   def status_count(test_cases)
