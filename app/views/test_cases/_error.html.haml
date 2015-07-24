@@ -1,0 +1,6 @@
+.well{ :style => "overflow: hidden;"}
+  - if test_case.respond_to? 'failure'
+    %h4 Error Message
+    %p{ :style => "word-wrap: normal;"}= test_case.failure[:message]
+  - else
+    %h4 No Error Captured

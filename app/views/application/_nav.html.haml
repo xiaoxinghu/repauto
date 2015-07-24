@@ -1,0 +1,33 @@
+%nav.navbar.navbar-inverse.navbar-fixed-top.navbar-small{:role => "navigation"}
+  .container-fluid
+    .navbar-header
+      = link_to "Test Engineer", root_path, {:class=>"navbar-brand"}
+    #navbar-collapse.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        %li.dropdown
+          = link_to 'project', class: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-expanded': 'false' do
+            - project = trace_project
+            - if project
+              = "Project: #{project.name}"
+            - else
+              Select Project
+          %ul.dropdown-menu{ role: 'menu' }
+            - grouped = Project.all.group_by { |p| p.stream }
+            - grouped.keys.each do |stream|
+              %li.dropdown-header= stream
+              - grouped[stream].each do |project|
+                %li
+                  = link_to project.project, project_path(project.id)
+
+        - if project
+          %li
+            = link_to 'Test Runs', project_test_runs_path(project)
+
+      - if Rails.env == 'development'
+        %p.navbar-text.navbar-right= "#{controller_name} -> #{action_name}"
+    -# .container
+    -#   = consolidate_button
+    -#   - if Rails.env == 'development'
+    -#     %p.nav.navbar-nav= "#{controller_name} -> #{action_name}"
+    -#     %p.nav.navbar-nav= "console: #{Project.all.first.name}"
+    -#     = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'

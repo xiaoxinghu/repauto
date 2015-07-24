@@ -1,10 +1,9 @@
 .status
   - consolidate = defined?(consolidate) && consolidate
-  - if defined?(test_cases)
+  - if defined?(status)
     - ra = (5 if consolidate) || 0
-    - counts = group_by_status(test_cases, consolidate: ra)
     - no_rate = defined?(no_rate) && no_rate
-    = status_view(counts, no_rate: no_rate)
+    = status_view(status, no_rate: no_rate)
     -# - if !consolidate
     -#   .row
     -#     .col-md-12

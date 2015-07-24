@@ -8,6 +8,8 @@
     "moment": "latest",
     "dimple": "latest",
     "ladda-bootstrap": "latest",
-    "bootstrap-multiselect": "latest"
+    "bootstrap-multiselect": "latest",
+    "bootstrap-treeview": "latest",
+    "fuelux": "latest"
   }
 }

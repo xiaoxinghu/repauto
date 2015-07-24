@@ -1,35 +1,37 @@
-= render partial: 'menu', locals: { project: @project }
+-# = render partial: 'menu', locals: { project: @project }
 .page-header
   %h2 Summary
   %p
     This page shows an overview of the last #{@show_num} runs.
+  %p
+    Project: #{@project.name}
 
-%table.table.table-hover
-  %tr
-    %th Type
-    %th Latest Run
-    - (@show_num - 1).times do
-      %th Previous ...
-  - @matrix.keys.each do |k|
-    %tr
-      %th
-        %p= k
-        %p= link_to 'trend',trend_project_test_runs_path(params[:id], k), type: 'button', class: 'btn.btn-default.btn-lg'
-      - @matrix[k].each do |run|
-        %td
-          .panel.panel-default
-            .panel-heading
-              %h3.panel-title= run.start.strftime('%a, %b %d %Y %H:%M:%S')
-            .panel-body
-              - if params[:consolidate]
-                .row
-                  .col-md-6
-                    = render partial: 'mini_status', locals: { test_cases: run.test_cases }
-                  .col-md-6
-                    = render partial: 'mini_status', locals: { test_cases: run.test_cases, consolidate: true }
-              - else
-                = render partial: 'mini_status', locals: { test_cases: run.test_cases }
-              %span= distance_of_time_in_words run.end, run.start
-              %span.pull-right
-                = link_to 'view', test_run_path(run),
-                class: 'btn btn-xs btn-info'
+-# %table.table.table-hover
+-#   %tr
+-#     %th Type
+-#     %th Latest Run
+-#     - (@show_num - 1).times do
+-#       %th Previous ...
+-#   - @matrix.keys.each do |k|
+-#     %tr
+-#       %th
+-#         %p= k
+-#         %p= link_to 'trend',trend_project_test_runs_path(params[:id], k), type: 'button', class: 'btn.btn-default.btn-lg'
+-#       - @matrix[k].each do |run|
+-#         %td
+-#           .panel.panel-default
+-#             .panel-heading
+-#               %h3.panel-title= run.start.strftime('%a, %b %d %Y %H:%M:%S')
+-#             .panel-body
+-#               - if params[:consolidate]
+-#                 .row
+-#                   .col-md-6
+-#                     = render partial: 'mini_status', locals: { test_cases: run.test_cases }
+-#                   .col-md-6
+-#                     = render partial: 'mini_status', locals: { test_cases: run.test_cases, consolidate: true }
+-#               - else
+-#                 = render partial: 'mini_status', locals: { test_cases: run.test_cases }
+-#               %span= distance_of_time_in_words run.end, run.start
+-#               %span.pull-right
+-#                 = link_to 'view', test_run_path(run),
+-#                 class: 'btn btn-xs btn-info'

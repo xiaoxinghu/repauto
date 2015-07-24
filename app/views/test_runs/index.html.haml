@@ -1,21 +1,21 @@
-= render partial: "projects/menu", locals: {project: @project}
-= render partial: "breadcrumb", locals: {project: @project}
+-# %ul
+-#   = @test_runs.each do |test_run|
+-#     %li= test_run.path
 
-- if true
-  = form_tag({controller: "test_runs", action: "index"}, method: "get") do
-    .input-group.form-control
-      = select_tag 'category', options_from_collection_for_select(categories(@project.test_runs), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
-      = select_tag 'seconds', options_from_collection_for_select(date_filter, 'value', 'human', params[:seconds]), include_blank: "Any Time", onchange: "this.form.submit();"
-      = select_tag 'duration', options_from_collection_for_select(duration_filter, 'value', 'human', params[:duration]), include_blank: "All", onchange: "this.form.submit();"
-      = select_tag 'number', options_from_collection_for_select(number_filter, 'to_s', 'to_s', params[:number]), include_blank: "All", onchange: "this.form.submit();"
+-# - if true
+-#   = form_tag({controller: "test_runs", action: "index"}, method: "get") do
+-#     .input-group.form-control
+-#       = select_tag 'category', options_from_collection_for_select(categories(@project.test_runs), 'to_s', 'to_s', params[:category]), include_blank: "Any", onchange: "this.form.submit();"
+-#       = select_tag 'seconds', options_from_collection_for_select(date_filter, 'value', 'human', params[:seconds]), include_blank: "Any Time", onchange: "this.form.submit();"
+-#       = select_tag 'duration', options_from_collection_for_select(duration_filter, 'value', 'human', params[:duration]), include_blank: "All", onchange: "this.form.submit();"
+-#       = select_tag 'number', options_from_collection_for_select(number_filter, 'to_s', 'to_s', params[:number]), include_blank: "All", onchange: "this.form.submit();"
 
-    -# .input-group-btn
-    -#   = button_tag(type: "submit", class: "btn btn-default") do
-    -#     %i.glyphicon.glyphicon-search
-
+-#     -# .input-group-btn
+-#     -#   = button_tag(type: "submit", class: "btn btn-default") do
+-#     -#     %i.glyphicon.glyphicon-search
 
 - if @test_runs.size > 0
-  = paginate @test_runs
+  -# = paginate @test_runs
   %table.table.table-hover
     %tr
       %th start time
@@ -25,23 +25,15 @@
       %th
 
     - @test_runs.each do |test_run|
+      - next unless test_run[:start] && test_run[:stop]
       %tr
-        %td= test_run.start.strftime("%a, %b %d %Y %H:%M:%S")
+        %td= Time.at(test_run[:start]/1000.0).strftime("%a, %b %d %Y %H:%M:%S")
+        %td= distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
+        %td= test_run[:type]
+        %td= render partial: 'mini_status', locals: { status: test_run[:summary] }
         %td
-          = distance_of_time_in_words test_run.end, test_run.start
-          - if test_run.in_progress
-            %span.label.label-default in progress
-        %td= test_run.name
-        %td
-          - if params[:consolidate]
-            .row
-              .col-md-6
-                = render partial: 'mini_status', locals: { test_cases: test_run.test_cases }
-              .col-md-6
-                = render partial: 'mini_status', locals: { test_cases: test_run.test_cases, consolidate: true }
-          - else
-            = render partial: 'mini_status', locals: { test_cases: test_run.test_cases }
-        %td
-          = link_to "details", test_run_path(test_run)
+          .btn-group
+            = link_to 'details', test_run_path(test_run), class: 'btn btn-xs btn-default', type: 'button'
+            = link_to 'delete', test_run_path(test_run), class: 'btn btn-xs btn-danger', type: 'button'
 - else
   %p No Results

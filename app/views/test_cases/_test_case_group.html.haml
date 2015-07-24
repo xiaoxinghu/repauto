@@ -19,7 +19,7 @@
                 = link_to test_case_path(tc) do
                   %span{ :class => "label label-#{status_map(tc.status)}"}= tc.status
                   - tc.tags.each do |tag|
-                    %span.label.label-default= tag.value
+                    %span.label.label-default= tag
         .btn-group{ role: 'group'}
           = button_tag 'diff', class: 'btn btn-default', name: 'type', value: 'selected'
           = button_tag 'diff all', class: 'btn btn-default', name: 'type', value: 'all'

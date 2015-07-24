@@ -107,4 +107,20 @@ module TestRunsHelper
       "muted"
     end
   end
+
+  def to_tree(test_run)
+    raw_data = {
+      start: test_run.start,
+      stop: test_run.stop,
+      test_suites: [] }
+    TestSuite.from(test_run).each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      TestCase.from(ts).each do |tc|
+        test_case = { name: tc.name, id: tc.id.to_s }
+        test_suite[:test_cases] << test_case
+      end
+      raw_data[:test_suites] << test_suite
+    end
+    raw_data.to_json
+  end
 end

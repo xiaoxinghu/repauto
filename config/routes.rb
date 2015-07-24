@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/fetch_test_case' => 'test_cases#fetch', as: 'fetch_test_case'
+  get '/fetch_tree' => 'test_runs#fetch', as: 'fetch_tree'
+
   get 'welcome/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

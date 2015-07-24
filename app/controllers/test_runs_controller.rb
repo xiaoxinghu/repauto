@@ -4,31 +4,37 @@ class TestRunsController < ApplicationController
 
   def index
     @project = Project.find(params[:project_id])
-    query = @project.test_runs
-    query = query.where.not(start: nil).where.not(end: nil)
-    if params[:category] && !params[:category].blank?
-      query = query.where(name: params[:category])
-    end
-    if params[:seconds] && !params[:seconds].blank?
-      query = query.where(start: (Time.now - params[:seconds].to_i.seconds)..Time.now)
-    end
-    if params[:duration] && !params[:duration].blank?
-      query = query.select { |tr| (tr.end - tr.start) > params[:duration].to_i }
-    end
-    if params[:number] && !params[:number].blank?
-      query = query.select { |tr| tr.test_cases.count > params[:number].to_i }
-    end
+    limit = 7.days.ago.to_i * 1000
+    @test_runs = TestRun
+                 .where(project_path: @project.path)
+                 .sort(start: -1)
+                 # .where(start: { '$gt' => limit })
+    # query = @project.test_runs
+    # query = query.where.not(start: nil).where.not(end: nil)
+    # if params[:category] && !params[:category].blank?
+    #   query = query.where(name: params[:category])
+    # end
+    # if params[:seconds] && !params[:seconds].blank?
+    #   query = query.where(start: (Time.now - params[:seconds].to_i.seconds)..Time.now)
+    # end
+    # if params[:duration] && !params[:duration].blank?
+    #   query = query.select { |tr| (tr.end - tr.start) > params[:duration].to_i }
+    # end
+    # if params[:number] && !params[:number].blank?
+    #   query = query.select { |tr| tr.test_cases.count > params[:number].to_i }
+    # end
 
-    if query.respond_to? 'order'
-      query = query.order('start DESC')
-    elsif query.respond_to? 'sort_by!'
-      query.sort_by!(&:start).reverse!
-    end
-    @test_runs = Kaminari.paginate_array(query).page(params[:page]).per(10)
+    # if query.respond_to? 'order'
+    #   query = query.order('start DESC')
+    # elsif query.respond_to? 'sort_by!'
+    #   query.sort_by!(&:start).reverse!
+    # end
+    # @test_runs = Kaminari.paginate_array(query).page(params[:page]).per(10)
   end
 
   def show
     @test_run = TestRun.find(params[:id])
+    @tree = 'the 1st tree'
   end
 
   def errors
@@ -135,5 +141,55 @@ class TestRunsController < ApplicationController
     test_run.removed_at = Time.now
     test_run.save
     redirect_to project_test_runs_path test_run.project
+  end
+
+  def make_tree_by_features(test_run)
+    tree = []
+    TestSuite.from(test_run).each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      TestCase.from(ts).each do |tc|
+        test_case = { name: tc.name, id: tc.id.to_s }
+        test_suite[:test_cases] << test_case
+      end
+      tree << test_suite
+    end
+    tree
+  end
+
+  def make_tree_by_errors(test_run)
+    tree = []
+    errors = {}
+    TestSuite.from(test_run).each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      TestCase.from(ts).each do |tc|
+        if tc[:failure]
+          msg = tc[:failure][:message]
+          errors[msg] = [] unless errors.has_key? msg
+          errors[msg] << { name: tc.name, id: tc.id.to_s }
+        end
+      end
+    end
+    errors = errors.sort_by { |_k, v| -v.size }
+    errors.each do |k, v|
+      tree << { name: k, test_cases: v }
+    end
+    tree
+  end
+
+  def fetch
+    @test_run = TestRun.find(params[:id])
+    if params[:group_by]
+      case params[:group_by]
+      when 'features'
+        @tree = make_tree_by_features @test_run
+      when 'errors'
+        @tree = make_tree_by_errors @test_run
+      end
+    else
+      @tree = make_tree_by_features @test_run
+    end
+    respond_to do |format|
+      format.js
+    end
   end
 end

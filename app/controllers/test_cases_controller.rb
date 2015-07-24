@@ -2,6 +2,13 @@ class TestCasesController < ApplicationController
   def index
   end
 
+  def fetch
+    @selected = TestCase.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def show
     @test_cases = []
     if params[:id] == 'diff'

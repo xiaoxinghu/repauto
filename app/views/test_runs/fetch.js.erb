@@ -1,0 +1,35 @@
+var data = <%= @tree.to_json.html_safe %>;
+var tree = [];
+$.each(data, function(index, group){
+    var ts = {
+        text: group.name,
+        tags: [group.test_cases.length],
+        state: {
+            expanded: false
+        },
+        nodes: []
+    };
+    $.each(group.test_cases, function(index, test_case){
+        ts.nodes.push({
+            text: test_case.name,
+            id: test_case.id
+        });
+    });
+    tree.push(ts);
+});
+$('#tree').treeview({data: tree, showTags: true});
+$('#tree').on('nodeSelected', function(event, data) {
+  return $.ajax({
+    url: '/fetch_test_case',
+    type: 'GET',
+    data: {
+      id: data.id
+    },
+    success: function(response) {
+      return $('#coll-buttons > .btn').on('click', function(e) {
+        e.preventDefault;
+        return $('.coll-content').collapse('hide');
+      });
+    }
+  });
+});

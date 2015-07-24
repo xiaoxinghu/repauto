@@ -10,6 +10,8 @@
 //= require "ladda-bootstrap/dist/spin.min"
 //= require "ladda-bootstrap/dist/ladda.min"
 //= require bootstrap-multiselect
+//= require bootstrap-treeview
+//= require fuelux
 //= require_tree .
 
 

@@ -1,33 +1,41 @@
-= render partial: "projects/menu", locals: {project: @test_run.project}
-= render partial: "breadcrumb", locals: {test_run: @test_run}
+-# = render partial: "projects/menu", locals: {project: @test_run.project}
+-# = render partial: "breadcrumb", locals: {test_run: @test_run}
 
-.page-header
+.page-header#header
   %h1
-    = @test_run.name
+    = @test_run.type
     %small
-      = @test_run.start.strftime("%a, %b %d %Y")
-      - if @test_run.in_progress
-        %span.label.label-default in progress
-
+      = Time.at(@test_run[:start]/1000.0).strftime("%a, %b %d %Y")
   .btn-toolbar{ role: 'toolbar' }
+    .btn-group{ role: 'group'}
+      %button#by-features.btn.btn-default{remote: true} features
+      %button#by-errors.btn.btn-default{remote: true} errors
+      %button#by-test.btn.btn-default{remote: true} test
     .btn-group{ role: "group"}
       -# = link_to "delete", archive_test_run_path(@test_run), class: "btn btn-danger"
       %button.btn.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
       = confirmation archive_test_run_path(@test_run), 'confirm'
       = link_to "report", link(@test_run.report_path), class: "btn btn-default"
-      = link_to "errors", errors_test_run_path(@test_run), class: "btn btn-default"
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
-    .btn-group
-      = form_tag(test_run_path(@test_run), method: 'get') do
-        %select#tags{multiple: 'multiple'}
-          - Tag.get_all.each do |t|
-            - if params[:tags] && params[:tags].any?{ |tag| tag == t }
-              %option{value: t, selected: 'selected'}= t
-            - else
-              %option{value: t}= t
-        = button_tag 'Go', class: 'btn btn-default', name: 'type', value: 'selected'
 
-- cache do
-  .panel-group#accordion1
-    - @test_run.test_suites.each do |test_suite|
-      = render test_suite
+    -# .btn-group
+    -#   = form_tag(test_run_path(@test_run), method: 'get') do
+    -#     %select#tags{multiple: 'multiple'}
+    -#       - Tag.get_all.each do |t|
+    -#         - if params[:tags] && params[:tags].any?{ |tag| tag == t }
+    -#           %option{value: t, selected: 'selected'}= t
+    -#         - else
+    -#           %option{value: t}= t
+    -#     = button_tag 'Go', class: 'btn btn-default', name: 'type', value: 'selected'
+
+.row#main-view{ data: { test_run_id: @test_run.id.to_s } }
+  #tree_view.col-sm-4
+    = render partial: "test_runs/tree", locals: {tree: @tree}
+  #detail_view.col-sm-8
+    #details
+
+
+-# - cache do
+-#   .panel-group#accordion1
+-#     - @test_run.test_suites.each do |test_suite|
+-#       = render test_suite

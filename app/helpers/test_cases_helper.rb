@@ -68,4 +68,17 @@ module TestCasesHelper
     end
     count
   end
+
+  def status_icon(status)
+    case status
+    when 'passed'
+      'glyphicon-ok-sign'
+    when 'failed'
+      'glyphicon-remove-sign'
+    when 'broken'
+      'glyphicon-info-sign'
+    else
+      'glyphicon-question-sign'
+    end
+  end
 end

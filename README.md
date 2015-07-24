@@ -2,7 +2,7 @@
 
 - bundler
 - node.js
-- bower
+a bower
 - mysql
 
 ## install necessary things

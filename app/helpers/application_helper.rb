@@ -63,6 +63,23 @@ module ApplicationHelper
             'data-style': 'zoom-in'
   end
 
+  def show_time(time)
+    Time.at(time.to_i / 1000.0).strftime('%H:%M:%S')
+  end
+
+  def show_date(time)
+    Time.at(time.to_i / 1000.0).strftime('%a, %b %d %Y')
+  end
+
+  def show_datetime(time)
+    Time.at(time.to_i / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
+  end
+
+  def show_duration(start, stop)
+    distance_of_time_in_words((stop.to_i / 1000.0),
+                              (start.to_i / 1000.0))
+  end
+
   def confirmation(to, id)
     content_tag(:div,
                 class: 'modal fade',
