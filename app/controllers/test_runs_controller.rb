@@ -7,6 +7,7 @@ class TestRunsController < ApplicationController
     limit = 7.days.ago.to_i * 1000
     @test_runs = TestRun
                  .where(project_path: @project.path)
+                 .exists(archived: false)
                  .sort(start: -1)
                  # .where(start: { '$gt' => limit })
     # query = @project.test_runs
@@ -138,8 +139,8 @@ class TestRunsController < ApplicationController
 
   def archive
     test_run = TestRun.find(params[:id])
-    test_run.removed_at = Time.now
-    test_run.save
+    test_run.update_attributes(archived: true)
+    test_run.save!
     redirect_to project_test_runs_path test_run.project
   end
 

@@ -16,25 +16,29 @@
 
 - if @test_runs.size > 0
   -# = paginate @test_runs
-  %table.table.table-hover
-    %tr
-      %th start time
-      %th duration
-      %th type
-      %th status
-      %th
-
-    - @test_runs.each do |test_run|
-      - next unless test_run[:start] && test_run[:stop]
+  %table#testRunsTable.table.table-striped.table-hover
+    %thead
       %tr
-        %td= Time.at(test_run[:start]/1000.0).strftime("%a, %b %d %Y %H:%M:%S")
-        %td= distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
-        %td= test_run[:type]
-        %td= render partial: 'mini_status', locals: { status: test_run[:summary] }
-        %td
-          .btn-group
-            = link_to 'details', test_run_path(test_run), class: 'btn btn-xs btn-default', type: 'button'
-          .btn-group
-            = link_to 'delete', test_run_path(test_run), class: 'btn btn-xs btn-danger', type: 'button'
+        %th start time
+        %th duration
+        %th type
+        %th status
+        %th
+
+    %tbody
+      - @test_runs.each do |test_run|
+        - next unless test_run[:start] && test_run[:stop]
+        %tr
+          %td= Time.at(test_run[:start]/1000.0).strftime("%a, %b %d %Y %H:%M:%S")
+          %td= distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
+          %td= test_run[:type]
+          %td= render partial: 'mini_status', locals: { status: test_run[:summary] }
+          %td
+            #toolbar.pull-right
+              .btn-group
+                = link_to 'details', test_run_path(test_run), class: 'btn btn-xs btn-default', type: 'button'
+              .btn-group
+                %button.btn.btn-xs.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
+            = confirmation archive_test_run_path(test_run), 'confirm'
 - else
   %p No Results
