@@ -15,7 +15,6 @@
       -# = link_to "delete", archive_test_run_path(@test_run), class: "btn btn-danger"
       %button.btn.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
       = confirmation archive_test_run_path(@test_run), 'confirm'
-      = link_to "report", link(@test_run.report_path), class: "btn btn-default"
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
 
     -# .btn-group

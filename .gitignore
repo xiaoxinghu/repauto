@@ -29,3 +29,6 @@ public/assets/
 
 # vim
 *.swp
+
+# ignore raw data
+/public/raw

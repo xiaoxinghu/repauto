@@ -1,12 +1,11 @@
 .row
   - if test_case.respond_to? 'attachments'
-    - atts = test_case[:attachments][:attachment]
+    - atts = test_case[:attachments]
     - atts = [atts] if atts.is_a? Hash
     - atts.each do |att|
       .col-xs-6.col-md-3
-        = link_to att[:source], class: 'thumbnail' do
-          -#%img{ src: att[:source], alt: '' }
-          .caption
-            %p= att[:title]
+        - url = test_case.get_att_link att
+        = link_to url, class: 'thumbnail' do
+          %img{ src: url, alt: '' }
   - else
     %p Nothing to see here

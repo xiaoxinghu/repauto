@@ -4,6 +4,8 @@ $.each(data, function(index, group){
     var ts = {
         text: group.name,
         tags: [group.test_cases.length],
+        backColor: "#C2D6D6",
+        selectable: false,
         state: {
             expanded: false
         },
@@ -19,6 +21,9 @@ $.each(data, function(index, group){
 });
 $('#tree').treeview({data: tree, showTags: true});
 $('#tree').on('nodeSelected', function(event, data) {
+  if (!data.hasOwnProperty('parentId')) {
+    return;
+  }
   return $.ajax({
     url: '/fetch_test_case',
     type: 'GET',

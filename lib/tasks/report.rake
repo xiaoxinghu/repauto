@@ -1,3 +1,5 @@
+require 'uri'
+
 namespace :report do
   desc 'Sync data to database, sync all projects if param project is not given'
   task :sync, [:project] => :environment do |_task, args|
@@ -38,6 +40,15 @@ namespace :report do
 
     # turn cron task back on
     `whenever --update-crontab`
+  end
+
+  desc 'Mount the samba share'
+  task mount: :environment do
+    username = APP_CONFIG['username']
+    password = URI.escape APP_CONFIG['password'], '!'
+    dest = "#{Rails.root}/public/#{APP_CONFIG['mount_point']}"
+    cmd = "mount -t smbfs smb://#{username}:#{password}@#{APP_CONFIG['report_host']}/#{APP_CONFIG['report_path']} #{dest}"
+    `#{cmd}`
   end
 
   desc 'testing'

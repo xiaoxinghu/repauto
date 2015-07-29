@@ -37,11 +37,12 @@ getTree = ->
           $('.coll-content').collapse('hide')
 
 resizeView = ->
+  return if !$('#main-view').length
   nh = $(window).height() - $('nav').height() - $('#header').height() - $('#header').outerHeight()
-  console.log nh
   $('#main-view').css('height', nh)
 
 test_run_ready = ->
+  return if !$('#main-view').length
   $('#by-errors').on 'click', (event, data) ->
     $.ajax
       url: '/fetch_tree'

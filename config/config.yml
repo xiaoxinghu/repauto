@@ -3,10 +3,11 @@ production:
   report_root: "reports/automation"
 
 development:
-  report_host: http://10.28.251.114/
-  report_root: "reports/mock"
+  report_host: "auk-pddrop1.mcom.local"
+  report_path: 'Drop/TEDrop/reports/mock'
+  mount_point: "/raw" # relative to public folder
+  username: 'SVC_testuser'
+  password: 'Automation_!'
 
 test:
   report_host: http://testeng-1-w1.mcom.local/
-
-  
