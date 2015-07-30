@@ -20,5 +20,6 @@ namespace :fiserv do
 
   desc 'test'
   task test: :environment do
+    puts MONGO_CONFIG['sessions']['default']['hosts']
   end
 end

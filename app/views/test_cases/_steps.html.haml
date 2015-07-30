@@ -1,7 +1,7 @@
 %ul.media-list
   - if test_case.respond_to? 'steps'
     - problem_found = false
-    - test_case.steps[:step].each do |step|
+    - test_case.steps.each do |step|
       - status = step[:status]
       - start = step[:start]
       - stop = step[:stop]

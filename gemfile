@@ -63,6 +63,9 @@ gem 'dotenv-rails'
 gem 'sidekiq'
 
 gem 'mongoid', '~> 4.0.0'
+gem 'mongo', '~> 2.0.0'
+
+gem 'datacraft'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

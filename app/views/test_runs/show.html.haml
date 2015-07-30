@@ -10,11 +10,11 @@
     .btn-group{ role: 'group'}
       %button#by-features.btn.btn-default{remote: true} features
       %button#by-errors.btn.btn-default{remote: true} errors
-      %button#by-test.btn.btn-default{remote: true} test
+      -# %button#by-test.btn.btn-default{remote: true} test
     .btn-group{ role: "group"}
       -# = link_to "delete", archive_test_run_path(@test_run), class: "btn btn-danger"
-      %button.btn.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
-      = confirmation archive_test_run_path(@test_run), 'confirm'
+      -# %button.btn.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
+      -# = confirmation archive_test_run_path(@test_run), 'confirm'
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default"
 
     -# .btn-group
