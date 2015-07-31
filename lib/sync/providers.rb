@@ -101,6 +101,7 @@ class TestRunsHttp
       puts folder
       Pathname.glob("#{folder}/*").each do |run|
         next unless run.directory?
+        next unless Pathname.new("#{run}/allure").exist?
         time = run.basename.to_s
         type = run.parent.basename.to_s
         path = run.relative_path_from(Pathname.new(root)).to_s

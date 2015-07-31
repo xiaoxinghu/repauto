@@ -8,7 +8,7 @@
   - elsif test_run[:start] && test_run[:stop]
     %td= distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
   - else
-    %td Bad data
+    %td= test_run[:status]
   %td= test_run[:type]
   - if test_run[:status] == 'done' && test_run[:summary]
     %td= render partial: 'mini_status', locals: { status: test_run[:summary] }
