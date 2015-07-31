@@ -4,7 +4,7 @@ class TestCaseHttp
   include FileCrawler
   def initialize(test_run_path)
     @test_run_path = test_run_path.to_s
-    puts "scanning #{test_run_path}"
+    # puts "scanning #{test_run_path}"
     @suite_files = Pathname
                    .glob("#{root}/#{test_run_path}/allure/*-testsuite.xml")
     # @xml = self.class.get(path)
@@ -15,7 +15,12 @@ class TestCaseHttp
       File.open(suite_file) do |f|
         path = suite_file.relative_path_from(Pathname.new(root)).to_s
         content = Nokogiri::XML f
-        content.xpath('xmlns:test-suite').each do |ts|
+        begin
+          test_suites = content.xpath('xmlns:test-suite')
+        rescue Nokogiri::XML::XPath::SyntaxError
+          break
+        end
+        test_suites.each do |ts|
           test_suite = {
             name: ts.xpath('name').first.content,
             path: path,
