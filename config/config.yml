@@ -1,4 +1,4 @@
-development:
+production:
   report_host: "auk-pddrop1.mcom.local"
   report_path: 'Drop/TEDrop/reports/automation'
   mount_point: "/raw" # relative to public folder
