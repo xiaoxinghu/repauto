@@ -60,7 +60,7 @@ gem 'kaminari'
 gem 'dotenv-rails'
 
 # background job
-gem 'sidekiq'
+# gem 'sidekiq'
 
 gem 'mongoid', '~> 4.0.0'
 gem 'mongo', '~> 2.0.0'
