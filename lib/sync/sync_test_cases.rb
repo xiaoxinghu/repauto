@@ -9,6 +9,10 @@ start_time = Time.now
 processed = []
 test_runs = TestRunsMongo.new
 test_runs.each 'in progress' do |run|
+  if File.exist? "#{Rails.root}/public/#{APP_CONFIG['mount_point']}/#{run[:path]}/in_progress"
+    puts "#{run[:path]} still running."
+    next
+  end
   from TestCaseHttp, run[:path]
   processed << run[:path]
 end

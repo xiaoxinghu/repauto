@@ -11,10 +11,13 @@ namespace :report do
     logger.info 'Start Syncing...'
     insts = ['sync_projects.rb',
              'sync_test_runs.rb',
-             'sync_test_cases.rb'].map do |inst|
-      Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{inst}"
+             'sync_test_cases.rb']
+    insts.each do |i|
+      puts "running instruction #{i}..."
+      inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
+      Datacraft.run inst
     end
-    insts.each { |inst| Datacraft.run inst }
+    # insts.each { |inst| Datacraft.run inst }
     finish = Time.now
     logger.info "Sync Finished.
     Started at #{start}. Took #{finish - start} seconds."

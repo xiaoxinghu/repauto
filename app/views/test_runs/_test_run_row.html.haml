@@ -1,0 +1,24 @@
+%tr
+  - if test_run[:start]
+    %td= Time.at(test_run[:start]/1000.0).strftime("%a, %b %d %Y %H:%M:%S")
+  - else
+    %td Unknown
+  - if test_run[:status] != 'done'
+    %td= test_run[:status]
+  - elsif test_run[:start] && test_run[:stop]
+    %td= distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
+  - else
+    %td Bad data
+  %td= test_run[:type]
+  - if test_run[:status] == 'done'
+    %td= render partial: 'mini_status', locals: { status: test_run[:summary] }
+  - else
+    %td still running
+  %td
+    - if test_run[:status] == 'done'
+      #toolbar.pull-right
+        .btn-group
+          = link_to 'details', test_run_path(test_run), class: 'btn btn-xs btn-default', type: 'button'
+        .btn-group
+          %button.btn.btn-xs.btn-danger{ 'data-toggle': 'modal', 'data-target': '#confirm'} delete
+  = confirmation archive_test_run_path(test_run), 'confirm'

@@ -103,7 +103,8 @@ class TestRunsHttp
           timestamp = Time.strptime(time, '%Y-%m-%d-%H-%M-%S')
           r = { path: path,
                 project_path: @project_path,
-                type: type }
+                type: type,
+                start: timestamp.to_i * 1000 }
           yield r
         rescue
           puts "Ignoring invalid folder name: #{time}"
