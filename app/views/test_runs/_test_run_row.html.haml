@@ -10,7 +10,7 @@
   - else
     %td Bad data
   %td= test_run[:type]
-  - if test_run[:status] == 'done'
+  - if test_run[:status] == 'done' && test_run[:summary]
     %td= render partial: 'mini_status', locals: { status: test_run[:summary] }
   - else
     %td still running
