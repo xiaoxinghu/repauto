@@ -108,6 +108,42 @@ module TestRunsHelper
     end
   end
 
+  def context_color(status)
+    case status
+    when "passed"
+      color = '#3c763d'
+      bcolor = '#dff0d8'
+    when "failed"
+      color = '#a94442'
+      bcolor = '#f2dede'
+    when "broken"
+      color = '#8a6d3b'
+      bcolor = '#fcf8e3'
+    else
+      color = '#gray'
+      bcolor = '#white'
+    end
+    color
+  end
+
+  def context_bcolor(status)
+    case status
+    when "passed"
+      color = '#3c763d'
+      bcolor = '#dff0d8'
+    when "failed"
+      color = '#a94442'
+      bcolor = '#f2dede'
+    when "broken"
+      color = '#8a6d3b'
+      bcolor = '#fcf8e3'
+    else
+      color = '#gray'
+      bcolor = '#white'
+    end
+    bcolor
+  end
+
   def to_tree(test_run)
     raw_data = {
       start: test_run.start,
@@ -123,4 +159,5 @@ module TestRunsHelper
     end
     raw_data.to_json
   end
+
 end

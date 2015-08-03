@@ -98,7 +98,7 @@ class TestRunsHttp
 
   def each
     @folders.each do |folder|
-      puts folder
+      # puts folder
       Pathname.glob("#{folder}/*").each do |run|
         next unless run.directory?
         next unless Pathname.new("#{run}/allure").exist?

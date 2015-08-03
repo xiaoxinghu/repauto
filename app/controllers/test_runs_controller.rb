@@ -148,10 +148,16 @@ class TestRunsController < ApplicationController
     tree = []
     TestSuite.from(test_run).each do |ts|
       test_suite = { name: ts.name, test_cases: [] }
+      not_passed = 0
       TestCase.from(ts).each do |tc|
-        test_case = { name: tc.name, id: tc.id.to_s }
+        test_case = {
+          name: tc.name,
+          id: tc.id.to_s,
+          status: tc.status }
         test_suite[:test_cases] << test_case
+        not_passed += 1 unless tc.status == 'passed'
       end
+      test_suite[:tags] = [not_passed] if not_passed > 0
       tree << test_suite
     end
     tree
@@ -166,13 +172,16 @@ class TestRunsController < ApplicationController
         if tc[:failure]
           msg = tc[:failure][:message]
           errors[msg] = [] unless errors.has_key? msg
-          errors[msg] << { name: tc.name, id: tc.id.to_s }
+          errors[msg] << {
+            name: tc.name,
+            id: tc.id.to_s,
+            status: tc.status }
         end
       end
     end
     errors = errors.sort_by { |_k, v| -v.size }
     errors.each do |k, v|
-      tree << { name: k, test_cases: v }
+      tree << { name: k, test_cases: v, tags: [v.size] }
     end
     tree
   end

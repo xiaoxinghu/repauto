@@ -1,25 +1,54 @@
-var data = <%= @tree.to_json.html_safe %>;
 var tree = [];
-$.each(data, function(index, group){
-    var ts = {
-        text: group.name,
-        tags: [group.test_cases.length],
-        backColor: "#C2D6D6",
-        selectable: false,
-        state: {
-            expanded: false
-        },
-        nodes: []
-    };
-    $.each(group.test_cases, function(index, test_case){
-        ts.nodes.push({
-            text: test_case.name,
-            id: test_case.id
-        });
+<% @tree.each do |group| %>
+  var g = <%= group.to_json.html_safe %>
+  console.log(g);
+  var ts = {
+    text: g.name,
+    tags: g.tags,
+    color: "#000",
+    backColor: "#eee",
+    selectable: false,
+    state: {
+      expanded: false
+    },
+    nodes: []
+  };
+  <% group[:test_cases].each do |tc| %>
+    var c = <%= tc.to_json.html_safe %>
+    var color, backColor;
+    switch (c.status) {
+      case "passed":
+        color = "#3c763d";
+        backColor = "#dff0d8";
+        break;
+      case "failed":
+        color = "#a94442";
+        backColor = "#f2dede";
+        break;
+      case "broken":
+        color = "#8a6d3b";
+        backColor = "#fcf8e3";
+        break;
+      case "pending":
+        color = "gray";
+        backColor = "#dff0d8";
+        break;
+      default:
+        color = "#ffffff";
+        backColor = "#000000";
+        break;
+    }
+    ts.nodes.push({
+      text: c.name,
+      id: c.id,
+      color: color,
+      backColor: backColor
     });
-    tree.push(ts);
-});
-$('#tree').treeview({data: tree, showTags: true});
+  <% end %>
+  tree.push(ts);
+<% end %>
+console.log(tree);
+$('#tree').treeview({data: tree, showTags: true, borderColor: "#eee"});
 $('#tree').on('nodeSelected', function(event, data) {
   if (!data.hasOwnProperty('parentId')) {
     return;
