@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
 
   resources :projects, only: [:index, :show] do
-    collection do
-      post :sync
+    # collection do
+    #   post :sync
+    # end
+    member do
+      get 'trend', to: 'projects#trend', as: 'trend'
     end
     resources :dashboards, only: [:index, :show], shallow: true
     resources :test_runs, only: [:index, :show], shallow: true do
       member do
-        get 'errors'
+        # get 'errors'
         get 'timeline'
         get 'archive'
       end
@@ -27,8 +30,10 @@ Rails.application.routes.draw do
     end
   end
 
+  # ajax endpoints
   get '/fetch_test_case' => 'test_cases#fetch', as: 'fetch_test_case'
   get '/fetch_tree' => 'test_runs#fetch', as: 'fetch_tree'
+  get '/fetch_trend' => 'projects#fetch_trend', as: 'fetch_trend'
 
   get 'welcome/index'
 

@@ -25,6 +25,10 @@
 
         - if project
           %li
+            = link_to 'Home', project_path(project)
+          %li
+            = link_to 'Trend', trend_project_path(project)
+          %li
             = link_to 'Test Runs', project_test_runs_path(project)
 
       - if Rails.env == 'development'

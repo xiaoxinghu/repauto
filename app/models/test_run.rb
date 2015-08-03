@@ -17,4 +17,8 @@ class TestRun
   def test_suites
     TestSuite.from self
   end
+
+  def self.from(project)
+    where(path: /#{project.path}/)
+  end
 end

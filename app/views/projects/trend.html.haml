@@ -1,0 +1,12 @@
+.page-header
+  .dropdown
+    %button.btn.btn-default.dropdown-toggle#dd_types{ type: 'button', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'true' }
+      %span#dd_types_text Select Run Type
+      %span.caret
+    %ul.dropdown-menu{ 'aria-labelledby': 'dd_types' }
+      - @types.each do |t|
+        %li
+          = link_to t, fetch_trend_path(id: @project.id.to_s, run_type: t), method: :get, remote: true, class: 'trend_type'
+          -#= link_to t, '#'
+
+#trend{ data: { id: @project.id.to_s } }
