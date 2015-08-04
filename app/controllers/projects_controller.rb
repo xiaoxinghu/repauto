@@ -24,7 +24,6 @@ class ProjectsController < ApplicationController
               .sort(start: -1)
               .limit(10)
     max = samples.max_by { |s| s.summary.values.sum }.summary.values.sum
-    puts ">>>> max run #{max}"
     @trend_data = []
     test_runs = TestRun
                 .where(project_path: @project.path)
@@ -33,10 +32,11 @@ class ProjectsController < ApplicationController
                 .exists(summary: true)
                 .sort(start: -1)
 
+    counter = 0
     test_runs.each do |tr|
-      break if @trend_data.size >= 30
+      break if counter > 30
       next if tr[:summary].values.sum < (max * ratio)
-      ['passed', 'failed', 'broken', 'pending'].each do |s|
+      %w(passed failed broken pending).each do |s|
         start = Time.at(tr.start / 1000.0)
         @trend_data << {
           time: start,
@@ -45,6 +45,7 @@ class ProjectsController < ApplicationController
           number: tr[:summary][s]
         }
       end
+      counter += 1
     end
     respond_to do |format|
       format.js
