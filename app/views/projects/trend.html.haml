@@ -1,12 +1,20 @@
 .page-header
-  .dropdown
-    %button.btn.btn-default.dropdown-toggle#dd_types{ type: 'button', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'true' }
-      %span#dd_types_text Select Run Type
-      %span.caret
-    %ul.dropdown-menu{ 'aria-labelledby': 'dd_types' }
-      - @types.each do |t|
-        %li
-          = link_to t, fetch_trend_path(id: @project.id.to_s, run_type: t), method: :get, remote: true, class: 'trend_type'
-          -#= link_to t, '#'
+  = form_tag(fetch_trend_path, method: :get, remote: true) do
+    .input-group.form-control
+      = hidden_field_tag :id, @project.id.to_s
+      = select_tag 'category', options_from_collection_for_select(@types, 'to_s', 'to_s', params[:category]), include_blank: "Select Run Type", onchange: "$('#submit-btn').trigger('click');"
+      = select_tag 'filter', options_from_collection_for_select(['0', '50', '20', '80'], 'to_s', 'to_s', params[:filter]), onchange: "$('#submit-btn').trigger('click');"
+    .input-group-btn
+      = button_tag(id: 'submit-btn', type: "submit", class: "btn btn-default", style: 'display: none;') do
+        %i.glyphicon.glyphicon-search
+  -# .dropdown
+  -#   %button.btn.btn-default.dropdown-toggle#dd_types{ type: 'button', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'true' }
+  -#     %span#dd_types_text Select Run Type
+  -#     %span.caret
+  -#   %ul.dropdown-menu{ 'aria-labelledby': 'dd_types' }
+  -#     - @types.each do |t|
+  -#       %li
+  -#         = link_to t, fetch_trend_path(id: @project.id.to_s, category: t), method: :get, remote: true, class: 'trend_type'
+  -#         -#= link_to t, '#'
 
 #trend{ data: { id: @project.id.to_s } }
