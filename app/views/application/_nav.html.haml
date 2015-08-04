@@ -12,9 +12,13 @@
             - project = trace_project
             - if project
               -# = "Project: #{project.name}"
+              %i.fa.fa--hand-spock-o
               %strong= project.name
+              %span.caret
             - else
+              %i.fa.fa--hand-spock-o
               Select Project
+              %span.caret
           %ul.dropdown-menu{ role: 'menu' }
             - grouped = Project.all.group_by { |p| p.stream }
             - grouped.keys.each do |stream|
@@ -24,12 +28,18 @@
                   = link_to project.project, project_path(project.id)
 
         - if project
-          %li
-            = link_to 'Home', project_path(project)
-          %li
-            = link_to 'Trend', trend_project_path(project)
-          %li
-            = link_to 'Test Runs', project_test_runs_path(project)
+          %li{class: "#{active_class(controller: 'projects', action: 'show')}"}
+            = link_to project_path(project) do
+              %i.fa.fa-home
+              Summary
+          %li{class: "#{active_class(controller: 'projects', action: 'trend')}"}
+            = link_to trend_project_path(project) do
+              %i.fa.fa-line-chart
+              Trend
+          %li{class: "#{active_class(controller: 'test_runs')}"}
+            = link_to project_test_runs_path(project) do
+              %i.fa.fa-tasks
+              Test Runs
 
       - if Rails.env == 'development'
         %p.navbar-text.navbar-right= "#{controller_name} -> #{action_name}"

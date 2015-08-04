@@ -80,6 +80,19 @@ module ApplicationHelper
                               (start.to_i / 1000.0))
   end
 
+  def active_class(controller: nil, action: nil)
+    klass = ''
+    if action
+      klass = 'active' if controller_name == controller && action_name == action
+    else
+      klass = 'active' if controller_name == controller
+    end
+    # return '' unless current_page?(controller: controller)
+    # return '' unless action && !current_page?(action: action)
+    # 'active'
+    klass
+  end
+
   def confirmation(to, id)
     content_tag(:div,
                 class: 'modal fade',
