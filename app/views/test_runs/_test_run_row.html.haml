@@ -1,4 +1,4 @@
-%tr{id: "#{test_run.id}"}
+%tr.testRunRow{ data: {id: "#{test_run.id}", type: "#{test_run.type}" } }
   - if test_run[:start]
     %td= Time.at(test_run[:start] / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
   - else

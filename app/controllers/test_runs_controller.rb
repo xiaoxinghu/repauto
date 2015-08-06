@@ -9,6 +9,7 @@ class TestRunsController < ApplicationController
                  .where(project_path: @project.path)
                  .exists(archived: false)
                  .sort(start: -1)
+    @run_types = TestRun.where(project_path: @project.path).exists(archived: false).distinct('type')
                  # .where(start: { '$gt' => limit })
     # query = @project.test_runs
     # query = query.where.not(start: nil).where.not(end: nil)

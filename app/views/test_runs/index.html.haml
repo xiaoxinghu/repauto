@@ -18,10 +18,14 @@
   -# = paginate @test_runs
   %table#testRunsTable.table.table-striped.table-hover
     %thead
-      %tr
+      %tr.filters
         %th start time
         %th duration
-        %th type
+        %th
+          %select.form-control.input-sm#filterByType{ placeholder: 'type' }
+            %option All Types
+            - @run_types.each do |t|
+              %option= t
         %th status
         %th
 

@@ -83,3 +83,11 @@ $(document).on 'ajax:success', '.confirm .yes', ->
   tr.fadeOut 400, ->
     tr.remove()
   return
+
+$(document).on 'change', '#filterByType', ->
+  selected = $(this).find("option:selected").val()
+  if selected == 'All Types'
+    $(".testRunRow").show()
+  else
+    $(".testRunRow[data-type='" + selected + "']").show()
+    $(".testRunRow[data-type!='" + selected + "']").hide()
