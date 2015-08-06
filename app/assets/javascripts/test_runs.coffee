@@ -42,6 +42,7 @@ resizeView = ->
   $('#main-view').css('height', nh)
 
 test_run_ready = ->
+  # generate the treeview
   return if !$('#main-view').length
   $('#by-errors').on 'click', (event, data) ->
     $.ajax
@@ -66,3 +67,19 @@ $(document).on 'page:change', test_run_ready
 $(document).ready resizeView
 $(window).resize resizeView
 $(document).on 'page:change', resizeView
+
+$(document).on 'click', '.delete-button', ->
+  $(this).parent().next().toggle()
+  return
+
+$(document).on 'click', '.confirm button', ->
+  $(this).parent().hide()
+  return
+
+$(document).on 'ajax:success', '.confirm .yes', ->
+  console.log 'yeah!'
+  tr = $(this).closest('tr')
+  tr.css("background-color", "#FF3700")
+  tr.fadeOut 400, ->
+    tr.remove()
+  return

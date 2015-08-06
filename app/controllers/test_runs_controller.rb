@@ -141,7 +141,10 @@ class TestRunsController < ApplicationController
     test_run = TestRun.find(params[:id])
     test_run.update_attributes(archived: true)
     test_run.save!
-    redirect_to project_test_runs_path test_run.project
+    # redirect_to project_test_runs_path test_run.project
+    respond_to do |format|
+      format.js
+    end
   end
 
   def make_tree_by_features(test_run)
