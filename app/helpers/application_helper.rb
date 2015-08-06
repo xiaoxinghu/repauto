@@ -80,17 +80,10 @@ module ApplicationHelper
                               (start.to_i / 1000.0))
   end
 
-  def active_class(controller: nil, action: nil)
-    klass = ''
-    if action
-      klass = 'active' if controller_name == controller && action_name == action
-    else
-      klass = 'active' if controller_name == controller
-    end
-    # return '' unless current_page?(controller: controller)
-    # return '' unless action && !current_page?(action: action)
-    # 'active'
-    klass
+  def active_class(controller: nil, actions: [])
+    return '' if controller && controller_name != controller
+    return '' unless actions.any? { |a| a == action_name }
+    'active'
   end
 
   def confirmation(to, id)

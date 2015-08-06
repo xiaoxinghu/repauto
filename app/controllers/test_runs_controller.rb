@@ -7,31 +7,19 @@ class TestRunsController < ApplicationController
     limit = 7.days.ago.to_i * 1000
     @test_runs = TestRun
                  .where(project_path: @project.path)
-                 .exists(archived: false)
+                 .exists(archived_at: false)
                  .sort(start: -1)
-    @run_types = TestRun.where(project_path: @project.path).exists(archived: false).distinct('type')
-                 # .where(start: { '$gt' => limit })
-    # query = @project.test_runs
-    # query = query.where.not(start: nil).where.not(end: nil)
-    # if params[:category] && !params[:category].blank?
-    #   query = query.where(name: params[:category])
-    # end
-    # if params[:seconds] && !params[:seconds].blank?
-    #   query = query.where(start: (Time.now - params[:seconds].to_i.seconds)..Time.now)
-    # end
-    # if params[:duration] && !params[:duration].blank?
-    #   query = query.select { |tr| (tr.end - tr.start) > params[:duration].to_i }
-    # end
-    # if params[:number] && !params[:number].blank?
-    #   query = query.select { |tr| tr.test_cases.count > params[:number].to_i }
-    # end
+    @run_types = TestRun
+                 .where(project_path: @project.path)
+                 .exists(archived_at: false).distinct('type')
+  end
 
-    # if query.respond_to? 'order'
-    #   query = query.order('start DESC')
-    # elsif query.respond_to? 'sort_by!'
-    #   query.sort_by!(&:start).reverse!
-    # end
-    # @test_runs = Kaminari.paginate_array(query).page(params[:page]).per(10)
+  def bin
+    @project = Project.find(params[:project_id])
+    @archived = TestRun
+                .where(project_path: @project.path)
+                .where(archived_at: { :$gte => 7.days.ago })
+                .sort(archived_at: -1)
   end
 
   def show
@@ -140,7 +128,17 @@ class TestRunsController < ApplicationController
 
   def archive
     test_run = TestRun.find(params[:id])
-    test_run.update_attributes(archived: true)
+    test_run.update_attributes(archived_at: Time.now)
+    test_run.save!
+    # redirect_to project_test_runs_path test_run.project
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def restore
+    test_run = TestRun.find(params[:id])
+    test_run.remove_attribute(:archived_at)
     test_run.save!
     # redirect_to project_test_runs_path test_run.project
     respond_to do |format|

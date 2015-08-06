@@ -7,15 +7,16 @@ Rails.application.routes.draw do
     member do
       get 'trend', to: 'projects#trend', as: 'trend'
     end
-    resources :dashboards, only: [:index, :show], shallow: true
     resources :test_runs, only: [:index, :show], shallow: true do
       member do
         # get 'errors'
         get 'timeline'
         get 'archive'
+        get 'restore'
       end
       collection do
-        get 'trend/:run_type', to: 'test_runs#trend', as: 'trend'
+        # get 'trend/:run_type', to: 'test_runs#trend', as: 'trend'
+        get 'bin'
       end
       resources :test_suites, only: [:index, :show], shallow: true do
         resources :test_cases, only: [:index, :show], shallow: true do

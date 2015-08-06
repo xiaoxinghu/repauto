@@ -1,0 +1,15 @@
+- if @archived.size > 0
+  %table#testRunsTable.table.table-striped.table-hover
+    %thead
+      %tr.filters
+        %th start time
+        %th duration
+        %th type
+        %th status
+        %th
+
+    %tbody
+      - @archived.each do |test_run|
+        = render partial: 'test_run_row', locals: { test_run: test_run }
+- else
+  %p No Results

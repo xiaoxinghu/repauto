@@ -28,18 +28,22 @@
                   = link_to project.project, project_path(project.id)
 
         - if project
-          %li{class: "#{active_class(controller: 'projects', action: 'show')}"}
+          %li{class: "#{active_class(controller: 'projects', actions: ['show'])}"}
             = link_to project_path(project) do
               %i.fa.fa-home
               Summary
-          %li{class: "#{active_class(controller: 'projects', action: 'trend')}"}
+          %li{class: "#{active_class(controller: 'projects', actions: ['trend'])}"}
             = link_to trend_project_path(project) do
               %i.fa.fa-line-chart
               Trend
-          %li{class: "#{active_class(controller: 'test_runs')}"}
+          %li{class: "#{active_class(controller: 'test_runs', actions: ['index', 'show'])}"}
             = link_to project_test_runs_path(project) do
               %i.fa.fa-tasks
               Test Runs
+          %li{class: "#{active_class(controller: 'test_runs', actions: ['bin'])}"}
+            = link_to bin_project_test_runs_path(project) do
+              %i.fa.fa-trash-o
+              Bin
 
       - if Rails.env == 'development'
         %p.navbar-text.navbar-right= "#{controller_name} -> #{action_name}"

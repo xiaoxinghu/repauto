@@ -1,0 +1,12 @@
+#toolbar.pull-right
+  - if test_run[:archived_at]
+    .btn-group
+      = link_to 'restore', restore_test_run_path(test_run), method: :get, remote: true, class: 'btn btn-xs btn-primary restore'
+  - else
+    .btn-group
+      = link_to 'details', test_run_path(test_run), class: 'btn btn-xs btn-default', type: 'button'
+    .btn-group
+      %button.btn.btn-xs.btn-danger.delete-button delete
+    .btn-group.confirm{style: 'display: none;'}
+      %button.btn.btn-xs.btn-default cancel
+      = link_to 'confirm', archive_test_run_path(test_run), method: :get, remote: true, class: 'btn btn-xs btn-danger yes'

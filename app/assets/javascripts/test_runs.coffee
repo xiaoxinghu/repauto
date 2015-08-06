@@ -84,6 +84,14 @@ $(document).on 'ajax:success', '.confirm .yes', ->
     tr.remove()
   return
 
+$(document).on 'ajax:success', '.restore', ->
+  console.log 'yeah!'
+  tr = $(this).closest('tr')
+  tr.css("background-color", "#FF3700")
+  tr.fadeOut 400, ->
+    tr.remove()
+  return
+
 $(document).on 'change', '#filterByType', ->
   selected = $(this).find("option:selected").val()
   if selected == 'All Types'

@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
     samples = TestRun
               .where(project_path: @project.path)
               .where(type: params[:category])
-              .exists(archived: false)
+              .exists(archived_at: false)
               .exists(summary: true)
               .sort(start: -1)
               .limit(10)
@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
     test_runs = TestRun
                 .where(project_path: @project.path)
                 .where(type: params[:category])
-                .exists(archived: false)
+                .exists(archived_at: false)
                 .exists(summary: true)
                 .sort(start: -1)
 
