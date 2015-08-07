@@ -6,6 +6,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    @types = TestRun.from(@project).distinct('type')
   end
 
   def trend

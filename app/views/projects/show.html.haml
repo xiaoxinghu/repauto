@@ -4,6 +4,10 @@
   %p
     = "Dashboard for #{@project.name}."
 
+.container-fluid
+  - @types.each do |t|
+    .row
+      = render partial: 'test_run_summary', locals: { project: @project, type: t }
 -# %table.table.table-hover
 -#   %tr
 -#     %th Type

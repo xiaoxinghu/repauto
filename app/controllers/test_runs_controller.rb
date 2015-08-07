@@ -155,12 +155,12 @@ class TestRunsController < ApplicationController
               .order_by(start: 'desc')
               .limit(5)
     @test_run.test_cases.where(status: 'broken').each do |tc|
-      tc_steps = tc.steps.map { |s| s[:name] }
+      # tc_steps = tc.steps.map { |s| s[:name] }
       catch :raed do
         history.each do |h|
           h.test_cases.where(name: tc.name, :status.ne => 'broken').each do |htc|
-            htc_steps = htc.steps.map { |s| s[:name] }
-            next unless tc_steps.sort == htc_steps.sort
+            # htc_steps = htc.steps.map { |s| s[:name] }
+            # next unless tc_steps.sort == htc_steps.sort
             @ra_summary[htc.status] ||= 0
             @ra_summary[htc.status] += 1
             @ra_summary['broken'] -= 1
