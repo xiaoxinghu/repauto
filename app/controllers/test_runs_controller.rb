@@ -168,9 +168,9 @@ class TestRunsController < ApplicationController
           end
         end
       end # ared
-      passed = @ra_summary[:passed] || 0
-      @ra_summary[:rate] = passed * 100.0 / @ra_summary.values.sum
     end
+    passed = @ra_summary[:passed] || 0
+    @ra_summary[:rate] = passed * 100.0 / @ra_summary.values.sum
 
     respond_to do |format|
       format.js
