@@ -18,7 +18,18 @@ class TestRun
     TestSuite.from self
   end
 
+  def test_cases
+    TestCase.from self
+  end
+
   def self.from(project)
     where(path: /#{project.path}/)
+  end
+
+  def summary_with_passrate
+    swp = self[:summary].clone
+    passed = (swp[:passed] || 0)
+    swp[:rate] = passed * 100.0 / swp.values.sum
+    swp
   end
 end

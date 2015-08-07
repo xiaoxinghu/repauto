@@ -1,33 +1,9 @@
-.status
-  - consolidate = defined?(consolidate) && consolidate
+.mini_status
   - if defined?(status)
-    - ra = (5 if consolidate) || 0
-    - no_rate = defined?(no_rate) && no_rate
-    = status_view(status, no_rate: no_rate)
-    -# - if !consolidate
-    -#   .row
-    -#     .col-md-12
-    -#       = status_view(counts, no_rate: no_rate)
-    -# - else
-    -#   - if compact
-    -#     - if consolidate
-    -#       .row
-    -#         .col-md-6
-    -#           = status_view(counts, no_rate: no_rate)
-    -#         .col-md-6.small
-    -#           = status_view(ccounts, no_rate: no_rate)
-    -#     - else
-    -#       .row
-    -#         .col-md-12
-    -#           = status_view(counts, no_rate: no_rate)
-    -#   - else
-    -#     .row.small
-    -#       .col-md-4
-    -#         %p Actual
-    -#       .col-md-8
-    -#         = status_view(counts, no_rate: no_rate)
-    -#     .row.small
-    -#       .col-md-4
-    -#         %abbr{ title: 'Rolling Average'} RA
-    -#       .col-MD-8
-    -#         = status_view(ccounts, no_rate: no_rate)
+    - status_in_order = %w(passed broken failed pending rate)
+    - total = 0
+    %div
+      - status_in_order.each do |s|
+        - if status[s]
+          %span{ class: "label label-#{status_map(s)}" }
+            = s == 'rate' ? number_to_percentage(status[s], precision: 1) : status[s]

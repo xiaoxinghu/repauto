@@ -146,6 +146,37 @@ class TestRunsController < ApplicationController
     end
   end
 
+  def ra
+    @test_run = TestRun.find(params[:id])
+    @ra_summary = @test_run[:summary].clone
+    history = TestRun.where(project_path: @test_run.project_path,
+                            type: @test_run.type,
+                            :start.lt => @test_run.start)
+              .order_by(start: 'desc')
+              .limit(5)
+    @test_run.test_cases.where(status: 'broken').each do |tc|
+      tc_steps = tc.steps.map { |s| s[:name] }
+      catch :raed do
+        history.each do |h|
+          h.test_cases.where(name: tc.name, :status.ne => 'broken').each do |htc|
+            htc_steps = htc.steps.map { |s| s[:name] }
+            next unless tc_steps.sort == htc_steps.sort
+            @ra_summary[htc.status] ||= 0
+            @ra_summary[htc.status] += 1
+            @ra_summary['broken'] -= 1
+            throw :raed
+          end
+        end
+      end # ared
+      passed = @ra_summary[:passed] || 0
+      @ra_summary[:rate] = passed * 100.0 / @ra_summary.values.sum
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def make_tree_by_features(test_run)
     tree = []
     TestSuite.from(test_run).each do |ts|

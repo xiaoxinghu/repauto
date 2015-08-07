@@ -11,7 +11,10 @@
     %td= test_run[:status]
   %td= test_run[:type]
   - if test_run[:status] == 'done' && test_run[:summary]
-    %td= render partial: 'mini_status', locals: { status: test_run[:summary] }
+    %td
+      .status
+        = render partial: 'mini_status', locals: { status: test_run.summary_with_passrate }
+      .ra
   - else
     %td still running
   %td

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
         get 'timeline'
         get 'archive'
         get 'restore'
+        get 'ra'
       end
       collection do
         # get 'trend/:run_type', to: 'test_runs#trend', as: 'trend'

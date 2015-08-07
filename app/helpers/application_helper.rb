@@ -7,18 +7,20 @@ module ApplicationHelper
 
   def status_map(status)
     case status
-    when "passed"
-      "success"
-    when "failed"
-      "danger"
-    when "broken"
-      "warning"
-    when "pending"
-      "default"
-    when "canceled"
-      "danger"
+    when 'passed'
+      'success'
+    when 'failed'
+      'danger'
+    when 'broken'
+      'warning'
+    when 'pending'
+      'default'
+    when 'canceled'
+      'danger'
+    when 'rate'
+      'info'
     else
-      "muted"
+      'muted'
     end
   end
 
