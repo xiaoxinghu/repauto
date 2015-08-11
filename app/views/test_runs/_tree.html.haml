@@ -1,4 +1,3 @@
--#tree{ data: { 'the-tree': tree } }
 .well#tree
   %ul.nav.nav-list
     - tree.each_with_index do |(k, v), i|
@@ -17,27 +16,6 @@
                 .hideOverflow
                   = tc.name
 
-
--# .panel-group#tree{role: 'tablist', 'aria-multiselectable': true}
--#   - tree.each_with_index do |(k, v), i|
--#     - head_id = "head_#{i}"
--#     - coll_id = "group_#{i}"
--#     .panel.panel-default
--#       .panel-heading{role: 'tab', id: head_id}
--#         %h4.panel-title
--#           = link_to "##{coll_id}", role: 'button', 'data-toggle': 'collapse', 'data-parent': "##{head_id}", 'aria-expanded': true, 'aria-controls': "#{coll_id}" do
--#             .row
--#               .col-sm-8
--#                 .hideOverflow
--#                   = k
--#               .col-sm-4
--#                 = render partial: 'mini_status', locals: { status: gen_status(v) }
--#       .panel-collapse.collapse{id: coll_id, role: 'tabpanel', 'aria-labelledby': head_id}
--#         .list-group
--#           - v.each do |tc|
--#             = link_to fetch_test_case_path(tc), class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}", remote: true do
--#               .hideOverflow
--#                 = tc.name
 :coffee
   $('.tree-toggler').click (e) ->
     e.preventDefault()

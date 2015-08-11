@@ -7,6 +7,11 @@
     .input-group-btn
       = button_tag(id: 'submit-btn', type: "submit", class: "btn btn-default", style: 'display: none;') do
         %i.glyphicon.glyphicon-search
+
+  .btn-group#viewSelector
+    %label.btn.btn-default.active{show: 'areaTrend'} Area
+    %label.btn.btn-default{show: 'lineTrend'} Line
+
   -# .dropdown
   -#   %button.btn.btn-default.dropdown-toggle#dd_types{ type: 'button', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'true' }
   -#     %span#dd_types_text Select Run Type
@@ -17,4 +22,18 @@
   -#         = link_to t, fetch_trend_path(id: @project.id.to_s, category: t), method: :get, remote: true, class: 'trend_type'
   -#         -#= link_to t, '#'
 
-#trend{ data: { id: @project.id.to_s } }
+.trend-view.container
+  .trend#areaTrend{ data: { id: @project.id.to_s } }
+  .trend#lineTrend{ data: { id: @project.id.to_s }, style: 'display: none;' }
+
+:coffee
+  switchStyle = ->
+    $(this).addClass('active').siblings().removeClass('active')
+    $('.container > .trend').hide()
+    $('#' + $(this).attr('show')).show()
+    console.log 'clicked'
+
+    # $('#areaTrend').show()
+    # $('#lineTrend').hide()
+  $('label[type=radio]').on 'click', switchStyle
+  $('#viewSelector > label').on 'click', switchStyle

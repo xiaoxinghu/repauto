@@ -16,17 +16,32 @@ function draw_trend(selection, data) {
   return chart.draw();
 };
 
+function prepare_data(data, element) {
+  element.empty();
+  data = {
+    element: element,
+    data: data,
+    xkey: 'time',
+    ykeys: ['passed', 'failed', 'broken', 'pending'],
+    labels: ['passed', 'failed', 'broken', 'pending'],
+    lineColors: ['#5cb85c', '#d9534f', '#f0ad4e', 'gray'],
+    hideHover: 'auto'
+  };
+  return data;
+};
+
 var data = <%= @trend_data.to_json.html_safe %>
 // d3.select("#trend > *").remove();
-$('#trend').empty();
-console.log(data);
-new Morris.Line({
-  element: 'trend',
-  data: data,
-  xkey: 'date',
-  ykeys: ['passed', 'failed', 'broken', 'pending'],
-  labels: ['passed', 'failed', 'broken', 'pending'],
-  lineColors: ['#5cb85c', '#d9534f', '#f0ad4e', 'gray'],
-  hideHover: 'auto'
-});
+var hideLine = $('#lineTrend').is(':hidden');
+var hideArea = $('#areaTrend').is(':hidden');
+$('#lineTrend').show();
+$('#areaTrend').show();
+new Morris.Line(prepare_data(data, $('#lineTrend')));
+new Morris.Area(prepare_data(data, $('#areaTrend')));
+if (hideLine) {
+  $('#lineTrend').hide();
+}
+if (hideArea) {
+  $('#areaTrend').hide();
+}
 // d3.select("#trend").call(draw_trend, data);
