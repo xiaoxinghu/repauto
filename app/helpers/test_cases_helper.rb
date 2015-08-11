@@ -69,6 +69,14 @@ module TestCasesHelper
     count
   end
 
+  def gen_status(test_cases)
+    status = {}
+    test_cases.group_by(&:status).each do |k, v|
+      status[k] = v.size
+    end
+    status
+  end
+
   def status_icon(status)
     case status
     when 'passed'

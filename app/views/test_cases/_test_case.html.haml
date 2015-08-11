@@ -48,7 +48,7 @@
             = render partial: 'attachments', locals: { test_case: test_case }
         #history.collapse.coll-content
           .well
-            = render partial: 'history', locals: { test_case: test_case }
+            #history{ data: { load: fetch_history_test_case_path(test_case, format: :js) } }
 
 
 

@@ -6,10 +6,13 @@ Rails.application.routes.draw do
     # end
     member do
       get 'trend', to: 'projects#trend', as: 'trend'
+      get 'fetch_trend'
+      get 'fetch_history'
     end
     resources :test_runs, only: [:index, :show], shallow: true do
       member do
         # get 'errors'
+        get 'fetch_tree'
         get 'timeline'
         get 'archive'
         get 'restore'
@@ -21,9 +24,11 @@ Rails.application.routes.draw do
       end
       resources :test_suites, only: [:index, :show], shallow: true do
         resources :test_cases, only: [:index, :show], shallow: true do
-          # member do
-          #   get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
-          # end
+          member do
+            get 'fetch_history'
+            get 'fetch'
+            # get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
+          end
           # collection do
           #   post 'diff', to: 'test_cases#diff', as: 'diff'
           # end
@@ -33,9 +38,6 @@ Rails.application.routes.draw do
   end
 
   # ajax endpoints
-  get '/fetch_test_case' => 'test_cases#fetch', as: 'fetch_test_case'
-  get '/fetch_tree' => 'test_runs#fetch', as: 'fetch_tree'
-  get '/fetch_trend' => 'projects#fetch_trend', as: 'fetch_trend'
 
   get 'welcome/index'
 

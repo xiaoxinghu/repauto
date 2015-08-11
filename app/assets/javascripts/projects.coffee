@@ -3,10 +3,11 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 projectPageReady = ->
-  $("a.trend_type").click ->
-    $('#dd_types_text').text($(this).text())
-    $("#dd_types").dropdown("toggle")
-    return
+  return if !$('#summary-view').length
+  # $("a.trend_type").click ->
+  #   $('#dd_types_text').text($(this).text())
+  #   $("#dd_types").dropdown("toggle")
+  #   return
 
 $(document).ready projectPageReady
 $(document).on 'page:load', projectPageReady

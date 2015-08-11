@@ -219,17 +219,38 @@ class TestRunsController < ApplicationController
     tree
   end
 
-  def fetch
+  def group_by_feature(test_run)
+    group = {}
+    test_run.test_suites.each do |ts|
+      group[ts.name] = ts.test_cases
+    end
+    group
+  end
+
+  def group_by_errors(test_run)
+    group = {}
+    test_run.test_cases.each do |tc|
+      if tc[:failure]
+        msg = tc[:failure][:message]
+        group[msg] ||= []
+        group[msg] << tc
+      end
+    end
+    sorted = Hash[group.sort_by { |_k, v| -v.size }]
+    sorted
+  end
+
+  def fetch_tree
     @test_run = TestRun.find(params[:id])
     if params[:group_by]
       case params[:group_by]
       when 'features'
-        @tree = make_tree_by_features @test_run
+        @tree = group_by_feature @test_run
       when 'errors'
-        @tree = make_tree_by_errors @test_run
+        @tree = group_by_errors @test_run
       end
     else
-      @tree = make_tree_by_features @test_run
+      @tree = group_by_feature @test_run
     end
     respond_to do |format|
       format.js

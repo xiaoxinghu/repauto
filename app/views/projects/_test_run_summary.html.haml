@@ -1,16 +1,10 @@
-.container-fluid
-  .row
-    .col-sm-8
-      .row
-        %h4= type
-      .row
-        .col-xs-3
-          last
-        .col-xs-3
-          2nd
-        .col-xs-3
-          3rd
-        .col-xs-3
-          4th
-    .col-sm-4
-      %p sparkline
+.panel.panel-default
+  .panel-heading.clearfix
+    %h3.panel-title.pull-left= type
+  .list-group
+    .list-group-item
+      .bootcards-chart-canvas#chart
+    .list-group-item
+      %h5.list-group-item-heading Last Run
+      - tr = history[0]
+      = render partial: 'mini_status', locals: {status: tr.summary_with_passrate}

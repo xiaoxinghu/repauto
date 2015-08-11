@@ -44,20 +44,20 @@ resizeView = ->
 test_run_ready = ->
   # generate the treeview
   return if !$('#main-view').length
-  $('#by-errors').on 'click', (event, data) ->
-    $.ajax
-      url: '/fetch_tree'
-      type: 'GET'
-      data: {id: $('#main-view').data('test-run-id'), group_by: 'errors'}
-  $('#by-features').on 'click', (event, data) ->
-    $.ajax
-      url: '/fetch_tree'
-      type: 'GET'
-      data: {id: $('#main-view').data('test-run-id'), group_by: 'features'}
-  $.ajax
-    url: '/fetch_tree'
-    type: 'GET'
-    data: {id: $('#main-view').data('test-run-id')}
+  # $('#by-errors').on 'click', (event, data) ->
+  #   $.ajax
+  #     url: '/fetch_tree'
+  #     type: 'GET'
+  #     data: {id: $('#main-view').data('test-run-id'), group_by: 'errors'}
+  # $('#by-features').on 'click', (event, data) ->
+  #   $.ajax
+  #     url: '/fetch_tree'
+  #     type: 'GET'
+  #     data: {id: $('#main-view').data('test-run-id'), group_by: 'features'}
+  # $.ajax
+  #   url: '/fetch_tree'
+  #   type: 'GET'
+  #   data: {id: $('#main-view').data('test-run-id')}
 
 $(document).ready test_run_ready
 $(document).on 'page:change', test_run_ready

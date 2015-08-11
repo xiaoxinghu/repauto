@@ -9,6 +9,14 @@ class TestCasesController < ApplicationController
     end
   end
 
+  def fetch_history
+    puts "-----> fetch history #{params[:id]}"
+    tc = TestCase.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def show
     @test_cases = []
     if params[:id] == 'diff'

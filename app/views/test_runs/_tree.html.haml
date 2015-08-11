@@ -1,7 +1,29 @@
-#tree{ data: { 'the-tree': tree } }
-
--# :javascript
--#   console.log('tree script');
--#   var tree = $("#tree").data("the-tree");
--#   console.log(tree);
--#   $('#tree').html("helo");
+-#tree{ data: { 'the-tree': tree } }
+.panel-group#tree{role: 'tablist', 'aria-multiselectable': true}
+  - tree.each_with_index do |(k, v), i|
+    - head_id = "head_#{i}"
+    - coll_id = "group_#{i}"
+    .panel.panel-default
+      .panel-heading{role: 'tab', id: head_id}
+        %h4.panel-title
+          = link_to "##{coll_id}", role: 'button', 'data-toggle': 'collapse', 'data-parent': "##{head_id}", 'aria-expanded': true, 'aria-controls': "#{coll_id}" do
+            .row
+              .col-sm-8
+                .hideOverflow
+                  = k
+              .col-sm-4
+                = render partial: 'mini_status', locals: { status: gen_status(v) }
+      .panel-collapse.collapse{id: coll_id, role: 'tabpanel', 'aria-labelledby': head_id}
+        .list-group
+          - v.each do |tc|
+            = link_to fetch_test_case_path(tc), class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}", remote: true do
+              .hideOverflow
+                = tc.name
+:coffee
+  console.log('tree coffee script')
+  $('.test-case-in-list').click (e) ->
+    e.preventDefault()
+    $that = $(this)
+    $('.test-case-in-list').removeClass 'active'
+    $that.addClass 'active'
+    return
