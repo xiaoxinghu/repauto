@@ -4,7 +4,7 @@ class TestCasesMongo < MongoClient
   def <<(row)
     tcr = row.clone
     tcr.delete :test_suite
-    @client[:test_cases].find(path: row[:path], start: row[:start])
+    MongoClient.client[:test_cases].find(path: row[:path], start: row[:start])
       .update_one(tcr, upsert: true)
   end
 end
@@ -14,25 +14,25 @@ class TestSuiteMongo < MongoClient
     tcr = row.clone
     suite = tcr.delete :test_suite
 
-    return if @client[:test_suites].find(path: suite[:path]).count > 0
-    @client[:test_suites].insert_one(suite)
+    return if MongoClient.client[:test_suites].find(path: suite[:path]).count > 0
+    MongoClient.client[:test_suites].insert_one(suite)
   end
 
   def each
-    @client[:test_suites].find.each do |ts|
+    MongoClient.client[:test_suites].find.each do |ts|
       yield ts.to_hash
     end
   end
 
   def exists?(path)
-    @client[:test_suites].find(path: path).count > 0
+    MongoClient.client[:test_suites].find(path: path).count > 0
   end
 end
 
 class UpdateTestRunSummary < MongoClient
   def <<(row)
     tr_path = row[:path].split('/allure/')[0]
-    @client[:test_runs].find(path: tr_path)
+    MongoClient.client[:test_runs].find(path: tr_path)
       .update_one('$inc' => { "summary.#{row[:status]}": 1 })
   end
 end
@@ -43,17 +43,17 @@ class UpdateTestRunTime < MongoClient
     @counter = 0
   end
   def <<(test_run)
-    suites = @client[:test_suites].find(path: /^#{test_run[:path]}/).to_a
+    suites = MongoClient.client[:test_suites].find(path: /^#{test_run[:path]}/).to_a
     suites.each do |suite|
       start = suite[:start].to_i
       stop = suite[:stop].to_i
       test_run[:start] = start if !test_run[:start] || test_run[:start] > start
       test_run[:stop] = stop if !test_run[:stop] || test_run[:stop] < stop
     end
-    @client[:test_runs].find(path: test_run[:path]).update_one(test_run)
+    MongoClient.client[:test_runs].find(path: test_run[:path]).update_one(test_run)
     @counter += 1
     # tr_path = test_suite[:path].split('/allure/')[0]
-    # trs = @client[:test_runs].find(path: tr_path)
+    # trs = MongoClient.client[:test_runs].find(path: tr_path)
     #
     # start = test_suite[:start].to_i
     # stop = test_suite[:stop].to_i
@@ -64,7 +64,7 @@ class UpdateTestRunTime < MongoClient
     # if !tr[:stop] || tr[:stop] < stop
     #   tr[:stop] = stop
     # end
-    # @client[:test_runs].find(path: tr_path).update_one(tr)
+    # MongoClient.client[:test_runs].find(path: tr_path).update_one(tr)
   end
 
   def build
@@ -75,7 +75,7 @@ end
 class ProjectsMongo < MongoClient
   def initialize
     super
-    @projects = @client[:projects]
+    @projects = MongoClient.client[:projects]
   end
 
   def each
@@ -94,7 +94,7 @@ class TestRunsMongo < MongoClient
   def initialize(status = :all)
     super()
     @status = status
-    @test_runs = @client[:test_runs]
+    @test_runs = MongoClient.client[:test_runs]
   end
 
   def <<(row)

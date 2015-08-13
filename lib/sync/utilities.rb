@@ -4,12 +4,16 @@ require 'mongo'
 require 'nokogiri'
 
 class MongoClient
-  def initialize
-    Mongo::Logger.logger.level = Logger::WARN
-    # @client = Mongo::Client.new([host], database: db)
-    @client = Mongo::Client.new(
+  # @client = Mongo::Client.new([host], database: db)
+
+  def self.client
+    @@client ||= Mongo::Client.new(
       [MONGO_CONFIG['sessions']['default']['hosts'].first],
       database: MONGO_CONFIG['sessions']['default']['database'])
+    @@client
+  end
+  def initialize
+    Mongo::Logger.logger.level = Logger::WARN
   end
 end
 
