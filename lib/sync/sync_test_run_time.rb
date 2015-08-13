@@ -8,10 +8,7 @@ from TestRunsMongo
 
 tweak do |row|
   result = row.symbolize_keys
-  if row[:start] && row[:stop]
-    puts "ignore row #{row}"
-    result = nil
-  end
+  result = nil if row[:start] && row[:stop]
   result
 end
 

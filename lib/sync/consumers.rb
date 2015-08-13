@@ -44,7 +44,6 @@ class UpdateTestRunTime < MongoClient
   end
   def <<(test_run)
     suites = @client[:test_suites].find(path: /^#{test_run[:path]}/).to_a
-    puts "suite count: #{suites.size}"
     suites.each do |suite|
       start = suite[:start].to_i
       stop = suite[:stop].to_i

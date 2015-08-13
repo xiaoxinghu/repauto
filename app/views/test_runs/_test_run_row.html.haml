@@ -4,7 +4,10 @@
   - else
     %td Unknown
   - if test_run[:start] && test_run[:stop]
-    %td= distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
+    %td
+      = distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
+      - if test_run[:status] != 'done'
+        %span.label.label-default= test_run[:status]
   - else
     %td= test_run[:status]
   %td= test_run[:type]
