@@ -129,6 +129,7 @@ class TestRunsHttp
         end
         if status_file.exist?
           status = YAML.load_file(status_file)
+          next unless status
           puts "status file: #{status_file}"
           r[:start] = status['start_time']
           r[:status] = status['status']
