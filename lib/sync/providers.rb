@@ -123,7 +123,8 @@ class TestRunsHttp
               type: type}
         begin
           r[:start] = Time.strptime(run.basename.to_s, '%Y-%m-%d-%H-%M-%S').to_i * 1000
-        rescue
+        rescue StandardError => e
+          puts "ignore bad folder #{run.basename}."
           next
         end
         if status_file.exist?
