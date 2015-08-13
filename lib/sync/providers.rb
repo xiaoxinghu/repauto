@@ -124,13 +124,12 @@ class TestRunsHttp
         begin
           r[:start] = Time.strptime(run.basename.to_s, '%Y-%m-%d-%H-%M-%S').to_i * 1000
         rescue StandardError => e
-          puts "ignore bad folder #{run.basename}."
+          # puts "ignore bad folder #{run.basename}."
           next
         end
         if status_file.exist?
           status = YAML.load_file(status_file)
           next unless status
-          puts "status file: #{status_file}"
           r[:start] = status['start_time']
           r[:status] = status['status']
           r[:stop] = status['end_time'] if status['end_time']
