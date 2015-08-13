@@ -1,1 +1,4 @@
-$("#details").html("<%= escape_javascript(render @selected) %>")
+$("#details").html("<%= escape_javascript(render @selected) %>");
+var path = $('#history').attr('data-load');
+$.get(path);
+console.log('fetch tc');

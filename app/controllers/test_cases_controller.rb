@@ -10,8 +10,11 @@ class TestCasesController < ApplicationController
   end
 
   def fetch_history
-    puts "-----> fetch history #{params[:id]}"
     tc = TestCase.find(params[:id])
+    @history = TestCase
+               .where(name: tc.name)
+               .sort(start: -1)
+               .limit(10)
     respond_to do |format|
       format.js
     end

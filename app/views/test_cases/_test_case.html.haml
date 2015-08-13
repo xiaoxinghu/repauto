@@ -23,69 +23,16 @@
           = render partial: 'steps', locals: {test_case: test_case}
 
       %li
-        -# #accordion.panel-group{role: 'tablist', 'aria-multiselectable': 'true'}
-        -#   .panel.panel-default
-        -#     #attHeading.panel-heading{role: 'tab'}
-        -#       %h4.panel-title
-        -#         %a.collapsed{ role: 'button', 'data-toggle': 'collapse', 'data-parent': '#accordion', href: '#att', 'aria-expanded': 'false', 'aria-controls': 'att'} Attachments
-        -#     #att.panel-collapse.collapse{ role: 'tabpanel', 'aria-labelledby': 'attHeading'}
-        -#       .panel-body
-        -#         = render partial: 'attachments', locals: { test_case: test_case }
-        -#   .panel.panel-default
-        -#     #histHeading.panel-heading{role: 'tab'}
-        -#       %h4.panel-title
-        -#         %a.collapsed{ role: 'button', 'data-toggle': 'collapse', 'data-parent': '#accordion', href: '#hist', 'aria-expanded': 'false', 'aria-controls': 'hist'} History
-        -#     #hist.panel-collapse.collapse{ role: 'tabpanel', 'aria-labelledby': 'histHeading'}
-        -#       .panel-body
-        -#         = render partial: 'attachments', locals: { test_case: test_case }
+        %ul.nav.nav-tabs{role: 'tablist'}
+          %li.active{role: 'presentation'}
+            = link_to 'attachments', '#attachmentsPanel', 'aria-controls': 'attachmentsPanel', role: 'tab', 'data-toggle': 'tab'
+          %li{role: 'presentation'}
+            = link_to 'history', '#historyPanel', 'aria-controls': 'historyPanel', role: 'tab', 'data-toggle': 'tab'
 
-        .btn-toolbar{role: 'toolbar'}
-          #coll-buttons.btn-group{role: 'group'}
-            %button.btn.btn-default{ 'data-toggle': 'collapse', 'data-target': '#attachments', 'aria-expanded': 'false', 'aria-controls': 'attachments'} attachments
-            %button#btn-history.btn.btn-default{ 'data-toggle': 'collapse', 'data-target': '#history', 'aria-expanded': 'false', 'aria-controls': 'history'} history
-        #attachments.collapse.coll-content
-          .well
-            = render partial: 'attachments', locals: { test_case: test_case }
-        #history.collapse.coll-content
-          .well
-            #history{ data: { load: fetch_history_test_case_path(test_case, format: :js) } }
-
-
-
-
-    -# history
-    -# %button.btn.btn-primary{ :type => "button", :'data-toggle' => "collapse", :'data-target' => "#history_#{test_case.id}", :'aria-expanded' => "false", :'aria-controls' => "history"} history
-    -# .collapse{:id => "history_#{test_case.id}"}
-    -#   .well
-    -#     %ul.list-group
-    -#       - history(test_case).order("start DESC").each do |tc|
-    -#         %div{ :class => "list-group-item list-group-item-#{status_map(tc.status)} clearfix"}
-    -#           %span{ :class => "label label-#{status_map(tc.status)}"}= tc.status
-    -#           %span.glyphicon.glyphicon-file= link_to tc.start, test_case_path(tc)
-    -#           %span.pull-right= link_to 'diff', test_case_path(:diff, selected: [test_case.id, tc.id], name: stripped_name(test_case)), class: "btn btn-xs btn-info"
-
-    -# -# steps
-    -# %ul.list-group
-    -#   - test_case.steps.order("start").each do |step|
-    -#     %li{ :class => "list-group-item list-group-item-#{status_map(step.status)}"}
-    -#       %h5.list-group-item-heading
-    -#         = "#{step.start.strftime('%H:%M:%S')} -> #{step.end.strftime('%H:%M:%S')}"
-    -#         %span.label.label-default= distance_of_time_in_words step.end, step.start
-    -#         %span.label.label-default= step.status
-    -#       %p.list-group-item-text= step.name
-
-    -# - if test_case.failure
-    -#   .well{ :style => "overflow: hidden;"}
-    -#     %h4 Message
-    -#     %p= test_case.failure.message
-    -#     %h4 Stack Trace
-    -#     %p= test_case.failure.stack_trace
-
-    -# - if test_case.attachments
-    -#   .row
-    -#     - test_case.attachments.order('position').each do |a|
-    -#       .col-xs-6.col-md-3
-    -#         = link_to a.get_link, class: "thumbnail" do
-    -#           %img{ :src => a.get_link, :alt => ""}
-    -#           -# .caption
-    -#           -#   %p= a.title
+        .tab-content
+          .tab-pane.active#attachmentsPanel{role: 'tabpanel'}
+            .well
+              = render partial: 'attachments', locals: { test_case: test_case }
+          .tab-pane#historyPanel{role: 'tabpanel'}
+            .well
+              #history{ data: { load: fetch_history_test_case_path(test_case, format: :js) } }
