@@ -13,9 +13,14 @@ projects.each do |project|
   from TestRunsHttp, project[:path]
 end
 
+counter = 0
 tweak do |row|
-  # puts row
+  counter += 1
   row.symbolize_keys
 end
 
 to TestRunsMongo
+
+post_build do
+  puts "--> #{counter} test runs synced."
+end

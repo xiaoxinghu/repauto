@@ -8,16 +8,17 @@ start_time = Time.now
 
 processed = []
 test_runs = TestRunsMongo.new
-test_runs.each 'in progress' do |run|
-  next if File.exist? "#{Rails.root}/public/#{APP_CONFIG['mount_point']}/#{run[:path]}/in_progress"
+test_runs.each do |run|
+  # next if File.exist? "#{Rails.root}/public/#{APP_CONFIG['mount_point']}/#{run[:path]}/in_progress"
   from TestCaseHttp, run[:path]
-  processed << run[:path]
+  test_runs.synced run
+  # processed << run[:path]
 end
 
 last_run = ''
+counter = 0
 tweak do |row|
-  # params = row.delete('parameters')
-  # row['parameters'] = params['parameter']
+  counter += 1
   row.symbolize_keys!
   if last_run != row[:path]
     last_run = row[:path]
@@ -28,12 +29,15 @@ end
 to TestCasesMongo
 to TestSuiteMongo
 to UpdateTestRunSummary
-to UpdateTestRunTime
 
 post_build do
-  puts processed.size
-  processed.each do |run|
-    test_runs.set_status run, 'done'
-  end
-  puts "Done. [#{Time.now - start_time}]"
+  puts "#{counter} test cases synced."
 end
+
+# post_build do
+#   puts processed.size
+#   processed.each do |run|
+#     test_runs.set_status run, 'done'
+#   end
+#   puts "Done. [#{Time.now - start_time}]"
+# end

@@ -3,20 +3,17 @@
     %td= Time.at(test_run[:start] / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
   - else
     %td Unknown
-  - if test_run[:status] != 'done'
-    %td= test_run[:status]
-  - elsif test_run[:start] && test_run[:stop]
+  - if test_run[:start] && test_run[:stop]
     %td= distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
   - else
     %td= test_run[:status]
   %td= test_run[:type]
-  - if test_run[:status] == 'done' && test_run[:summary]
+  - if test_run[:summary]
     %td
       .status
         = render partial: 'mini_status', locals: { status: test_run.summary_with_passrate }
       .ra
   - else
-    %td still running
+    %td not enough data
   %td
-    - if test_run[:status] == 'done'
-      = render partial: 'test_run_row_toolbar', locals: { test_run: test_run }
+    = render partial: 'test_run_row_toolbar', locals: { test_run: test_run }

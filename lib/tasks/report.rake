@@ -1,5 +1,6 @@
 require 'uri'
 require 'datacraft'
+require 'sync/consumers'
 
 namespace :report do
   desc 'Sync data to database, sync all projects if param project is not given'
@@ -11,7 +12,8 @@ namespace :report do
     logger.info 'Start Syncing...'
     insts = ['sync_projects.rb',
              'sync_test_runs.rb',
-             'sync_test_cases.rb']
+             'sync_test_cases.rb',
+             'sync_test_run_time.rb']
     insts.each do |i|
       puts "running instruction #{i}..."
       inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
@@ -50,5 +52,11 @@ namespace :report do
 
   desc 'testing'
   task test: :environment do
+    insts = ['sync_test_run_time.rb']
+    insts.each do |i|
+      puts "running instruction #{i}..."
+      inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
+      Datacraft.run inst
+    end
   end
 end

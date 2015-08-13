@@ -2,18 +2,24 @@ require_relative './utilities'
 
 class TestCaseHttp
   include FileCrawler
-  def initialize(test_run_path)
+  def initialize(test_run_path, new_only = true)
+    @new_only = new_only
     @test_run_path = test_run_path.to_s
     # puts "scanning #{test_run_path}"
     @suite_files = Pathname
                    .glob("#{root}/#{test_run_path}/allure/*-testsuite.xml")
     # @xml = self.class.get(path)
+    @db_suites = TestSuiteMongo.new
   end
 
   def each
     @suite_files.each do |suite_file|
+      path = suite_file.relative_path_from(Pathname.new(root)).to_s
+      if @new_only && @db_suites.exists?(path)
+        # puts "#{path} already done"
+        next
+      end
       File.open(suite_file) do |f|
-        path = suite_file.relative_path_from(Pathname.new(root)).to_s
         content = Nokogiri::XML f
         begin
           test_suites = content.xpath('xmlns:test-suite')
@@ -92,30 +98,46 @@ class TestRunsHttp
   include FileCrawler
   def initialize(project_path)
     @project_path = project_path.to_s
-    puts "scanning project: #{project_path}"
+    # puts "scanning project: #{project_path}"
     @folders = Pathname.glob("#{root}/#{project_path}/*").select(&:directory?)
+    @mongo = TestRunsMongo.new
   end
 
   def each
     @folders.each do |folder|
-      # puts folder
       Pathname.glob("#{folder}/*").each do |run|
+        # ignore non folder path
         next unless run.directory?
-        next unless Pathname.new("#{run}/allure").exist?
-        time = run.basename.to_s
-        type = run.parent.basename.to_s
         path = run.relative_path_from(Pathname.new(root)).to_s
+        type = run.parent.basename.to_s
+        # ignore synced ones
+        next if @mongo.is_synced? path
+        # ignore results without allure folder
+        next unless Pathname.new("#{run}/allure").exist?
+
+        status_file = Pathname.new("#{run}/status.yml")
+        in_progress_file = Pathname.new("#{run}/in_progress")
+        # new status.yml file support
+        r = { path: path,
+              project_path: @project_path,
+              type: type}
         begin
-          timestamp = Time.strptime(time, '%Y-%m-%d-%H-%M-%S')
-          r = { path: path,
-                project_path: @project_path,
-                type: type,
-                start: timestamp.to_i * 1000 }
-          yield r
+          r[:start] = Time.strptime(run.basename.to_s, '%Y-%m-%d-%H-%M-%S').to_i * 1000
         rescue
           puts "Ignoring invalid folder name: #{time}"
           next
         end
+        if status_file.exist?
+          status = YAML.load_file(status_file)
+          r[:start] = status['start_time']
+          r[:status] = status['status']
+          r[:stop] = status['end_time'] if status['end_time']
+        elsif in_progress_file.exist?
+          r[:status] = 'running'
+        else
+          r[:status] = 'done'
+        end
+        yield r
       end
     end
   end
