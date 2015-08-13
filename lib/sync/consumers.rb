@@ -108,8 +108,8 @@ class TestRunsMongo < MongoClient
     case @status
     when :all
       collection = @test_runs.find
-    when :synced
-      collection = @test_runs.find({'synced' => {'$exists' => synced}})
+    when :unsynced
+      collection = @test_runs.find({'synced' => {'$exists' => false}})
     else
       collection = @test_runs.find
     end

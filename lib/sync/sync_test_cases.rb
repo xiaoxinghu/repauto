@@ -7,7 +7,7 @@ set :parallel, true
 start_time = Time.now
 
 processed = []
-test_runs = TestRunsMongo.new
+test_runs = TestRunsMongo.new :unsynced
 test_runs.each do |run|
   # next if File.exist? "#{Rails.root}/public/#{APP_CONFIG['mount_point']}/#{run[:path]}/in_progress"
   from TestCaseHttp, run[:path]
