@@ -85,6 +85,7 @@ class ProjectsMongo < MongoClient
   end
 
   def <<(row)
+    row[:last_sync] = Time.now.to_i * 1000
     @projects.find(path: row[:path]).replace_one(row, upsert: true)
   end
 end

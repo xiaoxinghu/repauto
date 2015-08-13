@@ -45,6 +45,10 @@
               %i.fa.fa-trash-o
               Bin
 
+      - if project && project[:last_sync]
+        %p.navbar-text.navbar-right
+          - time = time_ago_in_words Time.at(project[:last_sync] / 1000.0)
+          = "last sync: #{time} ago"
       - if Rails.env == 'development'
         %p.navbar-text.navbar-right= "#{controller_name} -> #{action_name}"
     -# .container
