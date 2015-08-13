@@ -9,7 +9,8 @@ class MongoClient
   def self.client
     @@client ||= Mongo::Client.new(
       [MONGO_CONFIG['sessions']['default']['hosts'].first],
-      database: MONGO_CONFIG['sessions']['default']['database'])
+      database: MONGO_CONFIG['sessions']['default']['database'],
+      max_pool_size: 100)
     @@client
   end
   def initialize
