@@ -124,7 +124,6 @@ class TestRunsHttp
         begin
           r[:start] = Time.strptime(run.basename.to_s, '%Y-%m-%d-%H-%M-%S').to_i * 1000
         rescue
-          puts "Ignoring invalid folder name: #{time}"
           next
         end
         if status_file.exist?
