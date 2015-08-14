@@ -52,7 +52,6 @@ spin: (ms=50)->
 #   return
 ready = ->
   $('div[data-load]').filter(':visible').each ->
-    console.log('loading')
     path = $(this).attr('data-load')
     $.get(path)
     #$(this).load path

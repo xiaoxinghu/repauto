@@ -1,22 +1,26 @@
 .well#tree
   %ul.nav.nav-list
-    - tree.each_with_index do |(k, v), i|
+    - tree.each_with_index do |(k, v), _i|
       %li
         %label.container.tree-toggler.nav-header
           .row
             .col-sm-8
-              .hideOverflow
+              .hideOverflow{ 'data-toggle': 'tooltip',
+                title: k, 'data-placement': 'right' }
                 = k
             .col-sm-4
               = render partial: 'mini_status', locals: { status: gen_status(v) }
-        %ul.nav.nav-list.tree{style: 'display: none;'}
+        %ul.nav.nav-list.tree{ style: 'display: none;' }
           - v.each do |tc|
             %li
-              = link_to fetch_test_case_path(tc), class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}", remote: true do
+              = link_to fetch_test_case_path(tc),
+                class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}",
+                remote: true do
                 .hideOverflow
                   = tc.name
 
 :coffee
+  $('[data-toggle="tooltip"]').tooltip({'delay': { 'show': 1000, 'hide': 100}})
   $('.tree-toggler').click (e) ->
     e.preventDefault()
     $(this).parent().children('ul.tree').toggle 300
