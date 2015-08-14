@@ -1,4 +1,4 @@
-$(".test-run-summary[data-type=<%= @type %>]").html("<%= escape_javascript(render partial: 'test_run_summary', locals: {type: @type, history: @history}) %>");
+$(".test-run-summary[data-type=<%= @type %>]").html("<%= escape_javascript(render partial: 'test_run_summary', locals: {project: @project, type: @type, history: @history}) %>");
 var drawCharts = function(chart, data) {
     chart.empty();
     Morris.Line({

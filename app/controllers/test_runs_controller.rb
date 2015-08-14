@@ -5,10 +5,13 @@ class TestRunsController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
     limit = 7.days.ago.to_i * 1000
-    @test_runs = TestRun
+    collection = TestRun
                  .where(project_path: @project.path)
                  .exists(archived_at: false)
-                 .sort(start: -1)
+    if params[:type]
+      collection = collection.where(type: params[:type])
+    end
+    @test_runs = collection.sort(start: -1)
     @run_types = TestRun
                  .where(project_path: @project.path)
                  .exists(archived_at: false).distinct('type')

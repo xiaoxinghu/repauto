@@ -7,3 +7,4 @@
   .row
     - @types.each do |t|
       .col-md-3.test-run-summary{ data: { type: t, load: fetch_history_project_path(@project, type: t, format: :js) } }
+        = spinner

@@ -88,6 +88,10 @@ module ApplicationHelper
     'active'
   end
 
+  def spinner
+    content_tag(:div, '', class: 'fa fa-spinner fa-pulse fa-3x spinner')
+  end
+
   def confirmation(to, id)
     content_tag(:div,
                 class: 'modal fade',

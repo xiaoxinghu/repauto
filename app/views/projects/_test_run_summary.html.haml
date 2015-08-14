@@ -1,6 +1,8 @@
 .panel.panel-default
   .panel-heading.clearfix
     %h3.panel-title.pull-left= type
+    = link_to project_test_runs_path(project, type: type), class: 'btn btn-primary pull-right' do
+      %i.fa.fa-search
   .list-group
     .list-group-item
       .bootcards-chart-canvas#chart
