@@ -80,13 +80,15 @@ module TestCasesHelper
   def status_icon(status)
     case status
     when 'passed'
-      'glyphicon-ok-sign'
+      'check'
     when 'failed'
-      'glyphicon-remove-sign'
+      'times'
     when 'broken'
-      'glyphicon-info-sign'
+      'bolt'
+    when 'canceled'
+      'ban'
     else
-      'glyphicon-question-sign'
+      'question'
     end
   end
 

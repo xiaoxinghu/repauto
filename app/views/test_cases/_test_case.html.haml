@@ -6,18 +6,18 @@
     %ul.media-list
       %li.media
         .media-left
-          %span.glyphicon.glyphicon-tags{'aria-hidden': 'true'}
+          %i.fa.fa-tags
         .media-body
           - test_case.tags.each do |tag|
             %span.label.label-default= tag
       %li.media
         .media-left
-          %span.glyphicon.glyphicon-time{'aria-hidden': 'true'}
+          %i.fa.fa-clock-o
         .media-body
           %p= "#{show_time test_case.start} -> #{show_time test_case.stop} (#{show_duration test_case.start, test_case.stop})"
       %li.media
         .media-left
-          %span.glyphicon.glyphicon-list{'aria-hidden': 'true'}
+          %i.fa.fa-list
         .media-body
           %h4.media-heading Steps
           = render partial: 'steps', locals: {test_case: test_case}
