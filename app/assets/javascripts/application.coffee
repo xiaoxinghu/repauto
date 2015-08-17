@@ -13,6 +13,7 @@
 //= require "ladda-bootstrap/dist/ladda.min"
 //= require bootstrap-multiselect
 //= require bootstrap-treeview
+//= require ekko-lightbox
 //= require fuelux
 //= require bootcards
 //= require_tree .
