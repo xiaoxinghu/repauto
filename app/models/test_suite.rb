@@ -3,7 +3,7 @@ class TestSuite
   include Mongoid::Attributes::Dynamic
 
   def self.from(test_run)
-    where(path: /#{test_run.path}/)
+    where(path: %r{^#{test_run.path}/})
   end
 
   def test_cases
