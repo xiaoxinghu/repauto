@@ -1,8 +1,7 @@
 $("#details").html("<%= escape_javascript(render @selected) %>");
-var history = $('#history').attr('data-load');
-$.get(history);
+$.get($('#history').attr('data-load'));
 $('.log-content').filter(':visible').each(function() {
   var path = $(this).attr('data-url');
   $(this).load(path);
 });
-console.log('fetch tc');
+// console.log('fetch tc');
