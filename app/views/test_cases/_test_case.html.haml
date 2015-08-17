@@ -1,7 +1,7 @@
-%div{class: "panel panel-#{status_map(test_case.status)}"}
+%div{ class: "panel panel-#{status_map(test_case.status)}" }
   .panel-heading
-    %span{ :class => "label label-#{status_map(test_case.status)}"}= test_case.status
-    =test_case.name
+    %span{ :class => "label label-#{status_map(test_case.status)}" }= test_case.status
+    = test_case.name
   .panel-body
     %ul.media-list
       %li.media
