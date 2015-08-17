@@ -98,9 +98,7 @@ class TestRunsMongo < MongoClient
   end
 
   def <<(row)
-    # puts row[:path]
-    @test_runs.insert_one(row) unless
-      @test_runs.find(path: row[:path]).count > 0
+    @test_runs.find(path: row[:path]).replace_one(row, upsert: true)
   end
 
   def each
