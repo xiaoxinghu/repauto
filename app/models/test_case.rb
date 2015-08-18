@@ -4,8 +4,8 @@ class TestCase
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  def self.from(test_suite)
-    where(path: /#{test_suite.path}/)
+  def self.from(parent)
+    where(path: %r{^#{parent.path}})
   end
 
   def get_att_link(attachment)

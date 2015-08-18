@@ -52,11 +52,20 @@ namespace :report do
 
   desc 'testing'
   task test: :environment do
-    insts = ['sync_test_run_time.rb']
-    insts.each do |i|
-      puts "running instruction #{i}..."
-      inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
-      Datacraft.run inst
+    # insts = ['sync_test_run_time.rb']
+    # insts.each do |i|
+    #   puts "running instruction #{i}..."
+    #   inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
+    #   Datacraft.run inst
+    # end
+    pipline = [
+      { '$match': { path: /^FP5/ } },
+      { '$group': { '_id': '$status', count: { '$sum' => 1 } } }
+    ]
+    r = TestCase.collection.aggregate(pipline)
+    r.each do |x|
+      puts "#{x[:_id]} -> #{x[:count]}"
     end
+    puts r.reduce({}, :merge)
   end
 end

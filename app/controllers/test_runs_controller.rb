@@ -12,9 +12,30 @@ class TestRunsController < ApplicationController
       collection = collection.where(type: params[:type])
     end
     @test_runs = collection.sort(start: -1)
+    patch_summary @test_runs
     @run_types = TestRun
                  .where(project_path: @project.path)
                  .exists(archived_at: false).distinct('type')
+  end
+
+  def patch_summary(test_runs)
+    test_runs.each do |tr|
+      next unless tr[:synced]
+      next if tr[:summary]
+      pipline = [
+        { '$match': { path: /^#{tr.path}/ } },
+        { '$group': { '_id': '$status', count: { '$sum' => 1 } } }
+      ]
+      counts = TestCase.collection.aggregate(pipline)
+      summary = {}
+      counts.each do |c|
+        summary[c[:_id]] = c[:count]
+      end
+      tr.update_attributes(summary: summary)
+      # summary.each do |s|
+      # end
+      tr.save!
+    end
   end
 
   def bin
@@ -27,7 +48,7 @@ class TestRunsController < ApplicationController
 
   def show
     @test_run = TestRun.find(params[:id])
-    @tree = 'the 1st tree'
+    # @tree = 'the 1st tree'
   end
 
   def errors
@@ -220,6 +241,11 @@ class TestRunsController < ApplicationController
       tree << { name: k, test_cases: v, tags: [v.size] }
     end
     tree
+  end
+
+  def make_tree_by_news(test_run)
+    tree = []
+    TestCase.from_project
   end
 
   def group_by_feature(test_run)
