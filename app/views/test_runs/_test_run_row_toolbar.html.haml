@@ -1,4 +1,4 @@
-#toolbar.pull-right
+.mini-toolbar.pull-right
   - if test_run[:archived_at]
     .btn-group
       = link_to 'restore', restore_test_run_path(test_run), method: :get, remote: true, class: 'btn btn-xs btn-primary restore'

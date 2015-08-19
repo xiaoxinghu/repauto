@@ -1,22 +1,25 @@
-%tr.testRunRow{ data: {id: "#{test_run.id}", type: "#{test_run.type}" } }
-  - if test_run[:start]
-    %td= Time.at(test_run[:start] / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
-  - else
-    %td Unknown
-  - if test_run[:start] && test_run[:stop]
-    %td
-      = distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
-      - if test_run[:status] != 'done'
-        %span.label.label-default= test_run[:status]
-  - else
-    %td= test_run[:status]
-  %td= test_run[:type]
-  - if test_run[:summary]
-    %td
+.row.test-run-row{ data: {id: "#{test_run.id}", type: "#{test_run.type}" } }
+  .col-sm-2
+    - if test_run[:start]
+      = Time.at(test_run[:start] / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
+    - else
+      Unknown
+  .col-sm-2
+    - if test_run[:start] && test_run[:stop]
+      %td
+        = distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
+        - if test_run[:status] != 'done'
+          %span.label.label-default= test_run[:status]
+    - else
+      = test_run[:status]
+  .col-sm-2
+    %td= test_run[:type]
+  .col-sm-2
+    - if test_run[:summary]
       .status
         = render partial: 'mini_status', locals: { status: test_run.summary_with_passrate }
       .ra
-  - else
-    %td not enough data
-  %td
+    - else
+      not enough data
+  .col-sm-4
     = render partial: 'test_run_row_toolbar', locals: { test_run: test_run }

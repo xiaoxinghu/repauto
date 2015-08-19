@@ -2,48 +2,18 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-getTree = ->
-  # Some logic to retrieve, or generate tree structure
-  tree = []
-  run = $("#tree").data("the-tree")
-  for suite in run['test_suites']
-    ts = {
-      text: suite.name
-      tags: [suite['test_cases'].length]
-      state: {
-        expanded: false
-      }
-      nodes: []
-    }
-    for tc in suite['test_cases']
-      ts['nodes'].push {
-        text: tc.name
-        data: tc
-      }
-    tree.push ts
-
-  $('#tree').treeview
-    data: tree,
-    showTags: true
-  $('#tree').on 'nodeSelected', (event, data) ->
-    console.log 'node selected'
-    $.ajax
-      url: '/fetch_test_case'
-      type: 'GET'
-      data: {id: data.data.id}
-      success: (response) ->
-        $('#coll-buttons > .btn').on 'click', (e) ->
-          e.preventDefault
-          $('.coll-content').collapse('hide')
-
 resizeView = ->
-  return if !$('#main-view').length
-  nh = $(window).height() - $('nav').height() - $('#header').height() - $('#header').outerHeight()
-  $('#main-view').css('height', nh)
+  if $('#main-view').length
+    nh = $(window).height() - $('nav').height() - $('#header').height() - $('#header').outerHeight()
+    $('#main-view').css('height', nh)
+  if $('#testRunsTable').length
+    th = $(window).height() - $('nav').height() - $('.table-fixed thead').height() - $('.table-fixed thead').outerHeight()
+    console.log th
+    $('.table-fixed tbody').css('height', th)
 
 test_run_ready = ->
   # generate the treeview
-  return if !$('#main-view').length
+  return if !$('#testRunsTable').length
   # $('#by-errors').on 'click', (event, data) ->
   #   $.ajax
   #     url: '/fetch_tree'
@@ -59,7 +29,47 @@ test_run_ready = ->
   #   type: 'GET'
   #   data: {id: $('#main-view').data('test-run-id')}
 
-$(document).ready test_run_ready
+  $('.test-run-row').click (e) ->
+    if $(e.target).is('button')
+      e.preventDefault()
+      return
+    console.log $(this).data('id')
+    if $(this).hasClass('selected')
+      $(this).removeClass('selected bg-primary')
+    else
+      $(this).addClass('selected bg-primary')
+
+    # console.log $('.selected').length
+    if $('.selected').length > 0
+      $('#globalToolbar').css('visibility', 'visible')
+    else
+      $('#globalToolbar').css('visibility', 'hidden')
+    # $(this).addClass('active')
+
+  $('#delete-button').click (e) ->
+    selected_rows = $('.test-run-row.selected')
+    # ids = []
+    # selected_rows.each ->
+    #   ids.push $(this).data('id')
+    selected_rows.each ->
+      row = $(this)
+      $.ajax
+        url: '/test_runs/' + $(this).data('id') + '/archive'
+        type: 'GET'
+        success: ->
+          row.css("background-color", "#FF3700")
+          row.fadeOut 400, ->
+            row.remove()
+          return
+    $('#globalToolbar').css('visibility', 'hidden')
+
+  $('#clear-button').click (e) ->
+    selected_rows = $('.test-run-row.selected')
+    selected_rows.each ->
+      $(this).removeClass('selected bg-primary')
+    $('#globalToolbar').css('visibility', 'hidden')
+
+# $(document).ready test_run_ready
 $(document).on 'page:change', test_run_ready
 # $(document).on 'page:change', test_run_ready
 #$(document).on 'page:change', getTree
@@ -78,7 +88,7 @@ $(document).on 'click', '.confirm button', ->
 
 $(document).on 'ajax:success', '.confirm .yes', ->
   console.log 'yeah!'
-  tr = $(this).closest('tr')
+  tr = $(this).closest('.test-run-row')
   tr.css("background-color", "#FF3700")
   tr.fadeOut 400, ->
     tr.remove()
@@ -86,7 +96,7 @@ $(document).on 'ajax:success', '.confirm .yes', ->
 
 $(document).on 'ajax:success', '.restore', ->
   console.log 'yeah!'
-  tr = $(this).closest('tr')
+  tr = $(this).closest('.test-run-row')
   tr.css("background-color", "#FF3700")
   tr.fadeOut 400, ->
     tr.remove()

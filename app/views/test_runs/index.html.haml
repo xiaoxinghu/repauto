@@ -16,21 +16,39 @@
 
 - if @test_runs.size > 0
   -# = paginate @test_runs
-  %table#testRunsTable.table.table-striped.table-hover
-    %thead
-      %tr.filters
-        %th start time
-        %th duration
-        %th
-          %select.form-control.input-sm#filterByType{ placeholder: 'type' }
-            %option All Types
-            - @run_types.each do |t|
-              %option= t
-        %th status
-        %th
-
-    %tbody
-      - @test_runs.each do |test_run|
-        = render partial: 'test_run_row', locals: { test_run: test_run }
+  .fluid-container#testRunsTable
+    .row.header
+      .col-sm-2
+        %h4 start time
+      .col-sm-2
+        %h4 duration
+      .col-sm-2
+        %h4 type
+      .col-sm-2
+        %h4 status
+      .col-sm-4
+        #globalToolbar.pull-right
+          .btn-group
+            = link_to 'delete', '#', class: 'btn btn-danger', id: 'delete-button'
+            = link_to 'diff', '#', class: 'btn btn-primary disabled', id: 'diff-button'
+            = link_to 'clear', '#', class: 'btn btn-primary', id: 'clear-button'
+    - @test_runs.each do |test_run|
+      = render partial: 'test_run_row', locals: { test_run: test_run }
+  -# %table#testRunsTable.table.table-striped.table-hover.table-fixed
+  -#   %thead#tableHeader
+  -#     %tr.filters
+  -#       %th start time
+  -#       %th duration
+  -#       %th
+  -#         %select.form-control.input-sm#filterByType{ placeholder: 'type' }
+  -#           %option All Types
+  -#           - @run_types.each do |t|
+  -#             %option= t
+  -#       %th status
+  -#       %th
+  -#
+  -#   %tbody
+  -#     - @test_runs.each do |test_run|
+  -#       = render partial: 'test_run_row', locals: { test_run: test_run }
 - else
   %p No Results

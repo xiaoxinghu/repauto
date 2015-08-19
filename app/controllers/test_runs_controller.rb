@@ -151,8 +151,9 @@ class TestRunsController < ApplicationController
   end
 
   def archive
-    test_run = TestRun.find(params[:id])
-    test_run.update_attributes(archived_at: Time.now)
+    id = params[:id]
+    test_run = TestRun.find(id)
+    test_run.update_attributes(archived_at: Time.zone.now)
     test_run.save!
     # redirect_to project_test_runs_path test_run.project
     respond_to do |format|
@@ -269,6 +270,14 @@ class TestRunsController < ApplicationController
     sorted
   end
 
+  def group_by_diffs(test_run)
+    previous = TestRun.where(project_path: test_run[:project_path])
+               .where(type: test_run[:type])
+               .where(:start.lt => test_run[:start])
+               .sort(start: -1).limit(1)
+    %w(passed failed broken pending)
+  end
+
   def fetch_tree
     @test_run = TestRun.find(params[:id])
     if params[:group_by]
@@ -277,6 +286,8 @@ class TestRunsController < ApplicationController
         @tree = group_by_feature @test_run
       when 'errors'
         @tree = group_by_errors @test_run
+      when 'diffs'
+        @tree = group_by_diffs @test_run
       end
     else
       @tree = group_by_feature @test_run

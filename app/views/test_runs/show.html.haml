@@ -7,7 +7,7 @@
     .btn-group#group-toggle{role: 'group'}
       = link_to 'features', fetch_tree_test_run_path(@test_run, group_by: 'features', format: :js), remote: true, class: 'btn btn-default active'
       = link_to 'errors', fetch_tree_test_run_path(@test_run, group_by: 'errors', format: :js), remote: true, class: 'btn btn-default'
-      = link_to 'news', fetch_tree_test_run_path(@test_run, group_by: 'errors', format: :js), remote: true, class: 'btn btn-default'
+      = link_to 'news', fetch_tree_test_run_path(@test_run, group_by: 'diffs', format: :js), remote: true, class: 'btn btn-default'
     .btn-group{ role: "group"}
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default disabled"
 

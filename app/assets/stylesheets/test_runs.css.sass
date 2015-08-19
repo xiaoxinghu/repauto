@@ -9,8 +9,21 @@
   // #tree_view
   //   background-color: #eee
 
-#testRunsTable tbody tr #toolbar
+#testRunsTable .test-run-row .mini-toolbar
   visibility: hidden
 
-#testRunsTable tbody tr:hover #toolbar
+#globalToolbar
+  vertical-align: middle
+  visibility: hidden
+
+#testRunsTable .test-run-row:hover .mini-toolbar
   visibility: visible
+
+#testRunsTable .test-run-row:hover
+  background-color: #d9edf7
+
+#testRunsTable .header
+  padding-top: 5px
+  
+.test-run-row
+  padding: 5px
