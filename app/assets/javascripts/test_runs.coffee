@@ -33,17 +33,28 @@ test_run_ready = ->
     if $(e.target).is('button')
       e.preventDefault()
       return
-    console.log $(this).data('id')
     if $(this).hasClass('selected')
       $(this).removeClass('selected bg-primary')
     else
       $(this).addClass('selected bg-primary')
 
     # console.log $('.selected').length
-    if $('.selected').length > 0
-      $('#globalToolbar').css('visibility', 'visible')
-    else
-      $('#globalToolbar').css('visibility', 'hidden')
+    count = $('.selected').length
+    $('#globalToolbar>.message').text(count + ' selected')
+    switch count
+      when 2
+        $('#globalToolbar').show()
+        $('#diff-button').show()
+      when 0
+        $('#globalToolbar').hide()
+      else
+        $('#diff-button').hide()
+        $('#globalToolbar').show()
+
+    # if $('.selected').length > 0
+    #   $('#globalToolbar').css('visibility', 'visible')
+    # else
+    #   $('#globalToolbar').css('visibility', 'hidden')
     # $(this).addClass('active')
 
   $('#delete-button').click (e) ->
@@ -67,7 +78,7 @@ test_run_ready = ->
     selected_rows = $('.test-run-row.selected')
     selected_rows.each ->
       $(this).removeClass('selected bg-primary')
-    $('#globalToolbar').css('visibility', 'hidden')
+    $('#globalToolbar').hide()
 
 # $(document).ready test_run_ready
 $(document).on 'page:change', test_run_ready
