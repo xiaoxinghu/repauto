@@ -7,9 +7,9 @@ resizeView = ->
     nh = $(window).height() - $('nav').height() - $('#header').height() - $('#header').outerHeight()
     $('#main-view').css('height', nh)
   if $('#testRunsTable').length
-    th = $(window).height() - $('nav').height() - $('.table-fixed thead').height() - $('.table-fixed thead').outerHeight()
+    th = $(window).height() - $('nav').height() - $('#testRunsTable .header').height() - $('#testRunsTable .header').outerHeight()
     console.log th
-    $('.table-fixed tbody').css('height', th)
+    $('#testRunsTable .content').css('height', th)
 
 test_run_ready = ->
   # generate the treeview
