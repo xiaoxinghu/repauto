@@ -280,9 +280,12 @@ class TestRunsController < ApplicationController
       target = right
     end
     processed = []
-    target.test_cases.each do |tc|
-      old = baseline.test_cases.where(name: tc[:name])
-      if old.count > 0
+    t = target.test_cases.to_a
+    b = baseline.test_cases.to_a
+    t.each do |tc|
+      old = b.select{ |x| x[:name] == tc[:name] }
+      # old = baseline.test_cases.where(name: tc[:name])
+      if old.size > 0
         if old[0][:status] != tc[:status]
           changes[tc[:status]] ||= []
           changes[tc[:status]] << tc
@@ -293,7 +296,7 @@ class TestRunsController < ApplicationController
       end
       processed << tc[:name]
     end
-    changes[:missing] = baseline.test_cases.not_in(name: processed).to_a
+    changes[:missing] = b.select{|x| processed.include? x[:name] }
     changes
   end
 
