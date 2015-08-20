@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       collection do
         # get 'trend/:run_type', to: 'test_runs#trend', as: 'trend'
         get 'bin'
+        get 'diff'
       end
       resources :test_suites, only: [:index, :show], shallow: true do
         resources :test_cases, only: [:index, :show], shallow: true do

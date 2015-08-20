@@ -8,7 +8,6 @@ resizeView = ->
     $('#main-view').css('height', nh)
   if $('#testRunsTable').length
     th = $(window).height() - $('nav').height() - $('#testRunsTable .header').height() - $('#testRunsTable .header').outerHeight()
-    console.log th
     $('#testRunsTable .content').css('height', th)
 
 test_run_ready = ->
@@ -39,16 +38,19 @@ test_run_ready = ->
       $(this).addClass('selected bg-primary')
 
     # console.log $('.selected').length
-    count = $('.selected').length
+    selected = $('.selected')
+    count = selected.length
     $('#globalToolbar>.message').text(count + ' selected')
     switch count
       when 2
         $('#globalToolbar').show()
-        $('#diff-button').show()
+        $('.show-only-with-2').show()
+        $('#id').val($(selected[0]).data('id'))
+        $('#baseline').val($(selected[1]).data('id'))
       when 0
         $('#globalToolbar').hide()
       else
-        $('#diff-button').hide()
+        $('.show-only-with-2').hide()
         $('#globalToolbar').show()
 
     # if $('.selected').length > 0
@@ -80,6 +82,13 @@ test_run_ready = ->
       $(this).removeClass('selected bg-primary')
     $('#globalToolbar').hide()
 
+  $('#diff-button').click (e) ->
+    selected_rows = $('.test-run-row.selected')
+    link = $(this).data('link')
+    link = link.replace /id/, $(selected_rows[0]).data('id')
+    link = link.replace /basline/, $(selected_rows[1]).data('id')
+    console.log link
+
 # $(document).ready test_run_ready
 $(document).on 'page:change', test_run_ready
 # $(document).on 'page:change', test_run_ready
@@ -98,7 +107,6 @@ $(document).on 'click', '.confirm button', ->
   return
 
 $(document).on 'ajax:success', '.confirm .yes', ->
-  console.log 'yeah!'
   tr = $(this).closest('.test-run-row')
   tr.css("background-color", "#FF3700")
   tr.fadeOut 400, ->
@@ -106,7 +114,6 @@ $(document).on 'ajax:success', '.confirm .yes', ->
   return
 
 $(document).on 'ajax:success', '.restore', ->
-  console.log 'yeah!'
   tr = $(this).closest('.test-run-row')
   tr.css("background-color", "#FF3700")
   tr.fadeOut 400, ->

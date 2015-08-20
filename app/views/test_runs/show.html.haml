@@ -12,14 +12,13 @@
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default disabled"
 
 
-.row#main-view{ data: { test_run_id: @test_run.id.to_s } }
+.row#main-view
   #tree_view.col-sm-4{ data: { load: fetch_tree_test_run_path(@test_run)}}
     = spinner
   #detail_view.col-sm-8
     #details
 
 :coffee
-  $('#treeLoader').loader()
   $('#group-toggle > a').click (e) ->
     $('#group-toggle > a').removeClass 'active'
     $(this).addClass 'active'

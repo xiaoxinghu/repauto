@@ -31,8 +31,13 @@
           #globalToolbar.pull-right
             .btn-group
               = link_to 'delete', '#', class: 'btn btn-danger', id: 'delete-button'
-              = link_to 'diff', '#', class: 'btn btn-primary disabled', id: 'diff-button'
               = link_to 'clear', '#', class: 'btn btn-primary', id: 'clear-button'
+            .btn-group.show-only-with-2
+              = form_tag(diff_project_test_runs_path, method: :get) do
+                = hidden_field_tag :id, 'id'
+                = hidden_field_tag :baseline, 'baseline'
+                = button_tag 'diff', class: 'btn btn-primary'
+              -# = link_to 'diff', '#', class: 'btn btn-primary', id: 'diff-button', data: {link: diff_test_run_path('id', 'basline')}
             %span.message.text-muted
     .content.well
       - @test_runs.each do |test_run|

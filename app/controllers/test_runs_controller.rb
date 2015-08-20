@@ -270,12 +270,43 @@ class TestRunsController < ApplicationController
     sorted
   end
 
-  def group_by_diffs(test_run)
-    previous = TestRun.where(project_path: test_run[:project_path])
-               .where(type: test_run[:type])
-               .where(:start.lt => test_run[:start])
-               .sort(start: -1).limit(1)
-    %w(passed failed broken pending)
+  def group_by_diffs(left, right)
+    changes = {}
+    if left[:start] > right[:start]
+      baseline = right
+      target = left
+    else
+      baseline = left
+      target = right
+    end
+    processed = []
+    target.test_cases.each do |tc|
+      old = baseline.test_cases.where(name: tc[:name])
+      if old.count > 0
+        if old[0][:status] != tc[:status]
+          changes[tc[:status]] ||= []
+          changes[tc[:status]] << tc
+        end
+      else
+        changes[:new] ||= []
+        changes[:new] << tc
+      end
+      processed << tc[:name]
+    end
+    changes[:missing] = baseline.test_cases.not_in(name: processed).to_a
+    changes
+  end
+
+  def diff
+    left = TestRun.find(params[:id])
+    right = TestRun.find(params[:baseline])
+    if left[:start] > right[:start]
+      @baseline = right
+      @test_run = left
+    else
+      @baseline = left
+      @test_run = right
+    end
   end
 
   def fetch_tree
@@ -287,7 +318,8 @@ class TestRunsController < ApplicationController
       when 'errors'
         @tree = group_by_errors @test_run
       when 'diffs'
-        @tree = group_by_diffs @test_run
+        @baseline = TestRun.find(params[:baseline])
+        @tree = group_by_diffs @baseline, @test_run
       end
     else
       @tree = group_by_feature @test_run
