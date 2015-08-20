@@ -13,6 +13,7 @@
 //= require "ladda-bootstrap/dist/ladda.min"
 //= require bootstrap-multiselect
 //= require bootstrap-treeview
+//= require bootstrap-switch
 //= require ekko-lightbox
 //= require fuelux
 //= require bootcards
@@ -57,6 +58,8 @@ ready = ->
     $.get(path)
     #$(this).load path
     return
+  $.fn.bootstrapSwitch.defaults.size = 'mini'
+  $('.switch').bootstrapSwitch()
   $('label.tree-toggler').click ->
     $(this).parent().children('ul.tree').toggle 300
 
