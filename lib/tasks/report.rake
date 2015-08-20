@@ -58,14 +58,11 @@ namespace :report do
     #   inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
     #   Datacraft.run inst
     # end
-    pipline = [
-      { '$match': { path: /^FP5/ } },
-      { '$group': { '_id': '$status', count: { '$sum' => 1 } } }
-    ]
-    r = TestCase.collection.aggregate(pipline)
-    r.each do |x|
-      puts "#{x[:_id]} -> #{x[:count]}"
-    end
-    puts r.reduce({}, :merge)
+    # password = URI.escape APP_CONFIG['password'], '!'
+    puts "#{APP_CONFIG['report_host']}"
+    puts "#{APP_CONFIG['report_path']}"
+    puts "#{APP_CONFIG['mount_point']}"
+    puts "#{APP_CONFIG['username']}"
+    puts "#{APP_CONFIG['password']}"
   end
 end

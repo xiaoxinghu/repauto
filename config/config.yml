@@ -1,16 +1,16 @@
 production:
-  report_host: "auk-pddrop1.mcom.local"
-  report_path: 'Drop/TEDrop/reports/automation'
-  mount_point: "/raw" # relative to public folder
-  username: 'SVC_testuser'
-  password: 'Automation_!'
+  report_host: <%= ENV["REPORT_HOST"] %>
+  report_path: <%= ENV["REPORT_PATH"] %>
+  mount_point: <%= ENV["MOUNT_POINT"] %>
+  username: <%= ENV["USERNAME"] %>
+  password: <%= ENV["PASSWORD"] %>
 
 development:
-  report_host: "auk-pddrop1.mcom.local"
-  report_path: 'Drop/TEDrop/reports/mock'
-  mount_point: "/raw" # relative to public folder
-  username: 'SVC_testuser'
-  password: 'Automation_!'
+  report_host: <%= ENV["REPORT_HOST"] %>
+  report_path: <%= ENV["REPORT_PATH"] %>
+  mount_point: <%= ENV["MOUNT_POINT"] %>
+  username: <%= ENV["USERNAME"] %>
+  password: <%= ENV["PASSWORD"] %>
 
 test:
   report_host: http://testeng-1-w1.mcom.local/
