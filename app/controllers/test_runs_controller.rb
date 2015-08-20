@@ -11,11 +11,13 @@ class TestRunsController < ApplicationController
     if params[:type]
       collection = collection.where(type: params[:type])
     end
-    @test_runs = collection.sort(start: -1)
-    patch_summary @test_runs
+    query = collection.sort(start: -1)
+    patch_summary query
     @run_types = TestRun
                  .where(project_path: @project.path)
                  .exists(archived_at: false).distinct('type')
+
+    @test_runs = Kaminari.paginate_array(query.to_a).page(params[:page]).per(20)
   end
 
   def patch_summary(test_runs)
