@@ -287,16 +287,18 @@ class TestRunsController < ApplicationController
       # old = baseline.test_cases.where(name: tc[:name])
       if old.size > 0
         if old[0][:status] != tc[:status]
-          changes[tc[:status]] ||= []
-          changes[tc[:status]] << tc
+          key = "newly #{tc[:status]}"
+          changes[key] ||= []
+          changes[key] << tc
         end
       else
-        changes[:new] ||= []
-        changes[:new] << tc
+        changes['new test cases'] ||= []
+        changes['new test cases'] << tc
       end
       processed << tc[:name]
     end
-    changes[:missing] = b.select{|x| processed.include? x[:name] }
+    missing = b.select{|x| processed.include? x[:name] }
+    changes['missing test cases'] = missing if missing.size > 0
     changes
   end
 
