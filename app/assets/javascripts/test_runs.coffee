@@ -7,7 +7,7 @@ resizeView = ->
     nh = $(window).height() - $('nav').height() - $('#header').height() - $('#header').outerHeight()
     $('#main-view').css('height', nh)
   if $('#testRunsTable').length
-    th = $(window).height() - $('nav').height() - $('#testRunsTable .header').height() - $('#testRunsTable .header').outerHeight()
+    th = $(window).height() - $('nav').height() - $('.pagination').height() - $('.pagination').outerHeight() - $('#testRunsTable .header').height() - $('#testRunsTable .header').outerHeight() - 20
     $('#testRunsTable .content').css('height', th)
 
 test_run_ready = ->
