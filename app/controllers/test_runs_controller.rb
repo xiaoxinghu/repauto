@@ -283,7 +283,7 @@ class TestRunsController < ApplicationController
     t = target.test_cases.to_a
     b = baseline.test_cases.to_a
     t.each do |tc|
-      old = b.select{ |x| x[:name] == tc[:name] }
+      old = b.select { |x| x[:name] == tc[:name] }
       # old = baseline.test_cases.where(name: tc[:name])
       if old.size > 0
         if old[0][:status] != tc[:status]
@@ -297,7 +297,7 @@ class TestRunsController < ApplicationController
       end
       processed << tc[:name]
     end
-    missing = b.select{|x| processed.include? x[:name] }
+    missing = b.select { |x| !processed.include?(x[:name]) }
     changes['missing test cases'] = missing if missing.size > 0
     changes
   end
