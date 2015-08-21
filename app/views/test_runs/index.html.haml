@@ -19,6 +19,7 @@
   #testRunsTable
     .header
       .row
+        .col-sm-1
         .col-sm-2
           %h4 start time
         .col-sm-2
@@ -30,7 +31,7 @@
               %option= t
         .col-sm-2
           %h4 status
-        .col-sm-4
+        .col-sm-3
           #globalToolbar.pull-right
             .btn-group
               = link_to 'delete', '#', class: 'btn btn-danger', id: 'delete-button'
