@@ -13,9 +13,12 @@ resizeView = ->
 test_run_ready = ->
   # generate the treeview
   return if !$('#testRunsTable').length
-  $('.test-run-selector').on 'switchChange.bootstrapSwitch', (event, state) ->
-    console.log state
-    selected = $('.bootstrap-switch-on')
+  # $('.test-run-selector').on 'switchChange.bootstrapSwitch', (event, state) ->
+  $('.test-run-selector').change ->
+    # console.log state
+    console.log @checked
+    # selected = $('.bootstrap-switch-on')
+    selected = $('.test-run-selector:checked')
     selected_count = selected.length
     $('#globalToolbar>.message').text(selected_count + ' selected')
     switch selected_count
@@ -79,7 +82,7 @@ test_run_ready = ->
 
   $('#delete-button').click (e) ->
     # selected_rows = $('.test-run-row.selected')
-    selected = $('.bootstrap-switch-on')
+    selected = $('.test-run-selector:checked')
     # ids = []
     # selected_rows.each ->
     #   ids.push $(this).data('id')
@@ -96,15 +99,8 @@ test_run_ready = ->
     $('#globalToolbar').hide()
 
   $('#clear-button').click (e) ->
-    $('input.test-run-selector').bootstrapSwitch('state', false)
+    $('input.test-run-selector').prop('checked', false)
     $('#globalToolbar').hide()
-
-  $('#diff-button').click (e) ->
-    selected_rows = $('.test-run-row.selected')
-    link = $(this).data('link')
-    link = link.replace /id/, $(selected_rows[0]).data('id')
-    link = link.replace /basline/, $(selected_rows[1]).data('id')
-    console.log link
 
 # $(document).ready test_run_ready
 $(document).on 'page:change', test_run_ready

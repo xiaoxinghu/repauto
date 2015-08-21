@@ -58,8 +58,9 @@ ready = ->
     $.get(path)
     #$(this).load path
     return
-  $.fn.bootstrapSwitch.defaults.size = 'mini'
-  $('.switch').bootstrapSwitch()
+  # $.fn.bootstrapSwitch.defaults.size = 'mini'
+  #
+  # $('.switch').bootstrapSwitch()
   $('label.tree-toggler').click ->
     $(this).parent().children('ul.tree').toggle 300
 
