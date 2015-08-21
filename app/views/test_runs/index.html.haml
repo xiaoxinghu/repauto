@@ -24,7 +24,10 @@
         .col-sm-2
           %h4 duration
         .col-sm-2
-          %h4 type
+          %select.form-control.input-sm#filterByType{ placeholder: 'type' }
+            %option All Types
+            - @run_types.each do |t|
+              %option= t
         .col-sm-2
           %h4 status
         .col-sm-4

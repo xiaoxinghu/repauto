@@ -136,7 +136,7 @@ $(document).on 'ajax:success', '.restore', ->
 $(document).on 'change', '#filterByType', ->
   selected = $(this).find("option:selected").val()
   if selected == 'All Types'
-    $(".testRunRow").show()
+    $(".test-run-row").show()
   else
-    $(".testRunRow[data-type='" + selected + "']").show()
-    $(".testRunRow[data-type!='" + selected + "']").hide()
+    $(".test-run-row[data-type='" + selected + "']").show()
+    $(".test-run-row[data-type!='" + selected + "']").hide()
