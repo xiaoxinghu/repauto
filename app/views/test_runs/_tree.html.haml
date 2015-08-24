@@ -9,7 +9,7 @@
                 title: key, 'data-placement': 'right' }
                 = key
             .col-sm-4
-              - if value.is_a? Array
+              - if value.any?{|v| v.is_a? Array}
                 %span.badge= value.size
               - else
                 = render partial: 'mini_status', locals: { status: gen_status(value) }
