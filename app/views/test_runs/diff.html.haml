@@ -9,7 +9,7 @@
       = show_date @test_run[:start]
 
 .row#main-view
-  #tree_view.col-sm-4{ data: { load: fetch_tree_test_run_path(@test_run, baseline: @baseline, group_by: 'diffs')}}
+  #tree_view{ data: { load: fetch_tree_test_run_path(@test_run, baseline: @baseline, group_by: 'diffs')}}
     = spinner
-  #detail_view.col-sm-8
+  #detail_view
     #details

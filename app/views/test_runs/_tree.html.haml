@@ -9,16 +9,27 @@
                 title: key, 'data-placement': 'right' }
                 = key
             .col-sm-4
-              = render partial: 'mini_status', locals: { status: gen_status(value) }
+              - if value.is_a? Array
+                %span.badge= value.size
+              - else
+                = render partial: 'mini_status', locals: { status: gen_status(value) }
         %ul.nav.nav-list.tree{ style: 'display: none;' }
           - if value.is_a?(Array)
             - value.each do |tc|
+              - if tc.is_a? Array
+                - link = fetch_test_cases_path(tc)
+                - status = tc[0].status
+                - name = tc[0].name
+              - else
+                - link = fetch_test_case_path(tc)
+                - status = tc.status
+                - name = tc.name
               %li
-                = link_to fetch_test_case_path(tc),
-                  class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}",
+                = link_to link,
+                  class: "test-case-in-list list-group-item list-group-item-#{status_map status}",
                   remote: true do
                   .hideOverflow
-                    = tc.name
+                    = name
           - else
             - value.each do |k, v|
               - v.any?{|c| c.status != 'passed'} ? status = 'info' : status = 'success'

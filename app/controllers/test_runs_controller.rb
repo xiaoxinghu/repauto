@@ -329,7 +329,7 @@ class TestRunsController < ApplicationController
         if old[0][:status] != tc[:status]
           key = "newly #{tc[:status]}"
           changes[key] ||= []
-          changes[key] << tc
+          changes[key] << [ tc, old[0] ]
         end
       else
         changes['new test cases'] ||= []
