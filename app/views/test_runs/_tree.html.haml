@@ -1,4 +1,4 @@
-.well#tree
+#tree
   %ul.nav.nav-list
     - tree.each_with_index do |(k, v), _i|
       %li
@@ -9,15 +9,24 @@
                 title: k, 'data-placement': 'right' }
                 = k
             .col-sm-4
-              = render partial: 'mini_status', locals: { status: gen_status(v) }
+              -# = render partial: 'mini_status', locals: { status: gen_status(v) }
         %ul.nav.nav-list.tree{ style: 'display: none;' }
-          - v.each do |tc|
-            %li
-              = link_to fetch_test_case_path(tc),
-                class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}",
-                remote: true do
-                .hideOverflow
-                  = tc.name
+          - if v.is_a?(Array)
+            - v.each do |tc|
+              %li
+                = link_to fetch_test_case_path(tc),
+                  class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}",
+                  remote: true do
+                  .hideOverflow
+                    = tc.name
+          - else
+            - v.each do |k, v|
+              %li
+                = link_to fetch_test_cases_path(v),
+                  class: "test-case-in-list list-group-item list-group-item-#{status_map v[0].status}",
+                  remote: true do
+                  .hideOverflow
+                    = k
 
 :coffee
   $('[data-toggle="tooltip"]').tooltip({'delay': { 'show': 1000, 'hide': 100}})

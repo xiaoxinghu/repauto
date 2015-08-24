@@ -6,16 +6,16 @@
   .btn-toolbar{ role: 'toolbar' }
     .btn-group#group-toggle{role: 'group'}
       = link_to 'features', fetch_tree_test_run_path(@test_run, group_by: 'features', format: :js), remote: true, class: 'btn btn-default active'
+      = link_to 'handset', fetch_tree_test_run_path(@test_run, group_by: 'handset', format: :js), remote: true, class: 'btn btn-default'
       = link_to 'errors', fetch_tree_test_run_path(@test_run, group_by: 'errors', format: :js), remote: true, class: 'btn btn-default'
-      = link_to 'news', fetch_tree_test_run_path(@test_run, group_by: 'diffs', format: :js), remote: true, class: 'btn btn-default'
     .btn-group{ role: "group"}
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default disabled"
 
 
 .row#main-view
-  #tree_view.col-sm-4{ data: { load: fetch_tree_test_run_path(@test_run)}}
+  #tree_view{ data: { load: fetch_tree_test_run_path(@test_run)}}
     = spinner
-  #detail_view.col-sm-8
+  #detail_view
     #details
 
 :coffee

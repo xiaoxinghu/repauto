@@ -208,16 +208,35 @@ class TestRunsController < ApplicationController
     tree = []
     TestSuite.from(test_run).each do |ts|
       test_suite = { name: ts.name, test_cases: [] }
-      not_passed = 0
       TestCase.from(ts).each do |tc|
         test_case = {
           name: tc.name,
           id: tc.id.to_s,
           status: tc.status }
         test_suite[:test_cases] << test_case
-        not_passed += 1 unless tc.status == 'passed'
       end
-      test_suite[:tags] = [not_passed] if not_passed > 0
+      tree << test_suite
+    end
+    tree
+  end
+
+  def make_tree_by_features_h(test_run)
+    tree = []
+    test_run.test_suites.each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      names = {}
+      TestCase.from(ts).each do |tc|
+        name_without_tags = tc.name.split('_')[0]
+        unless names[name_without_tags]
+          names[name_without_tags] = []
+          test_case = {
+            name: tc.name,
+            ids: names[name_without_tags],
+            status: tc.status }
+          test_suite[:test_cases] << test_case
+        end
+        names[name_without_tags] << tc.id.to_s
+      end
       tree << test_suite
     end
     tree
@@ -254,7 +273,26 @@ class TestRunsController < ApplicationController
   def group_by_feature(test_run)
     group = {}
     test_run.test_suites.each do |ts|
-      group[ts.name] = ts.test_cases
+      group[ts.name] = ts.test_cases.to_a
+    end
+    group
+  end
+
+  def group_by_feature_h(test_run)
+    group = {}
+    test_run.test_suites.each do |ts|
+      group[ts.name] = group_test_cases(ts.test_cases.to_a)
+    end
+    group
+  end
+
+  # group them by name without tags
+  def group_test_cases(test_cases)
+    group = {}
+    test_cases.each do |tc|
+      key = tc.name.split('_')[0]
+      group[key] ||= []
+      group[key] << tc
     end
     group
   end
@@ -322,6 +360,8 @@ class TestRunsController < ApplicationController
       case params[:group_by]
       when 'features'
         @tree = group_by_feature @test_run
+      when 'handset'
+        @tree = group_by_feature_h @test_run
       when 'errors'
         @tree = group_by_errors @test_run
       when 'diffs'

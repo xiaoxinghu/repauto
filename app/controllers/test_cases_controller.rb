@@ -3,7 +3,14 @@ class TestCasesController < ApplicationController
   end
 
   def fetch
-    @selected = TestCase.find(params[:id])
+    if params[:id]
+      @selected = [ TestCase.find(params[:id]) ]
+    end
+    if params[:ids]
+      puts params[:ids]
+      ids = params[:ids].split('/')
+      @selected = TestCase.find(ids).to_a
+    end
     respond_to do |format|
       format.js
     end

@@ -27,8 +27,8 @@ Rails.application.routes.draw do
         resources :test_cases, only: [:index, :show], shallow: true do
           member do
             get 'fetch_history'
-            get 'fetch'
             # get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
+            get 'fetch'
           end
           # collection do
           #   post 'diff', to: 'test_cases#diff', as: 'diff'
@@ -37,6 +37,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'fetch_test_cases/:ids', to: 'test_cases#fetch', as: :fetch_test_cases
 
   # ajax endpoints
 

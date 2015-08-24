@@ -1,4 +1,4 @@
-$("#details").html("<%= escape_javascript(render @selected) %>");
+$("#details").html("<%= escape_javascript(render partial: "test_cases", locals: {test_cases: @selected}) %>");
 $.get($('#history').attr('data-load'));
 $('.log-content').filter(':visible').each(function() {
   var path = $(this).attr('data-url');

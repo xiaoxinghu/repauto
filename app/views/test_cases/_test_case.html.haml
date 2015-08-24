@@ -1,4 +1,5 @@
 %div{ class: "panel panel-#{status_map(test_case.status)}" }
+  - lite = false unless defined? lite
   .panel-heading
     %span{ :class => "label label-#{status_map(test_case.status)}" }= test_case.status
     = test_case.name
@@ -26,13 +27,14 @@
         %ul.nav.nav-tabs{role: 'tablist'}
           %li.active{role: 'presentation'}
             = link_to 'attachments', '#attachmentsPanel', 'aria-controls': 'attachmentsPanel', role: 'tab', 'data-toggle': 'tab'
-          %li{role: 'presentation'}
-            = link_to 'history', '#historyPanel', 'aria-controls': 'historyPanel', role: 'tab', 'data-toggle': 'tab'
+          - unless lite
+            %li{role: 'presentation'}
+              = link_to 'history', '#historyPanel', 'aria-controls': 'historyPanel', role: 'tab', 'data-toggle': 'tab'
 
         .tab-content
           .tab-pane.active#attachmentsPanel{role: 'tabpanel'}
             .well
-              = render partial: 'attachments', locals: { test_case: test_case }
+              = render partial: 'attachments', locals: { test_case: test_case, lite: lite }
           .tab-pane#historyPanel{role: 'tabpanel'}
             .well
               #history{ data: { load: fetch_history_test_case_path(test_case, format: :js) } }
