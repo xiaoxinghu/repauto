@@ -17,9 +17,9 @@ class TestCasesController < ApplicationController
   end
 
   def fetch_history
-    tc = TestCase.find(params[:id])
+    @test_case = TestCase.find(params[:id])
     @history = TestCase
-               .where(name: tc.name)
+               .where(name: @test_case.name)
                .sort(start: -1)
                .limit(10)
     respond_to do |format|

@@ -4,7 +4,7 @@
   %ul.nav.nav-list.tree
     %li
       - history.each do |tc|
-        = link_to '#', class: "list-group-item list-group-item-#{status_map tc.status}" do
+        = link_to fetch_test_cases_path([test_case, tc]), remote: true, class: "list-group-item list-group-item-#{status_map tc.status}" do
           .row
             .col-sm-6
               %h4.list-group-item-heading= show_datetime tc[:start]
