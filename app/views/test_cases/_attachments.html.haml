@@ -5,20 +5,19 @@
   - images = atts.select{|a| a[:type] =~ /image/}
   %h4 Screenshots
   .row{id: gallery}
-    .container-fluid
-      .row
-        - images.each do |att|
-          - url = test_case.get_att_link att
-          %div{class: lite ? 'row' : 'col-md-3'}
-            = link_to url, class: 'thumbnail', 'data-toggle': 'lightbox', data: { gallery: gallery, parent: "##{gallery}" } do
-              %img{src: url}
+    - images.each do |att|
+      - url = test_case.get_att_link att
+      %div{class: lite ? 'col-md-12' : 'col-md-3'}
+        = link_to url, class: 'thumbnail', 'data-toggle': 'lightbox', data: { gallery: gallery, parent: "##{gallery}" } do
+          %img{src: url}
   - text_files = atts.select{|a| a[:type] =~ /text/}
   %h4 Logs
-  - text_files.each do |f|
-    .panel.panel-primary
-      - url = test_case.get_att_link f
-      .panel-heading= f[:title]
-      .panel-body.log-content{data: {url: url}}
+  .row
+    - text_files.each do |f|
+      .panel.panel-primary
+        - url = test_case.get_att_link f
+        .panel-heading= f[:title]
+        .panel-body.log-content{data: {url: url}}
 
 
 

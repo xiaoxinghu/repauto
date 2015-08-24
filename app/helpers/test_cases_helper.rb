@@ -71,7 +71,9 @@ module TestCasesHelper
 
   def gen_status(test_cases)
     status = {}
-    test_cases.group_by(&:status).each do |k, v|
+    tcs = test_cases if test_cases.is_a? Array
+    tcs = test_cases.values.flatten if test_cases.is_a? Hash
+    tcs.group_by(&:status).each do |k, v|
       status[k] = v.size
     end
     status

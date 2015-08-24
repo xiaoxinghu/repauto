@@ -1,18 +1,18 @@
 #tree
   %ul.nav.nav-list
-    - tree.each_with_index do |(k, v), _i|
+    - tree.each_with_index do |(key, value), _i|
       %li
         %label.container.tree-toggler.nav-header
           .row
             .col-sm-8
               .hideOverflow{ 'data-toggle': 'tooltip',
-                title: k, 'data-placement': 'right' }
-                = k
+                title: key, 'data-placement': 'right' }
+                = key
             .col-sm-4
-              -# = render partial: 'mini_status', locals: { status: gen_status(v) }
+              = render partial: 'mini_status', locals: { status: gen_status(value) }
         %ul.nav.nav-list.tree{ style: 'display: none;' }
-          - if v.is_a?(Array)
-            - v.each do |tc|
+          - if value.is_a?(Array)
+            - value.each do |tc|
               %li
                 = link_to fetch_test_case_path(tc),
                   class: "test-case-in-list list-group-item list-group-item-#{status_map tc.status}",
@@ -20,12 +20,15 @@
                   .hideOverflow
                     = tc.name
           - else
-            - v.each do |k, v|
+            - value.each do |k, v|
+              - v.any?{|c| c.status != 'passed'} ? status = 'info' : status = 'success'
               %li
                 = link_to fetch_test_cases_path(v),
-                  class: "test-case-in-list list-group-item list-group-item-#{status_map v[0].status}",
+                  class: "test-case-in-list list-group-item list-group-item-#{status}",
                   remote: true do
                   .hideOverflow
+                    - if v.size > 1
+                      %span.badge= v.size
                     = k
 
 :coffee
