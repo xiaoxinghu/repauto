@@ -27,6 +27,7 @@ class TestCasesController < ApplicationController
     end
   end
 
+
   def show
     @test_cases = []
     if params[:id] == 'diff'
@@ -49,5 +50,50 @@ class TestCasesController < ApplicationController
     # params[:with].each do |id|
     #   @test_cases << TestCase.find(id)
     # end
+  end
+
+  def diff_images
+    ids = params[:ids].split('/')
+    @test_cases = TestCase.find(ids).to_a
+    @images = optimize_for_diff_images @test_cases
+    # @images = @test_cases.map { |tc| optimize_for_diff_images tc }
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  private
+
+  def optimize_for_diff_images(test_cases)
+    optimized = []
+    test_cases.each do |tc|
+      atts = tc[:attachments]
+      atts = [atts] if atts.is_a? Hash
+      images = atts.select { |a| a[:type] =~ /image/ }
+      images.each_with_index do |image, index|
+        optimized[index] ||= []
+        optimized[index] << {
+          test_case: tc,
+          link: tc.get_att_link(image),
+          title: image[:title]
+        }
+      end
+    end
+    # optimized = {
+    #   test_case: test_case,
+    #   images: []
+    # }
+    # atts = test_case[:attachments]
+    # atts = [atts] if atts.is_a? Hash
+    # images = atts.select { |a| a[:type] =~ /image/ }
+    # images.each do |image|
+    #   optimized[:images] << {
+    #     link: test_case.get_att_link(image),
+    #     title: image[:title]
+    #   }
+    # end
+
+    optimized
   end
 end

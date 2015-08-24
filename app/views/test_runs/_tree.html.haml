@@ -9,7 +9,7 @@
                 title: key, 'data-placement': 'right' }
                 = key
             .col-sm-4
-              - if value.is_a? Array
+              - if value.any?{|v| v.is_a? Array}
                 %span.badge= value.size
               - else
                 = render partial: 'mini_status', locals: { status: gen_status(value) }
@@ -32,15 +32,15 @@
                     = name
           - else
             - value.each do |k, v|
-              - v.any?{|c| c.status != 'passed'} ? status = 'info' : status = 'success'
+              - v[:test_cases].any?{|c| c.status != 'passed'} ? status = 'info' : status = 'success'
               %li
-                = link_to fetch_test_cases_path(v),
+                = link_to diff_images_path(v[:test_cases]),
                   class: "test-case-in-list list-group-item list-group-item-#{status}",
                   remote: true do
                   .hideOverflow
-                    - if v.size > 1
+                    - if v[:test_cases].size > 1
                       %span.badge= v.size
-                    = k
+                    = v[:name]
 
 :coffee
   $('[data-toggle="tooltip"]').tooltip({'delay': { 'show': 1000, 'hide': 100}})

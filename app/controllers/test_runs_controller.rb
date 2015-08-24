@@ -290,9 +290,13 @@ class TestRunsController < ApplicationController
   def group_test_cases(test_cases)
     group = {}
     test_cases.each do |tc|
-      key = tc.name.split('_')[0]
-      group[key] ||= []
-      group[key] << tc
+      name = tc.name.split('_')[0]
+      steps = tc[:steps].map { |step| step[:name] }
+      key = "#{name}_#{steps.join('_')}".html_safe
+      # steps = tc.steps.reduce{ |memo, s| memo + s }
+      # key += "##{steps}"
+      group[key] ||= {name: name, test_cases: []}
+      group[key][:test_cases] << tc
     end
     group
   end
