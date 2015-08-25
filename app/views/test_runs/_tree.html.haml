@@ -39,7 +39,7 @@
                   remote: true do
                   .hideOverflow
                     - if v[:test_cases].size > 1
-                      %span.badge= v.size
+                      %span.badge= v[:test_cases].size
                     = v[:name]
 
 :coffee
