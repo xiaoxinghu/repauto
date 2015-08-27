@@ -1,6 +1,6 @@
 require 'uri'
 require 'datacraft'
-require 'sync/consumers'
+# require 'sync/consumers'
 
 namespace :report do
   desc 'Sync data to database, sync all projects if param project is not given'
@@ -59,10 +59,10 @@ namespace :report do
     #   Datacraft.run inst
     # end
     # password = URI.escape APP_CONFIG['password'], '!'
-    puts "#{APP_CONFIG['report_host']}"
-    puts "#{APP_CONFIG['report_path']}"
-    puts "#{APP_CONFIG['mount_point']}"
-    puts "#{APP_CONFIG['username']}"
-    puts "#{APP_CONFIG['password']}"
+    # puts "#{APP_CONFIG['report_host']}"
+    # puts "#{APP_CONFIG['report_path']}"
+    # puts "#{APP_CONFIG['mount_point']}"
+    # puts "#{APP_CONFIG['username']}"
+    # puts "#{APP_CONFIG['password']}"
   end
 end

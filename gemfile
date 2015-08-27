@@ -66,6 +66,7 @@ gem 'mongoid', '~> 4.0.0'
 gem 'mongo', '~> 2.0.0'
 
 gem 'datacraft'
+gem 'datacraft-tools'
 gem 'font-awesome-sass'
 
 group :development, :test do

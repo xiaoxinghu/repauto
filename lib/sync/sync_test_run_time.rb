@@ -1,10 +1,13 @@
-require "#{Rails.root}/lib/sync/providers"
-require "#{Rails.root}/lib/sync/consumers"
+if defined? Rails
+  require "#{Rails.root}/lib/sync/utilities"
+else
+  require './utilities'
+end
 
 set :benchmark, true
-set :parallel, true
+# set :parallel, true
 
-from TestRunsMongo
+from TestRunsInDB
 
 tweak do |row|
   result = row.symbolize_keys

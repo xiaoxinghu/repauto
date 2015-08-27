@@ -2,25 +2,33 @@ require 'addressable/uri'
 require 'httparty'
 require 'mongo'
 require 'nokogiri'
+require 'pathname'
+require 'yaml'
+require 'datacraft/tools'
 
-class MongoClient
-  # @client = Mongo::Client.new([host], database: db)
-
-  def self.client
-    @@client ||= Mongo::Client.new(
-      [MONGO_CONFIG['sessions']['default']['hosts'].first],
-      database: MONGO_CONFIG['sessions']['default']['database'],
-      max_pool_size: 100)
-    @@client
-  end
-  def initialize
-    Mongo::Logger.logger.level = Logger::WARN
-  end
+if defined? Rails
+  REPORT_ROOT = Pathname.new("#{Rails.root}/public/#{APP_CONFIG['mount_point']}")
+  require "#{Rails.root}/lib/sync/io"
+  MONGO_HOST = MONGO_CONFIG['sessions']['default']['hosts']
+  MONGO_DB = MONGO_CONFIG['sessions']['default']['database']
+  Mongo::Logger.logger.level = Logger::WARN
+else
+  REPORT_ROOT = Pathname.new('/Users/xhu/Projects/te/public/raw')
+  require './io'
+  MONGO_HOST = ['localhost:27017']
+  MONGO_DB = 'testing'
+  Mongo::Logger.logger.level = Logger::WARN
 end
 
-module FileCrawler
-  def root
-    "#{Rails.root}/public/#{APP_CONFIG['mount_point']}"
+MONGO_CLIENT = Mongo::Client.new(
+  MONGO_HOST,
+  database: MONGO_DB,
+  max_pool_size: 100)
+
+
+class String
+  def try_to_i
+    Integer(self) rescue self
   end
 end
 
@@ -42,11 +50,27 @@ class Hash
     self
   end
 
+  def transform_values!
+    each do |key, value|
+      self[key] = yield(value)
+    end
+  end
+
   def symbolize_keys
     transform_keys { |key| key.to_sym rescue key }
   end
 
   def symbolize_keys!
     transform_keys! { |key| key.to_sym rescue key }
+  end
+
+  def format_for_report
+    transform_keys { |key| key.sub(/^@/, '') }
+  end
+
+  def format_for_report!
+    transform_keys! { |key| key.is_a?(String) ? key.sub(/^@/, '') : key }
+    symbolize_keys!
+    transform_values! { |value| value.is_a?(String) ? value.try_to_i : value }
   end
 end
