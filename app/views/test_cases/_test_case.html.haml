@@ -9,7 +9,8 @@
         .media-left
           %i.fa.fa-tags
         .media-body
-          - test_case.tags.each do |tag|
+          - tags = test_case[:tags] || []
+          - tags.each do |tag|
             %span.label.label-default= tag
       %li.media
         .media-left

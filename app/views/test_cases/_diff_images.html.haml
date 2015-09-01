@@ -8,7 +8,8 @@
               = link_to '#', class: 'thumbnail' do
                 %img{src: image[:link]}
                 .caption
-                  - image[:test_case][:tags].each do |tag|
+                  - tags = image[:test_case][:tags] || []
+                  - tags.each do |tag|
                     %span.label.label-default= tag
 
 .col-xs-3
