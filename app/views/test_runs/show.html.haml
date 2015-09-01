@@ -18,7 +18,15 @@
   #detail_view
     #details
 
+  = render partial: "test_cases/commenting"
 :coffee
+  $('#commenting').on 'show.bs.modal', (event) ->
+    button = $(event.relatedTarget)
+    id = button.data('id')
+    modal = $(this)
+    # modal.find('.modal-title').text 'Commenting on ' + id
+    modal.find('#test_case_id').val(id)
+    return
   $('#group-toggle > a').click (e) ->
     $('#group-toggle > a').removeClass 'active'
     $(this).addClass 'active'

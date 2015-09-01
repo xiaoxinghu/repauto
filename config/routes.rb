@@ -29,6 +29,7 @@ Rails.application.routes.draw do
             get 'fetch_history'
             # get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
             get 'fetch'
+            post 'comment'
           end
           # collection do
           #   post 'diff', to: 'test_cases#diff', as: 'diff'

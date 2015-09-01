@@ -3,7 +3,7 @@ if defined? Rails
 else
   require './utilities'
 end
-require 'pp'
+require 'digest'
 
 set :benchmark, true
 set :parallel, true
@@ -21,6 +21,7 @@ stop = false
 tweak do |row|
   counter += 1
   format_test_case row
+  get_md5 row
   # if !stop && !row.key?(:path)
   # if !stop
   #   pp row
@@ -30,12 +31,25 @@ tweak do |row|
   row
 end
 
+def get_md5(hash)
+  md5 = Digest::MD5.new
+  project, type = hash[:path].split('/').select{ |s| s.length > 0 }.first(2)
+  md5 << project
+  md5 << type
+  md5 << hash[:name]
+  if hash[:steps]
+    hash[:steps].each do |step|
+      md5 << step[:name]
+    end
+  end
+  hash[:md5] = md5.hexdigest
+end
+
 def format_test_suite(hash)
   return unless hash['test_suite'].key? 'path'
   test_suite = hash['test_suite']
   path = Pathname.new(test_suite['path']).relative_path_from(REPORT_ROOT).to_s
   test_suite['path'] = path
-  # hash['test_suite'] = test_suite
   test_suite.format_for_report!
 end
 
@@ -60,6 +74,7 @@ end
 def format_attachments(hash)
   return unless hash.key? 'attachments'
   atts = hash.delete('attachments')['attachment']
+  return unless atts
   atts = [atts] if atts.is_a? Hash
   atts.each(&:format_for_report!)
   hash['attachments'] = atts
@@ -74,8 +89,9 @@ def format_tags(hash)
   return unless hash.key? 'parameters'
   params = hash.delete('parameters')['parameter']
   tags = []
-  params.each do |p|
-    tags << p['@value']
+  params = [params] if params.is_a? Hash
+  params.each do |param|
+    tags << param['@value']
   end
   hash['tags'] = tags
 end

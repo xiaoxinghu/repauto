@@ -15,6 +15,7 @@
     "ekko-lightbox": "latest",
     "bootcards": "latest",
     "bootstrap-vertical-tabs": "latest",
+    "bootstrap-validator": "latest",
     "fuelux": "latest"
   }
 }

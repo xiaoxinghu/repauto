@@ -1,0 +1,9 @@
+%ul.media-list
+  - comments = test_case[:comments] || []
+  - comments.each do |comment|
+    %li.media
+      .media-left
+        %i{class: "fa fa-#{status_icon comment[:status]}"}
+      .media-body
+        %h5.media-heading= "#{comment[:name]} marked it as #{comment[:status]} at #{comment[:time]}"
+        %p= comment[:comment]

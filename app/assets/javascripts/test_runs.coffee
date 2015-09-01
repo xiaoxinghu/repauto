@@ -102,6 +102,7 @@ test_run_ready = ->
     $('input.test-run-selector').prop('checked', false)
     $('#globalToolbar').hide()
 
+
 # $(document).ready test_run_ready
 $(document).on 'page:change', test_run_ready
 # $(document).on 'page:change', test_run_ready
