@@ -72,6 +72,7 @@ end
 
 def format_tags(hash)
   return unless hash.key? 'parameters'
+  return unless hash['parameters']
   params = hash.delete('parameters')['parameter']
   tags = []
   params.each do |p|
