@@ -10,8 +10,10 @@
       .row
         .col-sm-8
           %h5.list-group-item-heading Last Run
-          - tr = history[0]
-          = render partial: 'mini_status', locals: {status: tr.summary_with_passrate}
+          - tr = history[0] if history.size > 0
+          - if tr
+            = render partial: 'mini_status', locals: {status: tr.summary_with_passrate}
         .col-sm-3
-          = link_to test_run_path(tr), class: 'btn btn-default pull-right' do
-            View
+          - if tr
+            = link_to test_run_path(tr), class: 'btn btn-default pull-right' do
+              View

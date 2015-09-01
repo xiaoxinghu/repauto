@@ -26,6 +26,7 @@ class ProjectsController < ApplicationController
               .exists(summary: true)
               .sort(start: -1)
               .limit(sample_amount)
+    return [] unless samples.count > 0
     max = samples.max_by { |s| s.summary.values.sum }.summary.values.sum
     test_runs = project.test_runs
                 .where(type: type)

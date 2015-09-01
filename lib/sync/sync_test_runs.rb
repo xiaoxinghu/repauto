@@ -5,7 +5,7 @@ else
 end
 
 set :benchmark, true
-# set :parallel, true
+set :parallel, true
 
 projects = ProjectsInDB.new
 projects.each do |project|
@@ -33,7 +33,8 @@ tweak do |row|
     r[:start] = Time.strptime(time, '%Y-%m-%d-%H-%M-%S').to_i * 1000
     if status_file.exist?
       status = YAML.load_file(status_file)
-      return nil unless status
+      # return nil unless status
+      fail "#{row}: reading status.yml failed" unless status
       r[:start] = status['start_time']
       r[:status] = status['status']
       r[:stop] = status['end_time'] if status['end_time']

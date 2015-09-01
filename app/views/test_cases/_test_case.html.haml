@@ -1,41 +1,51 @@
-%div{ class: "panel panel-#{status_map(test_case.status)}" }
-  - lite = false unless defined? lite
-  .panel-heading
-    %span{ :class => "label label-#{status_map(test_case.status)}" }= test_case.status
-    = test_case.name
-  .panel-body
-    %ul.media-list
-      %li.media
-        .media-left
-          %i.fa.fa-tags
-        .media-body
-          - tags = test_case[:tags] || []
-          - tags.each do |tag|
-            %span.label.label-default= tag
-      %li.media
-        .media-left
-          %i.fa.fa-clock-o
-        .media-body
-          %p= "#{show_time test_case.start} -> #{show_time test_case.stop} (#{show_duration test_case.start, test_case.stop})"
-      %li.media
-        .media-left
-          %i.fa.fa-list
-        .media-body
-          %h4.media-heading Steps
-          = render partial: 'steps', locals: {test_case: test_case}
+.col-sm-12.bootcards-cards
+  %div{ class: "panel panel-#{status_map(test_case.status)}" }
+    - lite = false unless defined? lite
+    .panel-heading.clearfix
+      %h3.panel-title.pull-left
+        %span{ :class => "label label-#{status_map(test_case.status)}" }= test_case.status
+        = test_case.name
+      - unless lite
+        %button.btn.btn-primary.pull-right{type: 'button', data: {toggle: 'modal', target: '#commenting', id: test_case.id}}
+          %i.fa.fa-pencil Comment
+    .panel-body
+      %ul.media-list
+        %li.media
+          .media-left
+            %i.fa.fa-tags
+          .media-body
+            - test_case.tags.each do |tag|
+              %span.label.label-default= tag
+        %li.media
+          .media-left
+            %i.fa.fa-clock-o
+          .media-body
+            %p= "#{show_time test_case.start} -> #{show_time test_case.stop} (#{show_duration test_case.start, test_case.stop})"
+        %li.media
+          .media-left
+            %i.fa.fa-list
+          .media-body
+            %h4.media-heading Steps
+            = render partial: 'steps', locals: {test_case: test_case}
 
-      %li
-        %ul.nav.nav-tabs{role: 'tablist'}
-          %li.active{role: 'presentation'}
-            = link_to 'attachments', '#attachmentsPanel', 'aria-controls': 'attachmentsPanel', role: 'tab', 'data-toggle': 'tab'
-          - unless lite
-            %li{role: 'presentation'}
-              = link_to 'history', '#historyPanel', 'aria-controls': 'historyPanel', role: 'tab', 'data-toggle': 'tab'
+        %li
+          %ul.nav.nav-tabs{role: 'tablist'}
+            %li.active{role: 'presentation'}
+              = link_to 'attachments', '#attachmentsPanel', 'aria-controls': 'attachmentsPanel', role: 'tab', 'data-toggle': 'tab'
+            - if test_case[:comments]
+              %li{role: 'presentation'}
+                = link_to 'comments', '#commentsPanel', 'aria-controls': 'commentsPanel', role: 'tab', 'data-toggle': 'tab'
+            - unless lite
+              %li{role: 'presentation'}
+                = link_to 'history', '#historyPanel', 'aria-controls': 'historyPanel', role: 'tab', 'data-toggle': 'tab'
 
-        .tab-content
-          .tab-pane.active#attachmentsPanel{role: 'tabpanel'}
-            .well
-              = render partial: 'attachments', locals: { test_case: test_case, lite: lite }
-          .tab-pane#historyPanel{role: 'tabpanel'}
-            .well
-              #history{ data: { load: fetch_history_test_case_path(test_case, format: :js) } }
+          .tab-content
+            .tab-pane.active#attachmentsPanel{role: 'tabpanel'}
+              .well
+                = render partial: 'attachments', locals: { test_case: test_case, lite: lite }
+            .tab-pane#commentsPanel{role: 'tabpanel'}
+              .well
+                = render partial: 'comments', locals: { test_case: test_case, lite: lite }
+            .tab-pane#historyPanel{role: 'tabpanel'}
+              .well
+                #history{ data: { load: fetch_history_test_case_path(test_case, format: :js) } }

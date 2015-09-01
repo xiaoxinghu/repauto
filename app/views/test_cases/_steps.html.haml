@@ -1,4 +1,5 @@
 %ul.media-list
+  - error_id = "error_details_#{SecureRandom.uuid}"
   - if test_case.respond_to? 'steps'
     - problem_found = false
     - test_case.steps.each do |step|
@@ -13,15 +14,15 @@
           - if status == 'passed' || problem_found
             %h5{ class: problem_found ? "media-heading text-muted" : "media-heading text-#{context status}" }= step[:name]
           - else
-            %a{ 'data-toggle': 'collapse', href: '#error_details', 'aria-expanded': 'false', 'aria-controls': 'error_details' }
+            %a{ 'data-toggle': 'collapse', href: "##{error_id}", 'aria-expanded': 'false', 'aria-controls': 'error_details' }
               %h5{ class: problem_found ? "media-heading text-muted" : "media-heading text-#{context status}" }= step[:name]
-            #error_details.collapse{style: 'overflow: hidden;'}
+            .collapse{ id: error_id }
               = render partial: 'error', locals: { test_case: test_case }
 
           %p.text-muted.small= "#{show_time start} -> #{show_time stop} (#{show_duration start, stop})"
       - problem_found = true unless status == 'passed'
   - else
-    %a{ 'data-toggle': 'collapse', href: '#error_details', 'aria-expanded': 'false', 'aria-controls': 'error_details' }
+    %a{ 'data-toggle': 'collapse', href: "##{error_id}", 'aria-expanded': 'false', 'aria-controls': 'error_details' }
       %h5{ class: "media-heading text-muted" } No Step Executed
-    #error_details.collapse{style: 'overflow: hidden;'}
+    .collapse{ id: error_id }
       = render partial: 'error', locals: { test_case: test_case }

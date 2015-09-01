@@ -293,9 +293,7 @@ class TestRunsController < ApplicationController
       name = tc.name.split('_')[0]
       steps = tc[:steps] ? tc[:steps].map { |step| step[:name] } : []
       key = "#{name}_#{steps.join('_')}".html_safe
-      # steps = tc.steps.reduce{ |memo, s| memo + s }
-      # key += "##{steps}"
-      group[key] ||= {name: name, test_cases: []}
+      group[key] ||= { name: name, test_cases: [] }
       group[key][:test_cases] << tc
     end
     group

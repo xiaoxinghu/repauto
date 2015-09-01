@@ -17,6 +17,7 @@
 //= require ekko-lightbox
 //= require fuelux
 //= require bootcards
+//= require bootstrap-validator
 //= require_tree .
 
 

@@ -18,10 +18,11 @@ class TestCasesController < ApplicationController
 
   def fetch_history
     @test_case = TestCase.find(params[:id])
-    @history = TestCase
+    same_name = TestCase
                .where(name: @test_case.name)
-               .sort(start: -1)
-               .limit(10)
+               .where(:id.ne => @test_case.id)
+               .sort(start: -1).to_a
+    @history = same_name.select { |c| @test_case.get_md5 == c.get_md5 }.first(10)
     respond_to do |format|
       format.js
     end
@@ -58,6 +59,24 @@ class TestCasesController < ApplicationController
     @images = optimize_for_diff_images @test_cases
     # @images = @test_cases.map { |tc| optimize_for_diff_images tc }
 
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def comment
+    puts params
+    id = params[:test_case_id]
+    test_case = TestCase.find(id)
+    comment = {
+      name: params[:name],
+      status: params[:status],
+      comment: params[:comment],
+      time: Time.zone.now
+    }
+    test_case[:comments] ||= []
+    test_case.push(comments: comment)
+    test_case.save!
     respond_to do |format|
       format.js
     end

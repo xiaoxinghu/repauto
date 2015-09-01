@@ -98,22 +98,39 @@ class TestCasesInDB
   def initialize
     @test_cases = MONGO_CLIENT[:test_cases]
     @bulk_op = []
+    @lock = Mutex.new
   end
 
   def <<(row)
     tcr = row.clone
     tcr.delete :test_suite
+    # @bulk_op << {
+    #   replace_one: {
+    #     find: { path: row[:path], start: row[:start] },
+    #     replacement: tcr,
+    #     upsert: true
+    #   }
+    # }
+    return if @test_cases.find(path: tcr[:path], start: tcr[:start]).count > 0
     @bulk_op << {
-      replace_one: {
-        find: { path: row[:path], start: row[:start] },
-        replacement: tcr,
-        upsert: true
-      }
+      insert_one: tcr
     }
+    dump
+  end
+
+  def dump(force: false)
+    bulk_op = []
+    @lock.synchronize do
+      return if @bulk_op.size == 0
+      return unless @bulk_op.size >= 20_000 || force
+      bulk_op = @bulk_op.clone
+      @bulk_op.clear
+    end
+    @test_cases.bulk_write(bulk_op, ordered: false)
   end
 
   def build
-    @test_cases.bulk_write(@bulk_op, ordered: true)
+    dump force: true
   end
 end
 
@@ -145,20 +162,35 @@ class UpdateTestRunSummary
   def initialize
     @test_runs = MONGO_CLIENT[:test_runs]
     @bulk_op = []
+    @updated = Set.new
   end
+
   def <<(row)
     tr_path = row[:path].split('/allure/')[0]
+    @updated << tr_path
 
-    @bulk_op << {
-      update_one: {
-        find: { path: tr_path },
-        update: { '$inc' => { "summary.#{row[:status]}": 1 } }
-      }
-    }
+    # @bulk_op << {
+    #   update_one: {
+    #     find: { path: tr_path },
+    #     update: { '$inc' => { "summary.#{row[:status]}": 1 } }
+    #   }
+    # }
   end
 
   def build
-    @test_runs.bulk_write(@bulk_op, ordered: true)
+    @updated.each do |path|
+      pipline = [
+        { '$match': { path: /^#{path}/ } },
+        { '$group': { '_id': '$status', count: { '$sum' => 1 } } }
+      ]
+      counts = TestCase.collection.aggregate(pipline)
+      summary = {}
+      counts.each do |c|
+        summary[c[:_id]] = c[:count]
+      end
+      @test_runs.find(path: path).update_one('$set' => {summary: summary})
+    end
+    # @test_runs.bulk_write(@bulk_op, ordered: true)
   end
 end
 
