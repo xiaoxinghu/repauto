@@ -1,6 +1,6 @@
 - gallery = "g_#{SecureRandom.uuid}"
 - if test_case.respond_to? 'attachments'
-  - atts = test_case[:attachments]
+  - atts = test_case[:attachments] || []
   - atts = [atts] if atts.is_a? Hash
   - images = atts.select{|a| a[:type] =~ /image/}
   %h4 Screenshots

@@ -87,7 +87,7 @@ class TestCasesController < ApplicationController
   def optimize_for_diff_images(test_cases)
     optimized = []
     test_cases.each do |tc|
-      atts = tc[:attachments]
+      atts = tc[:attachments] || []
       atts = [atts] if atts.is_a? Hash
       images = atts.select { |a| a[:type] =~ /image/ }
       images.each_with_index do |image, index|

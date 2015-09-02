@@ -203,7 +203,7 @@ class UpdateTestRunTime
     suites.each do |suite|
       start = suite[:start].to_i
       stop = suite[:stop].to_i
-      test_run[:start] = start if !test_run[:start] || test_run[:start] > start
+      # test_run[:start] = start if !test_run[:start] || test_run[:start] > start
       test_run[:stop] = stop if !test_run[:stop] || test_run[:stop] < stop
     end
     MONGO_CLIENT[:test_runs].find(path: test_run[:path]).update_one(test_run)

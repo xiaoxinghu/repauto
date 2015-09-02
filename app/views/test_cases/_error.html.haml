@@ -1,7 +1,7 @@
 .well
   - if test_case.respond_to? 'failure'
     %h4 Error Message
-    - lines = test_case.failure[:message].split(/\n+/)
+    - lines = (test_case.failure[:message] || '').split(/\n+/)
     - lines.each do |line|
       %p{ :style => "word-wrap: break-word;white-space: pre-wrap; word-break: break-all;"}= line
     -# %p{ :style => "word-wrap: break-word;white-space: pre-wrap;"}= test_case.failure[:message]

@@ -65,6 +65,7 @@ end
 
 def format_steps(hash)
   return unless hash.key? 'steps'
+  return unless hash['steps']
   steps = hash.delete('steps')['step']
   steps = [steps] if steps.is_a? Hash
   steps.each(&:format_for_report!)
@@ -73,6 +74,7 @@ end
 
 def format_attachments(hash)
   return unless hash.key? 'attachments'
+  return unless hash['attachments']
   atts = hash.delete('attachments')['attachment']
   return unless atts
   atts = [atts] if atts.is_a? Hash
