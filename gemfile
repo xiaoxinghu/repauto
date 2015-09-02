@@ -68,6 +68,8 @@ gem 'mongo', '~> 2.0.0'
 gem 'datacraft'
 gem 'datacraft-tools'
 gem 'font-awesome-sass'
+gem 'faker'
+gem 'allure-ruby-adaptor-api', path: '~/Projects/allure-ruby-adaptor-api'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

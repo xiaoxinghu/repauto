@@ -4,7 +4,7 @@ else
   require './utilities'
 end
 
-set :benchmark, true
+# set :benchmark, true
 # set :parallel, true
 
 from TestRunsInDB
@@ -16,3 +16,4 @@ tweak do |row|
 end
 
 to UpdateTestRunTime
+# to DoingNothing

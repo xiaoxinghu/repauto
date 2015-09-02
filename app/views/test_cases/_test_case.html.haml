@@ -19,6 +19,11 @@
               %span.label.label-default= tag
         %li.media
           .media-left
+            %i.fa.fa-calendar
+          .media-body
+            %p= "#{show_date test_case.start}"
+        %li.media
+          .media-left
             %i.fa.fa-clock-o
           .media-body
             %p= "#{show_time test_case.start} -> #{show_time test_case.stop} (#{show_duration test_case.start, test_case.stop})"

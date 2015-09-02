@@ -5,7 +5,7 @@ else
 end
 require 'digest'
 
-set :benchmark, true
+# set :benchmark, true
 set :parallel, true
 
 test_runs = TestRunsInDB.new :unsynced
@@ -88,15 +88,28 @@ def format_failure(hash)
 end
 
 def format_tags(hash)
-  return unless hash.key? 'parameters'
-  return unless hash['parameters']
-  params = hash.delete('parameters')['parameter']
-  tags = []
-  params = [params] if params.is_a? Hash
-  params.each do |param|
-    tags << param['@value']
+  params = hash['parameters']
+  labels = hash['labels']
+  if params
+    params = hash.delete('parameters')['parameter']
+    tags = []
+    params = [params] if params.is_a? Hash
+    params.each do |param|
+      tags << param['@value']
+    end
+    hash['tags'] = tags
+  elsif labels
+    labels = hash.delete('labels')['label']
+    labels = [labels] if labels.is_a? Hash
+    labels.each do |label|
+      if label['@name'] == 'tags'
+        tags = label['@value'].split(',')
+        hash['tags'] = tags
+      end
+    end
   end
-  hash['tags'] = tags
+  # return unless hash.key? 'parameters'
+  # return unless hash['parameters']
 end
 
 to TestCasesInDB

@@ -4,7 +4,7 @@ else
   require './utilities'
 end
 
-set :benchmark, true
+# set :benchmark, true
 
 
 from YamlFiles, "#{REPORT_ROOT}/*/project.yml"
