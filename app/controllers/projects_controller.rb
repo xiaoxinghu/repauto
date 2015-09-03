@@ -50,9 +50,10 @@ class ProjectsController < ApplicationController
 
   def fetch_trend
     @project = Project.find(params[:id])
+    include_manual = (params[:include_manual] == '1')
     ratio = params[:filter] ? params[:filter].to_f / 100.0 : 0.5
     history = get_history(@project, params[:type], ratio: ratio)
-    @trend_data = to_data(history)
+    @trend_data = to_data(history, include_manual: include_manual)
     respond_to do |format|
       format.js
     end
@@ -63,7 +64,7 @@ class ProjectsController < ApplicationController
     @redis ||= Redis.new
   end
 
-  def to_data(history)
+  def to_data(history, include_manual: false)
     data = []
     history.each do |tr|
       start = Time.at(tr.start / 1000.0)
@@ -71,7 +72,19 @@ class ProjectsController < ApplicationController
         time: start,
         date: start.to_date
       }
-      d.merge!(patch tr[:summary])
+      summary = patch tr[:summary]
+      if include_manual
+        commented = tr.test_cases.exists(comments: true)
+        commented.each do |tc|
+          new_status = tc[:comments].last[:status] || tc[:status]
+          old_status = tc[:status]
+          if new_status != old_status
+            summary[new_status] += 1
+            summary[old_status] -= 1
+          end
+        end
+      end
+      d.merge!(summary)
       data << d
     end
     data
