@@ -20,15 +20,9 @@
         = test_run[:status]
     .col-sm-4
       - if test_run[:summary]
-        .status.col-sm-5
-          = render partial: 'mini_status', locals: { status: test_run.summary_with_passrate }
-        .manual.col-sm-5
-          = render partial: 'mini_status', locals: { status: test_run.manual_summary }
+        .status.col-sm-5{ data: { load: fetch_test_run_summary_path(test_run, selector: '.status')}}
+        .manual.col-sm-5{ data: { load: fetch_test_run_summary_path(test_run, selector: '.manual', manual: true)}}
         .todo.col-sm-2
-          - todo = test_run.todo
-          - if todo > 0
-            %span.badge= todo
-        -# .ra
       - else
         not enough data
     .col-sm-1

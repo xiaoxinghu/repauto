@@ -12,7 +12,7 @@
           %h5.list-group-item-heading Last Run
           - tr = history[0] if history.size > 0
           - if tr
-            = render partial: 'mini_status', locals: {status: tr.summary_with_passrate}
+            = render partial: 'mini_status', locals: {status: tr.summary}
         .col-sm-3
           - if tr
             = link_to test_run_path(tr), class: 'btn btn-default pull-right' do

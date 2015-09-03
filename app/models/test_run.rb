@@ -18,6 +18,16 @@ class TestRun
     where(path: %r{^#{project.path}/})
   end
 
+  def todo
+    test_cases.where(:status.ne => :passed).exists(comments: false).count
+  end
+
+  def summary(manual: false)
+    manual ? manual_summary : summary_with_passrate
+  end
+
+  private
+
   def summary_with_passrate
     swp = self[:summary].clone
     add_pass_rate swp
@@ -38,9 +48,6 @@ class TestRun
     add_pass_rate summary
   end
 
-  def todo
-    test_cases.where(:status.ne => :passed).exists(comments: false).count
-  end
 
   def add_pass_rate(summary)
     passed = (summary[:passed] || 0)

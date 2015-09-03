@@ -377,4 +377,14 @@ class TestRunsController < ApplicationController
       format.js
     end
   end
+
+  def fetch_summary
+    @test_run = TestRun.find(params[:id])
+    @summary = @test_run.summary manual: params[:manual]
+    @selector = params[:selector]
+    @todo = @test_run.todo
+    respond_to do |format|
+      format.js
+    end
+  end
 end

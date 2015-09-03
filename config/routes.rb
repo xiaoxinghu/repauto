@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   end
 
   get 'fetch_test_cases/:ids', to: 'test_cases#fetch', as: :fetch_test_cases
+  get 'fetch_test_run_summary/:id', to: 'test_runs#fetch_summary', as: :fetch_test_run_summary
   get 'diff_images/:ids', to: 'test_cases#diff_images', as: :diff_images
 
   # ajax endpoints
