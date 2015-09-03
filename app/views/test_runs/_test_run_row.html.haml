@@ -1,29 +1,32 @@
 .row.test-run-row{ data: {id: "#{test_run.id}", type: "#{test_run.type}" } }
-  .col-sm-1
+  .col-md-1
     .toggle{style: 'width: 20px;'}
       %input.switch.test-run-selector{ type: 'checkbox' }
-  = link_to test_run_path(test_run) do
-    .col-sm-2
-      %td= test_run[:type]
-    .col-sm-2
-      - if test_run[:start]
-        = Time.at(test_run[:start] / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
-      - else
-        Unknown
-    .col-sm-2
-      - if test_run[:start] && test_run[:stop]
-        %td
-          = distance_of_time_in_words ( test_run[:stop]/1000.0 ), ( test_run[:start]/1000.0 )
-          - if test_run[:status] != 'done'
-            %span.label.label-default= test_run[:status]
-      - else
-        = test_run[:status]
-    .col-sm-4
-      - if test_run[:summary]
-        .status.col-sm-5{ data: { load: fetch_test_run_summary_path(test_run, selector: '.status')}}
-        .manual.col-sm-5{ data: { load: fetch_test_run_summary_path(test_run, selector: '.manual', manual: true)}}
-        .todo.col-sm-2
-      - else
-        not enough data
-    .col-sm-1
-      = render partial: 'test_run_row_toolbar', locals: { test_run: test_run }
+  .col-md-11
+    = link_to test_run_path(test_run) do
+      .col-md-6
+        .col-sm-3
+          %td= test_run[:type]
+        .col-sm-5
+          - if test_run[:start]
+            = Time.at(test_run[:start] / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
+          - else
+            Unknown
+        .col-sm-3
+          - if test_run[:start] && test_run[:stop]
+            %td
+              = show_duration test_run[:start], test_run[:stop]
+              - if test_run[:status] != 'done'
+                %span.label.label-default= test_run[:status]
+          - else
+            = test_run[:status]
+      .col-md-6
+        .col-sm-10
+          - if test_run[:summary]
+            .status.col-sm-5{ data: { load: fetch_test_run_summary_path(test_run, selector: '.status')}}
+            .manual.col-sm-5{ data: { load: fetch_test_run_summary_path(test_run, selector: '.manual', manual: true)}}
+            .todo.col-sm-2
+          - else
+            not enough data
+        .col-sm-2
+          = render partial: 'test_run_row_toolbar', locals: { test_run: test_run }

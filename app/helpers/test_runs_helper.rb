@@ -160,4 +160,18 @@ module TestRunsHelper
     raw_data.to_json
   end
 
+  def summarize(test_run)
+    summary = []
+    summary << { name: 'date', value: show_date(test_run.start) }
+    summary << { name: 'duration', value: show_duration(test_run.start, test_run.stop) }
+    total = test_run[:summary].values.sum
+    summary << { name: 'total', value: total }
+    pass_rate = (test_run[:summary][:passed] || 0) * 100.0 / total
+    summary << { name: 'PR', value: "#{pass_rate.round(2)}%" }
+    test_run[:summary].each do |k, v|
+      summary << { name: k, value: v }
+    end
+    summary << { name: 'todo', value: test_run.todo }
+    summary
+  end
 end

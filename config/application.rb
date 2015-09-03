@@ -16,7 +16,7 @@ require 'rails/test_unit/railtie'
 Bundler.require(*Rails.groups)
 
 module Tereport
-  VERSION = '2.1.14'
+  VERSION = '2.1.15'
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

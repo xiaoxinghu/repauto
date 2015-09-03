@@ -49,7 +49,7 @@
         %p.navbar-text.navbar-right
           - time = time_ago_in_words Time.at(project[:last_sync] / 1000.0)
           = "last sync: #{time} ago"
-      - if Rails.env == 'development'
+      - if Rails.env == 'development' && false
         %p.navbar-text.navbar-right= "#{controller_name} -> #{action_name}"
     -# .container
     -#   = consolidate_button

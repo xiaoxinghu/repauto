@@ -9,31 +9,30 @@
       .modal-body
         .row
           .col-md-5
-            .row
-              .col-md-4
-                start at:
-              .col-md-8
-                = show_date @test_run.start
-            .row
-              .col-md-4
-                duration
-              .col-md-8
-                = show_duration @test_run.start, @test_run.stop
-            .row
-              .col-md-4
-                total
-              .col-md-8
-                = @test_run[:summary].values.sum
-            - @test_run[:summary].each do |k, v|
+            - summarize(@test_run).each do |info|
               .row
                 .col-md-4
-                  = k
+                  %strong= info[:name]
                 .col-md-8
-                  = v
-            .row
-              .col-md-4
-                todo
-              .col-md-8
-                = @test_run.todo
+                  = info[:value]
           .col-md-7
-            graph here
+            #donut{ data: { summary: @test_run[:summary].to_json.html_safe } }
+
+:coffee
+  done = false
+  $('#testRunSummary').on 'shown.bs.modal', (e) ->
+    return if done
+    summary = $('#donut').data('summary')
+    color_map = {passed: '#5cb85c', failed: '#d9534f', broken: '#f0ad4e'}
+    data = []
+    colors = []
+    for k, v of summary
+      data.push {label: k, value: v}
+      colors.push color_map[k]
+    Morris.Donut
+      element: 'donut'
+      data: data
+      colors: colors
+    done = true
+    return
+  # $('#donut').html(summary)
