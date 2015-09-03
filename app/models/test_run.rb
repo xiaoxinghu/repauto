@@ -30,6 +30,7 @@ class TestRun
       new_status = tc[:comments].last[:status] || tc[:status]
       old_status = tc[:status]
       if new_status != old_status
+        summary[new_status] ||= 0
         summary[new_status] += 1
         summary[old_status] -= 1
       end
