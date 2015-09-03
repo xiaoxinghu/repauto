@@ -12,5 +12,3 @@
       .col-sm-4
     - @archived.each do |test_run|
       = render partial: 'test_run_row', locals: { test_run: test_run }
-- else
-  %p No Results
