@@ -20,8 +20,30 @@ class TestRun
 
   def summary_with_passrate
     swp = self[:summary].clone
-    passed = (swp[:passed] || 0)
-    swp[:rate] = passed * 100.0 / swp.values.sum
-    swp
+    add_pass_rate swp
+  end
+
+  def manual_summary
+    summary = self[:summary].clone
+    commented = test_cases.exists(comments: true)
+    commented.each do |tc|
+      new_status = tc[:comments].last[:status] || tc[:status]
+      old_status = tc[:status]
+      if new_status != old_status
+        summary[new_status] += 1
+        summary[old_status] -= 1
+      end
+    end
+    add_pass_rate summary
+  end
+
+  def todo
+    test_cases.where(:status.ne => :passed).exists(comments: false).count
+  end
+
+  def add_pass_rate(summary)
+    passed = (summary[:passed] || 0)
+    summary[:rate] = passed * 100.0 / summary.values.sum
+    summary
   end
 end

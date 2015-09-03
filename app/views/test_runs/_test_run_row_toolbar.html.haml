@@ -2,9 +2,9 @@
   - if test_run[:archived_at]
     = link_to 'restore', restore_test_run_path(test_run), method: :get, remote: true, class: 'btn btn-xs btn-primary restore'
   - else
-    .btn-group
-      = link_to 'details', test_run_path(test_run), class: 'btn btn-xs btn-default', type: 'button'
-      = link_to 'rolling average', ra_test_run_path(test_run), method: :get, remote: true, class: 'btn btn-xs btn-default'
+    -# .btn-group
+      -# = link_to 'details', test_run_path(test_run), class: 'btn btn-xs btn-default', type: 'button'
+      -# = link_to 'rolling average', ra_test_run_path(test_run), method: :get, remote: true, class: 'btn btn-xs btn-default'
     .btn-group
       = link_to 'delete', archive_test_run_path(test_run), method: :get, remote: true, class: 'btn btn-xs btn-danger delete'
       -# %button.btn.btn-xs.btn-danger.delete-button delete

@@ -4,6 +4,8 @@
       %input.switch.test-run-selector{ type: 'checkbox' }
   = link_to test_run_path(test_run) do
     .col-sm-2
+      %td= test_run[:type]
+    .col-sm-2
       - if test_run[:start]
         = Time.at(test_run[:start] / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
       - else
@@ -16,14 +18,18 @@
             %span.label.label-default= test_run[:status]
       - else
         = test_run[:status]
-    .col-sm-2
-      %td= test_run[:type]
-    .col-sm-2
+    .col-sm-4
       - if test_run[:summary]
-        .status
+        .status.col-sm-5
           = render partial: 'mini_status', locals: { status: test_run.summary_with_passrate }
-        .ra
+        .manual.col-sm-5
+          = render partial: 'mini_status', locals: { status: test_run.manual_summary }
+        .todo.col-sm-2
+          - todo = test_run.todo
+          - if todo > 0
+            %span.badge= todo
+        -# .ra
       - else
         not enough data
-    .col-sm-3
+    .col-sm-1
       = render partial: 'test_run_row_toolbar', locals: { test_run: test_run }
