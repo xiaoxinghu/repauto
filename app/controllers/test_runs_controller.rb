@@ -273,6 +273,7 @@ class TestRunsController < ApplicationController
   def group_by_feature(test_run)
     group = {}
     test_run.test_suites.each do |ts|
+      group[ts.name] ||= []
       group[ts.name] = ts.test_cases.to_a
     end
     group

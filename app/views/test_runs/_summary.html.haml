@@ -1,0 +1,39 @@
+.modal.fade#testRunSummary{tabindex: '-1', role: 'dialog', 'aria-labelledby': 'testRunSummaryLabel'}
+  .modal-dialog{role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{type: 'button', 'data-dismiss': 'modal', 'aria-label': 'Close'}
+          %span{'aria-hidden': true} &times;
+        %h4.modal-title#testRunSummaryLabel
+          %p Summary
+      .modal-body
+        .row
+          .col-md-5
+            .row
+              .col-md-4
+                start at:
+              .col-md-8
+                = show_date @test_run.start
+            .row
+              .col-md-4
+                duration
+              .col-md-8
+                = show_duration @test_run.start, @test_run.stop
+            .row
+              .col-md-4
+                total
+              .col-md-8
+                = @test_run[:summary].values.sum
+            - @test_run[:summary].each do |k, v|
+              .row
+                .col-md-4
+                  = k
+                .col-md-8
+                  = v
+            .row
+              .col-md-4
+                todo
+              .col-md-8
+                = @test_run.todo
+          .col-md-7
+            graph here

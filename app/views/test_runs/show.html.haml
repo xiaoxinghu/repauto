@@ -5,12 +5,17 @@
       = Time.at(@test_run[:start]/1000.0).strftime("%a, %b %d %Y")
   .btn-toolbar{ role: 'toolbar' }
     .btn-group#group-toggle{role: 'group'}
-      = link_to 'features', fetch_tree_test_run_path(@test_run, group_by: 'features', format: :js), remote: true, class: 'btn btn-default active'
-      = link_to 'handset', fetch_tree_test_run_path(@test_run, group_by: 'handset', format: :js), remote: true, class: 'btn btn-default'
-      = link_to 'errors', fetch_tree_test_run_path(@test_run, group_by: 'errors', format: :js), remote: true, class: 'btn btn-default'
+      = link_to fetch_tree_test_run_path(@test_run, group_by: 'features', format: :js), remote: true, class: 'btn btn-default active', data: {toggle: 'tooltip', placement: 'bottom', trigger: 'hover'}, title: 'group by features' do
+        %i.fa.fa-star
+      = link_to fetch_tree_test_run_path(@test_run, group_by: 'handset', format: :js), remote: true, class: 'btn btn-default', data: {toggle: 'tooltip', placement: 'bottom', trigger: 'hover'}, title: 'handset view' do
+        %span.glyphicon.glyphicon-th
+      = link_to fetch_tree_test_run_path(@test_run, group_by: 'errors', format: :js), remote: true, class: 'btn btn-default', data: {toggle: 'tooltip', placement: 'bottom', trigger: 'hover'}, title: 'group by errors' do
+        %i.fa.fa-exclamation-triangle
     .btn-group{ role: "group"}
+      %button.btn.btn-default{type: 'button', data: {toggle: 'modal', target: '#testRunSummary'}} overview
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default disabled"
 
+= render partial: "summary"
 
 .row#main-view
   #tree_view{ data: { load: fetch_tree_test_run_path(@test_run)}}
