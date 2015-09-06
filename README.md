@@ -2,7 +2,7 @@
 
 - bundler
 - node.js
-a bower
+- bower
 - mysql
 
 ## install necessary things
@@ -29,31 +29,12 @@ To setup mongodb
 
 Follow the [instructions](https://docs.mongodb.org/getting-started/shell/tutorial/install-mongodb-on-os-x/) for details.
 
-## checkout the file from tfs
-
-Use whatever you are comfortable to checkout the project from tfs.
-Here is an example with `git tf`
-Follow the instructions from [here](https://gittf.codeplex.com/) to setup `git tf`.
-You can install it through `homebrew`.
-
-    brew install git-tf
-
-Checkout the code
-
-    git tf clone http://auk-tfs.mcom.local:8080/tfs/DefaultCollection $/Mobiliti/Framework/Automation/Trunk/Tools/te_website
-
 ## setup the website
 
 `cd` to the project folder, and do the following.
 
     bundle install
     rake bower:install
-
-To setup database.
-
-    rake db:setup
-
-If you got some error about mysql database, check the file `config/database.yml`. Look into the `development` section and match it with your mysql settings.
 
 To run the website.
 
@@ -65,17 +46,13 @@ Now you are able to access it through `http://localhost:3000`.
 
 # deployment for production
 
-Get latest.
-
-    git tf pull
-
 Generate secret key. Under the root folder of the project.
 
     echo SECRET_KEY_BASE=`rake secret` > .env.production
 
 Deployment for production.
 
-    RAILS_ENV=production rake fiserv:deploy
+    RAILS_ENV=production rake report:deploy
 
 # diagnostic
 
@@ -105,26 +82,18 @@ To list all jobs.
 
 To manually sync data to database
 
-    RAILS_ENV=production rake report:msync
+    RAILS_ENV=production rake data:msync
 
 To sync only one project
 
-    RAILS_ENV=production rake report:msync[FP5]
+    RAILS_ENV=production rake data:msync[FP5]
 
 The sync task will sync with test runs which happened within last 24 hours, to sync all, which will take significant amount of time (don't do this), you can:
 
-    RAILS_ENV=production rake report:sync_all
+    RAILS_ENV=production rake data:sync_all
 
 In case this document is out dated. To see an up to date command list.
 
     rake -T report
 
 This rake task will turn off the background syncing task first, then do the syncing, and turn the background task back on when finished.
-
-## ssh to production environment
-
-Make sure you know the credential for that mac.
-
-    ssh xhu@mcmac15.mcom.local
-
-Then input the password for user `xhu`
