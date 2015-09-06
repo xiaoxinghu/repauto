@@ -68,4 +68,30 @@ module TestCasesHelper
     end
     count
   end
+
+  def gen_status(test_cases)
+    status = {}
+    tcs = test_cases if test_cases.is_a? Array
+    tcs = test_cases.values.flatten if test_cases.is_a? Hash
+    tcs.group_by(&:status).each do |k, v|
+      status[k] = v.size
+    end
+    status
+  end
+
+  def status_icon(status)
+    case status
+    when 'passed'
+      'check'
+    when 'failed'
+      'times'
+    when 'broken'
+      'bolt'
+    when 'canceled'
+      'ban'
+    else
+      'question'
+    end
+  end
+
 end

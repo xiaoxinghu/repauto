@@ -7,9 +7,17 @@
 //= require jstzdetect
 //= require moment
 //= require "dimple/dist/dimple.v2.1.2.min"
+//= require raphael
+//= require "morris.js/morris"
 //= require "ladda-bootstrap/dist/spin.min"
 //= require "ladda-bootstrap/dist/ladda.min"
 //= require bootstrap-multiselect
+//= require bootstrap-treeview
+//= require bootstrap-switch
+//= require ekko-lightbox
+//= require fuelux
+//= require bootcards
+//= require bootstrap-validator
 //= require_tree .
 
 
@@ -46,6 +54,14 @@ spin: (ms=50)->
 # 		return
 #   return
 ready = ->
+  $('div[data-load]').filter(':visible').each ->
+    path = $(this).attr('data-load')
+    $.get(path)
+    #$(this).load path
+    return
+  # $.fn.bootstrapSwitch.defaults.size = 'mini'
+  #
+  # $('.switch').bootstrapSwitch()
   $('label.tree-toggler').click ->
     $(this).parent().children('ul.tree').toggle 300
 
@@ -76,6 +92,7 @@ ready = ->
   #     'words'
   #   ]
   $('#tags').multiselect checkboxName: 'tags[]'
+
 
   return
 

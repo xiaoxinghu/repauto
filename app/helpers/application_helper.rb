@@ -7,18 +7,20 @@ module ApplicationHelper
 
   def status_map(status)
     case status
-    when "passed"
-      "success"
-    when "failed"
-      "danger"
-    when "broken"
-      "warning"
-    when "pending"
-      "default"
-    when "canceled"
-      "danger"
+    when 'passed'
+      'success'
+    when 'failed'
+      'danger'
+    when 'broken'
+      'warning'
+    when 'pending'
+      'muted'
+    when 'canceled'
+      'danger'
+    when 'rate'
+      'info'
     else
-      "muted"
+      'muted'
     end
   end
 
@@ -61,6 +63,33 @@ module ApplicationHelper
             type: 'button',
             title: tooltip, 'data-toggle': 'tooltip', 'data-placement': 'left',
             'data-style': 'zoom-in'
+  end
+
+  def show_time(time)
+    Time.at(time.to_i / 1000.0).strftime('%H:%M:%S')
+  end
+
+  def show_date(time)
+    Time.at(time.to_i / 1000.0).strftime('%a, %b %d %Y')
+  end
+
+  def show_datetime(time)
+    Time.at(time.to_i / 1000.0).strftime('%a, %b %d %Y %H:%M:%S')
+  end
+
+  def show_duration(start, stop)
+    distance_of_time_in_words((stop.to_i / 1000.0),
+                              (start.to_i / 1000.0))
+  end
+
+  def active_class(controller: nil, actions: [])
+    return '' if controller && controller_name != controller
+    return '' unless actions.any? { |a| a == action_name }
+    'active'
+  end
+
+  def spinner
+    content_tag(:div, '', class: 'fa fa-spinner fa-pulse fa-3x spinner')
   end
 
   def confirmation(to, id)

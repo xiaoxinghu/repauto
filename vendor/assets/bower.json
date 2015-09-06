@@ -7,7 +7,15 @@
     "jstzdetect": "latest",
     "moment": "latest",
     "dimple": "latest",
+    "morris.js": "latest",
     "ladda-bootstrap": "latest",
-    "bootstrap-multiselect": "latest"
+    "bootstrap-multiselect": "latest",
+    "bootstrap-treeview": "latest",
+    "bootstrap-switch": "latest",
+    "ekko-lightbox": "latest",
+    "bootcards": "latest",
+    "bootstrap-vertical-tabs": "latest",
+    "bootstrap-validator": "latest",
+    "fuelux": "latest"
   }
 }

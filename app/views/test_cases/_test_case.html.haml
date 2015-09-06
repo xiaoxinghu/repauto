@@ -1,53 +1,57 @@
-%div{class: "panel panel-#{status_map(test_case.status)}"}
-  .panel-heading
-    %span{ :class => "label label-#{status_map(test_case.status)}"}= test_case.status
-    =test_case.name
-  .panel-body
-    %table.table.table-hover
-      %tr
-        %th duration
-        %td
-          = distance_of_time_in_words test_case.end, test_case.start
-          %span= "(#{test_case.start.strftime('%H:%M:%S')} -> #{test_case.end.strftime('%H:%M:%S')})"
+.col-sm-12.bootcards-cards
+  %div{ class: "panel panel-#{status_map(test_case.status)}" }
+    - lite = false unless defined? lite
+    .panel-heading.clearfix
+      %h3.panel-title.pull-left
+        %span{ :class => "label label-#{status_map(test_case.status)}" }= test_case.status
+        = test_case.name
+      - unless lite
+        %button.btn.btn-primary.pull-right{type: 'button', data: {toggle: 'modal', target: '#commenting', id: test_case.id}}
+          %i.fa.fa-pencil Comment
+    .panel-body
+      %ul.media-list
+        %li.media
+          .media-left
+            %i.fa.fa-tags
+          .media-body
+            - tags = test_case[:tags] || []
+            - tags.each do |tag|
+              %span.label.label-default= tag
+        %li.media
+          .media-left
+            %i.fa.fa-calendar
+          .media-body
+            %p= "#{show_date test_case.start}"
+        %li.media
+          .media-left
+            %i.fa.fa-clock-o
+          .media-body
+            %p= "#{show_time test_case.start} -> #{show_time test_case.stop} (#{show_duration test_case.start, test_case.stop})"
+        %li.media
+          .media-left
+            %i.fa.fa-list
+          .media-body
+            %h4.media-heading Steps
+            = render partial: 'steps', locals: {test_case: test_case}
 
-      - test_case.tags.each do |tag|
-        %tr
-          %th= tag.name
-          %td= tag.value
+        %li
+          %ul.nav.nav-tabs{role: 'tablist'}
+            %li.active{role: 'presentation'}
+              = link_to 'attachments', '#attachmentsPanel', 'aria-controls': 'attachmentsPanel', role: 'tab', 'data-toggle': 'tab'
+            - if test_case[:comments]
+              %li{role: 'presentation'}
+                = link_to 'comments', '#commentsPanel', 'aria-controls': 'commentsPanel', role: 'tab', 'data-toggle': 'tab'
+            - unless lite
+              %li{role: 'presentation'}
+                = link_to 'history', '#historyPanel', 'aria-controls': 'historyPanel', role: 'tab', 'data-toggle': 'tab'
 
-    -# history
-    %button.btn.btn-primary{ :type => "button", :'data-toggle' => "collapse", :'data-target' => "#history_#{test_case.id}", :'aria-expanded' => "false", :'aria-controls' => "history"} history
-    .collapse{:id => "history_#{test_case.id}"}
-      .well
-        %ul.list-group
-          - history(test_case).order("start DESC").each do |tc|
-            %div{ :class => "list-group-item list-group-item-#{status_map(tc.status)} clearfix"}
-              %span{ :class => "label label-#{status_map(tc.status)}"}= tc.status
-              %span.glyphicon.glyphicon-file= link_to tc.start, test_case_path(tc)
-              %span.pull-right= link_to 'diff', test_case_path(:diff, selected: [test_case.id, tc.id], name: stripped_name(test_case)), class: "btn btn-xs btn-info"
-
-    -# steps
-    %ul.list-group
-      - test_case.steps.order("start").each do |step|
-        %li{ :class => "list-group-item list-group-item-#{status_map(step.status)}"}
-          %h5.list-group-item-heading
-            = "#{step.start.strftime('%H:%M:%S')} -> #{step.end.strftime('%H:%M:%S')}"
-            %span.label.label-default= distance_of_time_in_words step.end, step.start
-            %span.label.label-default= step.status
-          %p.list-group-item-text= step.name
-
-    - if test_case.failure
-      .well{ :style => "overflow: hidden;"}
-        %h4 Message
-        %p= test_case.failure.message
-        %h4 Stack Trace
-        %p= test_case.failure.stack_trace
-
-    - if test_case.attachments
-      .row
-        - test_case.attachments.order('position').each do |a|
-          .col-xs-6.col-md-3
-            = link_to a.get_link, class: "thumbnail" do
-              %img{ :src => a.get_link, :alt => ""}
-              -# .caption
-              -#   %p= a.title
+          .tab-content
+            .tab-pane.active#attachmentsPanel{role: 'tabpanel'}
+              .well
+                = render partial: 'attachments', locals: { test_case: test_case, lite: lite }
+            .tab-pane#commentsPanel{role: 'tabpanel'}
+              .well
+                = render partial: 'comments', locals: { test_case: test_case, lite: lite }
+            .tab-pane#historyPanel{role: 'tabpanel'}
+              .well
+                #history{ data: { load: fetch_history_test_case_path(test_case, format: :js) } }

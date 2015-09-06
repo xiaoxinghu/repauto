@@ -1,0 +1,32 @@
+.modal.fade#commenting{tabindex: '-1', role: 'dialog', 'aria-labelledby': 'commentingLabel'}
+  .modal-dialog{role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{type: 'button', 'data-dismiss': 'modal', 'aria-label': 'Close'}
+          %span{'aria-hidden': true} &times;
+        %h4.modal-title#commentingLabel
+          %p Commenting...
+      .modal-body
+        = form_tag(comment_test_case_path, role: 'form', remote: true, id: 'commentForm', class: 'form-horizontal', data: {toggle: 'validator'}) do
+          = hidden_field_tag :test_case_id, ''
+          .form-group
+            = label_tag(:name, 'Name', class: 'col-xs-3 control-label')
+            .col-xs-9
+              = text_field_tag(:name, nil, class: 'form-control', placeholder: 'Input Your Identity', required: '')
+          .form-group
+            = label_tag(:status, 'Status', class: 'col-xs-3 control-label')
+            .col-xs-9
+              = radio_button_tag(:status, 'passed', required: '')
+              = label_tag(:status_passed, 'passed')
+              = radio_button_tag(:status, 'failed', required: '')
+              = label_tag(:status_failed, 'failed')
+          .form-group
+            = label_tag(:comment, 'Comment', class: 'col-xs-3 control-label')
+            .col-xs-9
+              = text_area_tag(:comment, nil, class: 'form-control', rows: '6', placeholder: 'Add Comments', required: '')
+          .form-group
+            -# = submit_tag('Submit')
+            -# = button_tag 'Sumbit', class: 'btn btn-primary', id: 'commentSubmit'
+      .modal-footer
+        = submit_tag('Submit', id: 'commentSubmit', class: 'btn btn-default')
+        -# = button_tag 'Sumbit', class: 'btn btn-primary', id: 'commentSubmit'

@@ -1,0 +1,52 @@
+- gallery = "g_#{SecureRandom.uuid}"
+- if test_case.respond_to? 'attachments'
+  - atts = test_case[:attachments] || []
+  - atts = [atts] if atts.is_a? Hash
+  - images = atts.select{|a| a[:type] =~ /image/}
+  %h4 Screenshots
+  .row{id: gallery}
+    - images.each do |att|
+      - url = test_case.get_att_link att
+      %div{class: lite ? 'col-md-12' : 'col-md-3'}
+        = link_to url, class: 'thumbnail', 'data-toggle': 'lightbox', data: { gallery: gallery, parent: "##{gallery}" } do
+          %img{src: url}
+          .caption
+            %p{style: 'overflow: hidden;'}= att[:title]
+  - text_files = atts.select{|a| a[:type] =~ /text/}
+  %h4 Logs
+  .row
+    - text_files.each do |f|
+      .panel.panel-primary
+        - url = test_case.get_att_link f
+        .panel-heading= f[:title]
+        .panel-body.log-content{data: {url: url}}
+
+
+
+
+-# .row{ id: gallery }
+-#   - if test_case.respond_to? 'attachments'
+-#     - atts = test_case[:attachments]
+-#     - atts = [atts] if atts.is_a? Hash
+-#     - atts.each do |att|
+-#       - url = test_case.get_att_link att
+-#       .col-xs-6.col-md-3
+-#         - if att[:type] == 'text/plain'
+-#           - random = SecureRandom.uuid
+-#           - modal_id = "t_#{random}"
+-#           - label_id = "l_#{random}"
+-#           = link_to url, data: {toggle: 'modal', target: "##{modal_id}"} do
+-#             %i.fa.fa-file-text.fa-5x
+-#           .modal.fade{id: modal_id, tabindex: '-1', role: 'dialog', 'aria-labelledby': label_id}
+-#             .modal.dialog.modal-lg{role: 'document'}
+-#               .modal-content
+-#                 .modal-header
+-#                   %h4.modal-title{id: label_id} Title
+-#                   .modal-body
+-#                     Hello world.
+-#                 hello
+-#         - else
+-#           = link_to url, class: 'thumbnail', 'data-toggle': 'lightbox', data: { gallery: gallery, parent: "##{gallery}" } do
+-#             %img{src: url}
+    - else
+      %p Nothing to see here

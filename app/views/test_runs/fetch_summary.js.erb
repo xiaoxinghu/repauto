@@ -1,0 +1,4 @@
+$(".test-run-row[data-id='<%= @test_run.id %>'] <%= @selector %>").html("<%= escape_javascript(render partial: 'mini_status', locals: {status: @summary}) %>");
+<% if @todo && @todo > 0 %>
+  $(".test-run-row[data-id='<%= @test_run.id %>'] .todo").html("<span class='badge'><%= @todo %></span>");
+<% end %>

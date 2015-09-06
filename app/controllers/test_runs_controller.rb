@@ -4,31 +4,53 @@ class TestRunsController < ApplicationController
 
   def index
     @project = Project.find(params[:project_id])
-    query = @project.test_runs
-    query = query.where.not(start: nil).where.not(end: nil)
-    if params[:category] && !params[:category].blank?
-      query = query.where(name: params[:category])
+    limit = 7.days.ago.to_i * 1000
+    collection = TestRun
+                 .where(project_path: @project.path)
+                 .exists(archived_at: false)
+    if params[:type]
+      collection = collection.where(type: params[:type])
     end
-    if params[:seconds] && !params[:seconds].blank?
-      query = query.where(start: (Time.now - params[:seconds].to_i.seconds)..Time.now)
-    end
-    if params[:duration] && !params[:duration].blank?
-      query = query.select { |tr| (tr.end - tr.start) > params[:duration].to_i }
-    end
-    if params[:number] && !params[:number].blank?
-      query = query.select { |tr| tr.test_cases.count > params[:number].to_i }
-    end
+    query = collection.sort(start: -1)
+    patch_summary query
+    @run_types = TestRun
+                 .where(project_path: @project.path)
+                 .exists(archived_at: false).distinct('type')
 
-    if query.respond_to? 'order'
-      query = query.order('start DESC')
-    elsif query.respond_to? 'sort_by!'
-      query.sort_by!(&:start).reverse!
+    @test_runs = Kaminari.paginate_array(query.to_a).page(params[:page]).per(20)
+  end
+
+  def patch_summary(test_runs)
+    test_runs.each do |tr|
+      next unless tr[:synced]
+      next if tr[:summary]
+      pipline = [
+        { '$match': { path: /^#{tr.path}/ } },
+        { '$group': { '_id': '$status', count: { '$sum' => 1 } } }
+      ]
+      counts = TestCase.collection.aggregate(pipline)
+      summary = {}
+      counts.each do |c|
+        summary[c[:_id]] = c[:count]
+      end
+      tr.update_attributes(summary: summary)
+      # summary.each do |s|
+      # end
+      tr.save!
     end
-    @test_runs = Kaminari.paginate_array(query).page(params[:page]).per(10)
+  end
+
+  def bin
+    @project = Project.find(params[:project_id])
+    @archived = TestRun
+                .where(project_path: @project.path)
+                .where(archived_at: { :$gte => 7.days.ago })
+                .sort(archived_at: -1)
   end
 
   def show
     @test_run = TestRun.find(params[:id])
+    # @tree = 'the 1st tree'
   end
 
   def errors
@@ -131,9 +153,239 @@ class TestRunsController < ApplicationController
   end
 
   def archive
+    id = params[:id]
+    test_run = TestRun.find(id)
+    test_run.update_attributes(archived_at: Time.zone.now)
+    test_run.save!
+    # redirect_to project_test_runs_path test_run.project
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def restore
     test_run = TestRun.find(params[:id])
-    test_run.removed_at = Time.now
-    test_run.save
-    redirect_to project_test_runs_path test_run.project
+    test_run.remove_attribute(:archived_at)
+    test_run.save!
+    # redirect_to project_test_runs_path test_run.project
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def ra
+    @test_run = TestRun.find(params[:id])
+    @ra_summary = @test_run[:summary].clone
+    history = TestRun.where(project_path: @test_run.project_path,
+                            type: @test_run.type,
+                            :start.lt => @test_run.start)
+              .order_by(start: 'desc')
+              .limit(5)
+    @test_run.test_cases.where(status: 'broken').each do |tc|
+      # tc_steps = tc.steps.map { |s| s[:name] }
+      catch :raed do
+        history.each do |h|
+          h.test_cases.where(name: tc.name, :status.ne => 'broken').each do |htc|
+            # htc_steps = htc.steps.map { |s| s[:name] }
+            # next unless tc_steps.sort == htc_steps.sort
+            @ra_summary[htc.status] ||= 0
+            @ra_summary[htc.status] += 1
+            @ra_summary['broken'] -= 1
+            throw :raed
+          end
+        end
+      end # ared
+    end
+    passed = @ra_summary[:passed] || 0
+    @ra_summary[:rate] = passed * 100.0 / @ra_summary.values.sum
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def make_tree_by_features(test_run)
+    tree = []
+    TestSuite.from(test_run).each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      TestCase.from(ts).each do |tc|
+        test_case = {
+          name: tc.name,
+          id: tc.id.to_s,
+          status: tc.status }
+        test_suite[:test_cases] << test_case
+      end
+      tree << test_suite
+    end
+    tree
+  end
+
+  def make_tree_by_features_h(test_run)
+    tree = []
+    test_run.test_suites.each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      names = {}
+      TestCase.from(ts).each do |tc|
+        name_without_tags = tc.name.split('_')[0]
+        unless names[name_without_tags]
+          names[name_without_tags] = []
+          test_case = {
+            name: tc.name,
+            ids: names[name_without_tags],
+            status: tc.status }
+          test_suite[:test_cases] << test_case
+        end
+        names[name_without_tags] << tc.id.to_s
+      end
+      tree << test_suite
+    end
+    tree
+  end
+
+  def make_tree_by_errors(test_run)
+    tree = []
+    errors = {}
+    TestSuite.from(test_run).each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      TestCase.from(ts).each do |tc|
+        if tc[:failure]
+          msg = tc[:failure][:message]
+          errors[msg] = [] unless errors.has_key? msg
+          errors[msg] << {
+            name: tc.name,
+            id: tc.id.to_s,
+            status: tc.status }
+        end
+      end
+    end
+    errors = errors.sort_by { |_k, v| -v.size }
+    errors.each do |k, v|
+      tree << { name: k, test_cases: v, tags: [v.size] }
+    end
+    tree
+  end
+
+  def make_tree_by_news(test_run)
+    tree = []
+    TestCase.from_project
+  end
+
+  def group_by_feature(test_run)
+    group = {}
+    test_run.test_suites.each do |ts|
+      group[ts.name] ||= []
+      group[ts.name] = ts.test_cases.to_a
+    end
+    group
+  end
+
+  def group_by_feature_h(test_run)
+    group = {}
+    test_run.test_suites.each do |ts|
+      group[ts.name] = group_test_cases(ts.test_cases.to_a)
+    end
+    group
+  end
+
+  # group them by name without tags
+  def group_test_cases(test_cases)
+    group = {}
+    test_cases.each do |tc|
+      name = tc.name.split('_')[0]
+      steps = tc[:steps] ? tc[:steps].map { |step| step[:name] } : []
+      key = "#{name}_#{steps.join('_')}".html_safe
+      group[key] ||= { name: name, test_cases: [] }
+      group[key][:test_cases] << tc
+    end
+    group
+  end
+
+  def group_by_errors(test_run)
+    group = {}
+    test_run.test_cases.each do |tc|
+      if tc[:failure]
+        msg = tc[:failure][:message]
+        group[msg] ||= []
+        group[msg] << tc
+      end
+    end
+    sorted = Hash[group.sort_by { |_k, v| -v.size }]
+    sorted
+  end
+
+  def group_by_diffs(left, right)
+    changes = {}
+    if left[:start] > right[:start]
+      baseline = right
+      target = left
+    else
+      baseline = left
+      target = right
+    end
+    processed = []
+    t = target.test_cases.to_a
+    b = baseline.test_cases.to_a
+    t.each do |tc|
+      old = b.select { |x| x[:name] == tc[:name] }
+      # old = baseline.test_cases.where(name: tc[:name])
+      if old.size > 0
+        if old[0][:status] != tc[:status]
+          key = "newly #{tc[:status]}"
+          changes[key] ||= []
+          changes[key] << [ tc, old[0] ]
+        end
+      else
+        changes['new test cases'] ||= []
+        changes['new test cases'] << tc
+      end
+      processed << tc[:name]
+    end
+    missing = b.select { |x| !processed.include?(x[:name]) }
+    changes['missing test cases'] = missing if missing.size > 0
+    changes
+  end
+
+  def diff
+    left = TestRun.find(params[:id])
+    right = TestRun.find(params[:baseline])
+    if left[:start] > right[:start]
+      @baseline = right
+      @test_run = left
+    else
+      @baseline = left
+      @test_run = right
+    end
+  end
+
+  def fetch_tree
+    @test_run = TestRun.find(params[:id])
+    if params[:group_by]
+      case params[:group_by]
+      when 'features'
+        @tree = group_by_feature @test_run
+      when 'handset'
+        @tree = group_by_feature_h @test_run
+      when 'errors'
+        @tree = group_by_errors @test_run
+      when 'diffs'
+        @baseline = TestRun.find(params[:baseline])
+        @tree = group_by_diffs @baseline, @test_run
+      end
+    else
+      @tree = group_by_feature @test_run
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def fetch_summary
+    @test_run = TestRun.find(params[:id])
+    @summary = @test_run.summary manual: params[:manual]
+    @selector = params[:selector]
+    @todo = @test_run.todo
+    respond_to do |format|
+      format.js
+    end
   end
 end

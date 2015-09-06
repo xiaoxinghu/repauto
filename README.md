@@ -2,7 +2,7 @@
 
 - bundler
 - node.js
-- bower
+a bower
 - mysql
 
 ## install necessary things
@@ -23,17 +23,11 @@ To install bower
 
     npm install -g bower
 
-To setup mysql
+To setup mongodb
 
-    brew install mysql
-    unset TMPDIR
-    mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
-    mysql.server start
-    mysql_secure_installation
+    brew install mongodb
 
-The default user name is `root`, and password is `password` for all environments.
-
-Here are some references [ref1](http://blog.joefallon.net/2013/10/install-mysql-on-mac-osx-using-homebrew/), [ref2](https://coderwall.com/p/os6woq/uninstall-all-those-broken-versions-of-mysql-and-re-install-it-with-brew-on-mac-mavericks)
+Follow the [instructions](https://docs.mongodb.org/getting-started/shell/tutorial/install-mongodb-on-os-x/) for details.
 
 ## checkout the file from tfs
 

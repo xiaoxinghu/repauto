@@ -107,4 +107,71 @@ module TestRunsHelper
       "muted"
     end
   end
+
+  def context_color(status)
+    case status
+    when "passed"
+      color = '#3c763d'
+      bcolor = '#dff0d8'
+    when "failed"
+      color = '#a94442'
+      bcolor = '#f2dede'
+    when "broken"
+      color = '#8a6d3b'
+      bcolor = '#fcf8e3'
+    else
+      color = '#gray'
+      bcolor = '#white'
+    end
+    color
+  end
+
+  def context_bcolor(status)
+    case status
+    when "passed"
+      color = '#3c763d'
+      bcolor = '#dff0d8'
+    when "failed"
+      color = '#a94442'
+      bcolor = '#f2dede'
+    when "broken"
+      color = '#8a6d3b'
+      bcolor = '#fcf8e3'
+    else
+      color = '#gray'
+      bcolor = '#white'
+    end
+    bcolor
+  end
+
+  def to_tree(test_run)
+    raw_data = {
+      start: test_run.start,
+      stop: test_run.stop,
+      test_suites: [] }
+    TestSuite.from(test_run).each do |ts|
+      test_suite = { name: ts.name, test_cases: [] }
+      TestCase.from(ts).each do |tc|
+        test_case = { name: tc.name, id: tc.id.to_s }
+        test_suite[:test_cases] << test_case
+      end
+      raw_data[:test_suites] << test_suite
+    end
+    raw_data.to_json
+  end
+
+  def summarize(test_run)
+    summary = []
+    summary << { name: 'date', value: show_date(test_run.start) }
+    summary << { name: 'duration', value: show_duration(test_run.start, test_run.stop) }
+    total = test_run[:summary].values.sum
+    summary << { name: 'total', value: total }
+    pass_rate = (test_run[:summary][:passed] || 0) * 100.0 / total
+    summary << { name: 'PR', value: "#{pass_rate.round(2)}%" }
+    test_run[:summary].each do |k, v|
+      summary << { name: k, value: v }
+    end
+    summary << { name: 'todo', value: test_run.todo }
+    summary
+  end
 end

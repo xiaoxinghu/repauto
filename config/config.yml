@@ -1,12 +1,16 @@
 production:
-  report_host: http://testeng-1-w1.mcom.local/
-  report_root: "reports/automation"
+  report_host: <%= ENV["REPORT_HOST"] %>
+  report_path: <%= ENV["REPORT_PATH"] %>
+  mount_point: <%= ENV["MOUNT_POINT"] %>
+  username: <%= ENV["USERNAME"] %>
+  password: <%= ENV["PASSWORD"] %>
 
 development:
-  report_host: http://10.28.251.114/
-  report_root: "reports/mock"
+  report_host: <%= ENV["REPORT_HOST"] %>
+  report_path: <%= ENV["REPORT_PATH"] %>
+  mount_point: <%= ENV["MOUNT_POINT"] %>
+  username: <%= ENV["USERNAME"] %>
+  password: <%= ENV["PASSWORD"] %>
 
 test:
   report_host: http://testeng-1-w1.mcom.local/
-
-  

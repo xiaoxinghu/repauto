@@ -1,24 +1,36 @@
 Rails.application.routes.draw do
 
   resources :projects, only: [:index, :show] do
-    collection do
-      post :sync
+    # collection do
+    #   post :sync
+    # end
+    member do
+      get 'trend', to: 'projects#trend', as: 'trend'
+      get 'fetch_trend'
+      get 'fetch_history'
     end
-    resources :dashboards, only: [:index, :show], shallow: true
     resources :test_runs, only: [:index, :show], shallow: true do
       member do
-        get 'errors'
+        # get 'errors'
+        get 'fetch_tree'
         get 'timeline'
         get 'archive'
+        get 'restore'
+        get 'ra'
       end
       collection do
-        get 'trend/:run_type', to: 'test_runs#trend', as: 'trend'
+        # get 'trend/:run_type', to: 'test_runs#trend', as: 'trend'
+        get 'bin'
+        get 'diff'
       end
       resources :test_suites, only: [:index, :show], shallow: true do
         resources :test_cases, only: [:index, :show], shallow: true do
-          # member do
-          #   get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
-          # end
+          member do
+            get 'fetch_history'
+            # get 'diff/:target_id', to: 'test_cases#diff', as: 'diff'
+            get 'fetch'
+            post 'comment'
+          end
           # collection do
           #   post 'diff', to: 'test_cases#diff', as: 'diff'
           # end
@@ -26,6 +38,12 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'fetch_test_cases/:ids', to: 'test_cases#fetch', as: :fetch_test_cases
+  get 'fetch_test_run_summary/:id', to: 'test_runs#fetch_summary', as: :fetch_test_run_summary
+  get 'diff_images/:ids', to: 'test_cases#diff_images', as: :diff_images
+
+  # ajax endpoints
 
   get 'welcome/index'
 

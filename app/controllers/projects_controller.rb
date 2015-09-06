@@ -5,32 +5,96 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @show_num = 2
-    @matrix = {}
     @project = Project.find(params[:id])
-    #categories = @project.test_runs.select(:name).distinct.map(&:name)
-    #categories = @project.test_runs.distinct.pluck(:name)
-    #categories = TestRun.where(project: @project).distinct.pluck(:name)
-    #cat_count = TestRun.where(project: @project).group(:name).count
-    cat_count = TestRun.joins(test_suites: :test_cases).where(project: @project).group('test_runs.name').count
-    categories = cat_count.sort_by { |_k, v| -v }.map { |x| x[0] }
-    categories.each do |c|
-      @matrix[c] = filter @project.test_runs, c, @show_num
-    end
-
-    #@matrix = @project.test_runs.group(:name)
-    # @sorted_c = @matrix
-    #             .sort_by { |_k, v| v[0] ? -v[0].count : 1 }
-    #             .map { |x| x[0] }
-    #@sorted_c = @matrix.map { |x| x[0] }
+    @types = TestRun.from(@project).exists(archived_at: false).distinct('type')
   end
 
-  def sync
-    SyncJob.perform_async
+  def fetch_history
+    @project = Project.find(params[:id])
+    @type = params[:type]
+    @history = get_history(@project, @type)
+    @history_data = to_data(@history)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def get_history(project, type, amount: 30, sample_amount: 10, ratio: 0.5)
+    samples = project.test_runs
+              .where(type: type)
+              .exists(archived_at: false)
+              .exists(summary: true)
+              .sort(start: -1)
+              .limit(sample_amount)
+    return [] unless samples.count > 0
+    max = samples.max_by { |s| s.summary.values.sum }.summary.values.sum
+    test_runs = project.test_runs
+                .where(type: type)
+                .exists(archived_at: false)
+                .exists(summary: true)
+                .sort(start: -1)
+
+    history = []
+    test_runs.each do |tr|
+      break if history.size > amount
+      next if tr[:summary].values.sum < (max * ratio)
+      history << tr
+    end
+    history
+  end
+
+  def trend
+    @project = Project.find(params[:id])
+    @types = TestRun.from(@project).exists(archived_at: false).distinct('type')
+  end
+
+  def fetch_trend
+    @project = Project.find(params[:id])
+    include_manual = (params[:include_manual] == '1')
+    ratio = params[:filter] ? params[:filter].to_f / 100.0 : 0.5
+    history = get_history(@project, params[:type], ratio: ratio)
+    @trend_data = to_data(history, include_manual: include_manual)
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
   def redis
     @redis ||= Redis.new
+  end
+
+  def to_data(history, include_manual: false)
+    data = []
+    history.each do |tr|
+      start = Time.at(tr.start / 1000.0)
+      d = {
+        time: start,
+        date: start.to_date
+      }
+      summary = patch tr[:summary]
+      if include_manual
+        commented = tr.test_cases.exists(comments: true)
+        commented.each do |tc|
+          new_status = tc[:comments].last[:status] || tc[:status]
+          old_status = tc[:status]
+          if new_status != old_status
+            summary[new_status] += 1
+            summary[old_status] -= 1
+          end
+        end
+      end
+      d.merge!(summary)
+      data << d
+    end
+    data
+  end
+
+  def patch(summary)
+    patched = summary.clone
+    %w(passed failed broken pending).each do |s|
+      patched[s] ||= 0
+    end
+    patched
   end
 end
