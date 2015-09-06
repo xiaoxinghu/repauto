@@ -1,10 +1,9 @@
 require 'uri'
 require 'datacraft'
-# require 'sync/consumers'
 
-namespace :report do
+namespace :data do
   desc 'Sync data to database, sync all projects if param project is not given'
-  task :sync, [:project] => [:environment, :mount] do |_task, args|
+  task :sync, [:project] => [:environment] do |_task, args|
     start = Time.now
     logger = Logger.new(STDOUT)
     logger.level = Rails.logger.level
@@ -52,17 +51,5 @@ namespace :report do
 
   desc 'testing'
   task test: :environment do
-    # insts = ['sync_test_run_time.rb']
-    # insts.each do |i|
-    #   puts "running instruction #{i}..."
-    #   inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
-    #   Datacraft.run inst
-    # end
-    # password = URI.escape APP_CONFIG['password'], '!'
-    # puts "#{APP_CONFIG['report_host']}"
-    # puts "#{APP_CONFIG['report_path']}"
-    # puts "#{APP_CONFIG['mount_point']}"
-    # puts "#{APP_CONFIG['username']}"
-    # puts "#{APP_CONFIG['password']}"
   end
 end

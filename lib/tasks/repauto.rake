@@ -1,5 +1,5 @@
-namespace :fiserv do
-  desc "deploy"
+namespace :repauto do
+  desc 'deploy'
   task deploy: :environment do
     # stop sidekiq (not using it anymore)
     #`sidekiqctl stop ./tmp/pids/sidekiq.pid`
