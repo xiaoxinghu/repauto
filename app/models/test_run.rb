@@ -1,6 +1,7 @@
 class TestRun
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  paginates_per 20
 
   def project
     Project.where(path: project_path).first
@@ -23,7 +24,7 @@ class TestRun
   end
 
   def summary(manual: false)
-    manual ? manual_summary : summary_with_passrate
+    manual ? manual_summary : self[:summary]
   end
 
   private
@@ -34,6 +35,7 @@ class TestRun
   end
 
   def manual_summary
+    return {} unless self[:summary]
     summary = self[:summary].clone
     commented = test_cases.exists(comments: true)
     commented.each do |tc|
@@ -45,7 +47,8 @@ class TestRun
         summary[old_status] -= 1
       end
     end
-    add_pass_rate summary
+    # add_pass_rate summary
+    summary
   end
 
 

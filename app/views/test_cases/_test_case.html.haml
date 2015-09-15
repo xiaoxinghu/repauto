@@ -4,7 +4,8 @@
     .panel-heading.clearfix
       %h3.panel-title.pull-left
         %span{ :class => "label label-#{status_map(test_case.status)}" }= test_case.status
-        = test_case.name
+        = link_to api_test_case_path(test_case) do
+          = test_case.name
       - unless lite
         %button.btn.btn-primary.pull-right{type: 'button', data: {toggle: 'modal', target: '#commenting', id: test_case.id}}
           %i.fa.fa-pencil Comment

@@ -14,6 +14,7 @@
     .btn-group{ role: "group"}
       %button.btn.btn-default{type: 'button', data: {toggle: 'modal', target: '#testRunSummary'}} overview
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default disabled"
+      -# = link_to "status", api_test_run_status_path(@test_run), class: "btn btn-default"
 
 = render partial: "summary"
 
