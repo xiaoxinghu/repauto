@@ -14,15 +14,19 @@
     .btn-group{ role: "group"}
       %button.btn.btn-default{type: 'button', data: {toggle: 'modal', target: '#testRunSummary'}} overview
       = link_to "timeline", timeline_test_run_path(@test_run), class: "btn btn-default disabled"
-      -# = link_to "status", api_test_run_status_path(@test_run), class: "btn btn-default"
+      = link_to "test_cases", test_cases_api_test_run_path(@test_run), class: "btn btn-default"
 
 = render partial: "summary"
 
-.row#main-view
-  #tree_view{ data: { load: fetch_tree_test_run_path(@test_run)}}
-    = spinner
-  #detail_view
-    #details
+= react_component('TestRunDetail', testCasesUrl: test_cases_api_test_run_path(@test_run))
+-# .row#main-view
+-#   .col-sm-4
+-#     = react_component('FilterableTestCaseList', url: test_cases_api_test_run_path(@test_run))
+-#   .col-sm-8
+-#     #detail_view
+-#       #details
+  -# #tree_view{ data: { load: fetch_tree_test_run_path(@test_run)}}
+  -#   = spinner
 
   = render partial: "test_cases/commenting"
 :coffee

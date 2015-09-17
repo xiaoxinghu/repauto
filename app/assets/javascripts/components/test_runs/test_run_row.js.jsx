@@ -1,6 +1,5 @@
 var TestRunRow = React.createClass({
   handleClick: function(e) {
-    console.log('go to: ' + this.props.data.url);
     window.location.href = this.props.data.url;
   },
   render: function() {

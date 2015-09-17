@@ -31,3 +31,22 @@ Number.prototype.toHHMMSS = function () {
   var time    = hours+':'+minutes+':'+seconds;
   return time;
 }
+
+function groupBy( array , f )
+{
+  var groups = {};
+  array.forEach( function( o )
+  {
+    var key = f(o);
+    if (key == null) {return;}
+    // var group = JSON.stringify( f(o) );
+    var group = f(o);
+    groups[group] = groups[group] || [];
+    groups[group].push( o );
+  });
+  return groups;
+  // return Object.keys(groups).map( function( group )
+  // {
+  //   return groups[group];
+  // })
+}

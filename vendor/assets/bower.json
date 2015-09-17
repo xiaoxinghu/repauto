@@ -16,6 +16,10 @@
     "bootcards": "latest",
     "bootstrap-vertical-tabs": "latest",
     "bootstrap-validator": "latest",
-    "fuelux": "latest"
+    "fuelux": "latest",
+    "lodash": "latest",
+    "fuse.js": "latest",
+    "flux": "latest",
+    "pubsub-js": "latest"
   }
 }

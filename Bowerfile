@@ -17,3 +17,8 @@ asset 'bootcards'
 asset 'bootstrap-vertical-tabs'
 asset 'bootstrap-validator'
 asset 'fuelux'
+
+asset 'lodash'
+asset 'fuse.js'
+asset 'flux'
+asset 'pubsub-js'

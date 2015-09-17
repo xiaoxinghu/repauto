@@ -19,5 +19,7 @@
 //= require bootstrap-switch
 //= require ekko-lightbox
 //= require fuelux
-//= require bootcards
 //= require bootstrap-validator
+//= require lodash
+//= require "fuse.js/src/fuse"
+//= require pubsub-js

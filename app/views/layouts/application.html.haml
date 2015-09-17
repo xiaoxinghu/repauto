@@ -6,8 +6,9 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  %body
+  %body{data: {parmas: params}}
     = render partial: "nav", locals: {project: @project}
+    -# = react_component('ProjectNav', links: [{summary: 'www.google.com'}])
 
     .modal.fade{ id: 'processing', tabindex: '-1', role: 'dialog', 'aria-labelledby': 'message', 'aria-hidden': true }
       .modal-dialog

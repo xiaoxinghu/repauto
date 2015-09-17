@@ -3,8 +3,10 @@ Rails.application.routes.draw do
     resources :test_runs, only: [:show, :index] do
       member do
         get 'progress'
+        get 'test_cases'
       end
     end
+    resources :test_suites, only: [:show]
     resources :test_cases, only: [:show]
   end
 
