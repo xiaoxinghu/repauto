@@ -4,14 +4,20 @@ var RadioSet = React.createClass({
   },
   handleChange: function (selected) {
     this.props.onChange(selected);
-    this.setState({selected: selected});
   },
 
   render: function () {
     var radios = this.props.radios.map(function(radio, i) {
-      var id = _.uniqueId('rs-');
+      var className = "btn btn-primary";
+      if (radio.value == this.props.selected) {
+        className += " active";
+      }
       return (
-        <button type="button" className="btn btn-default" key={_.uniqueId('rb')}>
+        <button
+          type="button"
+          className={className}
+          key={_.uniqueId('rb')}
+          onClick={this.handleChange.bind(this, radio.value)}>
           {radio.label}
         </button>
       );

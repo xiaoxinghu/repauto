@@ -24,3 +24,4 @@
 //= require pubsub-js
 
 //= require "helper"
+//= require "layout"

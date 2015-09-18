@@ -19,6 +19,27 @@ function statusmap(status) {
   return target;
 }
 
+function statusIcon(status) {
+  var icon = 'question';
+  switch (status) {
+    case 'passed':
+      icon = 'check';
+      break;
+    case 'failed':
+      icon = 'times';
+      break;
+    case 'broken':
+      icon = 'bolt';
+      break;
+    case 'canceled':
+      icon = 'ban';
+      break;
+    default:
+      icon = 'question';
+  }
+  return icon;
+}
+
 Number.prototype.toHHMMSS = function () {
   var sec_num = parseInt(this, 10); // don't forget the second param
   var hours   = Math.floor(sec_num / 3600);
@@ -49,4 +70,21 @@ function groupBy( array , f )
   // {
   //   return groups[group];
   // })
+}
+
+function showDuration(start, stop) {
+  var _start = moment(start);
+  var _stop = moment(stop);
+  var _duration = _stop.diff(_start, 'seconds').toHHMMSS();
+  var content = [
+    _start.format('HH:mm:SS'),
+    '->',
+    _stop.format('HH:mm:SS'),
+    '(' + _duration + ')'
+  ];
+  return content.join(' ');
+}
+
+function showDate(time) {
+  return moment(time).format("YYYY-MM-DD");
 }

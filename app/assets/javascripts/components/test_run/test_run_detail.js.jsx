@@ -21,12 +21,12 @@ var TestRunDetail = React.createClass({
     }
     return (
       <div className="row">
-        <div className="col-sm-4">
+        <div className="col-sm-4 fill">
           <FilterableTestCaseList
             url={this.props.testCasesUrl}
             onItemSelected={this.onItemSelected} />
         </div>
-        <div className="col-sm-8">
+        <div className="col-sm-8 fill">
           <TestCaseDetail />
         </div>
       </div>

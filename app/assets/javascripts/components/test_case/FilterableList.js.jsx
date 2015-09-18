@@ -101,8 +101,9 @@ var FilterableList = React.createClass({
       );
     }, this);
     var radios = [
-      {label: (<i className="fa fa-star" />), value: 'feature', checked: (this.state.view == 'feature')},
-      {label: (<i className="fa fa-exclamation-triangle" />), value: 'error', checked: (this.state.view == 'error')}
+      {label: (<i className="fa fa-star" />), value: 'feature'},
+      {label: (<i className="fa fa-exclamation-triangle" />), value: 'error'},
+      {label: (<i className="glyphicon glyphicon-th" />), value: 'handset'}
     ];
     // var radios = ['feature', 'error'].map(function(o) {
     //   return {label: o, value: o, checked: (o == this.state.view)};
@@ -113,9 +114,9 @@ var FilterableList = React.createClass({
           <SearchBar onUserInput={this.handleUserInput}/>
         </div>
         <div className="row">
-          <RadioSet group="view" onChange={this.handleViewChange} radios={radios} />
+          <RadioSet group="view" onChange={this.handleViewChange} radios={radios} selected={this.state.view} />
         </div>
-        <div className="row">
+        <div className="row full-height fill">
           {groupedTestCases}
         </div>
       </div>
