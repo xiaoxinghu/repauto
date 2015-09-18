@@ -1,2 +1,2 @@
 //= require include
-//= require_tree .
+require('./components/all');

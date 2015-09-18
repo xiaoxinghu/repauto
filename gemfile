@@ -64,6 +64,7 @@ gem 'datacraft-tools'
 gem 'font-awesome-sass'
 gem 'faker'
 gem 'redcarpet'
+gem 'browserify-rails'
 gem 'react-rails'
 
 group :development, :test do

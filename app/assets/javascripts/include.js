@@ -4,7 +4,6 @@
 
 //= require react
 //= require react_ujs
-//= require components
 
 //= require bootstrap-sprockets
 //= require d3
@@ -23,3 +22,5 @@
 //= require lodash
 //= require "fuse.js/src/fuse"
 //= require pubsub-js
+
+//= require "helper"

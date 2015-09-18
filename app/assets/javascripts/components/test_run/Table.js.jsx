@@ -1,4 +1,6 @@
-var TestRunTable = React.createClass({
+var Row = require('./Row');
+
+var Table = React.createClass({
   propTypes: {
     data: React.PropTypes.array
   },
@@ -6,7 +8,7 @@ var TestRunTable = React.createClass({
   render: function() {
     var testRunRows = this.props.data.map(function (testRun) {
       return (
-        <TestRunRow key={'row-' + testRun.id} data={testRun} />
+        <Row key={'row-' + testRun.id} data={testRun} />
       )
     })
     return (
@@ -28,3 +30,5 @@ var TestRunTable = React.createClass({
     );
   }
 });
+
+module.exports = Table;

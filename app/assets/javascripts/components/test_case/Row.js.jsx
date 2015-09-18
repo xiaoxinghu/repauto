@@ -1,4 +1,4 @@
-var TestCaseRow = React.createClass({
+var Row = React.createClass({
   onClick: function(e) {
     e.preventDefault();
     PubSub.publish('selected', this.props.data);
@@ -12,3 +12,5 @@ var TestCaseRow = React.createClass({
     );
   }
 });
+
+module.exports = Row;

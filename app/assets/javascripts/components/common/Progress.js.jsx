@@ -1,3 +1,4 @@
+var Status = require('./Status');
 var Progress = React.createClass({
   propTypes: {
     url: React.PropTypes.string
@@ -40,3 +41,5 @@ var Progress = React.createClass({
     );
   }
 });
+
+module.exports = Progress;

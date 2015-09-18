@@ -1,4 +1,8 @@
-var FilterableTestCaseList = React.createClass({
+var SearchBar = require('../common').SearchBar;
+var RadioSet = require('../common').RadioSet;
+var Group = require('./Group');
+
+var FilterableList = React.createClass({
   propTypes: {
     url: React.PropTypes.string,
     onItemSelected: React.PropTypes.func
@@ -89,20 +93,26 @@ var FilterableTestCaseList = React.createClass({
     var groups = Object.keys(grouped);
     var groupedTestCases = groups.map(function (g){
       return (
-        <TestCaseGroup
+        <Group
           key={_.uniqueId('tcg-')}
           onItemSelected={this.onItemSelected}
           name={g}
           testCases={grouped[g]} />
       );
     }, this);
-    var radios = ['feature', 'error'].map(function(o) {
-      return {label: o, value: o, checked: (o == this.state.view)};
-    }, this);
+    var radios = [
+      {label: (<i className="fa fa-star" />), value: 'feature', checked: (this.state.view == 'feature')},
+      {label: (<i className="fa fa-exclamation-triangle" />), value: 'error', checked: (this.state.view == 'error')}
+    ];
+    // var radios = ['feature', 'error'].map(function(o) {
+    //   return {label: o, value: o, checked: (o == this.state.view)};
+    // }, this);
     return (
       <div className="test-case-list">
         <div className="row">
           <SearchBar onUserInput={this.handleUserInput}/>
+        </div>
+        <div className="row">
           <RadioSet group="view" onChange={this.handleViewChange} radios={radios} />
         </div>
         <div className="row">
@@ -112,3 +122,5 @@ var FilterableTestCaseList = React.createClass({
     );
   }
 });
+
+module.exports = FilterableList;

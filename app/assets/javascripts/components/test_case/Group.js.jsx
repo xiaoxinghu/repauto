@@ -1,4 +1,6 @@
-var TestCaseGroup = React.createClass({
+var Row = require('./Row');
+
+var Group = React.createClass({
   getInitialState: function() {
     return {
     };
@@ -12,7 +14,7 @@ var TestCaseGroup = React.createClass({
     var name = this.props.name;
     var testCaseRows = this.props.testCases.map(function (testCase, i) {
       return (
-        <TestCaseRow
+        <Row
           key={_.uniqueId('tcr')}
           data={testCase}
           onClick={this.handleClick.bind(this, i)} />
@@ -34,3 +36,5 @@ var TestCaseGroup = React.createClass({
     );
   }
 });
+
+module.exports = Group;

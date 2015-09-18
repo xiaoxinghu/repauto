@@ -40,3 +40,5 @@ var PaginatorLink = React.createClass({
     );
   }
 });
+
+module.exports = Paginator;

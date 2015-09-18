@@ -1,4 +1,4 @@
-var TestCaseDetail = React.createClass({
+var Detail = React.createClass({
   getInitialState: function() {
     return {
       data: null
@@ -29,3 +29,5 @@ var TestCaseDetail = React.createClass({
     );
   }
 });
+
+module.exports = Detail;

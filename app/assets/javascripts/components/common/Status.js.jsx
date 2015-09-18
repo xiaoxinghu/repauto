@@ -30,3 +30,5 @@ var Status = React.createClass({
     );
   }
 });
+
+module.exports = Status;

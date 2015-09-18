@@ -1,4 +1,7 @@
-var FilterableTestRunTable = React.createClass({
+var Paginator = require('../common').Paginator;
+var Table = require('./Table');
+
+var FilterableTable = React.createClass({
   getInitialState: function() {
     return {
       test_runs: [],
@@ -40,8 +43,10 @@ var FilterableTestRunTable = React.createClass({
     return (
       <div>
         <Paginator totalPages={this.state.meta.total_pages} currentPage={this.state.meta.current_page} onPaginate={this._handleOnPageinate} />
-        <TestRunTable data={this.state.test_runs} />
+        <Table data={this.state.test_runs} />
       </div>
     );
   }
 });
+
+module.exports = FilterableTable;

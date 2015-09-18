@@ -1,4 +1,7 @@
-var TestRunRow = React.createClass({
+var Status = require('../common').Status;
+var Progress = require('../common').Progress;
+
+var Row = React.createClass({
   handleClick: function(e) {
     window.location.href = this.props.data.url;
   },
@@ -23,3 +26,5 @@ var TestRunRow = React.createClass({
     );
   }
 });
+
+module.exports = Row;
