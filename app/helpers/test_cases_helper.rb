@@ -94,4 +94,10 @@ module TestCasesHelper
     end
   end
 
+  def get_att_link(test_case, attachment)
+    p = Pathname.new APP_CONFIG['mount_point']
+    p = p.join test_case[:path]
+    p.dirname.join(attachment[:source]).to_s
+  end
+
 end

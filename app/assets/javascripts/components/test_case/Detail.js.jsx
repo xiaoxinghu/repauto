@@ -56,6 +56,12 @@ var Detail = React.createClass({
         );
       });
 
+      var images = d.attachments.map(function(att) {
+        return {
+          url: att.url,
+          caption: (<div>{att.title}</div>)
+        };
+      });
       testCase = (
         <div>
           <div className="page-header">
@@ -68,7 +74,7 @@ var Detail = React.createClass({
               </ul>
             </div>
             <div className="col-sm-8">
-              <Gallery images={d.attachments}/>
+              <Gallery images={images}/>
             </div>
           </div>
         </div>

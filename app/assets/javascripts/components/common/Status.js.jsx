@@ -1,27 +1,37 @@
 var Status = React.createClass({
   propTypes: {
-    data: React.PropTypes.object
+    data: React.PropTypes.object,
+    withPassRate: React.PropTypes.bool
+  },
+
+  getDefaultProps: function() {
+    return {
+      withPassRate: true
+    };
   },
 
   render: function() {
     var orderedStatus = ['passed', 'failed', 'broken', 'pending'];
     var labels = "not enough data";
-    summary = this.props.data
-    if (summary) {
+    var data = this.props.data
+    if (data) {
       labels = orderedStatus.filter(function (status) {
-        return summary.hasOwnProperty(status);
+        return data.hasOwnProperty(status);
       }).map(function (status) {
         return (
-          <span key={status} className={"label label-" + statusmap(status)}>{summary[status]}</span>
+          <span key={status} className={"label label-" + statusmap(status)}>{data[status]}</span>
         )
-      })
-      var passed = (summary['passed'] === undefined) ? 0 : summary['passed'];
-      var total = 0;
-      for (var k in summary) {
-        total += summary[k];
+      });
+
+      if (this.props.withPassRate) {
+        var passed = (data['passed'] === undefined) ? 0 : data['passed'];
+        var total = 0;
+        for (var k in data) {
+          total += data[k];
+        }
+        var pr = Math.round(passed / total * 1000) / 10
+        labels.push(<span key='pass_rate' className="label label-info">{pr.toString() + '%'}</span>);
       }
-      var pr = Math.round(passed / total * 1000) / 10
-      labels.push(<span key='pass_rate' className="label label-info">{pr}</span>);
     };
     return (
       <div className="inline">

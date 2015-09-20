@@ -103,7 +103,8 @@ var FilterableList = React.createClass({
     var radios = [
       {label: (<i className="fa fa-star" />), value: 'feature'},
       {label: (<i className="fa fa-exclamation-triangle" />), value: 'error'},
-      {label: (<i className="glyphicon glyphicon-th" />), value: 'handset'}
+      {label: (<i className="glyphicon glyphicon-th" />), value: 'handset'},
+      {label: (<i className="fa fa-check-square-o" />), value: 'todo'}
     ];
     // var radios = ['feature', 'error'].map(function(o) {
     //   return {label: o, value: o, checked: (o == this.state.view)};
