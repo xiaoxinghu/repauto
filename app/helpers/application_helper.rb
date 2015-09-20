@@ -14,7 +14,7 @@ module ApplicationHelper
     when 'broken'
       'warning'
     when 'pending'
-      'muted'
+      'default'
     when 'canceled'
       'danger'
     when 'rate'
