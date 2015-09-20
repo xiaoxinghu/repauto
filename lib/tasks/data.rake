@@ -3,7 +3,7 @@ require 'datacraft'
 
 namespace :data do
   desc 'Sync data to database, sync all projects if param project is not given'
-  task :sync, [:project] => [:environment] do |_task, args|
+  task :sync, [:project] => [:environment, :mount] do |_task, args|
     start = Time.now
     logger = Logger.new(STDOUT)
     logger.level = Rails.logger.level
