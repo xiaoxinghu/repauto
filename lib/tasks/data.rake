@@ -30,7 +30,7 @@ namespace :data do
     # turn off cron task
     `crontab -r`
 
-    Rake::Task['report:sync'].invoke args[:project]
+    Rake::Task['data:sync'].invoke args[:project]
 
     # turn cron task back on
     `whenever --update-crontab`
