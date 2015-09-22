@@ -5,7 +5,7 @@ json.stop test_case.stop
 json.status test_case.status
 json.path test_case.path
 json.tags test_case.tags
-json.steps test_case.steps
+json.steps test_case.steps if test_case.respond_to? 'steps'
 json.test_suite test_case[:test_suite]
 json.md5 test_case.md5 if test_case.respond_to? 'md5'
 json.failure test_case.failure if test_case.respond_to? 'failure'

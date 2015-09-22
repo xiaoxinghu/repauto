@@ -1,10 +1,17 @@
 var Paginator = require('../common').Paginator;
+var Toolbar = require('./Toolbar');
 var Table = require('./Table');
+var TestRunConstants = require('../../constants/TestRun');
+var TestRunStore = require('../../stores/TestRunStore').store;
+var BinStore = require('../../stores/TestRunStore').bin;
+var Constants = require('../../constants/TestRun');
 
 var FilterableTable = React.createClass({
   getInitialState: function() {
+    TestRunStore.init(this.props.url);
+    var all = TestRunStore.getAll();
     return {
-      test_runs: [],
+      test_runs: all,
       meta: {
         total_pages: 0,
         current_page: 1,
@@ -29,8 +36,24 @@ var FilterableTable = React.createClass({
       }.bind(this)
     });
   },
+
+  remove: function(msg, id) {
+    var testRuns = this.state.test_runs.filter(function(d) {
+      return d.id != id;
+    });
+    this.setState({test_runs: testRuns});
+  },
+
   componentDidMount: function() {
-    this.loadContent();
+    TestRunStore.addChangeListener(Constants.Event.RELOAD, this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    TestRunStore.removeChangeListener(Constants.Event.RELOAD, this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({test_runs: TestRunStore.getAll()});
   },
 
   _handleOnPageinate: function(pageNumber) {
@@ -43,6 +66,9 @@ var FilterableTable = React.createClass({
     return (
       <div>
         <Paginator totalPages={this.state.meta.total_pages} currentPage={this.state.meta.current_page} onPaginate={this._handleOnPageinate} />
+        <span>
+          <Toolbar />
+        </span>
         <Table data={this.state.test_runs} />
       </div>
     );

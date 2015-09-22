@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       member do
         get 'progress'
         get 'test_cases'
+        get 'archive'
+        get 'restore'
       end
     end
     resources :test_suites, only: [:show]

@@ -62,18 +62,34 @@ var Detail = React.createClass({
           caption: (<div>{att.title}</div>)
         };
       });
+
+      if (d.failure) {
+        var stId = _.uniqueId('st');
+        var error = (
+          <div className={"alert alert-" + statusmap(d.status) + " fade in"} role="alert">
+            <h4>{d.failure.message}</h4>
+            <a href={"#" + stId} data-toggle="collapse" aria-expanded="false" aria-controls={stId}>show stack trace</a>
+            <div className="collapse" id={stId}>
+              {d.failure.stack_trace}
+            </div>
+          </div>
+        );
+      }
       testCase = (
         <div>
           <div className="page-header">
             <h4>{d.name}</h4>
           </div>
+          <div className="row">{error}</div>
           <div className="row">
-            <div className="col-sm-4">
-              <ul className="media-list">
-                {content}
-              </ul>
+            <div className="col-md-4">
+              <div className="row">
+                <ul className="media-list">
+                  {content}
+                </ul>
+              </div>
             </div>
-            <div className="col-sm-8">
+            <div className="col-md-8">
               <Gallery images={images}/>
             </div>
           </div>

@@ -4,7 +4,9 @@
     "browserify": "~> 10.2.4",
     "browserify-incremental": "^3.0.1",
     "reactify": "^1.1.0",
-    "keymirror": "~0.1.0"
+    "flux": "^2.0.1",
+    "keymirror": "~0.1.0",
+    "object-assign": "^1.0.0"
   },
   "license": "MIT",
   "engines": {
