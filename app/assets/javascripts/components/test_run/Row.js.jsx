@@ -1,5 +1,4 @@
 var Status = require('../common').Status;
-var Progress = require('../common').Progress;
 var HoverToShow = require('../common').HoverToShow;
 var TestRunConstants = require('../../constants/TestRun');
 var Actions = require('../../actions/TestRunActions');
@@ -8,21 +7,6 @@ var Row = React.createClass({
 
   handleClick: function(e) {
     window.location.href = this.props.data.url.detail;
-  },
-
-  handleButtonClick: function(link) {
-    $.ajax({
-      url: link,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        Actions.remove(this.props.data.id);
-        // PubSub.publish(TestRunConstants.REMOVE, this.props.data.id);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
   },
 
   handleRowSelection: function(e) {
@@ -39,32 +23,31 @@ var Row = React.createClass({
     var start = moment(testRun.start);
     var stop = moment(testRun.stop);
     var duration = stop.diff(start, 'seconds').toHHMMSS();
-    if (testRun.url.restore) {
-      var button = (
-        <a href="#" className="hover-to-show" onClick={this.handleButtonClick.bind(this, testRun.url.restore)}>
-          <i className="fa fa-facebook" />
-        </a>
-      );
-    } else if (testRun.url.archive) {
-      var button = (
-        <a href="#" className="hover-to-show" onClick={this.handleButtonClick.bind(this, testRun.url.archive)}>
-          <i className="fa fa-trash-o" />
-        </a>
-      );
+    var status = testRun.summary;
+    var progress = testRun.progress;
+    status['pr'] = getPassRate(status);
+    if (this.props.selected) {
+      var checkbox = (<input type="checkbox" checked onChange={this.handleRowSelection}></input>);
+    } else {
+      var checkbox = (<input type="checkbox" onChange={this.handleRowSelection}></input>);
     }
     var cells = ([
       <td key={_.uniqueId('cell')}>
-        <input type="checkbox" onChange={this.handleRowSelection}></input>
+        {checkbox}
       </td>,
       <td key={_.uniqueId('cell')} onClick={this.handleClick}>{testRun.type}</td>,
       <td key={_.uniqueId('cell')} onClick={this.handleClick}>{start.format("YYYY-MM-DD HH:mm:SS")}</td>,
       <td key={_.uniqueId('cell')} onClick={this.handleClick}>{duration}</td>,
       <td key={_.uniqueId('cell')} onClick={this.handleClick}>
-        <Status key={'status-' + testRun.id} data={testRun.summary} />
+        <Status data={status} />
       </td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}><Progress key={'progress-' + testRun.id} url={testRun.url.progress} /></td>,
+      <td key={_.uniqueId('cell')} onClick={this.handleClick}>
+        <Status data={progress} />
+      </td>,
       <td key={_.uniqueId('cell')}>
-        {button}
+        <a href="#" className="hover-to-show" onClick={function() {Actions.remove(testRun.id)}}>
+          <i className="fa fa-trash-o" />
+        </a>
       </td>
     ]);
     return (

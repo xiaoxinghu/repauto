@@ -21,7 +21,7 @@ var TestRunActions = {
       actionType: Actions.REMOVE,
       id: id
     });
-  }
+  },
 }
 
 module.exports = TestRunActions;

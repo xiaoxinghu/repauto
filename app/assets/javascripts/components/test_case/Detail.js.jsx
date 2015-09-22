@@ -33,10 +33,10 @@ var Detail = React.createClass({
         d.steps.forEach(function(step) {
           dList.push(
           {
-            icon: 'fa fa-' + statusIcon(step.status),
+            icon: getStatusMeta(step.status).icon,
             body: (
               <div key={_.uniqueId('step')}>
-                <h5 className={"media-heading text-" + statusmap(step.status)}>{step.name}</h5>
+                <h5 className={"media-heading text-" + getStatusMeta(step.status).context}>{step.name}</h5>
                 <p className="text-muted small">{showDuration(step.start, step.stop)}</p>
               </div>
             )
@@ -66,7 +66,7 @@ var Detail = React.createClass({
       if (d.failure) {
         var stId = _.uniqueId('st');
         var error = (
-          <div className={"alert alert-" + statusmap(d.status) + " fade in"} role="alert">
+          <div className={"alert alert-" + getStatusMeta(d.status).context + " fade in"} role="alert">
             <h4>{d.failure.message}</h4>
             <a href={"#" + stId} data-toggle="collapse" aria-expanded="false" aria-controls={stId}>show stack trace</a>
             <div className="collapse" id={stId}>

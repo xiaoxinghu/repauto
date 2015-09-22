@@ -40,19 +40,24 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
       dataType: 'json',
       cache: false,
       data: this.fetchData,
-      success: function(data) {
-        data.test_runs.forEach(function(d) {
-          this.all[d.id] = d;
-        }.bind(this));
-        // this.all = this.all.concat(data.test_runs);
-        this.meta = data.meta;
-        this.fetchData.page += 1;
-        this.emit(Event.RELOAD);
-      }.bind(this),
+      success: this.gotData.bind(this),
       error: function(xhr, status, err) {
         console.error(_url, status, err.toString());
       }.bind(this)
     });
+  },
+
+  gotData: function(data) {
+    data.test_runs.forEach(function(d) {
+      this.all[d.id] = d;
+    }.bind(this));
+    // this.all = this.all.concat(data.test_runs);
+    this.meta = data.meta;
+    this.fetchData.page += 1;
+    this.emit(CHANGE_EVENT);
+    for(var id in this.all) {
+      this.getProgress(id);
+    }
   },
 
   getAll: function() {
@@ -63,12 +68,16 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   },
 
   getProgress: function(id) {
+    if (this.all[id].progress) {
+      return this.all[id].progress;
+    }
     $.ajax({
-      url: testRun.url.progress,
+      url: this.all[id].url.progress,
       dataType: 'json',
       cache: false,
       success: function(data) {
-        testRun["progress"] = data;
+        this.all[id].progress = data;
+        this.emit(CHANGE_EVENT);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(TestRun.url.progress, status, err.toString());
@@ -77,21 +86,43 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   },
 
   select: function(id) {
-    this.selected.push(id);
-    this.emit(Event.SELECT);
+    if (id) {
+      this.selected.push(id);
+      this.emit(CHANGE_EVENT);
+    } else {
+      this.selected = _.keys(this.all);
+      this.emit(CHANGE_EVENT);
+    }
   },
 
   unselect: function(id) {
-    var i = this.selected.indexOf(id);
-    if (i != -1) {
-      this.selected.splice(i, 1);
+    if (id) {
+      var i = this.selected.indexOf(id);
+      if (i != -1) {
+        this.selected.splice(i, 1);
+      }
+      this.emit(CHANGE_EVENT);
+    } else {
+      this.selected = [];
+      this.emit(CHANGE_EVENT);
     }
-    this.emit(Event.SELECT);
   },
 
   remove: function(id) {
-    delete this.all[id];
-    this.emit(Event.RELOAD);
+    var testRun = this.all[id];
+    var link = testRun.url.archive || testRun.url.restore;
+    $.ajax({
+      url: link,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        delete this.all[id];
+        this.emit(CHANGE_EVENT);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
 
   getSelected: function() {
@@ -102,12 +133,12 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   //   this.emit(CHANGE_EVENT);
   // },
 
-  addChangeListener: function(e, callback) {
-    this.on(e, callback);
+  addChangeListener: function(callback) {
+    this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(e, callback) {
-    this.removeListener(e, callback);
+  removeChangeListener: function(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
   }
 });
 

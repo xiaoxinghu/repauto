@@ -1,43 +1,58 @@
-function statusmap(status) {
-  var target = 'default';
-  switch (status) {
-    case 'passed':
-      target = 'success';
-      break;
-    case 'failed':
-      target = 'danger';
-      break;
-    case 'broken':
-      target = 'warning';
-      break;
-    case 'pending':
-      target = 'default';
-      break;
-    default:
-      target = 'default';
+function getPassRate(status) {
+  var passed = (status['passed'] === undefined) ? 0 : status['passed'];
+  var total = 0;
+  for (var k in status) {
+    total += status[k];
   }
-  return target;
+  var pr = Math.round(passed / total * 1000) / 10
+  return pr;
 }
 
-function statusIcon(status) {
-  var icon = 'question';
+function getStatusMeta(status) {
+  var formated = {
+    status: status
+  };
+  var context = 'default';
+  var icon = 'default';
   switch (status) {
     case 'passed':
-      icon = 'check';
+      formated.context = 'success';
+      formated.icon = 'fa fa-check';
       break;
     case 'failed':
-      icon = 'times';
+      formated.context = 'danger';
+      formated.icon = 'fa fa-times';
       break;
     case 'broken':
-      icon = 'bolt';
+      formated.context = 'warning';
+      formated.icon = 'fa fa-bolt';
       break;
-    case 'canceled':
-      icon = 'ban';
+    case 'pending':
+      formated.context = 'default';
+      formated.icon = 'fa fa-ban';
+      break;
+    case 'todo':
+      formated.context = 'primary';
+      formated.icon = 'fa fa-check-square-o';
+      break;
+    case 'pr':
+      formated.context = 'info';
+      formated.icon = 'fa fa-pie-chart';
       break;
     default:
-      icon = 'question';
   }
-  return icon;
+  // var orderedStatus = ['passed', 'failed', 'broken', 'pending', 'todo', 'rate'];
+  // formated = orderedStatus.filter(function(s) {
+  //   return status.hasOwnProperty(s);
+  // }).map(function(s) {
+  //   return {
+  //     color: statusmap(s),
+  //     icon: statusIcon(s),
+  //     key: s,
+  //     value: status[s]
+  //   }
+  // });
+  return formated;
 }
 
 Number.prototype.toHHMMSS = function () {

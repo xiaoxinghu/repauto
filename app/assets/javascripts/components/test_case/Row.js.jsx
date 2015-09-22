@@ -7,7 +7,7 @@ var Row = React.createClass({
     var testCase = this.props.data;
     return (
       <a href="#"
-        className={"hideOverflow list-group-item small list-group-item-" + statusmap(testCase.status)}
+        className={"hideOverflow list-group-item small list-group-item-" + getStatusMeta(testCase.status).context}
         onClick={this.onClick}>{testCase.name}</a>
     );
   }

@@ -21,21 +21,19 @@ var Progress = React.createClass({
     return {data: {}};
   },
   componentDidMount: function() {
-    this.loadContent();
+    // this.loadContent();
   },
 
   render: function() {
     var progress = [];
-    var status = this.state.data.status
-    var todo = this.state.data.todo
+    var status = this.props.data.status;
+    var todo = this.props.data.todo;
+    if (todo) {
+      status['todo'] = todo;
+    }
     if (status) {
       progress.push(<Status key={'pstatus-' + this.props.url} data={status} />);
     }
-    if (todo) {
-      progress.push(<span key={'todo-' + this.props.url} className="badge inline">{todo}</span>);
-    }
-    // if (this.state.data.hasOwnProperty('status')) {
-    // }
     return (
       <div>{progress}</div>
     );

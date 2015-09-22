@@ -1,5 +1,5 @@
 var TestRunStore = require('../../stores/TestRunStore').store;
-var Constants = require('../../constants/TestRun');
+var Action = require('../../actions/TestRunActions');
 
 var Toolbar = React.createClass({
 
@@ -10,15 +10,21 @@ var Toolbar = React.createClass({
   },
 
   componentDidMount: function() {
-    TestRunStore.addChangeListener(Constants.Event.SELECT, this._onChange);
+    TestRunStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    TestRunStore.removeChangeListener(Constants.Event.SELECT, this._onChange);
+    TestRunStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
     this.setState({selectedTestRuns: TestRunStore.getSelected()});
+  },
+
+  _handleDelete: function() {
+    TestRunStore.getSelected().forEach(function(id) {
+      Action.remove(id);
+    })
   },
 
   render: function() {
@@ -26,12 +32,12 @@ var Toolbar = React.createClass({
     var buttons = [];
     if (numSelected > 0) {
       buttons.push(
-        <button type="button" className="btn btn-default">delete</button>
+        <button key='delete' type="button" className="btn btn-default" onClick={this._handleDelete}>delete</button>
       );
     }
     if (numSelected == 2) {
       buttons.push(
-        <button type="button" className="btn btn-default disabled">diff</button>
+        <button key='diff' type="button" className="btn btn-default disabled">diff</button>
       );
     }
     // var buttons = ([

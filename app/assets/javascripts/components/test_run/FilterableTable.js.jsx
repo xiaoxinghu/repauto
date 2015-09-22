@@ -1,10 +1,8 @@
 var Paginator = require('../common').Paginator;
 var Toolbar = require('./Toolbar');
 var Table = require('./Table');
-var TestRunConstants = require('../../constants/TestRun');
 var TestRunStore = require('../../stores/TestRunStore').store;
 var BinStore = require('../../stores/TestRunStore').bin;
-var Constants = require('../../constants/TestRun');
 
 var FilterableTable = React.createClass({
   getInitialState: function() {
@@ -45,11 +43,11 @@ var FilterableTable = React.createClass({
   },
 
   componentDidMount: function() {
-    TestRunStore.addChangeListener(Constants.Event.RELOAD, this._onChange);
+    TestRunStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    TestRunStore.removeChangeListener(Constants.Event.RELOAD, this._onChange);
+    TestRunStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
