@@ -9,7 +9,11 @@ Rails.application.routes.draw do
       end
     end
     resources :test_suites, only: [:show]
-    resources :test_cases, only: [:show]
+    resources :test_cases, only: [:show] do
+      member do
+        get :history
+      end
+    end
   end
 
   resources :projects, only: [:index, :show] do

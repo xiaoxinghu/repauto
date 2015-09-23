@@ -16,3 +16,6 @@ if test_case.respond_to? 'attachments'
     json.type attachment[:type]
   end
 end
+json.url do
+  json.history history_api_test_case_path(test_case)
+end

@@ -1,24 +1,13 @@
 var Gallery = require('../common').Gallery;
+var HistoryLine = require('./HistoryLine');
+var Store = require('../../stores/TestCaseDetailStore');
 
 var Detail = React.createClass({
-  getInitialState: function() {
-    return {
-      data: null
-    };
-  },
-
-  componentDidMount: function() {
-    PubSub.subscribe('selected', this.change);
-  },
-
-  change: function(msg, data) {
-    this.setState({data: data});
-  },
-
   render: function() {
     var testCase = (<div>Select Test Case from left.</div>);
-    if (this.state.data != null) {
-      var d = this.state.data;
+    var d = this.props.data;
+    // var d = Store.getDetail(id);
+    if (d != null) {
       var tags = d.tags.map(function(t, i) {
         return (
           <span key={i} className="label label-default">{t}</span>
@@ -75,15 +64,26 @@ var Detail = React.createClass({
           </div>
         );
       }
-      testCase = (
-        <div>
-          <div className="page-header">
-            <h4>{d.name}</h4>
+      if (this.props.compact) {
+        container = ([
+          <div>
+            <HistoryLine owner={d} />
+            <div>
+              <ul className="media-list">
+                {content}
+              </ul>
+            </div>
+          </div>,
+          <div>
+            <Gallery images={images}/>
           </div>
-          <div className="row">{error}</div>
+        ]);
+      } else {
+        var container = (
           <div className="row">
             <div className="col-md-4">
-              <div className="row">
+              <HistoryLine owner={d} />
+              <div>
                 <ul className="media-list">
                   {content}
                 </ul>
@@ -93,6 +93,16 @@ var Detail = React.createClass({
               <Gallery images={images}/>
             </div>
           </div>
+        );
+
+      }
+      testCase = (
+        <div>
+          <div className="page-header">
+            <h4>{d.name}</h4>
+          </div>
+          <div>{error}</div>
+          {container}
         </div>
       );
     }

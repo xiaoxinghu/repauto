@@ -7,24 +7,9 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 var SELECT_EVENT = 'select';
 
-function getProgress(testRun) {
-  $.ajax({
-    url: testRun.url.progress,
-    dataType: 'json',
-    cache: false,
-    success: function(data) {
-      testRun["progress"] = data;
-    }.bind(this),
-    error: function(xhr, status, err) {
-      console.error(TestRun.url.progress, status, err.toString());
-    }.bind(this)
-  });
-}
-
 var TestRunStore = _.assign({}, EventEmitter.prototype, {
 
   init: function(source) {
-    console.log('init test run store');
     this.source = source;
     this.all = {};
     this.selected = [];
@@ -49,6 +34,9 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
 
   gotData: function(data) {
     data.test_runs.forEach(function(d) {
+      if (d.summary) {
+        d.summary.pr = getPassRate(d.summary).toString() + '%';
+      }
       this.all[d.id] = d;
     }.bind(this));
     // this.all = this.all.concat(data.test_runs);
@@ -76,6 +64,10 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
       dataType: 'json',
       cache: false,
       success: function(data) {
+        if (data.todo == 0) {
+          delete data.todo;
+        }
+        data.pr = getPassRate(data).toString() + '%';
         this.all[id].progress = data;
         this.emit(CHANGE_EVENT);
       }.bind(this),

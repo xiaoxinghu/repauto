@@ -1,73 +1,45 @@
 var SearchBar = require('../common').SearchBar;
 var RadioSet = require('../common').RadioSet;
 var Group = require('./Group');
+var TestCaseStore = require('../../stores/TestCaseStore');
+var GroupBy = require('../../constants/TestCase').GroupBy;
+var Actions = require('../../actions/TestCaseActions');
 
 var FilterableList = React.createClass({
   propTypes: {
-    url: React.PropTypes.string,
+    source: React.PropTypes.string,
     onItemSelected: React.PropTypes.func
   },
   getInitialState: function() {
+    TestCaseStore.init(this.props.source);
     return {
-      testCases: [],
-      view: 'feature',
+      data: {},
+      groupBy: GroupBy.FEATURE,
       filterText: ''
     };
   },
-  loadContent: function() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        this.setState({testCases: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
 
   componentDidMount: function() {
-    this.loadContent();
+    TestCaseStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    TestCaseStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({
+      data: TestCaseStore.getAll(),
+      groupBy: TestCaseStore.getGroupBy()
+    });
   },
 
   handleUserInput: function(filterText) {
-    this.setState({
-      filterText: filterText
-    });
+    Actions.filter(filterText);
   },
 
-  handleViewChange: function(view) {
-    this.setState({view: view});
-  },
-
-  filter: function(testCases) {
-    if (this.state.filterText === '') {
-      return testCases;
-    } else {
-      var options = {
-        keys: ['name']
-      }
-      var f = new Fuse(testCases, options);
-      return f.search(this.state.filterText);
-    }
-  },
-
-  group: function(testCases) {
-    return groupBy(testCases, function(item) {
-      switch (this.state.view) {
-        case 'feature':
-          return item.test_suite.name;
-          break;
-        case 'error':
-          return item.failure ? item.failure.message : null;
-          break;
-        default:
-          return item.test_suite.name;
-          break;
-      }
-    });
+  handleGroupByChange: function(view) {
+    Actions.changeGroupBy(view);
   },
 
   onItemSelected: function(selected) {
@@ -75,21 +47,8 @@ var FilterableList = React.createClass({
   },
 
   render: function() {
-    var filtered = this.filter(this.state.testCases);
-    var view = this.state.view;
-    var grouped = groupBy(filtered, function(item) {
-      switch (view) {
-        case 'feature':
-          return item.test_suite.name;
-          break;
-        case 'error':
-          return item.failure ? item.failure.message : null;
-          break;
-        default:
-          return item.test_suite.name;
-          break;
-      }
-    });
+    var grouped = this.state.data;
+
     var groups = Object.keys(grouped);
     var groupedTestCases = groups.map(function (g){
       return (
@@ -101,21 +60,18 @@ var FilterableList = React.createClass({
       );
     }, this);
     var radios = [
-      {label: (<i className="fa fa-star" />), value: 'feature'},
-      {label: (<i className="fa fa-exclamation-triangle" />), value: 'error'},
-      {label: (<i className="glyphicon glyphicon-th" />), value: 'handset'},
-      {label: (<i className="fa fa-check-square-o" />), value: 'todo'}
+      {label: (<i className="fa fa-star" />), value: GroupBy.FEATURE},
+      {label: (<i className="fa fa-exclamation-triangle" />), value: GroupBy.ERROR},
+      {label: (<i className="glyphicon glyphicon-th" />), value: GroupBy.GRID},
+      {label: (<i className="fa fa-check-square-o" />), value: GroupBy.TODO}
     ];
-    // var radios = ['feature', 'error'].map(function(o) {
-    //   return {label: o, value: o, checked: (o == this.state.view)};
-    // }, this);
     return (
       <div className="test-case-list">
         <div className="row">
           <SearchBar onUserInput={this.handleUserInput}/>
         </div>
         <div className="row">
-          <RadioSet group="view" onChange={this.handleViewChange} radios={radios} selected={this.state.view} />
+          <RadioSet group="view" onChange={this.handleGroupByChange} radios={radios} selected={this.state.groupBy} />
         </div>
         <div className="row full-height fill">
           {groupedTestCases}

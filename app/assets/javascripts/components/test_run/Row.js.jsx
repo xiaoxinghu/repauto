@@ -18,6 +18,14 @@ var Row = React.createClass({
     // console.log(this.props.data.id, e.target.checked);
   },
 
+  extractStatus: function(testRun) {
+    var status = testRun.summary || {};
+    if (!_.isEmpty(status)) {
+      status['pr'] = getPassRate(status).toString() + '%';
+    }
+    return status;
+  },
+
   render: function() {
     var testRun = this.props.data;
     var start = moment(testRun.start);
@@ -25,7 +33,6 @@ var Row = React.createClass({
     var duration = stop.diff(start, 'seconds').toHHMMSS();
     var status = testRun.summary;
     var progress = testRun.progress;
-    status['pr'] = getPassRate(status);
     if (this.props.selected) {
       var checkbox = (<input type="checkbox" checked onChange={this.handleRowSelection}></input>);
     } else {

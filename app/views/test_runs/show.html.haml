@@ -21,9 +21,9 @@
 -# = react_component('TestRunDetail', testCasesUrl: test_cases_api_test_run_path(@test_run))
 .row
   .col-sm-3
-    = react_component('TestCaseList', url: test_cases_api_test_run_path(@test_run))
+    = react_component('TestCaseList', source: test_cases_api_test_run_path(@test_run))
   .col-sm-9.full-height.fill
-    = react_component('TestCaseDetail')
+    = react_component('TestCaseMain')
   -# #tree_view{ data: { load: fetch_tree_test_run_path(@test_run)}}
   -#   = spinner
 

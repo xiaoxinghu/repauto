@@ -1,7 +1,9 @@
+var Actions = require('../../actions/TestCaseActions');
+
 var Row = React.createClass({
   onClick: function(e) {
     e.preventDefault();
-    PubSub.publish('selected', this.props.data);
+    Actions.show(this.props.data);
   },
   render: function() {
     var testCase = this.props.data;

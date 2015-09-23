@@ -1,9 +1,12 @@
 function getPassRate(status) {
-  var passed = (status['passed'] === undefined) ? 0 : status['passed'];
-  var total = 0;
-  for (var k in status) {
-    total += status[k];
+  if (!status) {
+    return 0;
   }
+  var passed = status.passed || 0;
+  var total = passed;
+  total += status.failed || 0;
+  total += status.broken || 0;
+  total += status.pending || 0;
   var pr = Math.round(passed / total * 1000) / 10
   return pr;
 }
