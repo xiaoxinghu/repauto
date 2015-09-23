@@ -1,18 +1,19 @@
 var Actions = require('../../actions/TestCaseActions');
+var Store = require('../../stores/TestCaseStore');
 
 var HistoryLine = React.createClass({
   handleClick: function(target) {
-    Actions.show([this.props.owner, target]);
+    Actions.show([this.props.id, target]);
   },
 
   render: function() {
-    var owner = this.props.owner;
+    var owner = Store.get(this.props.id);
     if (owner.history) {
       var history = owner.history.map(function(testCase) {
         var status = getStatusMeta(testCase.status);
         var className = 'btn btn-' + status.context;
         return (
-          <button key={_.uniqueId('hist')} type='button' className={className} onClick={this.handleClick.bind(this, testCase)}>
+          <button key={_.uniqueId('hist')} type='button' className={className} onClick={this.handleClick.bind(this, testCase.id)}>
             <i className={status.icon} />
           </button>
         );

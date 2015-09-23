@@ -4,6 +4,7 @@ var Store = require('../../stores/TestCaseStore');
 
 var Detail = React.createClass({
   render: function() {
+    console.log('detail', this.props.id);
     var testCase = (<div>Select Test Case from left.</div>);
     var d = Store.get(this.props.id);
     if (d != null) {
@@ -66,7 +67,6 @@ var Detail = React.createClass({
       if (this.props.compact) {
         container = ([
           <div>
-            <HistoryLine owner={d} />
             <div>
               <ul className="media-list">
                 {content}
@@ -81,7 +81,7 @@ var Detail = React.createClass({
         var container = (
           <div className="row">
             <div className="col-md-4">
-              <HistoryLine owner={d} />
+              <HistoryLine id={this.props.id} />
               <div>
                 <ul className="media-list">
                   {content}

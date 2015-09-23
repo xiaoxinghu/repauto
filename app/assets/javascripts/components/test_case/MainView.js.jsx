@@ -22,50 +22,19 @@ var MainView = React.createClass({
 
   render: function() {
     var content = {};
-    var data = this.state.showing;
-    content = (<Detail id={data[0]} />);
-    // if (!_.isArray(data)) {
-    //   content = (
-    //     <Detail data={data} />
-    //   );
-    // } else {
-    //   content = (
-    //     <div className='row'>
-    //       <div className='col-md-6'>
-    //         <Detail data={data[0]} compact={true} />
-    //       </div>
-    //       <div className='col-md-6'>
-    //         <Detail data={data[1]} compact={true} />
-    //       </div>
-    //     </div>
-    //   );
-    // }
-
-    // switch (this.state.view) {
-    //   case View.DETAIL:
-    //     var id = this.state.id;
-    //     content = (
-    //       <Detail data={Store.getDetail(id)} />
-    //     );
-    //     break;
-    //   case View.DIFF:
-    //     // content = (
-    //     //   <div className='row'>
-    //     //     <div className='col-md-6'>
-    //     //       <Detail id={this.state.ids[0]} />
-    //     //     </div>
-    //     //     <div className='col-md-6'>
-    //     //       <Detail id={this.state.ids[1]} />
-    //     //     </div>
-    //     //   </div>
-    //     // );
-    //     break;
-    //   default:
-    // };
-
+    var showing = this.state.showing;
+    var total =  showing.length;
+    var colSize = 'col-md-' + (12 / total).toString();
+    var columns = showing.map(function(id) {
+      return (
+        <div key={_.uniqueId('detail')} className={colSize}>
+          <Detail id={id} />
+        </div>
+      );
+    });
     return (
-      <div>
-        {content}
+      <div className='row'>
+        {columns}
       </div>
     );
   }

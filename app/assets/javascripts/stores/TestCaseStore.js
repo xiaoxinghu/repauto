@@ -10,6 +10,7 @@ var TestCaseStore = _.assign({}, EventEmitter.prototype, {
   init: function(source) {
     this.source = source;
     this.all = {};
+    this.history = {};
     this.showing = [];
     $.ajax({
       // async: false,
@@ -62,12 +63,36 @@ var TestCaseStore = _.assign({}, EventEmitter.prototype, {
   },
 
   get: function(id) {
-    return this.all[id];
+    return this.all[id] || this.history[id];
   },
 
   show: function(ids) {
     this.showing = ids;
     this.emitChange();
+    this.showing.forEach(function(id) {
+      this._getHistory(id);
+    }, this);
+  },
+
+  _getHistory: function(id) {
+    var tc = this.all[id];
+    if (!tc) {return;}
+    if (tc.history) {return;}
+    $.ajax({
+      url: tc.url.history,
+      dataType: 'json',
+      cache: false,
+      success: function(d) {
+        tc.history = d;
+        d.forEach(function(h){
+          this.history[h.id] = h;
+        }, this);
+        this.emitChange();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(_url, status, err.toString());
+      }.bind(this)
+    });
   },
 
   getShowing: function() {
@@ -106,7 +131,7 @@ AppDispatcher.register(function(action) {
       break;
     case Action.RESET:
       reset();
-      TestCaseDetailStore.emitChange();
+      TestCaseStore.emitChange();
       break;
     default:
   }
