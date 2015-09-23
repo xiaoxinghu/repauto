@@ -35,6 +35,7 @@ module Repauto
     # config.active_job.queue_adapter = :sidekiq
     Mongoid.logger.level = Logger::WARN
     Moped.logger.level = Logger::WARN
+    config.react.addons = true # defaults to false
     # Tell browserify-rails how to treat .js.jsx files
     config.browserify_rails.commandline_options = "-t reactify --extension=\".js.jsx\""
   end

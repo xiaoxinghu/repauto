@@ -1,12 +1,11 @@
 var Gallery = require('../common').Gallery;
 var HistoryLine = require('./HistoryLine');
-var Store = require('../../stores/TestCaseDetailStore');
+var Store = require('../../stores/TestCaseStore');
 
 var Detail = React.createClass({
   render: function() {
     var testCase = (<div>Select Test Case from left.</div>);
-    var d = this.props.data;
-    // var d = Store.getDetail(id);
+    var d = Store.get(this.props.id);
     if (d != null) {
       var tags = d.tags.map(function(t, i) {
         return (

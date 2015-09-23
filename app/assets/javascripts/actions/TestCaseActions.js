@@ -16,10 +16,10 @@ var TestCaseActions = {
     });
   },
 
-  show: function(data) {
+  show: function(ids) {
     AppDispatcher.dispatch({
       actionType: Action.SHOW,
-      data: data
+      ids: ids
     });
   },
 

@@ -4,16 +4,18 @@ var Group = require('./Group');
 var TestCaseStore = require('../../stores/TestCaseStore');
 var GroupBy = require('../../constants/TestCase').GroupBy;
 var Actions = require('../../actions/TestCaseActions');
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 var FilterableList = React.createClass({
   propTypes: {
     source: React.PropTypes.string,
-    onItemSelected: React.PropTypes.func
   },
+  mixins: [PureRenderMixin],
+
   getInitialState: function() {
     TestCaseStore.init(this.props.source);
     return {
-      data: {},
+      total: 0,
       groupBy: GroupBy.FEATURE,
       filterText: ''
     };
@@ -29,17 +31,20 @@ var FilterableList = React.createClass({
 
   _onChange: function() {
     this.setState({
-      data: TestCaseStore.getAll(),
-      groupBy: TestCaseStore.getGroupBy()
+      total: TestCaseStore.getTotal()
     });
   },
 
   handleUserInput: function(filterText) {
-    Actions.filter(filterText);
+    this.setState({
+      filterText: filterText
+    });
   },
 
-  handleGroupByChange: function(view) {
-    Actions.changeGroupBy(view);
+  handleGroupByChange: function(groupBy) {
+    this.setState({
+      groupBy: groupBy
+    });
   },
 
   onItemSelected: function(selected) {
@@ -47,7 +52,7 @@ var FilterableList = React.createClass({
   },
 
   render: function() {
-    var grouped = this.state.data;
+    var grouped = TestCaseStore.getAll(this.state.groupBy, this.state.filterText);
 
     var groups = Object.keys(grouped);
     var groupedTestCases = groups.map(function (g){

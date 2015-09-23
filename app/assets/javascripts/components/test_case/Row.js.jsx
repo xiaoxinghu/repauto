@@ -3,7 +3,7 @@ var Actions = require('../../actions/TestCaseActions');
 var Row = React.createClass({
   onClick: function(e) {
     e.preventDefault();
-    Actions.show(this.props.data);
+    Actions.show([this.props.data.id]);
   },
   render: function() {
     var testCase = this.props.data;

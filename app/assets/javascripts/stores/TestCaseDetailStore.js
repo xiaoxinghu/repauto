@@ -64,14 +64,14 @@ var TestCaseDetailStore = _.assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   var text;
   switch (action.actionType) {
-    case Action.SHOW:
-      show(action.data);
-      TestCaseDetailStore.emitChange();
-      break;
-    case Action.RESET:
-      reset();
-      TestCaseDetailStore.emitChange();
-      break;
+    // case Action.SHOW:
+    //   show(action.data);
+    //   TestCaseDetailStore.emitChange();
+    //   break;
+    // case Action.RESET:
+    //   reset();
+    //   TestCaseDetailStore.emitChange();
+    //   break;
     default:
 
   }
