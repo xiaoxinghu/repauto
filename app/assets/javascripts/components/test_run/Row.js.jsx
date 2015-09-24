@@ -31,6 +31,11 @@ var Row = React.createClass({
     var start = moment(testRun.start);
     var stop = moment(testRun.stop);
     var duration = stop.diff(start, 'seconds').toHHMMSS();
+    if (testRun.status != 'done') {
+      var durationLabel = (
+        <span className="label label-default">{testRun.status}</span>
+      );
+    }
     var status = testRun.summary;
     var progress = testRun.progress;
     if (this.props.selected) {
@@ -43,8 +48,11 @@ var Row = React.createClass({
         {checkbox}
       </td>,
       <td key={_.uniqueId('cell')} onClick={this.handleClick}>{testRun.type}</td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}>{start.format("YYYY-MM-DD HH:mm:SS")}</td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}>{duration}</td>,
+      <td key={_.uniqueId('cell')} onClick={this.handleClick}>{showDateTime(start)}</td>,
+      <td key={_.uniqueId('cell')} onClick={this.handleClick}>
+        {duration}
+        {durationLabel}
+      </td>,
       <td key={_.uniqueId('cell')} onClick={this.handleClick}>
         <Status data={status} />
       </td>,
