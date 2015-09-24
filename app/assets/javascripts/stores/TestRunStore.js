@@ -32,6 +32,11 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     });
   },
 
+  isThereMore: function() {
+    if (!this.meta) return true;
+    return (this.meta.current_page < this.meta.total_pages);
+  },
+
   gotData: function(data) {
     data.test_runs.forEach(function(d) {
       if (d.summary) {

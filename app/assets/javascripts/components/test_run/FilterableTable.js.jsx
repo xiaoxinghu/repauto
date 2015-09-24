@@ -1,13 +1,13 @@
 var Paginator = require('../common').Paginator;
 var Toolbar = require('./Toolbar');
 var Table = require('./Table');
-var TestRunStore = require('../../stores/TestRunStore').store;
+var Store = require('../../stores/TestRunStore').store;
 var BinStore = require('../../stores/TestRunStore').bin;
 
 var FilterableTable = React.createClass({
   getInitialState: function() {
-    TestRunStore.init(this.props.url);
-    var all = TestRunStore.getAll();
+    Store.init(this.props.url);
+    var all = Store.getAll();
     return {
       test_runs: all,
       meta: {
@@ -43,15 +43,15 @@ var FilterableTable = React.createClass({
   },
 
   componentDidMount: function() {
-    TestRunStore.addChangeListener(this._onChange);
+    Store.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    TestRunStore.removeChangeListener(this._onChange);
+    Store.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
-    this.setState({test_runs: TestRunStore.getAll()});
+    this.setState({test_runs: Store.getAll()});
   },
 
   _handleOnPageinate: function(pageNumber) {
@@ -60,7 +60,20 @@ var FilterableTable = React.createClass({
     console.log('Paginator clicked.' + pageNumber);
   },
 
+  _handleMoreButton: function() {
+    Store.getMore();
+  },
+
   render: function() {
+    if (Store.isThereMore()) {
+      var loadMore = (
+        <ul className="pager">
+          <li>
+            <a href="#" onClick={this._handleMoreButton}>More</a>
+          </li>
+        </ul>
+      );
+    }
     return (
       <div>
         <Paginator totalPages={this.state.meta.total_pages} currentPage={this.state.meta.current_page} onPaginate={this._handleOnPageinate} />
@@ -68,6 +81,7 @@ var FilterableTable = React.createClass({
           <Toolbar />
         </span>
         <Table data={this.state.test_runs} />
+        {loadMore}
       </div>
     );
   }
