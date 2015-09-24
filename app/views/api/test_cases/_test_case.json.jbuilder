@@ -9,6 +9,7 @@ json.steps test_case.steps if test_case.respond_to? 'steps'
 json.test_suite test_case[:test_suite]
 json.md5 test_case.md5 if test_case.respond_to? 'md5'
 json.failure test_case.failure if test_case.respond_to? 'failure'
+json.comments test_case.comments if test_case.respond_to? 'comments'
 if test_case.respond_to? 'attachments'
   json.attachments test_case.attachments do |attachment|
     json.title attachment[:title]
@@ -18,4 +19,5 @@ if test_case.respond_to? 'attachments'
 end
 json.url do
   json.history history_api_test_case_path(test_case)
+  json.comment comment_api_test_case_path(test_case)
 end

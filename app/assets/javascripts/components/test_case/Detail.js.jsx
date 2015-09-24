@@ -1,10 +1,15 @@
 var Gallery = require('../common').Gallery;
+var CommentBox = require('../common').CommentBox;
 var HistoryLine = require('./HistoryLine');
 var Store = require('../../stores/TestCaseStore');
+var Actions = require('../../actions/TestCaseActions');
 
 var Detail = React.createClass({
+  handleCommentSubmit: function(comment) {
+    Actions.comment(this.props.id, comment);
+  },
+
   render: function() {
-    console.log('detail', this.props.id);
     var testCase = (<div>Select Test Case from left.</div>);
     var d = Store.get(this.props.id);
     if (d != null) {
@@ -87,6 +92,7 @@ var Detail = React.createClass({
                   {content}
                 </ul>
               </div>
+              <CommentBox onCommentSubmit={this.handleCommentSubmit} comments={d.comments || []}/>
             </div>
             <div className="col-md-8">
               <Gallery images={images}/>

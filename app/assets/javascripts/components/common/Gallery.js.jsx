@@ -5,7 +5,7 @@ var Gallery = React.createClass({
         <div key={_.uniqueId('gallery')} className="col-md-4">
           <a href={image.url} className="thumbnail">
             <img src={image.url}></img>
-            <div className="caption">
+            <div className="caption hideOverflow">
               {image.caption}
             </div>
           </a>

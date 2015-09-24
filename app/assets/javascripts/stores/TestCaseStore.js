@@ -74,6 +74,25 @@ var TestCaseStore = _.assign({}, EventEmitter.prototype, {
     }, this);
   },
 
+  comment: function(id, comment) {
+    var tc = this.all[id];
+    $.ajax({
+      url: tc.url.comment,
+      dataType: 'json',
+      type: 'POST',
+      cache: false,
+      data: comment,
+      success: function(test_case) {
+        tc.comments = test_case.comments;
+        console.log(test_case);
+        this.emitChange();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(_url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
   _getHistory: function(id) {
     var tc = this.all[id];
     if (!tc) {return;}
@@ -132,6 +151,9 @@ AppDispatcher.register(function(action) {
     case Action.RESET:
       reset();
       TestCaseStore.emitChange();
+      break;
+    case Action.COMMENT:
+      TestCaseStore.comment(action.id, action.comment);
       break;
     default:
   }

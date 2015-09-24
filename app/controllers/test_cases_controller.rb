@@ -118,6 +118,6 @@ class TestCasesController < ApplicationController
 
   def status
     test_case = TestCase.find(params[:id])
-    
+
   end
 end

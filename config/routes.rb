@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :test_cases, only: [:show] do
       member do
         get :history
+        post :comment
       end
     end
   end

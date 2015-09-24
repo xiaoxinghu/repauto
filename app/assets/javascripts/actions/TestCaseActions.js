@@ -29,6 +29,14 @@ var TestCaseActions = {
     });
   },
 
+  comment: function(id, comment) {
+    AppDispatcher.dispatch({
+      actionType: Action.COMMENT,
+      id: id,
+      comment: comment
+    });
+  }
+
 }
 
 module.exports = TestCaseActions;

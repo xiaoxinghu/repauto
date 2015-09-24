@@ -21,16 +21,6 @@ var RadioSet = React.createClass({
           {radio.label}
         </button>
       );
-      // return (
-      //   <label key={_.uniqueId('rb')} className="checkbox-inline">
-      //     <input
-      //       type="radio"
-      //       name={this.props.group}
-      //       value={radio.value}
-      //       defaultChecked={radio.checked}
-      //       onChange={this.handleChange}>{radio.label}</input>
-      //   </label>
-      // );
     }, this);
     return (
       <div className="btn-group" role="group" aria-label="...">

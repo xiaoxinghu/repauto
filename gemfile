@@ -61,7 +61,7 @@ gem 'mongo', '~> 2.0.0'
 
 gem 'datacraft'
 gem 'datacraft-tools'
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 4.4.0'
 gem 'faker'
 gem 'redcarpet'
 gem 'browserify-rails'

@@ -5,5 +5,6 @@ module.exports = {
   Gallery: require('./common/Gallery'),
   SearchBar: require('./common/SearchBar'),
   HoverToShow: require('./common/HoverToShow'),
-  RadioSet: require('./common/RadioSet')
+  RadioSet: require('./common/RadioSet'),
+  CommentBox: require('./common/CommentBox')
 }
