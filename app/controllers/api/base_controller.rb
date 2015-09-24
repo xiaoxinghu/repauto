@@ -7,6 +7,7 @@ module Api
     def index
       plural_resource_name = "@#{resource_name.pluralize}"
       resources = resource_class.where(query_params)
+                                .order_by(order_params)
                                 .page(page_params[:page])
                                 .per(page_params[:page_size])
 
@@ -31,6 +32,10 @@ module Api
     # to permit additional parameters to search on
     # @return [Hash]
     def query_params
+      {}
+    end
+
+    def order_params
       {}
     end
 

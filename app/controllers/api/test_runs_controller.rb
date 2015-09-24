@@ -27,6 +27,10 @@ module Api
       @test_run.save!
     end
 
+    def order_params
+      { start: 'desc' }
+    end
+
     def query_params
       custom_params = params.permit(:project_path, :archived)
       puts "------ #{custom_params}"
