@@ -14,7 +14,10 @@ var Comment = React.createClass({
           </a>
         </div>
         <div className="media-body">
-          <h4 className="media-heading">{this.props.name + ": " + this.props.status}</h4>
+          <h4 className="media-heading">
+            {this.props.name + ": " + this.props.status}
+            <small>{showDateTime(this.props.time)}</small>
+          </h4>
           <p>{this.props.comment}</p>
         </div>
       </li>

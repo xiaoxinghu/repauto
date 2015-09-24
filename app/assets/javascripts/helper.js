@@ -106,3 +106,7 @@ function showDuration(start, stop) {
 function showDate(time) {
   return moment(time).format("YYYY-MM-DD");
 }
+
+function showDateTime(time) {
+  return moment(time).format("YYYY-MM-DD H:m:s");
+}
