@@ -5,8 +5,9 @@ var Actions = require('../../actions/TestRunActions');
 
 var Row = React.createClass({
 
-  handleClick: function(e) {
-    window.location.href = this.props.data.url.detail;
+  _handleClick: function(e) {
+    e.preventDefault();
+    this.props.onClick(e, this.props.data.id);
   },
 
   handleRowSelection: function(e) {
@@ -15,7 +16,6 @@ var Row = React.createClass({
     } else {
       Actions.unselect(this.props.data.id);
     }
-    // console.log(this.props.data.id, e.target.checked);
   },
 
   extractStatus: function(testRun) {
@@ -65,10 +65,30 @@ var Row = React.createClass({
         </a>
       </td>
     ]);
+    // return (
+    //   <tr className="hover-master">
+    //     {cells}
+    //   </tr>
+    // );
+    var content = [
+      <div key={_.uniqueId('start')} className="cell">
+        <strong>{showDateTime(testRun.start)}</strong>
+      </div>,
+      <div key={_.uniqueId('duration')} className="cell text-muted">
+        {showDuration(testRun.start, testRun.stop)}
+      </div>,
+      <div key={_.uniqueId('type')} className="cell">{testRun.type}</div>,
+      <Status key={_.uniqueId('status')} data={status} />,
+      <Status key={_.uniqueId('progress')} data={progress} />
+    ];
+    var c = "list-group-item";
+    if (this.props.selected) {
+      c += " active"
+    }
     return (
-      <tr className="hover-master">
-        {cells}
-      </tr>
+      <a href={this.props.data.url.detail} className={c} onClick={this._handleClick}>
+        {content}
+      </a>
     );
   }
 });

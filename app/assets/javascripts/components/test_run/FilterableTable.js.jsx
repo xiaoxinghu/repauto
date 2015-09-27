@@ -1,6 +1,7 @@
 var Paginator = require('../common').Paginator;
 var Toolbar = require('./Toolbar');
 var Table = require('./Table');
+var List = require('./List');
 var Store = require('../../stores/TestRunStore').store;
 var BinStore = require('../../stores/TestRunStore').bin;
 
@@ -80,7 +81,7 @@ var FilterableTable = React.createClass({
         <span>
           <Toolbar />
         </span>
-        <Table data={this.state.test_runs} />
+        <List data={this.state.test_runs} />
         {loadMore}
       </div>
     );
