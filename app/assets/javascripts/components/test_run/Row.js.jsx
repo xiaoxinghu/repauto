@@ -58,13 +58,21 @@ var Row = React.createClass({
         {showDuration(testRun.start, testRun.stop)}
       </div>,
       <div key={_.uniqueId('type')} className="cell"><strong>{testRun.type}</strong></div>,
-      <Status key={_.uniqueId('status')} data={status} />,
     ];
     if (this.props.params.action != 'bin') {
       content.push(
-        <Progress key={_.uniqueId('progress')} id={testRun.id} />
+        <div key={_.uniqueId('status')} className="pull-right status-label">
+          <label>P: </label>
+          <Progress key={_.uniqueId('progress')} id={testRun.id} />
+        </div>
       );
     }
+    content.push(
+      <div key={_.uniqueId('status')} className="pull-right status-label">
+        <label>S: </label>
+        <Status data={status} />
+      </div>
+    );
     var c = "list-group-item";
     if (this.state.selected) {
       c += " active"
