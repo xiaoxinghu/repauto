@@ -49,7 +49,7 @@ var List = React.createClass({
         <Row
           key={_.uniqueId('row')}
           id={id}
-          onClick={this._handleRowClick} />
+          onClick={this._handleRowClick} params={this.props.params} />
       );
     }, this);
     if (Store.isThereMore()) {
@@ -57,7 +57,7 @@ var List = React.createClass({
       var loadMore = (
         <ul className="pager">
           <li>
-            <a href="#" onClick={function() {Store.getMore();}}>More</a>
+            <a href="#" onClick={function() {Actions.loadMore();}}>More</a>
           </li>
         </ul>
       );

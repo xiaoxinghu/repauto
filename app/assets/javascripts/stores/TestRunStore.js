@@ -1,7 +1,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Action = require('../constants/TestRun').Action;
-var Event = require('../constants/TestRun').Event;
+var FilterType = require('../constants/TestRun').FilterType;
 var assign = require('object-assign');
 var Immutable = require('immutable');
 var Set = Immutable.Set;
@@ -10,113 +10,181 @@ var List = Immutable.List;
 var CHANGE_EVENT = 'change';
 var SELECT_EVENT = 'select';
 
+var _source;
+var _all = {};
+var _bin = {};
+var _progress = {};
+var _filtered = [];
+var _filter = {
+  type: FilterType.ALL
+};
+var _selected = [];
+var _fetchData = {
+  page: 1
+};
+var _meta = null;
+
+function init(source) {
+  if (source == _source) {
+    return;
+  }
+  _source = source;
+  _all = {};
+  _progress = {};
+  _filtered = [];
+  _filter = {
+    type: FilterType.ALL
+  };
+  _selected = [];
+  _fetchData = {
+    page: 1
+  };
+  _meta = null;
+}
+
+function loadMore() {
+  // if (!TestRunStore.isThereMore()) {return;}
+  $.ajax({
+    // async: false,
+    url: _source,
+    dataType: 'json',
+    cache: false,
+    data: _fetchData,
+    success: gotData,
+    error: function(xhr, status, err) {
+      console.error(_url, status, err.toString());
+    }
+  });
+}
+
+function gotData(data) {
+  data.test_runs.forEach(function(d) {
+    if (d.summary) {
+      d.summary.pr = getPassRate(d.summary).toString() + '%';
+    }
+    _all[d.id] = d;
+  });
+  // this.all = this.all.concat(data.test_runs);
+  _meta = data.meta;
+  _fetchData.page += 1;
+  // this.filter();
+  TestRunStore.emit(CHANGE_EVENT);
+  // for(var id in this.all) {
+  //   this.getProgress(id);
+  // }
+}
+
+function setFilter(filter) {
+  _filter = filter;
+  _selected = [];
+}
+
+function getFiltered() {
+  var filtered = _.values(_all).filter(function(tr) {
+    return _filter.type == FilterType.ALL || _filter.type == tr.type;
+  }).map(function(tr) {
+    return tr.id;
+  });
+  filtered = List(filtered);
+  if (!Immutable.is(_filtered, filtered)) {
+    _filtered = filtered;
+    _selected = [];
+  }
+  return _filtered;
+}
+
+function select(id) {
+  if (id) {
+    var i = _selected.indexOf(id);
+    if (i != -1) {
+      _selected.splice(i, 1);
+    }else {
+      _selected.push(id);
+    }
+    TestRunStore.emitChange();
+  } else {
+    _selected = _.keys(_all);
+    TestRunStore.emitChange();
+  }
+}
+
+function clear() {
+  _selected = [];
+  TestRunStore.emitChange();
+}
+
+function archive(id) {
+  var testRun = _all[id];
+  $.ajax({
+    url: testRun.url.archive,
+    dataType: 'json',
+    cache: false,
+    success: function(data) {
+      delete _all[id];
+      TestRunStore.emitChange();
+    },
+    error: function(xhr, status, err) {
+      console.error(status, err.toString());
+    }
+  });
+}
+function restore(id) {
+  var testRun = _all[id];
+  $.ajax({
+    url: testRun.url.restore,
+    dataType: 'json',
+    cache: false,
+    success: function(data) {
+      delete _all[id];
+      TestRunStore.emitChange();
+    },
+    error: function(xhr, status, err) {
+      console.error(status, err.toString());
+    }
+  });
+}
+
 var TestRunStore = _.assign({}, EventEmitter.prototype, {
 
-  init: function(source) {
-    console.debug('init TestRunStore');
-    this.source = source;
-    this.all = {};
-    this.progress = {};
-    this.filtered = [];
-    this.filter = {
-      type: 'all'
-    };
-    this.selected = [];
-    this.fetchData = {
-      page: 1
-    };
-  },
-
-  getMore: function() {
-    $.ajax({
-      // async: false,
-      url: this.source,
-      dataType: 'json',
-      cache: false,
-      data: this.fetchData,
-      success: this.gotData.bind(this),
-      error: function(xhr, status, err) {
-        console.error(_url, status, err.toString());
-      }.bind(this)
-    });
+  getAll: function() {
+    if(_meta == null) {
+      loadMore();
+    }
+    return getFiltered();
   },
 
   isThereMore: function() {
-    if (!this.meta) return false;
-    console.debug(this.meta.next_page != null);
-    return (this.meta.next_page != null);
+    if (!_meta) return false;
+    return (_meta.next_page != null);
   },
 
-  gotData: function(data) {
-    data.test_runs.forEach(function(d) {
-      if (d.summary) {
-        d.summary.pr = getPassRate(d.summary).toString() + '%';
-      }
-      this.all[d.id] = d;
-    }.bind(this));
-    // this.all = this.all.concat(data.test_runs);
-    this.meta = data.meta;
-    console.debug(data);
-    this.fetchData.page += 1;
-    // this.filter();
-    this.emit(CHANGE_EVENT);
-    // for(var id in this.all) {
-    //   this.getProgress(id);
-    // }
-  },
-
-  setFilter: function(filter) {
-    this.filter = filter;
-    this.selected = [];
-  },
-
-  _filter: function() {
-    var filtered = _.values(this.all).filter(function(tr) {
-      return this.filter.type == 'all' || this.filter.type == tr.type;
-    }, this).map(function(tr) {
-      return tr.id;
-    });
-    filtered = List(filtered);
-    if (!Immutable.is(this.filtered, filtered)) {
-      this.filtered = filtered;
-      this.selected = [];
-    }
-    return this.filtered;
-  },
-
-  getAll: function() {
-    if (!this.meta) {
-      this.getMore();
-    }
-    return this._filter();
+  getById: function(id) {
+    return _all[id] || _bin[id];
   },
 
   getProgress: function(id) {
-    if (this.progress[id]) {return this.progress[id];}
-    var url = this.all[id].url.progress;
+    if (_progress[id]) {return _progress[id];}
+    _progress[id] = 'loading...';
+    var url = _all[id].url.progress;
     $.ajax({
       url: url,
       dataType: 'json',
       cache: false,
       success: function(data) {
-        this.progress[id] = data;
+        _progress[id] = data;
         this.emitChange();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(_url, status, err.toString());
       }.bind(this)
     });
-  },
-
-
-  getById: function(id) {
-    return this.all[id];
+    return _progress[id];
   },
 
   getTypes: function() {
-    var types = ['all'];
-    if (this.all) {
-      _.values(this.all).forEach(function(tr) {
+    var types = [FilterType.ALL];
+    if (_all) {
+      _.values(_all).forEach(function(tr) {
         if (types.indexOf(tr.type) == -1) {
           types.push(tr.type);
         }
@@ -125,39 +193,20 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     return types;
   },
 
-  select: function(id) {
-    if (id) {
-      var i = this.selected.indexOf(id);
-      if (i != -1) {
-        this.selected.splice(i, 1);
-      }else {
-        this.selected.push(id);
-      }
-      this.emit(CHANGE_EVENT);
-    } else {
-      this.selected = _.keys(this.all);
-      this.emit(CHANGE_EVENT);
-    }
-  },
-
-  clear: function() {
-    this.selected = [];
-    this.emit(CHANGE_EVENT);
-  },
 
   isSelected: function(id) {
-    return (this.selected.indexOf(id) != -1);
+    return (_selected.indexOf(id) != -1);
   },
 
   remove: function(id) {
-    var testRun = this.all[id];
+    var testRun = _all[id];
     var link = testRun.url.archive || testRun.url.restore;
     $.ajax({
       url: link,
       dataType: 'json',
       cache: false,
       success: function(data) {
-        delete this.all[id];
+        delete _all[id];
         this.emit(CHANGE_EVENT);
       }.bind(this),
       error: function(xhr, status, err) {
@@ -167,11 +216,11 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   },
 
   getSelected: function() {
-    return this.selected;
+    return _selected;
   },
 
   getFilter: function() {
-    return this.filter;
+    return _filter;
   },
 
   emitChange: function() {
@@ -189,23 +238,34 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
 
 TestRunStore.setMaxListeners(0);
 
-var Bin = _.cloneDeep(TestRunStore);
+// var Bin = _.cloneDeep(TestRunStore);
 
 AppDispatcher.register(function(action) {
   var text;
   switch (action.actionType) {
+    case Action.INIT:
+      init(action.source);
+      break;
+    case Action.LOAD_MORE:
+      loadMore();
+      break;
     case Action.SELECT:
-      TestRunStore.select(action.id);
+      select(action.id);
       break;
     case Action.CLEAR_SELECTION:
-      TestRunStore.clear();
+      clear();
       break;
     case Action.FILTER:
-      TestRunStore.setFilter(action.filter);
+      setFilter(action.filter);
       TestRunStore.emitChange();
       break;
-    case Action.REMOVE:
-      TestRunStore.remove(action.id);
+    case Action.ARCHIVE:
+      archive(action.id);
+      TestRunStore.emitChange();
+      break;
+    case Action.RESTORE:
+      restore(action.id);
+      TestRunStore.emitChange();
       break;
     default:
 
@@ -213,6 +273,5 @@ AppDispatcher.register(function(action) {
 });
 
 module.exports = {
-  store: TestRunStore,
-  bin: Bin
+  store: TestRunStore
 };

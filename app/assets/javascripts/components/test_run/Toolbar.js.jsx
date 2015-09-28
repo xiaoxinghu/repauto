@@ -28,7 +28,13 @@ var Toolbar = React.createClass({
 
   _handleDelete: function() {
     Store.getSelected().forEach(function(id) {
-      Action.remove(id);
+      Action.archive(id);
+    })
+  },
+
+  _handleRestore: function() {
+    Store.getSelected().forEach(function(id) {
+      Action.restore(id);
     })
   },
 
@@ -52,32 +58,53 @@ var Toolbar = React.createClass({
       </select>
     );
 
+    if (this.props.params.action == 'bin') {
+      var buttons = [
+        <button key="btnRestore" className={ClassNames(
+            'btn', 'btn-primary',
+            {'disabled': this.state.selected.length == 0}
+          )} onClick={this._handleRestore}>
+          <i className="fa fa-trash" />
+        </button>,
+        <button key="btnClear" className={ClassNames({
+            'btn': true,
+            'btn-default': true,
+            'disabled': this.state.selected.length == 0
+          })} onClick={this._handleClear}>
+          clear
+        </button>
+      ];
+    } else {
+      var buttons = [
+        <button key="btnDelete" className={ClassNames(
+            'btn', 'btn-danger',
+            {'disabled': this.state.selected.length == 0}
+          )} onClick={this._handleDelete}>
+          <i className="fa fa-trash" />
+        </button>,
+        <button key="btnClear" className={ClassNames({
+            'btn': true,
+            'btn-default': true,
+            'disabled': this.state.selected.length == 0
+          })} onClick={this._handleClear}>
+          clear
+        </button>,
+        <button key="btnDiff" className={ClassNames({
+            'btn': true,
+            'btn-default': true,
+            'disabled': this.state.selected.length != 2
+          })}>
+          diff
+        </button>
+      ];
+    }
     var toolbar = (
-      <div className="btn-toolbar">
+      <div className="btn-toolbar inline">
         <div className="btn-group">
           {filter}
         </div>
         <div className="btn-group" role="group" aria-label="...">
-          <button className={ClassNames(
-              'btn', 'btn-danger',
-              {'disabled': this.state.selected.length == 0}
-            )}>
-            <i className="fa fa-trash" />
-          </button>
-          <button className={ClassNames({
-              'btn': true,
-              'btn-default': true,
-              'disabled': this.state.selected.length == 0
-            })} onClick={this._handleClear}>
-            clear
-          </button>
-          <button className={ClassNames({
-              'btn': true,
-              'btn-default': true,
-              'disabled': this.state.selected.length != 2
-            })}>
-            diff
-          </button>
+          {buttons}
         </div>
       </div>
     );

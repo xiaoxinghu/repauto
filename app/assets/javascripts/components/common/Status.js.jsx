@@ -6,7 +6,7 @@ var Map = Immutable.Map;
 var Status = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    data: React.PropTypes.object,
+    data: React.PropTypes.any.isRequired,
     withPassRate: React.PropTypes.bool,
     url: React.PropTypes.string
   },
@@ -53,24 +53,27 @@ var Status = React.createClass({
 
   render: function() {
     var orderedStatus = ['passed', 'failed', 'broken', 'pending', 'todo', 'pr'];
-    var labels = "not enough data";
+    var content = "";
     var data = this.props.data || this.state.data.toJS();
-    if (data) {
-      labels = orderedStatus.filter(function (status) {
+    if (typeof data === 'string') {
+      content = (
+        <div className="text-danger">{data}</div>
+      );
+    } else if (data instanceof Object) {
+      content = orderedStatus.filter(function (status) {
         return data.hasOwnProperty(status);
       }).map(function (status) {
         var meta = getStatusMeta(status);
         return (
           <span key={status} className={"label label-" + meta.context}>
-            <i className={meta.icon}></i>
             {data[status]}
           </span>
         )
       });
-    };
+    }
     return (
       <div className="inline">
-        {labels}
+        {content}
       </div>
     );
   }

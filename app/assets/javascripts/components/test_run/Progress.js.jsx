@@ -10,6 +10,7 @@ var Progress = React.createClass({
 
   componentDidMount: function() {
     Store.addChangeListener(this._onChange);
+    Store.getProgress(this.props.id);
   },
 
   componentWillUnmount: function() {
@@ -25,6 +26,10 @@ var Progress = React.createClass({
   },
 
   render: function() {
+    var data = this.state.data;
+    if (data.todo == 0) {
+      delete data['todo'];
+    }
     return (
       <Status data={this.state.data} />
     );

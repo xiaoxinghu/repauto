@@ -49,7 +49,7 @@ var Row = React.createClass({
         <span className="label label-default">{testRun.status}</span>
       );
     }
-    var status = testRun.summary;
+    var status = testRun.summary || 'cannot get status';
     var content = [
       <div key={_.uniqueId('start')} className="cell">
         <strong>{showDateTime(testRun.start)}</strong>
@@ -57,10 +57,14 @@ var Row = React.createClass({
       <div key={_.uniqueId('duration')} className="cell text-muted">
         {showDuration(testRun.start, testRun.stop)}
       </div>,
-      <div key={_.uniqueId('type')} className="cell">{testRun.type}</div>,
+      <div key={_.uniqueId('type')} className="cell"><strong>{testRun.type}</strong></div>,
       <Status key={_.uniqueId('status')} data={status} />,
-      <Progress key={_.uniqueId('progress')} id={testRun.id} />
     ];
+    if (this.props.params.action != 'bin') {
+      content.push(
+        <Progress key={_.uniqueId('progress')} id={testRun.id} />
+      );
+    }
     var c = "list-group-item";
     if (this.state.selected) {
       c += " active"
