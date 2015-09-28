@@ -8,6 +8,7 @@ module.exports = {
   Action: keyMirror({
     REMOVE: null,
     SELECT: null,
+    CLEAR_SELECTION: null,
     FILTER: null
   }),
 };

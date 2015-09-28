@@ -52,7 +52,6 @@ var Status = React.createClass({
   },
 
   render: function() {
-    console.debug('rendering status');
     var orderedStatus = ['passed', 'failed', 'broken', 'pending', 'todo', 'pr'];
     var labels = "not enough data";
     var data = this.props.data || this.state.data.toJS();

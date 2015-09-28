@@ -1,10 +1,33 @@
 var Status = require('../common').Status;
+var Progress = require('./Progress');
 var HoverToShow = require('../common').HoverToShow;
 var TestRunConstants = require('../../constants/TestRun');
 var Actions = require('../../actions/TestRunActions');
 var Store = require('../../stores/TestRunStore').store;
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Row = React.createClass({
+  mixins: [PureRenderMixin],
+  getInitialState: function() {
+    return {
+      selected: false
+    };
+  },
+  componentDidMount: function() {
+    Store.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    Store.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    if (this.isMounted()) {
+      this.setState({
+        selected: Store.isSelected(this.props.id)
+      });
+    }
+  },
 
   _handleClick: function(e) {
     e.preventDefault();
@@ -12,9 +35,8 @@ var Row = React.createClass({
       Actions.select(this.props.id);
       this.setState({selected: Store.isSelected(this.props.id)});
     } else {
-      console.debug('go to', id);
+      window.location.href = Store.getById(this.props.id).url.detail;
     }
-    // this.props.onClick(e, this.props.data.id);
   },
 
   render: function() {
@@ -28,38 +50,6 @@ var Row = React.createClass({
       );
     }
     var status = testRun.summary;
-    // if (this.props.selected) {
-    //   var checkbox = (<input type="checkbox" checked onChange={this.handleRowSelection}></input>);
-    // } else {
-    //   var checkbox = (<input type="checkbox" onChange={this.handleRowSelection}></input>);
-    // }
-    // var cells = ([
-    //   <td key={_.uniqueId('cell')}>
-    //     {checkbox}
-    //   </td>,
-    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>{testRun.type}</td>,
-    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>{showDateTime(start)}</td>,
-    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>
-    //     {duration}
-    //     {durationLabel}
-    //   </td>,
-    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>
-    //     <Status data={status} />
-    //   </td>,
-    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>
-    //     <Status data={progress} />
-    //   </td>,
-    //   <td key={_.uniqueId('cell')}>
-    //     <a href="#" className="hover-to-show" onClick={function() {Actions.remove(testRun.id)}}>
-    //       <i className="fa fa-trash-o" />
-    //     </a>
-    //   </td>
-    // ]);
-    // return (
-    //   <tr className="hover-master">
-    //     {cells}
-    //   </tr>
-    // );
     var content = [
       <div key={_.uniqueId('start')} className="cell">
         <strong>{showDateTime(testRun.start)}</strong>
@@ -69,10 +59,10 @@ var Row = React.createClass({
       </div>,
       <div key={_.uniqueId('type')} className="cell">{testRun.type}</div>,
       <Status key={_.uniqueId('status')} data={status} />,
-      <Status key={_.uniqueId('progress')} url={testRun.url.progress} />
+      <Progress key={_.uniqueId('progress')} id={testRun.id} />
     ];
     var c = "list-group-item";
-    if (Store.isSelected(this.props.id)) {
+    if (this.state.selected) {
       c += " active"
     }
     return (

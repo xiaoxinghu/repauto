@@ -16,6 +16,7 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     console.debug('init TestRunStore');
     this.source = source;
     this.all = {};
+    this.progress = {};
     this.filtered = [];
     this.filter = {
       type: 'all'
@@ -41,8 +42,9 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   },
 
   isThereMore: function() {
-    if (!this.meta) return true;
-    return (this.meta.current_page < this.meta.total_pages);
+    if (!this.meta) return false;
+    console.debug(this.meta.next_page != null);
+    return (this.meta.next_page != null);
   },
 
   gotData: function(data) {
@@ -54,6 +56,7 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     }.bind(this));
     // this.all = this.all.concat(data.test_runs);
     this.meta = data.meta;
+    console.debug(data);
     this.fetchData.page += 1;
     // this.filter();
     this.emit(CHANGE_EVENT);
@@ -64,6 +67,7 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
 
   setFilter: function(filter) {
     this.filter = filter;
+    this.selected = [];
   },
 
   _filter: function() {
@@ -75,16 +79,35 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     filtered = List(filtered);
     if (!Immutable.is(this.filtered, filtered)) {
       this.filtered = filtered;
+      this.selected = [];
     }
     return this.filtered;
   },
 
   getAll: function() {
-    if (_.isEmpty(this.all)) {
+    if (!this.meta) {
       this.getMore();
     }
     return this._filter();
   },
+
+  getProgress: function(id) {
+    if (this.progress[id]) {return this.progress[id];}
+    var url = this.all[id].url.progress;
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.progress[id] = data;
+        this.emitChange();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(_url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
 
   getById: function(id) {
     return this.all[id];
@@ -117,6 +140,11 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     }
   },
 
+  clear: function() {
+    this.selected = [];
+    this.emit(CHANGE_EVENT);
+  },
+
   isSelected: function(id) {
     return (this.selected.indexOf(id) != -1);
   },
@@ -139,7 +167,6 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   },
 
   getSelected: function() {
-    console.debug('getSelected', this.selected);
     return this.selected;
   },
 
@@ -160,6 +187,8 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   }
 });
 
+TestRunStore.setMaxListeners(0);
+
 var Bin = _.cloneDeep(TestRunStore);
 
 AppDispatcher.register(function(action) {
@@ -167,6 +196,9 @@ AppDispatcher.register(function(action) {
   switch (action.actionType) {
     case Action.SELECT:
       TestRunStore.select(action.id);
+      break;
+    case Action.CLEAR_SELECTION:
+      TestRunStore.clear();
       break;
     case Action.FILTER:
       TestRunStore.setFilter(action.filter);

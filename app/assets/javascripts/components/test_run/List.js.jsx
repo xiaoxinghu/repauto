@@ -53,6 +53,7 @@ var List = React.createClass({
       );
     }, this);
     if (Store.isThereMore()) {
+      console.log('there are more');
       var loadMore = (
         <ul className="pager">
           <li>

@@ -9,6 +9,12 @@ var TestRunActions = {
     });
   },
 
+  clearSelection: function() {
+    AppDispatcher.dispatch({
+      actionType: Actions.CLEAR_SELECTION,
+    });
+  },
+
   filterBy: function(filter) {
     AppDispatcher.dispatch({
       actionType: Actions.FILTER,

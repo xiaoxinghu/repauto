@@ -32,6 +32,10 @@ var Toolbar = React.createClass({
     })
   },
 
+  _handleClear: function() {
+    Action.clearSelection();
+  },
+
   _filterByType: function(e) {
     Action.filterBy({type: e.target.value});
   },
@@ -64,7 +68,7 @@ var Toolbar = React.createClass({
               'btn': true,
               'btn-default': true,
               'disabled': this.state.selected.length == 0
-            })}>
+            })} onClick={this._handleClear}>
             clear
           </button>
           <button className={ClassNames({
