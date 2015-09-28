@@ -2,32 +2,23 @@ var Status = require('../common').Status;
 var HoverToShow = require('../common').HoverToShow;
 var TestRunConstants = require('../../constants/TestRun');
 var Actions = require('../../actions/TestRunActions');
+var Store = require('../../stores/TestRunStore').store;
 
 var Row = React.createClass({
 
   _handleClick: function(e) {
     e.preventDefault();
-    this.props.onClick(e, this.props.data.id);
-  },
-
-  handleRowSelection: function(e) {
-    if (e.target.checked) {
-      Actions.select(this.props.data.id);
+    if (e.ctrlKey || e.metaKey) {
+      Actions.select(this.props.id);
+      this.setState({selected: Store.isSelected(this.props.id)});
     } else {
-      Actions.unselect(this.props.data.id);
+      console.debug('go to', id);
     }
-  },
-
-  extractStatus: function(testRun) {
-    var status = testRun.summary || {};
-    if (!_.isEmpty(status)) {
-      status['pr'] = getPassRate(status).toString() + '%';
-    }
-    return status;
+    // this.props.onClick(e, this.props.data.id);
   },
 
   render: function() {
-    var testRun = this.props.data;
+    var testRun = Store.getById(this.props.id);
     var start = moment(testRun.start);
     var stop = moment(testRun.stop);
     var duration = stop.diff(start, 'seconds').toHHMMSS();
@@ -37,34 +28,33 @@ var Row = React.createClass({
       );
     }
     var status = testRun.summary;
-    var progress = testRun.progress;
-    if (this.props.selected) {
-      var checkbox = (<input type="checkbox" checked onChange={this.handleRowSelection}></input>);
-    } else {
-      var checkbox = (<input type="checkbox" onChange={this.handleRowSelection}></input>);
-    }
-    var cells = ([
-      <td key={_.uniqueId('cell')}>
-        {checkbox}
-      </td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}>{testRun.type}</td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}>{showDateTime(start)}</td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}>
-        {duration}
-        {durationLabel}
-      </td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}>
-        <Status data={status} />
-      </td>,
-      <td key={_.uniqueId('cell')} onClick={this.handleClick}>
-        <Status data={progress} />
-      </td>,
-      <td key={_.uniqueId('cell')}>
-        <a href="#" className="hover-to-show" onClick={function() {Actions.remove(testRun.id)}}>
-          <i className="fa fa-trash-o" />
-        </a>
-      </td>
-    ]);
+    // if (this.props.selected) {
+    //   var checkbox = (<input type="checkbox" checked onChange={this.handleRowSelection}></input>);
+    // } else {
+    //   var checkbox = (<input type="checkbox" onChange={this.handleRowSelection}></input>);
+    // }
+    // var cells = ([
+    //   <td key={_.uniqueId('cell')}>
+    //     {checkbox}
+    //   </td>,
+    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>{testRun.type}</td>,
+    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>{showDateTime(start)}</td>,
+    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>
+    //     {duration}
+    //     {durationLabel}
+    //   </td>,
+    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>
+    //     <Status data={status} />
+    //   </td>,
+    //   <td key={_.uniqueId('cell')} onClick={this.handleClick}>
+    //     <Status data={progress} />
+    //   </td>,
+    //   <td key={_.uniqueId('cell')}>
+    //     <a href="#" className="hover-to-show" onClick={function() {Actions.remove(testRun.id)}}>
+    //       <i className="fa fa-trash-o" />
+    //     </a>
+    //   </td>
+    // ]);
     // return (
     //   <tr className="hover-master">
     //     {cells}
@@ -79,14 +69,14 @@ var Row = React.createClass({
       </div>,
       <div key={_.uniqueId('type')} className="cell">{testRun.type}</div>,
       <Status key={_.uniqueId('status')} data={status} />,
-      <Status key={_.uniqueId('progress')} data={progress} />
+      <Status key={_.uniqueId('progress')} url={testRun.url.progress} />
     ];
     var c = "list-group-item";
-    if (this.props.selected) {
+    if (Store.isSelected(this.props.id)) {
       c += " active"
     }
     return (
-      <a href={this.props.data.url.detail} className={c} onClick={this._handleClick}>
+      <a href={testRun.url.detail} className={c} onClick={this._handleClick}>
         {content}
       </a>
     );

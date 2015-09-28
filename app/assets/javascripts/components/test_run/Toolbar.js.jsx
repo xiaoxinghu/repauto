@@ -1,55 +1,83 @@
-var TestRunStore = require('../../stores/TestRunStore').store;
+var Store = require('../../stores/TestRunStore').store;
 var Action = require('../../actions/TestRunActions');
+var ClassNames = require('classnames');
 
 var Toolbar = React.createClass({
 
   getInitialState: function() {
     return {
-      selectedTestRuns: []
+      selected: Store.getSelected(),
+      types: Store.getTypes()
     };
   },
 
   componentDidMount: function() {
-    TestRunStore.addChangeListener(this._onChange);
+    Store.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    TestRunStore.removeChangeListener(this._onChange);
+    Store.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
-    this.setState({selectedTestRuns: TestRunStore.getSelected()});
+    this.setState({
+      selected: Store.getSelected(),
+      types: Store.getTypes()
+    });
   },
 
   _handleDelete: function() {
-    TestRunStore.getSelected().forEach(function(id) {
+    Store.getSelected().forEach(function(id) {
       Action.remove(id);
     })
   },
 
-  render: function() {
-    var numSelected = this.state.selectedTestRuns.length;
-    var buttons = [];
-    if (numSelected > 0) {
-      buttons.push(
-        <button key='delete' type="button" className="btn btn-default" onClick={this._handleDelete}>delete</button>
-      );
-    }
-    if (numSelected == 2) {
-      buttons.push(
-        <button key='diff' type="button" className="btn btn-default disabled">diff</button>
-      );
-    }
-    // var buttons = ([
-    // ]);
+  _filterByType: function(e) {
+    Action.filterBy({type: e.target.value});
+  },
 
-    return (
-      <div className="toolbar inline pull-right">
+  render: function() {
+    types = this.state.types.map(function(t) {
+      return (
+        <option key={_.uniqueId('type')} value={t}>{t}</option>
+      )
+    });
+    var filter = (
+      <select className="form-control" onChange={this._filterByType} value={Store.getFilter().type}>
+        {types}
+      </select>
+    );
+
+    var toolbar = (
+      <div className="btn-toolbar">
+        <div className="btn-group">
+          {filter}
+        </div>
         <div className="btn-group" role="group" aria-label="...">
-          {buttons}
+          <button className={ClassNames(
+              'btn', 'btn-danger',
+              {'disabled': this.state.selected.length == 0}
+            )}>
+            <i className="fa fa-trash" />
+          </button>
+          <button className={ClassNames({
+              'btn': true,
+              'btn-default': true,
+              'disabled': this.state.selected.length == 0
+            })}>
+            clear
+          </button>
+          <button className={ClassNames({
+              'btn': true,
+              'btn-default': true,
+              'disabled': this.state.selected.length != 2
+            })}>
+            diff
+          </button>
         </div>
       </div>
     );
+    return toolbar;
   }
 });
 

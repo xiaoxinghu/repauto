@@ -1,19 +1,61 @@
+var PureRenderMixin = React.addons.PureRenderMixin;
+// var Map = require('immutable').Map;
+var Immutable = require('immutable');
+var Map = Immutable.Map;
+
 var Status = React.createClass({
+  mixins: [PureRenderMixin],
   propTypes: {
     data: React.PropTypes.object,
-    withPassRate: React.PropTypes.bool
+    withPassRate: React.PropTypes.bool,
+    url: React.PropTypes.string
+  },
+
+  getInitialState: function() {
+    return {
+      data: Map({})
+    };
   },
 
   getDefaultProps: function() {
     return {
-      withPassRate: true
+      withPassRate: true,
+      pollInterval: 10000
     };
   },
 
+  _fetchStatus: function() {
+    if (!this.isMounted()) {return;}
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        if (this.isMounted()) {
+          var d = Immutable.fromJS(data);
+          if (!Immutable.is(d, this.state.data)) {
+            this.setState({data: d});
+          }
+        }
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(TestRun.url.progress, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  componentDidMount: function() {
+    if (this.props.url) {
+      this._fetchStatus();
+      setInterval(this._fetchStatus, this.props.pollInterval);
+    }
+  },
+
   render: function() {
+    console.debug('rendering status');
     var orderedStatus = ['passed', 'failed', 'broken', 'pending', 'todo', 'pr'];
     var labels = "not enough data";
-    var data = this.props.data;
+    var data = this.props.data || this.state.data.toJS();
     if (data) {
       labels = orderedStatus.filter(function (status) {
         return data.hasOwnProperty(status);
@@ -26,21 +68,6 @@ var Status = React.createClass({
           </span>
         )
       });
-      // labels = data.map(function(s) {
-      //   return (
-      //     <span key={_.uniqueId('status')} className={"label label-" + s}>{s.value}</span>
-      //   )
-      // });
-
-      // if (this.props.withPassRate) {
-      //   var passed = (data['passed'] === undefined) ? 0 : data['passed'];
-      //   var total = 0;
-      //   for (var k in data) {
-      //     total += data[k];
-      //   }
-      //   var pr = Math.round(passed / total * 1000) / 10
-      //   labels.push(<span key='pass_rate' className="label label-info">{pr.toString() + '%'}</span>);
-      // }
     };
     return (
       <div className="inline">

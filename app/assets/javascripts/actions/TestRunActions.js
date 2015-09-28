@@ -9,10 +9,10 @@ var TestRunActions = {
     });
   },
 
-  unselect: function(id) {
+  filterBy: function(filter) {
     AppDispatcher.dispatch({
-      actionType: Actions.UNSELECT,
-      id: id
+      actionType: Actions.FILTER,
+      filter: filter
     });
   },
 

@@ -3,6 +3,9 @@ var EventEmitter = require('events').EventEmitter;
 var Action = require('../constants/TestRun').Action;
 var Event = require('../constants/TestRun').Event;
 var assign = require('object-assign');
+var Immutable = require('immutable');
+var Set = Immutable.Set;
+var List = Immutable.List;
 
 var CHANGE_EVENT = 'change';
 var SELECT_EVENT = 'select';
@@ -10,8 +13,13 @@ var SELECT_EVENT = 'select';
 var TestRunStore = _.assign({}, EventEmitter.prototype, {
 
   init: function(source) {
+    console.debug('init TestRunStore');
     this.source = source;
     this.all = {};
+    this.filtered = [];
+    this.filter = {
+      type: 'all'
+    };
     this.selected = [];
     this.fetchData = {
       page: 1
@@ -47,44 +55,61 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     // this.all = this.all.concat(data.test_runs);
     this.meta = data.meta;
     this.fetchData.page += 1;
+    // this.filter();
     this.emit(CHANGE_EVENT);
-    for(var id in this.all) {
-      this.getProgress(id);
+    // for(var id in this.all) {
+    //   this.getProgress(id);
+    // }
+  },
+
+  setFilter: function(filter) {
+    this.filter = filter;
+  },
+
+  _filter: function() {
+    var filtered = _.values(this.all).filter(function(tr) {
+      return this.filter.type == 'all' || this.filter.type == tr.type;
+    }, this).map(function(tr) {
+      return tr.id;
+    });
+    filtered = List(filtered);
+    if (!Immutable.is(this.filtered, filtered)) {
+      this.filtered = filtered;
     }
+    return this.filtered;
   },
 
   getAll: function() {
     if (_.isEmpty(this.all)) {
       this.getMore();
     }
-    return _.values(this.all);
+    return this._filter();
   },
 
-  getProgress: function(id) {
-    if (this.all[id].progress) {
-      return this.all[id].progress;
-    }
-    $.ajax({
-      url: this.all[id].url.progress,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        if (data.todo == 0) {
-          delete data.todo;
+  getById: function(id) {
+    return this.all[id];
+  },
+
+  getTypes: function() {
+    var types = ['all'];
+    if (this.all) {
+      _.values(this.all).forEach(function(tr) {
+        if (types.indexOf(tr.type) == -1) {
+          types.push(tr.type);
         }
-        data.pr = getPassRate(data).toString() + '%';
-        this.all[id].progress = data;
-        this.emit(CHANGE_EVENT);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(TestRun.url.progress, status, err.toString());
-      }.bind(this)
-    });
+      })
+    }
+    return types;
   },
 
   select: function(id) {
     if (id) {
-      this.selected.push(id);
+      var i = this.selected.indexOf(id);
+      if (i != -1) {
+        this.selected.splice(i, 1);
+      }else {
+        this.selected.push(id);
+      }
       this.emit(CHANGE_EVENT);
     } else {
       this.selected = _.keys(this.all);
@@ -92,17 +117,8 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     }
   },
 
-  unselect: function(id) {
-    if (id) {
-      var i = this.selected.indexOf(id);
-      if (i != -1) {
-        this.selected.splice(i, 1);
-      }
-      this.emit(CHANGE_EVENT);
-    } else {
-      this.selected = [];
-      this.emit(CHANGE_EVENT);
-    }
+  isSelected: function(id) {
+    return (this.selected.indexOf(id) != -1);
   },
 
   remove: function(id) {
@@ -123,12 +139,17 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
   },
 
   getSelected: function() {
+    console.debug('getSelected', this.selected);
     return this.selected;
   },
 
-  // emitChange: function() {
-  //   this.emit(CHANGE_EVENT);
-  // },
+  getFilter: function() {
+    return this.filter;
+  },
+
+  emitChange: function() {
+    this.emit(CHANGE_EVENT);
+  },
 
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
@@ -147,8 +168,9 @@ AppDispatcher.register(function(action) {
     case Action.SELECT:
       TestRunStore.select(action.id);
       break;
-    case Action.UNSELECT:
-      TestRunStore.unselect(action.id);
+    case Action.FILTER:
+      TestRunStore.setFilter(action.filter);
+      TestRunStore.emitChange();
       break;
     case Action.REMOVE:
       TestRunStore.remove(action.id);
