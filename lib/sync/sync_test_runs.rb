@@ -44,7 +44,7 @@ tweak do |row|
       r[:status] = 'done'
     end
   rescue StandardError => e
-    puts "#{e.message}"
+    puts "#{e.message}" unless e.message.include? 'up to date'
     r = nil
   end
   r
