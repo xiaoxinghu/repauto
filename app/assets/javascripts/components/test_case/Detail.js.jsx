@@ -11,7 +11,11 @@ var Detail = React.createClass({
 
   render: function() {
     var testCase = (<div>Select Test Case from left.</div>);
-    var d = Store.get(this.props.id);
+    if (this.props.id) {
+      var d = Store.get(this.props.id);
+    } else {
+      var d = this.props.data;
+    }
     if (d != null) {
       var tags = d.tags.map(function(t, i) {
         return (

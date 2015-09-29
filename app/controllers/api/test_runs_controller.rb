@@ -28,7 +28,31 @@ module Api
     end
 
     def diff
-      puts params
+      changes = {}
+      processed = []
+      tr1 = TestRun.find(params[:left])
+      tr2 = TestRun.find(params[:right])
+      base, target = [tr1, tr2].sort_by(&:start).map(&:test_cases)
+      target.each do |tc|
+        old = base.select { |x| x.get_md5 == tc.get_md5 }
+        if old.size > 0
+          if old[0][:status] != tc[:status]
+            key = "newly #{tc[:status]}"
+            changes[key] ||= []
+            tc[:diff_with] = old[0]
+            changes[key] << tc
+          end
+        else
+          key = 'new test cases'
+          changes[key] ||= []
+          changes[key] << tc
+        end
+        processed << tc.get_md5
+      end
+      missing = base.select { |x| !processed.include?(x.get_md5) }
+      changes['missing test cases'] = missing if missing.size > 0
+      @changes = changes
+      # respond_with changes
     end
 
     def order_params

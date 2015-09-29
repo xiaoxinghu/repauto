@@ -18,7 +18,7 @@ var Info = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({total: Store.getAll().length});
+    this.setState({total: Store.getAll().size});
   },
 
 

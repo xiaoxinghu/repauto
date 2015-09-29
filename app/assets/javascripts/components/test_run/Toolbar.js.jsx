@@ -5,6 +5,7 @@ var ClassNames = require('classnames');
 var Toolbar = React.createClass({
 
   getInitialState: function() {
+    console.debug(this.props.params);
     return {
       selected: Store.getSelected()
     };
@@ -38,6 +39,10 @@ var Toolbar = React.createClass({
 
   _handleClear: function() {
     Action.clearSelection();
+  },
+
+  _handleDiff: function() {
+    window.location.href = this.props.diff + "?left=" + this.state.selected[0] + "&right=" + this.state.selected[1];
   },
 
   _filterByType: function(e) {
@@ -93,7 +98,7 @@ var Toolbar = React.createClass({
             'btn': true,
             'btn-default': true,
             'disabled': this.state.selected.length != 2
-          })}>
+          })} onClick={this._handleDiff}>
           diff
         </button>
       ];

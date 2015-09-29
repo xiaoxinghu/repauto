@@ -346,15 +346,15 @@ class TestRunsController < ApplicationController
   end
 
   def diff
-    left = TestRun.find(params[:id])
-    right = TestRun.find(params[:baseline])
-    if left[:start] > right[:start]
-      @baseline = right
-      @test_run = left
-    else
-      @baseline = left
-      @test_run = right
-    end
+    # left = TestRun.find(params[:id])
+    # right = TestRun.find(params[:baseline])
+    # if left[:start] > right[:start]
+    #   @baseline = right
+    #   @test_run = left
+    # else
+    #   @baseline = left
+    #   @test_run = right
+    # end
   end
 
   def fetch_tree

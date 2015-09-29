@@ -21,3 +21,5 @@ json.url do
   json.history history_api_test_case_path(test_case)
   json.comment comment_api_test_case_path(test_case)
 end
+
+json.diff_with test_case.diff_with if test_case.respond_to? 'diff_with'

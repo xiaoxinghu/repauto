@@ -1,15 +1,5 @@
-.page-header#header
-  %h1
-    = @baseline.type
-    %small
-      = show_date @baseline[:start]
-    = '<-->'
-    = @test_run.type
-    %small
-      = show_date @test_run[:start]
-
-.row#main-view
-  #tree_view{ data: { load: fetch_tree_test_run_path(@test_run, baseline: @baseline, group_by: 'diffs')}}
-    = spinner
-  #detail_view
-    #details
+.row
+  .col-sm-3
+    = react_component('TestCaseList', source: diff_api_test_runs_path(left: params[:left], right: params[:right]))
+  .col-sm-9.full-height.fill
+    = react_component('TestCaseMain')

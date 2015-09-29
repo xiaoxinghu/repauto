@@ -23,9 +23,10 @@ var TestCaseActions = {
     });
   },
 
-  reset: function() {
+  init: function(source) {
     AppDispatcher.dispatch({
-      actionType: Action.RESET
+      actionType: Action.INIT,
+      source: source
     });
   },
 

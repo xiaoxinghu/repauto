@@ -11,7 +11,7 @@ module.exports = {
     FILTER: null,
     GROUP: null,
     SHOW: null,
-    RESET: null,
+    INIT: null,
     COMMENT: null
   }),
 };

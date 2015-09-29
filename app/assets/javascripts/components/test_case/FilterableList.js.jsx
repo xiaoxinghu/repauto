@@ -3,17 +3,19 @@ var RadioSet = require('../common').RadioSet;
 var Group = require('./Group');
 var TestCaseStore = require('../../stores/TestCaseStore');
 var GroupBy = require('../../constants/TestCase').GroupBy;
-var Actions = require('../../actions/TestCaseActions');
+var Action = require('../../actions/TestCaseActions');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 var FilterableList = React.createClass({
   propTypes: {
-    source: React.PropTypes.string,
+    source: React.PropTypes.string
   },
   mixins: [PureRenderMixin],
 
   getInitialState: function() {
-    TestCaseStore.init(this.props.source);
+    console.debug(this.props.source);
+    console.debug(this.props.params);
+    Action.init(this.props.source);
     return {
       total: 0,
       groupBy: GroupBy.FEATURE,
