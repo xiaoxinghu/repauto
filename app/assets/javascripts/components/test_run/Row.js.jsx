@@ -1,5 +1,4 @@
 var Status = require('../common').Status;
-var Progress = require('./Progress');
 var HoverToShow = require('../common').HoverToShow;
 var TestRunConstants = require('../../constants/TestRun');
 var Actions = require('../../actions/TestRunActions');
