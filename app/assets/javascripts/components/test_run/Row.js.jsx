@@ -59,17 +59,13 @@ var Row = React.createClass({
       </div>,
       <div key={_.uniqueId('type')} className="cell"><strong>{testRun.type}</strong></div>,
     ];
-    if (this.props.params.action != 'bin') {
+    if (testRun.todo > 0) {
       content.push(
-        <div key={_.uniqueId('status')} className="pull-right status-label">
-          <label>P: </label>
-          <Progress key={_.uniqueId('progress')} id={testRun.id} />
-        </div>
+        <span key={_.uniqueId('status')} className="badge">{testRun.todo}</span>
       );
     }
     content.push(
-      <div key={_.uniqueId('status')} className="pull-right status-label">
-        <label>S: </label>
+      <div key={_.uniqueId('status')} className="pull-right">
         <Status data={status} />
       </div>
     );

@@ -255,7 +255,7 @@ AppDispatcher.register(function(action) {
       break;
     case Action.FILTER:
       setFilter(action.filter);
-      TestRunStore.emitChange();
+      // TestRunStore.emitChange();
       break;
     case Action.ARCHIVE:
       archive(action.id);

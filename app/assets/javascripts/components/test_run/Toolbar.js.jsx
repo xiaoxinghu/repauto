@@ -6,8 +6,7 @@ var Toolbar = React.createClass({
 
   getInitialState: function() {
     return {
-      selected: Store.getSelected(),
-      types: Store.getTypes()
+      selected: Store.getSelected()
     };
   },
 
@@ -21,8 +20,7 @@ var Toolbar = React.createClass({
 
   _onChange: function() {
     this.setState({
-      selected: Store.getSelected(),
-      types: Store.getTypes()
+      selected: Store.getSelected()
     });
   },
 
@@ -47,16 +45,18 @@ var Toolbar = React.createClass({
   },
 
   render: function() {
-    types = this.props.types.map(function(t) {
-      return (
-        <option key={_.uniqueId('type')} value={t}>{t}</option>
-      )
-    });
-    var filter = (
-      <select className="form-control" onChange={this._filterByType} value={Store.getFilter().type}>
-        {types}
-      </select>
-    );
+    if (this.props.types) {
+      var types = this.props.types.map(function(t) {
+        return (
+          <option key={_.uniqueId('type')} value={t}>{t}</option>
+        )
+      });
+      var filter = (
+        <select className="form-control" onChange={this._filterByType} value={Store.getFilter().type}>
+          {types}
+        </select>
+      );
+    }
 
     if (this.props.params.action == 'bin') {
       var buttons = [
