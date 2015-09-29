@@ -78,7 +78,12 @@ def format_attachments(hash)
   atts = hash.delete('attachments')['attachment']
   return unless atts
   atts = [atts] if atts.is_a? Hash
-  atts.each(&:format_for_report!)
+  atts.each do |att|
+    if att && att.is_a?(Hash)
+      att.format_for_report!
+    end
+  end
+  # atts.each(&:format_for_report!)
   hash['attachments'] = atts
 end
 
