@@ -27,12 +27,16 @@ module Api
       @test_run.save!
     end
 
+    def diff
+      puts params
+    end
+
     def order_params
       { start: 'desc' }
     end
 
     def query_params
-      custom_params = params.permit(:project_path, :archived)
+      custom_params = params.permit(:project_path, :type, :archived)
       puts "------ #{custom_params}"
       archived = custom_params.delete(:archived)
       custom_params[:archived_at.exists] = archived

@@ -8,6 +8,7 @@ var ListView = React.createClass({
   getInitialState: function() {
     Action.init(this.props.url);
     console.debug(this.props.params);
+    console.debug(this.props.types);
     if (this.props.params.type) {
       Action.filterBy({type: this.props.params.type});
     }
@@ -18,7 +19,7 @@ var ListView = React.createClass({
   render: function() {
     return (
       <div>
-        <Toolbar params={this.props.params} />
+        <Toolbar params={this.props.params} types={this.props.types} />
         <Help />
         <List url={this.props.url} params={this.props.params} />
       </div>

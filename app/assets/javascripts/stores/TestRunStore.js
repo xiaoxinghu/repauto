@@ -74,9 +74,20 @@ function gotData(data) {
   // }
 }
 
-function setFilter(filter) {
-  _filter = filter;
+function reset() {
+  _all = {};
   _selected = [];
+  _meta = null;
+  _fetchData = {
+    page: 1
+  };
+}
+
+function setFilter(filter) {
+  reset();
+  _filter = filter;
+  _fetchData.type = filter.type;
+  loadMore();
 }
 
 function getFiltered() {
@@ -180,19 +191,6 @@ var TestRunStore = _.assign({}, EventEmitter.prototype, {
     });
     return _progress[id];
   },
-
-  getTypes: function() {
-    var types = [FilterType.ALL];
-    if (_all) {
-      _.values(_all).forEach(function(tr) {
-        if (types.indexOf(tr.type) == -1) {
-          types.push(tr.type);
-        }
-      })
-    }
-    return types;
-  },
-
 
   isSelected: function(id) {
     return (_selected.indexOf(id) != -1);

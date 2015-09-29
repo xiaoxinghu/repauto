@@ -47,7 +47,7 @@ var Toolbar = React.createClass({
   },
 
   render: function() {
-    types = this.state.types.map(function(t) {
+    types = this.props.types.map(function(t) {
       return (
         <option key={_.uniqueId('type')} value={t}>{t}</option>
       )
