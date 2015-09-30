@@ -3,7 +3,7 @@ var EventEmitter = require('events').EventEmitter;
 var Action = require('../constants/TestCase').Action;
 var Mode = require('../constants/TestCase').Mode;
 var GroupBy = require('../constants/TestCase').GroupBy;
-var assign = require('object-assign');
+var helper = require('../helper');
 
 var CHANGE_EVENT = 'change';
 
@@ -74,7 +74,7 @@ function filter(data, text) {
 }
 
 function group(data, by) {
-  return groupBy(data, function(item) {
+  return helper.groupBy(data, function(item) {
     switch (by) {
       case GroupBy.FEATURE:
         return item.test_suite.name;

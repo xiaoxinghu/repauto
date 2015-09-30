@@ -3,6 +3,7 @@ var HoverToShow = require('../common').HoverToShow;
 var TestRunConstants = require('../../constants/TestRun');
 var Actions = require('../../actions/TestRunActions');
 var Store = require('../../stores/TestRunStore').store;
+var helper = require('../../helper');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Row = React.createClass({
@@ -40,9 +41,6 @@ var Row = React.createClass({
 
   render: function() {
     var testRun = Store.getById(this.props.id);
-    var start = moment(testRun.start);
-    var stop = moment(testRun.stop);
-    var duration = stop.diff(start, 'seconds').toHHMMSS();
     if (testRun.status != 'done') {
       var durationLabel = (
         <span className="label label-default">{testRun.status}</span>
@@ -51,10 +49,10 @@ var Row = React.createClass({
     var status = testRun.summary || 'cannot get status';
     var content = [
       <div key={_.uniqueId('start')} className="cell">
-        <strong>{showDateTime(testRun.start)}</strong>
+        <strong>{helper.showDateTime(testRun.start)}</strong>
       </div>,
       <div key={_.uniqueId('duration')} className="cell text-muted">
-        {showDuration(testRun.start, testRun.stop)}
+        {helper.showDuration(testRun.start, testRun.stop)}
       </div>,
       <div key={_.uniqueId('type')} className="cell"><strong>{testRun.type}</strong></div>,
     ];
