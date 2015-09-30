@@ -1,4 +1,4 @@
-json.cache! ['v1', test_run], expires_in: 10.minutes do
+json.cache! ['v1', test_run], expires_in: 5.minutes do
   json.id test_run[:id].to_s
   json.type test_run[:type]
   json.start test_run[:start]

@@ -56,8 +56,7 @@ gem 'dotenv-rails'
 # background job
 # gem 'sidekiq'
 
-gem 'mongoid', '~> 4.0.0'
-gem 'mongo', '~> 2.0.0'
+gem 'mongoid', '~> 5.0.0'
 
 gem 'datacraft'
 gem 'datacraft-tools'

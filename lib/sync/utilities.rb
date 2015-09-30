@@ -9,8 +9,8 @@ require 'datacraft/tools'
 if defined? Rails
   REPORT_ROOT = Pathname.new("#{Rails.root}/public/#{APP_CONFIG['mount_point']}")
   require "#{Rails.root}/lib/sync/io"
-  MONGO_HOST = MONGO_CONFIG['sessions']['default']['hosts']
-  MONGO_DB = MONGO_CONFIG['sessions']['default']['database']
+  MONGO_HOST = MONGO_CONFIG['clients']['default']['hosts']
+  MONGO_DB = MONGO_CONFIG['clients']['default']['database']
   Mongo::Logger.logger.level = Logger::WARN
 else
   REPORT_ROOT = Pathname.new('/Users/xhu/Projects/te/public/raw')
