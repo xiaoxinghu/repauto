@@ -1,12 +1,16 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Action = require('../constants/TestCase').Action;
+var Mode = require('../constants/TestCase').Mode;
 var GroupBy = require('../constants/TestCase').GroupBy;
 var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _source, _all, _history, _showing, _grouped;
+// General
+var _source, _all, _history, _showing, _mode;
+// DIFF mode
+var _prev, _current;
 
 function init(source) {
   console.debug('init TestCaseStore');
@@ -15,6 +19,8 @@ function init(source) {
   _all = {};
   _showing = [];
   _history = {};
+  _prev = {};
+  _current = {};
   $.ajax({
     url: _source,
     dataType: 'json',
@@ -24,32 +30,35 @@ function init(source) {
       console.error(_source, status, err.toString());
     }
   });
-  // if (typeof data === "string") {
-  // } else {
-  //   _source = null;
-  //   _all = {};
-  //   _.union(_.values(data)).forEach(function(tc) {
-  //     _all[tc.id] = tc;
-  //   });
-  //   _grouped = data;
-  // }
 }
 
 function gotData(data) {
+  console.debug("got", data);
   if (data instanceof Array) {
-    data.forEach(function(d) {
-      _all[d.id] = d;
-    });
+    _mode = Mode.DETAIL;
+    detailGotData(data);
   } else {
-    _grouped = data;
-    _all = {};
-    _.values(data).forEach(function(array) {
-      array.forEach(function(tc) {
-        _all[tc.id] = tc;
-      });
-    });
+    _mode = Mode.DIFF;
+    diffGotData(data);
   }
   TestCaseStore.emitChange();
+}
+
+function detailGotData(data) {
+  data.forEach(function(d) {
+    _all[d.id] = d;
+  });
+}
+
+function diffGotData(data) {
+  data.prev.forEach(function(d) {
+    _all[d.id] = d;
+    _prev[d.md5] = d.id;
+  });
+  data.current.forEach(function(d) {
+    _all[d.id] = d;
+    _current[d.md5] = d.id;
+  });
 }
 
 function filter(data, text) {
@@ -84,13 +93,45 @@ function group(data, by) {
   }.bind(this));
 }
 
-function show(ids) {
-  console.debug('showing', ids);
-  _showing = ids;
-  TestCaseStore.emitChange();
-  _showing.forEach(function(id) {
-    getHistory(id);
+function groupForDiff() {
+  var grouped = {};
+  var news = _.difference(_.keys(_current), _.keys(_prev)).map(function(md5) {
+    return _all[_current[md5]];
   });
+  var missing = _.difference(_.keys(_prev), _.keys(_current)).map(function(md5) {
+    return _all[_prev[md5]];
+  });
+
+  var changes = _.keys(_current).filter(function(md5) {
+    return (md5 in _prev) && _all[_current[md5]].status != _all[_prev[md5]].status;
+  }).map(function(md5) {
+    return _all[_current[md5]];
+  });
+  return {
+    new: news,
+    missing: missing,
+    changes: changes
+  }
+}
+
+function show(ids) {
+  if (_mode == Mode.DETAIL) {
+    _showing = ids;
+    TestCaseStore.emitChange();
+    _showing.forEach(function(id) {
+      getHistory(id);
+    });
+  } else if(_mode == Mode.DIFF) {
+    var id = ids[0];
+    _showing = [id];
+    var md5 = _all[id].md5;
+    if (md5 in _prev && md5 in _current) {
+      _showing = [_current[md5], _prev[md5]];
+    } else {
+      _showing = [id];
+    }
+    TestCaseStore.emitChange();
+  }
 }
 
 function getHistory(id) {
@@ -153,14 +194,15 @@ var TestCaseStore = _.assign({}, EventEmitter.prototype, {
 
 
   getAll: function(groupBy, filterText) {
-    if (!_.isEmpty(_grouped)) {return _grouped;}
+    if (!_mode) {return {};}
+    if (_mode == Mode.DIFF) {return groupForDiff();}
+    // if (!_.isEmpty(_grouped)) {return _grouped;}
     var data = _.values(_all);
     var filtered = filter(data, filterText);
     return group(filtered, groupBy);
   },
 
   get: function(id) {
-    console.debug('want', id, 'have', _.keys(_all));
     return _all[id] || _history[id];
   },
 

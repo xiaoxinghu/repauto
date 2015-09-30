@@ -1,21 +1,14 @@
-var keyMirror = require('keymirror');
+var constants = require('./Constants');
 
 module.exports = {
-  FilterType: {
-    DELETED: 'deleted',
-    ALL: 'all'
-  },
-  Event: keyMirror({
-    RELOAD: null,
-    SELECT: null
-  }),
-  Action: keyMirror({
-    INIT: null,
-    LOAD_MORE: null,
-    ARCHIVE: null,
-    RESTORE: null,
-    SELECT: null,
-    CLEAR_SELECTION: null,
-    FILTER: null
-  }),
+  FilterType: constants('TEST_RUN_FILTER_TYPE_', ['ALL']),
+  Action: constants('TEST_RUN_ACTION_', [
+    'INIT',
+    'LOAD_MORE',
+    'ARCHIVE',
+    'RESTORE',
+    'SELECT',
+    'CLEAR_SELECTION',
+    'FILTER'
+  ])
 };

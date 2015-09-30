@@ -7,7 +7,7 @@ json.path test_case.path
 json.tags test_case.tags
 json.steps test_case.steps if test_case.respond_to? 'steps'
 json.test_suite test_case[:test_suite]
-json.md5 test_case.md5 if test_case.respond_to? 'md5'
+json.md5 test_case.get_md5
 json.failure test_case.failure if test_case.respond_to? 'failure'
 json.comments test_case.comments if test_case.respond_to? 'comments'
 if test_case.respond_to? 'attachments'
@@ -21,5 +21,3 @@ json.url do
   json.history history_api_test_case_path(test_case)
   json.comment comment_api_test_case_path(test_case)
 end
-
-json.diff_with test_case.diff_with if test_case.respond_to? 'diff_with'

@@ -1,5 +1,6 @@
-.row
-  .col-sm-3
-    = react_component('TestCaseList', source: diff_api_test_runs_path(left: params[:left], right: params[:right]))
-  .col-sm-9.full-height.fill
-    = react_component('TestCaseMain')
+= react_component('TestRunDiff', source: diff_api_test_runs_path(left: params[:left], right: params[:right]))
+-# .row
+-#   .col-sm-3
+-#     = react_component('TestCaseList', source: diff_api_test_runs_path(left: params[:left], right: params[:right]))
+-#   .col-sm-9.full-height.fill
+-#     = react_component('TestCaseMain')

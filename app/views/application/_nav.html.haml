@@ -36,7 +36,7 @@
             = link_to trend_project_path(project) do
               %i.fa.fa-line-chart
               Trend
-          %li{class: "#{active_class(controller: 'test_runs', actions: ['index', 'show'])}"}
+          %li{class: "#{active_class(controller: 'test_runs', actions: ['index', 'show', 'diff'])}"}
             = link_to project_test_runs_path(project) do
               %i.fa.fa-tasks
               Test Runs

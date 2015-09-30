@@ -1,23 +1,22 @@
 var View = require('../../constants/TestCase').View;
-var Store = require('../../stores/TestCaseStore');
 var Detail = require('./Detail');
 
 var MainView = React.createClass({
   getInitialState: function() {
     return {
-      showing: Store.getShowing()
+      showing: this.props.store.getShowing()
     };
   },
   componentDidMount: function() {
-    Store.addChangeListener(this._onChange);
+    this.props.store.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    Store.removeChangeListener(this._onChange);
+    this.props.store.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
-    this.setState({showing: Store.getShowing()});
+    this.setState({showing: this.props.store.getShowing()});
   },
 
   render: function() {
@@ -25,13 +24,14 @@ var MainView = React.createClass({
     var showing = this.state.showing;
     var total =  showing.length;
     var colSize = 'col-md-' + (12 / total).toString();
+    var compact = total > 1;
     var columns = showing.map(function(id) {
       return (
         <div key={_.uniqueId('detail')} className={colSize}>
-          <Detail id={id} />
+          <Detail id={id} store={this.props.store} compact={compact} />
         </div>
       );
-    });
+    }, this);
     return (
       <div className='row'>
         {columns}

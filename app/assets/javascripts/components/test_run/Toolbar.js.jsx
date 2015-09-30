@@ -5,7 +5,6 @@ var ClassNames = require('classnames');
 var Toolbar = React.createClass({
 
   getInitialState: function() {
-    console.debug(this.props.params);
     return {
       selected: Store.getSelected()
     };

@@ -1,17 +1,21 @@
-var keyMirror = require('keymirror');
+var constants = require('./Constants');
 
 module.exports = {
-  GroupBy: keyMirror({
-    FEATURE: null,
-    ERROR: null,
-    TODO: null,
-    HANDSET: null
-  }),
-  Action: keyMirror({
-    FILTER: null,
-    GROUP: null,
-    SHOW: null,
-    INIT: null,
-    COMMENT: null
-  }),
+  Mode: constants('TEST_CASE_MODE_', [
+    'DIFF',
+    'DETAIL'
+  ]),
+  GroupBy: constants('TEST_CASE_GROUP_BY_', [
+    'FEATURE',
+    'ERROR',
+    'TODO',
+    'HANDSET'
+  ]),
+  Action: constants('TEST_CASE_ACTION_', [
+    'FILTER',
+    'GROUP',
+    'SHOW',
+    'INIT',
+    'COMMENT'
+  ])
 };

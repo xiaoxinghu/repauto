@@ -346,6 +346,7 @@ class TestRunsController < ApplicationController
   end
 
   def diff
+    @project = Project.find(params[:project_id])
     # left = TestRun.find(params[:id])
     # right = TestRun.find(params[:baseline])
     # if left[:start] > right[:start]

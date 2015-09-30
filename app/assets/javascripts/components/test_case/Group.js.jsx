@@ -18,9 +18,6 @@ var Group = React.createClass({
     };
   },
 
-  handleClick: function(i) {
-    this.props.onItemSelected(this.props.testCases[i]);
-  },
 
   render: function() {
     var name = this.props.name;
@@ -28,8 +25,7 @@ var Group = React.createClass({
       return (
         <Row
           key={_.uniqueId('tcr')}
-          data={testCase}
-          onClick={this.handleClick.bind(this, i)} />
+          data={testCase} />
       );
     }, this);
     var gid = _.uniqueId('g');

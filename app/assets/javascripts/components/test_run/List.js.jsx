@@ -37,12 +37,10 @@ var List = React.createClass({
       }
       this.setState({selected: selected});
     } else {
-      console.debug('go to', id);
     }
   },
 
   render: function() {
-    console.debug('rendering list');
 
     var testRunRows = this.state.all.toJS().map(function (id) {
       return (

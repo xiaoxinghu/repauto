@@ -4,11 +4,9 @@ var Action = require('../../actions/TestRunActions');
 var List = require('./List');
 var Store = require('../../stores/TestRunStore').store;
 
-var ListView = React.createClass({
+var Index = React.createClass({
   getInitialState: function() {
     Action.init(this.props.url);
-    console.debug(this.props.params);
-    console.debug(this.props.diff_url);
     if (this.props.params.type) {
       Action.filterBy({type: this.props.params.type});
     }
@@ -33,4 +31,4 @@ var ListView = React.createClass({
   }
 });
 
-module.exports = ListView;
+module.exports = Index;

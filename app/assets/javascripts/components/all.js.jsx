@@ -1,4 +1,4 @@
 Hello = require('./hello');
-TestRunTable = require('./test_run/ListView');
-TestCaseList = require('./test_case/FilterableList');
-TestCaseMain = require('./test_case/MainView');
+TestRunIndex = require('./test_run/Index');
+TestRunDetail = require('./test_run/Detail');
+TestRunDiff = require('./test_run/Diff');

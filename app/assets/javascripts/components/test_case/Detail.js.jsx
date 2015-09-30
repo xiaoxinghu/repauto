@@ -1,7 +1,6 @@
 var Gallery = require('../common').Gallery;
 var CommentBox = require('../common').CommentBox;
 var HistoryLine = require('./HistoryLine');
-var Store = require('../../stores/TestCaseStore');
 var Actions = require('../../actions/TestCaseActions');
 
 var Detail = React.createClass({
@@ -12,7 +11,7 @@ var Detail = React.createClass({
   render: function() {
     var testCase = (<div>Select Test Case from left.</div>);
     if (this.props.id) {
-      var d = Store.get(this.props.id);
+      var d = this.props.store.get(this.props.id);
     } else {
       var d = this.props.data;
     }
@@ -76,6 +75,7 @@ var Detail = React.createClass({
       if (this.props.compact) {
         container = ([
           <div>
+            <HistoryLine id={this.props.id} />
             <div>
               <ul className="media-list">
                 {content}

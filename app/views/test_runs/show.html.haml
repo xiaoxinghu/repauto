@@ -1,5 +1,1 @@
-.row
-  .col-sm-3
-    = react_component('TestCaseList', source: test_cases_api_test_run_path(@test_run))
-  .col-sm-9.full-height.fill
-    = react_component('TestCaseMain')
+= react_component('TestRunDetail', source: test_cases_api_test_run_path(@test_run))
