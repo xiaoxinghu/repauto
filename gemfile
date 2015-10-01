@@ -57,6 +57,7 @@ gem 'dotenv-rails'
 # gem 'sidekiq'
 
 gem 'mongoid', '~> 5.0.0'
+gem 'mongoid-grid_fs', '~> 2.2'
 
 gem 'datacraft'
 gem 'datacraft-tools'

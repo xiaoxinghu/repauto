@@ -4,6 +4,7 @@ require 'digest'
 class TestCase
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  belongs_to :test_run
 
   def self.from(parent)
     where(path: %r{^#{parent.path}})
@@ -14,7 +15,6 @@ class TestCase
     md5 = Digest::MD5.new
     project, type = self[:path].split('/').select{ |s| s.length > 0 }.first(2)
     md5 << project
-    md5 << type
     md5 << self[:name]
     if self[:steps]
       self[:steps].each do |step|

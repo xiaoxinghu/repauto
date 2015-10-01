@@ -17,8 +17,7 @@ tweak do |row|
   row.symbolize_keys
 end
 
-to ProjectsInDB
-# to DoingNothing
+to MongoProject
 
 post_build do
   puts "--> #{counter} projects synced."

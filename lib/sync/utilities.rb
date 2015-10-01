@@ -6,6 +6,9 @@ require 'pathname'
 require 'yaml'
 require 'datacraft/tools'
 
+require './config/environment'
+require './lib/sync/db'
+
 if defined? Rails
   REPORT_ROOT = Pathname.new("#{Rails.root}/public/#{APP_CONFIG['mount_point']}")
   require "#{Rails.root}/lib/sync/io"

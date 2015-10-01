@@ -1,11 +1,16 @@
 class TestRun
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  paginates_per 20
+  # has_many :test_suites
+  # has_many :test_cases
+  # has_one :project
+  belongs_to :project
+  has_many :raw_datas
+  # paginates_per 20
 
-  def project
-    Project.where(path: project_path).first
-  end
+  # def project
+  #   Project.where(path: project_path).first
+  # end
 
   def test_suites
     TestSuite.from self

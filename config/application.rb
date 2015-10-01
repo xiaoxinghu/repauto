@@ -33,7 +33,7 @@ module Repauto
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
     # config.active_job.queue_adapter = :sidekiq
-    Mongoid.logger.level = Logger::WARN
+    config.mongoid.logger = Logger.new($stdout, :warn)
     config.react.addons = true # defaults to false
     # Tell browserify-rails how to treat .js.jsx files
     config.browserify_rails.commandline_options = "-t reactify --extension=\".js.jsx\""

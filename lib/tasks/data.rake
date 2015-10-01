@@ -51,5 +51,11 @@ namespace :data do
 
   desc 'testing'
   task test: :environment do
+    tasks = ['lib/sync/sync_projects.rb', 'lib/sync/import_test_runs.rb']
+    tasks.each do |task|
+      script = IO.read(task)
+      instruction = Datacraft.parse(script)
+      Datacraft.run instruction
+    end
   end
 end

@@ -5,16 +5,15 @@ else
 end
 
 # set :benchmark, true
-set :parallel, true
+# set :parallel, true
 
-projects = ProjectsInDB.new
-projects.each do |project|
-  from Folders, "#{REPORT_ROOT}/#{project[:path]}/*/*"
-  # from TestRunsHttp, project[:path]
+MongoProject.new.each do |project|
+  from Folders, "#{REPORT_ROOT}/#{project.path}/*/*"
 end
 
 counter = 0
 test_runs = TestRunsInDB.new
+
 
 tweak do |row|
   counter += 1
@@ -50,7 +49,8 @@ tweak do |row|
   r
 end
 
-to TestRunsInDB
+# to TestRunsInDB
+to DoingNothing
 
 post_build do
   puts "--> #{counter} test runs synced."
