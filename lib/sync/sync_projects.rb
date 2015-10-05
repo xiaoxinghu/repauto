@@ -1,11 +1,6 @@
-if defined? Rails
-  require "#{Rails.root}/lib/sync/utilities"
-else
-  require './utilities'
-end
+require "#{Rails.root}/lib/sync/utilities"
 
 # set :benchmark, true
-
 
 from YamlFiles, "#{REPORT_ROOT}/*/project.yml"
 

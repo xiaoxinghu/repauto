@@ -8,7 +8,7 @@ class YamlFiles
     projects = Pathname.glob(@pattern)
     projects.each do |f|
       p = YAML.load_file(f)
-      p[:path] = f.to_s
+      p[:path] = f.cleanpath
       yield p
     end
   end

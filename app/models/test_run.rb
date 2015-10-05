@@ -1,28 +1,29 @@
 class TestRun
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  # has_many :test_suites
   # has_many :test_cases
   # has_one :project
   belongs_to :project
-  has_many :raw_datas
+  has_many :attachments
+  has_many :test_suites
+  field :status, type: Hash
   # paginates_per 20
 
   # def project
   #   Project.where(path: project_path).first
   # end
 
-  def test_suites
-    TestSuite.from self
-  end
+  # def test_suites
+  #   TestSuite.from self
+  # end
 
-  def test_cases
-    TestCase.from self
-  end
+  # def test_cases
+  #   TestCase.from self
+  # end
 
-  def self.from(project)
-    where(path: %r{^#{project.path}/})
-  end
+  # def self.from(project)
+  #   where(path: %r{^#{project.path}/})
+  # end
 
   def todo
     test_cases.where(:status.ne => :passed).exists(comments: false).count

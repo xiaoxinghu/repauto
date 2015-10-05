@@ -92,6 +92,10 @@ module ApplicationHelper
     content_tag(:div, '', class: 'fa fa-spinner fa-pulse fa-3x spinner')
   end
 
+  def say_hello
+    puts 'hello world'
+  end
+
   def confirmation(to, id)
     content_tag(:div,
                 class: 'modal fade',

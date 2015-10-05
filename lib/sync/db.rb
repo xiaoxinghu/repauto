@@ -1,6 +1,4 @@
-require './app/models/project'
-require './app/models/raw_data'
-require './app/models/test_run'
+require './config/environment'
 
 class MongoProject
   def <<(row)
@@ -19,32 +17,42 @@ end
 class MongoTestRunRaw
   def <<(row)
     path = row.to_s
-    project_path, type, time = path.split('/').last(3)
+    project_path, type, sn = path.split('/').last(3)
+    puts "#{project_path}, #{type}, #{sn}"
+    status_file = Pathname.new("#{row}/status.yml")
     project = Project.find_by(path: project_path)
-    test_run = TestRun.where(path: path).first_or_create
+    # test_run = TestRun.where(path: path).first_or_create
+    test_run = TestRun.where(project: project, type: type, sn: sn).first_or_create
+    if status_file.exist?
+      status = YAML.load_file(status_file)
+      test_run.status = status
+    end
     project.test_runs.push(test_run)
-    grid_fs = Mongoid::GridFs
-    files = Pathname.glob("#{row}/allure/*.xml")
+    files = Pathname.glob("#{row}/allure/*")
     files.each do |file|
-      puts "file: #{file.cleanpath} (#{file.size})"
-      raw_data = RawData.create(
-        name: file.basename,
-        type: 'xml',
-        size: file.size,
-        tags: []
-        )
-      f = grid_fs.put(file)
-      puts "#{f.id}, #{f.filename}"
-      test_run.files = []
-      test_run.files.push f
+      next if Attachment.imported? file
+      attachment = Attachment.from_file file
+      test_run.attachments.push attachment
     end
     test_run.save!
   end
+end
 
+class MongoTestSuiteToProcess
   def each
+    Attachment
+      .where(tags: 'testsuite')
+      .where(processed: false)
+      .each do |a|
+      yield a
+    end
   end
+end
 
-  def synced?(path)
-    TestRun.find(path: path, synced: true).count > 0
+class MongoTestSuite
+  def <<(row)
+    TestSuite.parse row
+    row.processed = true
+    row.save!
   end
 end

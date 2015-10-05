@@ -3,7 +3,7 @@ require 'datacraft'
 
 namespace :data do
   desc 'Sync data to database, sync all projects if param project is not given'
-  task :sync, [:project] => [:environment, :mount] do |_task, args|
+  task :sync_old, [:project] => [:environment, :mount] do |_task, args|
     start = Time.now
     logger = Logger.new(STDOUT)
     logger.level = Rails.logger.level
@@ -36,6 +36,10 @@ namespace :data do
     `whenever --update-crontab`
   end
 
+  desc 'Sync'
+  task sync: [:environment, :import, :process] do
+  end
+
   desc 'Mount the samba share'
   task mount: :environment do
     username = APP_CONFIG['username']
@@ -49,13 +53,59 @@ namespace :data do
     end
   end
 
-  desc 'testing'
-  task test: :environment do
+  desc 'import raw data into database'
+  task import: :environment do
     tasks = ['lib/sync/sync_projects.rb', 'lib/sync/import_test_runs.rb']
     tasks.each do |task|
       script = IO.read(task)
       instruction = Datacraft.parse(script)
       Datacraft.run instruction
     end
+  end
+
+  desc 'process allure results'
+  task process: :environment do
+    tasks = ['lib/sync/process_test_runs.rb']
+    tasks.each do |task|
+      script = IO.read(task)
+      instruction = Datacraft.parse(script)
+      Datacraft.run instruction
+    end
+  end
+
+  desc 'testing'
+  task test: :environment do
+    tasks = ['lib/sync/sync_projects.rb', 'lib/sync/import_test_runs.rb']
+    # tasks = ['lib/sync/process_test_suites.rb']
+    tasks.each do |task|
+      script = IO.read(task)
+      instruction = Datacraft.parse(script)
+      Datacraft.run instruction
+    end
+  end
+
+  task t: :environment do
+    Mongoid.logger.level = Logger::WARN
+    Mongo::Logger.logger.level = Logger::WARN
+    # image = Attachment.where(tags: 'attachment').first
+    # image = Attachment.where(tags: 'testsuite').first
+    # IO.binwrite('bin.xml', image.data.data)
+    # puts image.data.data
+
+    # image = Attachment.where(tags: 'image').first
+    # tr = image.test_run
+    # tr.attachments.each do |a|
+    #   puts a.file_name
+    # end
+
+    ts = Attachment.where(tags: 'testsuite').first
+    pp ts
+    # suite = TestSuite.parse ts
+    # pp suite
+
+    # ts = TestSuite.first
+    # pp ts
+    # pp ts.test_run
+    # pp ts.test_results
   end
 end

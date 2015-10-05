@@ -6,7 +6,7 @@ require 'pathname'
 require 'yaml'
 require 'datacraft/tools'
 
-require './config/environment'
+# require './config/environment'
 require './lib/sync/db'
 
 if defined? Rails
