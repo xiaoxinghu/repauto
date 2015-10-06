@@ -34,4 +34,15 @@ namespace :try do
     img = Attachment.where(tags: 'image').first
     IO.binwrite('img.jpeg', img.data.data)
   end
+
+  task count: :environment do
+    counts = {}
+    TestRun.first.test_suites.each do |ts|
+      ts.test_results.each do |tr|
+        counts[tr.status] ||= 0
+        counts[tr.status] += 1
+      end
+    end
+    pp counts
+  end
 end

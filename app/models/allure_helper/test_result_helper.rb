@@ -51,6 +51,7 @@ module AllureHelper
         a = Attachment.where(file_name: att['@source']).first
         next unless a
         a[:title] = att['@title']
+        a[:type] = att['@type']
         a.save!
         yield a
       end

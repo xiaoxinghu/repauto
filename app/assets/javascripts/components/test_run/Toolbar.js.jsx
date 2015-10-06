@@ -57,6 +57,7 @@ var Toolbar = React.createClass({
       });
       var filter = (
         <select className="form-control" onChange={this._filterByType} value={Store.getFilter().type}>
+          <option key={_.uniqueId('type')} value=''>all</option>
           {types}
         </select>
       );

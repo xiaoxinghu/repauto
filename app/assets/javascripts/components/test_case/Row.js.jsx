@@ -8,7 +8,7 @@ var Row = React.createClass({
   render: function() {
     var testCase = this.props.data;
     var display = [];
-    if (testCase.comments) {
+    if (testCase.comments && testCase.comments.length > 0) {
       console.log('got comment');
       display.push(
         <i className="fa fa-comment" />

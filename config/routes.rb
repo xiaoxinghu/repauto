@@ -5,10 +5,15 @@ Rails.application.routes.draw do
         get 'run_types'
       end
     end
+    resources :attachments, only: [:show] do
+      member do
+        get 'raw'
+      end
+    end
     resources :test_runs, only: [:show, :index] do
       member do
         get 'progress'
-        get 'test_cases'
+        get 'detail'
         get 'archive'
         get 'restore'
       end
@@ -17,7 +22,7 @@ Rails.application.routes.draw do
       end
     end
     resources :test_suites, only: [:show]
-    resources :test_cases, only: [:show] do
+    resources :test_results, only: [:show] do
       member do
         get :history
         post :comment

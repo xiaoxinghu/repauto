@@ -34,7 +34,7 @@ function init(source) {
 
 function gotData(data) {
   console.debug("got", data);
-  if (data instanceof Array) {
+  if (data.test_suites) {
     _mode = Mode.DETAIL;
     detailGotData(data);
   } else {
@@ -45,8 +45,12 @@ function gotData(data) {
 }
 
 function detailGotData(data) {
-  data.forEach(function(d) {
-    _all[d.id] = d;
+  data.test_suites.forEach(function(ts) {
+    test_suite = {name: ts.name};
+    ts.test_cases.forEach(function(tc) {
+      tc.test_suite = test_suite
+      _all[tc.id] = tc;
+    })
   });
 }
 
@@ -83,7 +87,7 @@ function group(data, by) {
         return item.failure ? item.failure.message : null;
         break;
       case GroupBy.TODO:
-        if (item.status == 'passed' || item.comments) {return null};
+        if (item.status == 'passed' || (item.comments && item.comments.length > 0)) {return null};
         return item.test_suite.name;
         break;
       default:
@@ -139,7 +143,7 @@ function getHistory(id) {
   if (!tc) {return;}
   if (tc.history) {return;}
   $.ajax({
-    url: tc.url.history,
+    url: tc.api.history,
     dataType: 'json',
     cache: false,
     success: function(d) {
@@ -150,7 +154,7 @@ function getHistory(id) {
       TestCaseStore.emitChange();
     },
     error: function(xhr, status, err) {
-      console.error(tc.url.history, status, err.toString());
+      console.error(tc.api.history, status, err.toString());
     }
   });
 }

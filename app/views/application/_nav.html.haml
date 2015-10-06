@@ -11,9 +11,8 @@
           = link_to 'project', class: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-expanded': 'false' do
             - project = trace_project
             - if project
-              -# = "Project: #{project.name}"
               %i.fa.fa--hand-spock-o
-              %strong= project.name
+              %strong= project.project
               %span.caret
             - else
               %i.fa.fa--hand-spock-o

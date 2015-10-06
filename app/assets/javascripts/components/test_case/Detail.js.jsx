@@ -74,7 +74,7 @@ var Detail = React.createClass({
       }
       if (this.props.compact) {
         container = ([
-          <div>
+          <div key="content">
             <HistoryLine id={this.props.id} />
             <div>
               <ul className="media-list">
@@ -82,7 +82,7 @@ var Detail = React.createClass({
               </ul>
             </div>
           </div>,
-          <div>
+          <div key="gallery">
             <Gallery images={images}/>
           </div>
         ]);

@@ -12,7 +12,6 @@ class Project
   # end
 
   def run_types
-    types = TestRun.where(project_path: path).distinct(:type)
-    types.to_a
+    test_runs.exists(archived_at: false).distinct('type')
   end
 end

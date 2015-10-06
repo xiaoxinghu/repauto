@@ -86,7 +86,10 @@ function reset() {
 function setFilter(filter) {
   reset();
   _filter = filter;
-  _fetchData.type = filter.type;
+  if (filter.type.length > 0) {
+    console.debug('filter type: ', filter.type)
+    _fetchData.type = filter.type;
+  }
   loadMore();
 }
 

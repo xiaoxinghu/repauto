@@ -14,13 +14,9 @@ class TestResult
   field :stop, type: Time
   field :test_case_id, type: BSON::ObjectId
 
-  # def self.from(test_run)
-  #   where(path: %r{^#{test_run.path}/})
-  # end
-
-  # def test_cases
-  #   TestCase.from self
-  # end
+  def definition
+    TestCase.find(test_case_id)
+  end
 
 end
 
@@ -46,6 +42,7 @@ end
 class Comment
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  include Mongoid::Timestamps
   embedded_in :test_result
   field :user, type: String
   field :comment, type: String

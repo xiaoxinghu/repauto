@@ -40,15 +40,12 @@ var Row = React.createClass({
 
   render: function() {
     var testRun = Store.getById(this.props.id);
-    var start = moment(testRun.start);
-    var stop = moment(testRun.stop);
-    var duration = stop.diff(start, 'seconds').toHHMMSS();
     if (testRun.status != 'done') {
       var durationLabel = (
         <span className="label label-default">{testRun.status}</span>
       );
     }
-    var status = testRun.summary || 'cannot get status';
+    var status = testRun.counts || 'cannot get status';
     var content = [
       <div key={_.uniqueId('start')} className="cell">
         <strong>{showDateTime(testRun.start)}</strong>
