@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
 
   def trend
     @project = Project.find(params[:id])
-    @types = TestRun.from(@project).exists(archived_at: false).distinct('type')
+    @types = @project.test_runs.exists(archived_at: false).distinct('type')
   end
 
   def fetch_trend
