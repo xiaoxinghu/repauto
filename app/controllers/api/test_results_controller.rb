@@ -12,14 +12,13 @@ module Api
     end
 
     def comment
-      comment = {
-        name: params[:name],
+      comment = Comment.new(
+        user: params[:user],
         status: params[:status],
         comment: params[:comment]
-      }
-      @test_case[:comments] ||= []
-      @test_case.push(comments: comment)
-      @test_case.save!
+      )
+      @test_result.comments.push comment
+      @test_result.save!
     end
   end
 end

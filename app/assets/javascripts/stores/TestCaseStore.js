@@ -162,7 +162,7 @@ function getHistory(id) {
 function comment(id, comment) {
   var tc = _all[id];
   $.ajax({
-    url: tc.url.comment,
+    url: tc.api.comment,
     dataType: 'json',
     type: 'POST',
     cache: false,

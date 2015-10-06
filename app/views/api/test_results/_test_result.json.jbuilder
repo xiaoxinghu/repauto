@@ -17,5 +17,5 @@ if test_result.respond_to? 'attachments'
 end
 json.api do
   json.history history_api_test_result_path(test_result)
-  # json.comment comment_api_test_result_path(test_result)
+  json.comment comment_api_test_result_path(test_result)
 end

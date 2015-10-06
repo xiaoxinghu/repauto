@@ -19,7 +19,7 @@ var CommentForm = React.createClass({
     if (!name || !comment) {
       return;
     }
-    this.props.onCommentSubmit({name: name, comment: comment, status: status});
+    this.props.onCommentSubmit({user: name, comment: comment, status: status});
     React.findDOMNode(this.refs.name).value = '';
     React.findDOMNode(this.refs.comment).value = '';
 
