@@ -1,5 +1,6 @@
 var Store = require('../../stores/TestRunStore').store;
 var Action = require('../../actions/TestRunActions');
+var FilterType = require('../../constants/TestRun').FilterType;
 var ClassNames = require('classnames');
 
 var Toolbar = React.createClass({
@@ -57,7 +58,7 @@ var Toolbar = React.createClass({
       });
       var filter = (
         <select className="form-control" onChange={this._filterByType} value={Store.getFilter().type}>
-          <option key={_.uniqueId('type')} value=''>all</option>
+          <option key={_.uniqueId('type')} value={FilterType.ALL}>all</option>
           {types}
         </select>
       );

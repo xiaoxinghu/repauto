@@ -86,8 +86,7 @@ function reset() {
 function setFilter(filter) {
   reset();
   _filter = filter;
-  if (filter.type.length > 0) {
-    console.debug('filter type: ', filter.type)
+  if (filter.type != FilterType.ALL) {
     _fetchData.type = filter.type;
   }
   loadMore();
@@ -130,7 +129,7 @@ function clear() {
 function archive(id) {
   var testRun = _all[id];
   $.ajax({
-    url: testRun.url.archive,
+    url: testRun.api.archive,
     dataType: 'json',
     cache: false,
     success: function(data) {
@@ -145,7 +144,7 @@ function archive(id) {
 function restore(id) {
   var testRun = _all[id];
   $.ajax({
-    url: testRun.url.restore,
+    url: testRun.api.restore,
     dataType: 'json',
     cache: false,
     success: function(data) {

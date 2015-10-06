@@ -41,7 +41,6 @@ var List = React.createClass({
   },
 
   render: function() {
-
     var testRunRows = this.state.all.toJS().map(function (id) {
       return (
         <Row
@@ -51,7 +50,6 @@ var List = React.createClass({
       );
     }, this);
     if (Store.isThereMore()) {
-      console.log('there are more');
       var loadMore = (
         <ul className="pager">
           <li>

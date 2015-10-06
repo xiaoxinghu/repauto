@@ -34,9 +34,7 @@ class TestRun
   end
 
   def get_start_time
-    t = test_suites.min(:start)
-    puts "---------> #{t}"
-    t
+    test_suites.min(:start)
   end
 
   def get_stop_time
