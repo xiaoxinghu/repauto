@@ -67,6 +67,7 @@ class ProjectsController < ApplicationController
     history.each do |tr|
       # start = Time.at(tr.start / 1000.0)
       start = tr.get_start_time
+      next unless start
       d = {
         time: start,
         date: start.to_date
