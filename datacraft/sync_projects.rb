@@ -18,13 +18,13 @@ end
 
 # set :benchmark, true
 
-from YamlFiles, "#{REPORT_ROOT}/*/project.yml"
+from YamlFiles, DataSync.configuration.project_pattern
 
 counter = 0
 tweak do |row|
   counter += 1
   abs_path = Pathname.new(row[:path])
-  row[:path] = abs_path.relative_path_from(REPORT_ROOT).dirname.to_s
+  row[:path] = abs_path.relative_path_from(DataSync.configuration.root).dirname.to_s
   row.symbolize_keys
 end
 

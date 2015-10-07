@@ -17,7 +17,7 @@ class Folders
 end
 
 MongoProject.new.each do |project|
-  from Folders, "#{REPORT_ROOT}/#{project.path}/*/*"
+  from Folders, "#{DataSync.configuration.root}/#{project.path}/*/*"
 end
 
 tweak do |row|
