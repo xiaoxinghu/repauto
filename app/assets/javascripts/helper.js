@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 function getPassRate(status) {
   if (!status) {
     return 0;
@@ -109,4 +111,12 @@ function showDate(time) {
 
 function showDateTime(time) {
   return moment(time).format("YYYY-MM-DD h:mm:ss a");
+}
+
+module.exports = {
+  getStatusMeta: getStatusMeta,
+  getPassRate: getPassRate,
+  showDateTime: showDateTime,
+  showDuration: showDuration,
+  groupBy: groupBy
 }
