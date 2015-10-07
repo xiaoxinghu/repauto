@@ -1,4 +1,20 @@
-require "#{Rails.root}/lib/sync/utilities"
+require './config/environment'
+require './datacraft/db'
+
+class YamlFiles
+  def initialize(pattern)
+    @pattern = pattern
+  end
+
+  def each
+    projects = Pathname.glob(@pattern)
+    projects.each do |f|
+      p = YAML.load_file(f)
+      p[:path] = f.cleanpath
+      yield p
+    end
+  end
+end
 
 # set :benchmark, true
 

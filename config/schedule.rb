@@ -22,6 +22,6 @@
 set :environment, "production"
 set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 
-every 10.minutes do
+every 30.minutes do
   rake "data:sync"
 end

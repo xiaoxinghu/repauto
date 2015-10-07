@@ -6,34 +6,12 @@ require 'pathname'
 require 'yaml'
 require 'datacraft/tools'
 
-# require './config/environment'
+require './config/environment'
 require './lib/sync/db'
+require './lib/sync/io'
 
-if defined? Rails
-  REPORT_ROOT = Pathname.new("#{Rails.root}/public/#{APP_CONFIG['mount_point']}")
-  require "#{Rails.root}/lib/sync/io"
-  MONGO_HOST = MONGO_CONFIG['clients']['default']['hosts']
-  MONGO_DB = MONGO_CONFIG['clients']['default']['database']
-  Mongo::Logger.logger.level = Logger::WARN
-else
-  REPORT_ROOT = Pathname.new('/Users/xhu/Projects/te/public/raw')
-  require './io'
-  MONGO_HOST = ['localhost:27017']
-  MONGO_DB = 'testing'
-  Mongo::Logger.logger.level = Logger::WARN
-end
-
-MONGO_CLIENT = Mongo::Client.new(
-  MONGO_HOST,
-  database: MONGO_DB,
-  max_pool_size: 100)
-
-
-class String
-  def try_to_i
-    Integer(self) rescue self
-  end
-end
+REPORT_ROOT = Pathname.new("#{Rails.root}/public/#{APP_CONFIG['mount_point']}")
+Mongo::Logger.logger.level = Logger::WARN
 
 class Hash
   def transform_keys

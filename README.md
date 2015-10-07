@@ -3,7 +3,7 @@
 - bundler
 - node.js
 - bower
-- mysql
+- mongodb
 
 ## install necessary things
 

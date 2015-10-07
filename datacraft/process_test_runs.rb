@@ -1,5 +1,5 @@
-require "#{Rails.root}/lib/sync/utilities"
 require './config/environment'
+require './datacraft/db'
 
 set :benchmark, true
 set :parallel, true

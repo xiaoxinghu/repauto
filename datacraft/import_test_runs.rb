@@ -1,8 +1,20 @@
-require "#{Rails.root}/lib/sync/utilities"
 require './config/environment'
+require './datacraft/db'
 
 set :benchmark, true
 set :parallel, true
+
+class Folders
+  def initialize(pattern)
+    @folders = Pathname.glob(pattern).select(&:directory?)
+  end
+
+  def each
+    @folders.each do |folder|
+      yield folder
+    end
+  end
+end
 
 MongoProject.new.each do |project|
   from Folders, "#{REPORT_ROOT}/#{project.path}/*/*"
