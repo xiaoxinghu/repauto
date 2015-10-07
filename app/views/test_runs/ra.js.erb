@@ -1,4 +1,0 @@
-console.log("<%= @ra_summary.to_json %>");
-var id = "<%= @test_run.id.to_s %>";
-console.log(id);
-$(".testRunRow[data-id='" + id + "'] .ra").html("<%= escape_javascript(render partial: 'mini_status', locals: { status: @ra_summary }) %>");
