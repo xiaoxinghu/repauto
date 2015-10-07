@@ -5,7 +5,12 @@ json.start test_result.start
 json.stop test_result.stop
 json.status test_result.status
 json.tags test_result.tags
-json.steps test_result.steps if test_result.respond_to? 'steps'
+json.steps test_result.step_results do |sr|
+  json.name test_case.steps[sr.index]
+  json.start sr.start
+  json.stop sr.stop
+  json.status sr.status
+end
 json.failure test_result.failure if test_result.respond_to? 'failure'
 json.comments test_result.comments if test_result.respond_to? 'comments'
 if test_result.respond_to? 'attachments'

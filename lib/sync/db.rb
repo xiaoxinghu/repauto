@@ -16,25 +16,33 @@ end
 
 class MongoTestRunRaw
   def <<(row)
+    done = false
     path = row.to_s
     project_path, type, sn = path.split('/').last(3)
     puts "#{project_path}, #{type}, #{sn}"
     status_file = Pathname.new("#{row}/status.yml")
+    in_progress_file = Pathname.new("#{row}/in_progress")
     project = Project.find_by(path: project_path)
     # test_run = TestRun.where(path: path).first_or_create
     test_run = TestRun.where(project: project, type: type, sn: sn).first_or_create
     if status_file.exist?
       status = YAML.load_file(status_file)
+      done = (status[:status] == 'done')
       test_run.status = status
     end
+    done = (row.mtime < 10.minutes.ago) unless in_progress_file.exist?
     project.test_runs.push(test_run)
     files = Pathname.glob("#{row}/allure/*")
     files.each do |file|
-      next if Attachment.imported? file
-      attachment = Attachment.from_file file
-      test_run.attachments.push attachment
+      unless Attachment.imported? file
+        attachment = Attachment.from_file file
+        test_run.attachments.push attachment
+      end
+      file.delete
     end
     test_run.save!
+    # delete folder if done
+    FileUtils.rm_r row if done
   end
 end
 
