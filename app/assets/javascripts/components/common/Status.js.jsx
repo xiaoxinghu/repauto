@@ -2,6 +2,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 // var Map = require('immutable').Map;
 var Immutable = require('immutable');
 var Map = Immutable.Map;
+var helper = require('../../helper');
 
 var Status = React.createClass({
   mixins: [PureRenderMixin],
@@ -63,7 +64,7 @@ var Status = React.createClass({
       content = orderedStatus.filter(function (status) {
         return data.hasOwnProperty(status);
       }).map(function (status) {
-        var meta = getStatusMeta(status);
+        var meta = helper.getStatusMeta(status);
         return (
           <span key={status} className={"label label-" + meta.context}>
             {data[status]}

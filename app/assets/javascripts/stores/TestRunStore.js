@@ -4,6 +4,7 @@ var Action = require('../constants/TestRun').Action;
 var FilterType = require('../constants/TestRun').FilterType;
 var assign = require('object-assign');
 var Immutable = require('immutable');
+var helper = require('../helper');
 var Set = Immutable.Set;
 var List = Immutable.List;
 
@@ -60,7 +61,7 @@ function loadMore() {
 function gotData(data) {
   data.test_runs.forEach(function(d) {
     if (d.summary) {
-      d.summary.pr = getPassRate(d.summary).toString() + '%';
+      d.summary.pr = helper.getPassRate(d.summary).toString() + '%';
     }
     _all[d.id] = d;
   });
