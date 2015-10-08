@@ -35,3 +35,10 @@ public/assets/
 
 # ignore node_modules
 /node_modules
+
+*tmp*
+
+public/*
+!public/*.html
+!public/*.ico
+!public/robots.txt

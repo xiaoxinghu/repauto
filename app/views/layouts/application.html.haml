@@ -3,26 +3,16 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Repauto
+    - css_cdn_links.each do |link|
+      = stylesheet_link_tag link
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body{data: {parmas: params}}
     = render partial: "nav", locals: {project: @project}
     -# = react_component('ProjectNav', links: [{summary: 'www.google.com'}])
 
-    .modal.fade{ id: 'processing', tabindex: '-1', role: 'dialog', 'aria-labelledby': 'message', 'aria-hidden': true }
-      .modal-dialog
-        .modal-content
-          .modal-header
-            %h4#message.modal-title Loading...
-          .modal-body
-            .progress
-              .progress-bar.progress-bar-striped.active{ role: 'progressbar', 'aria-valuenow': '100', 'aria-valuemin': '0', 'aria-valuemax': '100', style: 'width: 100%'}
     .container-fluid
       = content_for?(:content) ? yield(:content) : yield
-      -# .row
-      -#   #sidebar.col-sm-3.hidden-xs.fixed
-      -#     = render partial: 'tree'
-
-      -#   #main.col-sm-9.scrollit{:role => "main"}
-      -#     = content_for?(:content) ? yield(:content) : yield
+    - js_cdn_links.each do |l|
+      = javascript_include_tag l
+    = javascript_include_tag 'app'

@@ -34,10 +34,11 @@ module Repauto
     # config.active_record.raise_in_transactional_callbacks = true
     # config.active_job.queue_adapter = :sidekiq
     # config.mongoid.logger = Logger.new($stdout, :warn)
+    config.assets.enabled = false
     Mongoid.logger.level = Logger::WARN
     Mongo::Logger.logger.level = Logger::WARN
-    config.react.addons = true # defaults to false
+    # config.react.addons = true # defaults to false
     # Tell browserify-rails how to treat .js.jsx files
-    config.browserify_rails.commandline_options = "-t reactify --extension=\".js.jsx\""
+    # config.browserify_rails.commandline_options = "-t reactify --extension=\".js.jsx\""
   end
 end
