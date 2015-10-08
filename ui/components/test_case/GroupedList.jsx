@@ -1,6 +1,7 @@
 var React = require('react');
 var Group = require('./Group');
 var Action = require('../../actions/TestCaseActions');
+var _ = require('lodash');
 
 var GroupedList = React.createClass({
 

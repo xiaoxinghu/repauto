@@ -3,6 +3,8 @@ var Gallery = require('../common').Gallery;
 var CommentBox = require('../common').CommentBox;
 var HistoryLine = require('./HistoryLine');
 var Actions = require('../../actions/TestCaseActions');
+var helper = require('../../helper');
+var _ = require('lodash');
 
 var Detail = React.createClass({
   handleCommentSubmit: function(comment) {
@@ -24,18 +26,18 @@ var Detail = React.createClass({
       });
       var dList = [
         {icon: 'fa fa-tags', body: tags},
-        {icon: 'fa fa-calendar', body: showDate(d.start)},
-        {icon: 'fa fa-clock-o', body: showDuration(d.start, d.stop)}
+        {icon: 'fa fa-calendar', body: helper.showDate(d.start)},
+        {icon: 'fa fa-clock-o', body: helper.showDuration(d.start, d.stop)}
       ];
       if (d.steps) {
         d.steps.forEach(function(step) {
           dList.push(
           {
-            icon: getStatusMeta(step.status).icon,
+            icon: helper.getStatusMeta(step.status).icon,
             body: (
               <div key={_.uniqueId('step')}>
-                <h5 className={"media-heading text-" + getStatusMeta(step.status).context}>{step.name}</h5>
-                <p className="text-muted small">{showDuration(step.start, step.stop)}</p>
+                <h5 className={"media-heading text-" + helper.getStatusMeta(step.status).context}>{step.name}</h5>
+                <p className="text-muted small">{helper.showDuration(step.start, step.stop)}</p>
               </div>
             )
           });
@@ -64,7 +66,7 @@ var Detail = React.createClass({
       if (d.failure) {
         var stId = _.uniqueId('st');
         var error = (
-          <div className={"alert alert-" + getStatusMeta(d.status).context + " fade in"} role="alert">
+          <div className={"alert alert-" + helper.getStatusMeta(d.status).context + " fade in"} role="alert">
             <h4>{d.failure.message}</h4>
             <a href={"#" + stId} data-toggle="collapse" aria-expanded="false" aria-controls={stId}>show stack trace</a>
             <div className="collapse" id={stId}>

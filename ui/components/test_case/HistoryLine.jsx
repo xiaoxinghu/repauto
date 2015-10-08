@@ -1,6 +1,8 @@
 var React = require('react');
 var Actions = require('../../actions/TestCaseActions');
 var Store = require('../../stores/TestCaseStore');
+var helper = require('../../helper');
+var _ = require('lodash');
 
 var HistoryLine = React.createClass({
   handleClick: function(target) {
@@ -11,7 +13,7 @@ var HistoryLine = React.createClass({
     var owner = Store.get(this.props.id);
     if (owner.history) {
       var history = owner.history.map(function(testCase) {
-        var status = getStatusMeta(testCase.status);
+        var status = helper.getStatusMeta(testCase.status);
         var className = 'btn btn-' + status.context;
         return (
           <button key={_.uniqueId('hist')} type='button' className={className} onClick={this.handleClick.bind(this, testCase.id)}>

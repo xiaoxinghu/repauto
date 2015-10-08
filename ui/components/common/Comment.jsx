@@ -1,4 +1,6 @@
 var React = require('react');
+var helper = require('../../helper');
+
 var Comment = React.createClass({
   propTypes: {
     name: React.PropTypes.string,
@@ -17,7 +19,7 @@ var Comment = React.createClass({
         <div className="media-body">
           <h4 className="media-heading">
             {this.props.name + ": " + this.props.status}
-            <small>{showDateTime(this.props.time)}</small>
+            <small>{helper.showDateTime(this.props.time)}</small>
           </h4>
           <p>{this.props.comment}</p>
         </div>

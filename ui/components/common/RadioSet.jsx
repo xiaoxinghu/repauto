@@ -1,4 +1,5 @@
 var React = require('react');
+var _ = require('lodash');
 var RadioSet = React.createClass({
   getInitialState: function() {
     return {selected: null};

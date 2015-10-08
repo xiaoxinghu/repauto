@@ -116,6 +116,7 @@ function showDateTime(time) {
 module.exports = {
   getStatusMeta: getStatusMeta,
   getPassRate: getPassRate,
+  showDate: showDate,
   showDateTime: showDateTime,
   showDuration: showDuration,
   groupBy: groupBy

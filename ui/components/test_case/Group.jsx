@@ -1,6 +1,7 @@
 var React = require('react');
 var Status = require('../common').Status;
 var Row = require('./Row');
+var _ = require('lodash');
 
 function getSummary(test_cases) {
   var summary = {};

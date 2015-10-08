@@ -1,5 +1,6 @@
 var React = require('react');
 var Actions = require('../../actions/TestCaseActions');
+var helper = require('../../helper');
 
 var Row = React.createClass({
   onClick: function(e) {
@@ -12,7 +13,7 @@ var Row = React.createClass({
     if (testCase.comments && testCase.comments.length > 0) {
       console.log('got comment');
       display.push(
-        <i className="fa fa-comment" />
+        <i key="icon" className="fa fa-comment" />
       );
     }
     display.push(
@@ -20,7 +21,7 @@ var Row = React.createClass({
     );
     return (
       <a href="#"
-        className={"hideOverflow list-group-item small list-group-item-" + getStatusMeta(testCase.status).context}
+        className={"hideOverflow list-group-item small list-group-item-" + helper.getStatusMeta(testCase.status).context}
         onClick={this.onClick}>
         {display}
       </a>

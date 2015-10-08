@@ -1,6 +1,7 @@
 var React = require('react');
 var View = require('../../constants/TestCase').View;
 var Detail = require('./Detail');
+var _ = require('lodash');
 
 var MainView = React.createClass({
   getInitialState: function() {

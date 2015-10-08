@@ -1,4 +1,6 @@
 var React = require('react');
+var _ = require('lodash');
+
 var Gallery = React.createClass({
   render: function() {
     var images = this.props.images.map(function(image) {
