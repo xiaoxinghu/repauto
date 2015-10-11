@@ -35,6 +35,7 @@ module Repauto
     # config.active_job.queue_adapter = :sidekiq
     # config.mongoid.logger = Logger.new($stdout, :warn)
     config.assets.enabled = false
+    config.assets.image_optim = {pngout: false, svgo: false}
     Mongoid.logger.level = Logger::WARN
     Mongo::Logger.logger.level = Logger::WARN
     # config.react.addons = true # defaults to false

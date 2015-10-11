@@ -1,10 +1,14 @@
 class TestRun
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  belongs_to :project
   has_many :attachments
-  has_many :test_suites
-  field :status, type: Hash
+  belongs_to :project
+  has_many :test_cases, autosave: true
+
+  field :name, type: String
+  field :start, type: Time
+  field :stop, type: Time
+  field :status, type: String
   paginates_per 20
 
   def todo

@@ -5,13 +5,18 @@ module ApplicationHelper
     [
       'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css',
       'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',
-      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'
+      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css',
+      '//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css'
     ]
   end
 
   def js_cdn_links
-    ['https://code.jquery.com/jquery-2.1.4.min.js',
-     'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js']
+    [
+      'https://code.jquery.com/jquery-2.1.4.min.js',
+      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js',
+      '//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js',
+      '//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js'
+    ]
   end
 
   def status_map(status)
