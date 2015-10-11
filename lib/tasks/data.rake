@@ -69,6 +69,7 @@ namespace :data do
     tasks = ['datacraft/process_test_runs.rb']
     tasks.each do |task|
       script = IO.read(task)
+      puts task
       instruction = Datacraft.parse(script)
       Datacraft.run instruction
     end

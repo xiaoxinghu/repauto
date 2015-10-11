@@ -1,9 +1,9 @@
 class TestRun
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  has_many :attachments
+  has_many :attachments, dependent: :delete
   belongs_to :project
-  has_many :test_cases, autosave: true
+  has_many :test_cases, autosave: true, dependent: :delete
 
   field :name, type: String
   field :start, type: Time

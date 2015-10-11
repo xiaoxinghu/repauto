@@ -22,11 +22,10 @@ module TestCasePlugin
       each_test_case(hash['test_suite']) do |tc_hash|
         test_case = translate tc_hash
         test_case.test_suite = test_suite
+        test_case.test_suite_file_id = attachment.id
         test_case.def_id = project.get_test_case_def(tc_hash).id
         test_run.test_cases.push test_case
-        puts test_case.save!
       end
-      pp test_run
       test_run.save!
     end
 

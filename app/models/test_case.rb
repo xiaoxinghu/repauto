@@ -13,6 +13,7 @@ class TestCase
   field :start, type: Time
   field :stop, type: Time
   field :def_id, type: BSON::ObjectId
+  field :test_suite_file_id, type: BSON::ObjectId
 
   def definition
     TestCaseDef.find(def_id)

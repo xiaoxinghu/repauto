@@ -8,6 +8,7 @@ set :parallel, true
 class AttachmentsToProcess
   def each
     Attachment.where(type: :test_suite).where(processed: false).each do |a|
+      TestCase.where(test_suite_file_id: a.id).delete
       yield a
     end
   end
@@ -24,7 +25,6 @@ end
 from AttachmentsToProcess
 
 tweak do |row|
-  puts row.file_name
   row
 end
 
