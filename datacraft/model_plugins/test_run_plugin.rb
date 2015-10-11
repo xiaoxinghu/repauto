@@ -9,7 +9,7 @@ module TestRunPlugin
   end
   module ClassMethods
     def check(path)
-      _project_sn, _type, time = path.to_s.split('/').last(3)
+      _project_sn, _name, time = path.to_s.split('/').last(3)
       return [false, 'allure folder does not exist'] unless Pathname.new("#{path}/allure").exist?
       begin
         Time.strptime(time, '%Y-%m-%d-%H-%M-%S')
@@ -21,11 +21,11 @@ module TestRunPlugin
 
     def import(path)
       cleanup = false
-      project, type, sn = interpret_path(path)
+      project, name, sn = interpret_path(path)
       mutex = Mutex.new
       test_run = mutex.synchronize do
         TestRun
-        .where(project: project, type: type, sn: sn)
+        .where(project: project, name: name, sn: sn)
         .first_or_create
       end
       status_file = path.join(DataSync.configuration.status_file_name)
@@ -52,9 +52,9 @@ module TestRunPlugin
     private
 
     def interpret_path(path)
-      project_sn, type, sn = path.each_filename.to_a.last(3)
+      project_sn, name, sn = path.each_filename.to_a.last(3)
       project = Project.find_by(sn: project_sn)
-      [project, type, sn]
+      [project, name, sn]
     end
 
   end
