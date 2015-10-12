@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :projects, only: [:show, :index] do
       member do
         get 'run_types'
+        get 'trend'
       end
     end
     resources :attachments, only: [:show] do
