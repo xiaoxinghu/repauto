@@ -14,18 +14,19 @@ module TestCasePlugin
       return nil unless attachment.type == 'test_suite'
       hash = to_hash attachment
       return nil unless valid?(hash)
-      test_suite = hash['test_suite']['name']
 
       # get test cases
       project = attachment.test_run.project
       test_run = attachment.test_run
       each_test_case(hash['test_suite']) do |tc_hash|
         test_case = translate tc_hash
-        test_case.test_suite = test_suite
         test_case.test_suite_file_id = attachment.id
         test_case.def_id = project.get_test_case_def(tc_hash).id
         test_run.test_cases.push test_case
       end
+      update_time(test_run,
+                  hash['test_suite']['@start'],
+                  hash['test_suite']['@stop'])
       test_run.save!
     end
 
@@ -44,7 +45,10 @@ module TestCasePlugin
       return unless test_suite.key? 'test_cases'
       test_cases = test_suite['test_cases']['test_case']
       test_cases = test_cases.is_a?(Hash) ? [test_cases] : test_cases
-      test_cases.each { |test_case| yield test_case }
+      test_cases.each do |test_case|
+        test_case['test_suite'] = test_suite['name']
+        yield test_case
+      end
     end
 
     def translate(hash)
@@ -122,6 +126,13 @@ module TestCasePlugin
           status: step['@status']
         )
       end
+    end
+
+    def update_time(test_run, start, stop)
+      start = Time.at(start.to_i / 1000.0)
+      stop = Time.at(stop.to_i / 1000.0)
+      test_run.start = start if !test_run.start || test_run.start > start
+      test_run.stop = stop if !test_run.stop || test_run.stop < stop
     end
   end
 end

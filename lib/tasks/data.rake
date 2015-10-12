@@ -58,7 +58,7 @@ namespace :data do
     tasks = ['datacraft/sync_projects.rb', 'datacraft/import_test_runs.rb']
     tasks.each do |task|
       script = IO.read(task)
-      puts task
+      puts "#{Time.now} -> #{task}"
       instruction = Datacraft.parse(script)
       Datacraft.run instruction
     end
@@ -69,7 +69,7 @@ namespace :data do
     tasks = ['datacraft/process_test_runs.rb']
     tasks.each do |task|
       script = IO.read(task)
-      puts task
+      puts "#{Time.now} -> #{task}"
       instruction = Datacraft.parse(script)
       Datacraft.run instruction
     end

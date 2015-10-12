@@ -14,6 +14,7 @@ module ProjectPlugin
 
     def get_test_case_def(hash)
       name = hash['name']
+      test_suite = hash['test_suite']
       steps = []
       if hash.key? 'steps'
         ss = hash['steps']['step']
@@ -22,11 +23,12 @@ module ProjectPlugin
           s['name']
         end
       end
-      md5 = get_md5(name, steps)
+      md5 = get_md5(name, test_suite, steps)
       tcd = TestCaseDef.where(md5: md5).first
       return tcd if tcd
       tcd = TestCaseDef.new(
         name: name,
+        test_suite: test_suite,
         steps: steps,
         md5: md5
       )
@@ -37,12 +39,14 @@ module ProjectPlugin
 
     private
 
-    def get_md5(name, steps)
+    def get_md5(*args)
       md5 = Digest::MD5.new
-      md5 << sn
-      md5 << name
-      steps.each do |step|
-        md5 << step
+      args.each do |arg|
+        if arg.is_a? Array
+          arg.each { |a| md5 << a }
+        else
+          md5 << arg
+        end
       end
       md5.hexdigest
     end

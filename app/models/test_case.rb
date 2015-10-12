@@ -8,7 +8,6 @@ class TestCase
   has_and_belongs_to_many :attachments, inverse_of: nil
 
   field :status, type: String
-  field :test_suite, type: String
   field :tags, type: Array
   field :start, type: Time
   field :stop, type: Time

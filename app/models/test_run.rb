@@ -12,37 +12,22 @@ class TestRun
   paginates_per 20
 
   def todo
-    total = 0
-    test_suites.each do |ts|
-      total += ts.test_results
-               .where(:status.ne => :passed)
-               .exists(:comments.with_size => 0)
-               .size
-    end
-    # test_results.where(:status.ne => :passed).exists(comments: false).count
-    total
+    test_cases
+      .where(:status.ne => :passed)
+      .exists(:comments.with_size => 0)
+      .size
   end
 
   def counts
     return self[:counts] if self[:counts]
     counts = {}
-    test_suites.each do |ts|
-      ts.test_results.each do |tr|
-        counts[tr.status] ||= 0
-        counts[tr.status] += 1
-      end
+    test_cases.each do |tc|
+      counts[tc.status] ||= 0
+      counts[tc.status] += 1
     end
     self[:counts] = counts
     save!
     counts
-  end
-
-  def get_start_time
-    test_suites.min(:start)
-  end
-
-  def get_stop_time
-    test_suites.max(:stop)
   end
 
   private

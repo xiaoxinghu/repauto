@@ -1,12 +1,12 @@
 module Api
-  class TestResultsController < Api::BaseController
+  class TestCasesController < Api::BaseController
     before_action :set_resource, only: [:archive, :history, :comment]
 
     def history
-      test_case = @test_result.definition
-      @history = TestResult
-                 .where(test_case_id: test_case.id)
-                 .where(:start.lt => @test_result.start)
+      test_case_def = @test_case.definition
+      @history = TestCase
+                 .where(def_id: test_case_def.id)
+                 .where(:start.lt => @test_case.start)
                  .sort(start: -1)
                  .limit(10)
     end

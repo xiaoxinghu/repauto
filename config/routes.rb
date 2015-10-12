@@ -21,8 +21,7 @@ Rails.application.routes.draw do
         get 'diff'
       end
     end
-    resources :test_suites, only: [:show]
-    resources :test_results, only: [:show] do
+    resources :test_cases, only: [:show] do
       member do
         get :history
         post :comment
