@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
-    @types = @project.test_runs.exists(archived_at: false).distinct('type')
+    @types = @project.test_runs.active.distinct('name')
   end
 
   def fetch_history
@@ -21,16 +21,16 @@ class ProjectsController < ApplicationController
 
   def get_history(project, type, amount: 30, sample_amount: 10, ratio: 0.5)
     samples = project.test_runs
-              .where(type: type)
-              .exists(archived_at: false)
-              .sort(sn: -1)
+              .active
+              .where(name: type)
+              .sort(start: -1)
               .limit(sample_amount)
     return [] unless samples.count > 0
     max = samples.max_by { |s| s.counts.values.sum }.counts.values.sum
     test_runs = project.test_runs
-                .where(type: type)
-                .exists(archived_at: false)
-                .sort(sn: -1)
+                .active
+                .where(name: type)
+                .sort(start: -1)
 
     history = []
     test_runs.each do |tr|
@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
 
   def trend
     @project = Project.find(params[:id])
-    @types = @project.test_runs.exists(archived_at: false).distinct('type')
+    @types = @project.test_runs.active.distinct('name')
   end
 
   def fetch_trend
@@ -75,7 +75,7 @@ class ProjectsController < ApplicationController
       summary = patch tr.counts
       if include_manual
         # commented = tr.test_cases.exists(comments: true)
-        commented = tr.test_results.where(:comments.with_size.gt => 0)
+        commented = tr.test_cases.where(:comments.with_size.gt => 0)
         commented.each do |tc|
           new_status = tc[:comments].last[:status] || tc[:status]
           old_status = tc[:status]

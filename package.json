@@ -13,6 +13,7 @@
     "node": ">= 0.10"
   },
   "devDependencies": {
+    "jquery": "^2.1.4",
     "browserify": "^10.2.6",
     "coffeeify": "^1.1.0",
     "gulp": "^3.9.0",
