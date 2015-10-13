@@ -14,6 +14,6 @@ DataSync.configure do |config|
   config.status_file_name = 'status.yml'
   # if exists under test run folder, do not delete
   config.keep_file_name = 'in_progress'
-  config.auto_cleanup = false
+  config.auto_cleanup = true
   config.auto_mount = true
 end
