@@ -30,8 +30,11 @@ var Trend = React.createClass({
   },
 
   _gotData: function(data) {
-    var data = {
-      element: $('#morrisGraph'),
+    console.log(data);
+    var target = $('#morrisGraph');
+    target.empty();
+    var d = {
+      element: target,
       data: data,
       xkey: 'time',
       ykeys: ['passed', 'failed', 'broken', 'pending'],
@@ -41,10 +44,10 @@ var Trend = React.createClass({
     }
     switch (this.state.style) {
       case GraphStyle.LINE:
-        new Morris.Line(data);
+        new Morris.Line(d);
         break;
       case GraphStyle.AREA:
-        new Morris.Area(data);
+        new Morris.Area(d);
         break;
       default:
 

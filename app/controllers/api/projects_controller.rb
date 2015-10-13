@@ -8,7 +8,13 @@ module Api
     end
 
     def trend
-      history = @project.test_runs.active.where(name: params[:type]).sort(start: -1).limit(30)
+      history = @project
+        .test_runs
+        .active
+        .where(:start.ne => nil)
+        .where(name: params[:type])
+        .sort(start: -1)
+        .limit(30)
       @trend = history.map do |test_run|
         data = test_run.counts.clone
         data[:time] = test_run.start
