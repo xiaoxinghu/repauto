@@ -41,11 +41,10 @@ module TestRunPlugin
                           DataSync.configuration.allure_file_pattern)
       Attachment.scan_for_attachments(pattern).each do |file|
         att = Attachment.parse(file)
-        att.save!
-        test_run.attachments.push att
+        test_run.attachments.build(att)
+        test_run.save! # this might be a performance drag, but for data dignity sake when crash happens
         FileUtils.remove_file(file) if DataSync.configuration.auto_cleanup
       end
-      test_run.save!
       FileUtils.rm_r(path) if DataSync.configuration.auto_cleanup && cleanup
     end
 

@@ -12,10 +12,17 @@ module AttachmentPlugin
 
     def parse(file)
       file_name = file.basename.to_s
-      attachment = Attachment.where(file_name: file_name).first_or_create
-      attachment.type, data = process(file)
-      attachment.size = data.size
-      attachment.data = BSON::Binary.new(data, :generic)
+      type, data = process(file)
+      attachment = {
+        file_name: file_name,
+        type: type,
+        size: data.size,
+        data: BSON::Binary.new(data, :generic)
+      }
+      # attachment = Attachment.where(file_name: file_name).first_or_create
+      # attachment.type, data = process(file)
+      # attachment.size = data.size
+      # attachment.data = BSON::Binary.new(data, :generic)
       attachment
     end
 
