@@ -5,6 +5,8 @@ production:
       hosts:
         - localhost:27017
       options:
+        max_pool_size: 100
+        min_pool_size: 5
   options:
 
 development:
