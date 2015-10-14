@@ -105,7 +105,7 @@ module TestCasePlugin
       return unless hash['attachments']
       atts = hash['attachments']['attachment']
       atts = [atts] if atts.is_a? Hash
-      atts.map do |att|
+      atts.compact.map do |att|
         a = Attachment.where(file_name: att['@source']).first
         next unless a
         a[:title] = att['@title']
