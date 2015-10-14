@@ -26,7 +26,7 @@ function buildScript(file, watch) {
     entries: [scriptsDir + '/' + file],
     debug: true,
     cache: {},
-    extensions: ['.jsx', '.js'],
+    extensions: ['.jsx', '.coffee', '.js'],
     packageCache: {},
   };
   var bundler = watch ? watchify(browserify(props)) : browserify(props);

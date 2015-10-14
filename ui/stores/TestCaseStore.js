@@ -35,7 +35,7 @@ function init(source) {
 
 function gotData(data) {
   console.debug("got", data);
-  if (data.test_suites) {
+  if (data.test_cases) {
     _mode = Mode.DETAIL;
     detailGotData(data);
   } else {
@@ -46,12 +46,13 @@ function gotData(data) {
 }
 
 function detailGotData(data) {
-  data.test_suites.forEach(function(ts) {
-    test_suite = {name: ts.name};
-    ts.test_cases.forEach(function(tc) {
-      tc.test_suite = test_suite
-      _all[tc.id] = tc;
-    })
+  data.test_cases.forEach(function(tc) {
+    _all[tc.id] = tc;
+    // test_suite = {name: ts.name};
+    // ts.test_cases.forEach(function(tc) {
+    //   tc.test_suite = test_suite
+    //   _all[tc.id] = tc;
+    // })
   });
 }
 
@@ -82,7 +83,7 @@ function group(data, by) {
   return helper.groupBy(data, function(item) {
     switch (by) {
       case GroupBy.FEATURE:
-        return item.test_suite.name;
+        return item.test_suite;
         break;
       case GroupBy.ERROR:
         return item.failure ? item.failure.message : null;

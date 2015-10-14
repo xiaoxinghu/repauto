@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :projects, only: [:show, :index] do
       member do
         get 'run_types'
+        get 'trend'
       end
     end
     resources :attachments, only: [:show] do
@@ -21,8 +22,7 @@ Rails.application.routes.draw do
         get 'diff'
       end
     end
-    resources :test_suites, only: [:show]
-    resources :test_results, only: [:show] do
+    resources :test_cases, only: [:show] do
       member do
         get :history
         post :comment

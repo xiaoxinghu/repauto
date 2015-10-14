@@ -3,6 +3,7 @@ var TestRunDetail, TestRunDiff, TestRunIndex, ready;
 TestRunIndex = require('./components/test_run/Index');
 TestRunDetail = require('./components/test_run/Detail');
 TestRunDiff = require('./components/test_run/Diff');
+ProjectTrend = require('./components/project/Trend')
 var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');

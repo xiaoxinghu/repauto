@@ -1,36 +1,50 @@
 require './config/environment'
-require './datacraft/db'
+require './datacraft/model_plugins/project_plugin'
+require './datacraft/model_plugins/test_run_plugin'
 
 set :benchmark, true
 set :parallel, true
 
-class Folders
-  def initialize(pattern)
-    @folders = Pathname.glob(pattern).select(&:directory?)
-  end
-
+class TestRunFolders
   def each
-    @folders.each do |folder|
-      yield folder
+    Project.all.each do |project|
+      project.scan_for_test_runs.each do |folder|
+        yield folder
+      end
     end
   end
 end
 
-MongoProject.new.each do |project|
-  from Folders, "#{DataSync.configuration.root}/#{project.path}/*/*"
+class TestRunFolder
+  def initialize(folder)
+    @folder = folder
+  end
+
+  def each
+    yield @folder
+  end
 end
+
+class TestRunData
+  def <<(row)
+    TestRun.import row
+  end
+end
+
+# from TestRunFolders
+
+# to enable parallel
+Project.all.each do |project|
+  project.scan_for_test_runs.each do |folder|
+    from TestRunFolder, folder
+  end
+end
+
 
 tweak do |row|
-  project_path, type, time = row.to_s.split('/').last(3)
-
-  begin
-    fail "#{row}: allure folder does not exist" unless Pathname.new("#{row}/allure").exist?
-    time = Time.strptime(time, '%Y-%m-%d-%H-%M-%S').to_i * 1000
-  rescue StandardError => e
-    puts "#{e.message}" unless e.message.include? 'up to date'
-    row = nil
-  end
-  row
+  valid, message = TestRun.check(row)
+  puts "#{row}: #{message}" if message
+  valid ? row : nil
 end
 
-to MongoTestRunRaw
+to TestRunData
