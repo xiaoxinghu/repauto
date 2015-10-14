@@ -36,8 +36,9 @@ module TestRunPlugin
           cleanup = (status[:status] && (status[:status] == 'done'))
           test_run.status = status
         end
+      else
+        cleanup = (path.mtime < 10.minutes.ago) unless keep_file.exist?
       end
-      cleanup = (path.mtime < 10.minutes.ago) unless keep_file.exist?
       # import attachments
       pattern = File.join(path,
                           DataSync.configuration.allure_file_pattern)
