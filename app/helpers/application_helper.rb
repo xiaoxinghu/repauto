@@ -1,8 +1,24 @@
 require 'addressable/uri'
 
 module ApplicationHelper
-  def link(path)
-    Addressable::URI::join(APP_CONFIG['report_host'], path).to_s
+  def css_cdn_links
+    [
+      'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css',
+      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',
+      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css',
+      '//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css',
+      'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css'
+    ]
+  end
+
+  def js_cdn_links
+    [
+      'https://code.jquery.com/jquery-2.1.4.min.js',
+      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js',
+      '//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js',
+      '//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js'
+    ]
   end
 
   def status_map(status)
@@ -90,6 +106,10 @@ module ApplicationHelper
 
   def spinner
     content_tag(:div, '', class: 'fa fa-spinner fa-pulse fa-3x spinner')
+  end
+
+  def say_hello
+    puts 'hello world'
   end
 
   def confirmation(to, id)

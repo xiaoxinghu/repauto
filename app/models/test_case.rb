@@ -1,44 +1,21 @@
-require 'addressable/uri'
-require 'digest'
-
 class TestCase
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  belongs_to :test_run
+  embeds_one :failure
+  embeds_many :steps
+  embeds_many :comments
+  has_and_belongs_to_many :attachments, inverse_of: nil
 
-  def self.from(parent)
-    where(path: %r{^#{parent.path}})
+  field :status, type: String
+  field :tags, type: Array
+  field :start, type: Time
+  field :stop, type: Time
+  field :def_id, type: BSON::ObjectId
+  field :test_suite_file_id, type: BSON::ObjectId
+
+  def definition
+    TestCaseDef.find(def_id)
   end
 
-  def get_att_link(attachment)
-    p = Pathname.new APP_CONFIG['mount_point']
-    p = p.join self[:path]
-    p.dirname.join(attachment[:source]).to_s
-  end
-
-  def get_md5
-    return self[:md5] if self[:md5]
-    md5 = Digest::MD5.new
-    project, type = self[:path].split('/').select{ |s| s.length > 0 }.first(2)
-    md5 << project
-    md5 << type
-    md5 << self[:name]
-    if self[:steps]
-      self[:steps].each do |step|
-        md5 << step[:name]
-      end
-    end
-    self[:md5] = md5.hexdigest
-    self.save!
-    self[:md5]
-    # md5 = Digest::MD5.new
-    # md5 << self[:name].split('_')[0]
-    # if self[:steps]
-    #   self[:steps].each do |step|
-    #     md5 << step[:name]
-    #   end
-    # end
-    # self[:md5] = md5.hexdigest
-    # self.save!
-    # self[:md5]
-  end
 end

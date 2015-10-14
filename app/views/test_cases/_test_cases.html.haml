@@ -1,7 +1,0 @@
-.row.row-horizon
-  - if test_cases.size > 1
-    - test_cases.each do |test_case|
-      .col-md-6.test-case-card
-        = render test_case, lite: true
-  - else
-    = render test_cases[0]

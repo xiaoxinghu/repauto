@@ -1,9 +1,9 @@
-# pre-request
+## pre-request
 
 - bundler
 - node.js
 - bower
-- mysql
+- mongodb
 
 ## install necessary things
 
@@ -44,7 +44,13 @@ or `rails s` for short.
 
 Now you are able to access it through `http://localhost:3000`.
 
-# deployment for production
+## deployment for production
+
+### nginx + passenger
+
+[instructions](https://medium.com/@samx18/deploy-a-rails-app-locally-on-os-x-using-passenger-with-nginx-in-under-5-minutes-be0381e90f5f)
+
+### envrionment
 
 Generate secret key. Under the root folder of the project.
 
@@ -54,7 +60,7 @@ Deployment for production.
 
     RAILS_ENV=production rake report:deploy
 
-# diagnostic
+## diagnostic
 
 Check the log files when you think something went wrong.
 The log files are located in `log` folder directly in the root folder.
@@ -64,9 +70,9 @@ The file `cron_error_log.log` and `cron_log.log` are for background tasks like s
 **Notice** that when you run the website on in development, the logs are output directly to `STDOUT`.
 
 
-# tweaking
+## tweaking
 
-## update background syncing schedule
+### update background syncing schedule
 
 Modify the schedule file `config/schedule.rb`.
 
@@ -78,7 +84,7 @@ To list all jobs.
 
     crontab -l
 
-## manually sync data
+### manually sync data
 
 To manually sync data to database
 

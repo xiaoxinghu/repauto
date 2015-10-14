@@ -11,9 +11,8 @@
           = link_to 'project', class: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-expanded': 'false' do
             - project = trace_project
             - if project
-              -# = "Project: #{project.name}"
               %i.fa.fa--hand-spock-o
-              %strong= project.name
+              %strong= project.project
               %span.caret
             - else
               %i.fa.fa--hand-spock-o
@@ -36,7 +35,7 @@
             = link_to trend_project_path(project) do
               %i.fa.fa-line-chart
               Trend
-          %li{class: "#{active_class(controller: 'test_runs', actions: ['index', 'show'])}"}
+          %li{class: "#{active_class(controller: 'test_runs', actions: ['index', 'show', 'diff'])}"}
             = link_to project_test_runs_path(project) do
               %i.fa.fa-tasks
               Test Runs

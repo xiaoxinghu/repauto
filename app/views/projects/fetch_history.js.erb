@@ -1,25 +1,26 @@
 $(".test-run-summary[data-type=<%= @type %>]").html("<%= escape_javascript(render partial: 'test_run_summary', locals: {project: @project, type: @type, history: @history}) %>");
 var drawCharts = function(chart, data) {
-    chart.empty();
-    Morris.Line({
-      element: chart,
-      data: data,
-      xkey: 'date',
-      ykeys: ['passed', 'failed', 'broken', 'pending'],
-      labels: ['passed', 'failed', 'broken', 'pending'],
-      lineColors: ['#5cb85c', '#d9534f', '#f0ad4e', 'gray'],
-      hideHover: 'auto'
-    });
-  }
-
-  $(document).ready(function() {
-    var theChart = $(".test-run-summary[data-type=<%= @type %>]").find("#chart");
-    var data = <%= @history_data.to_json.html_safe %>
-    drawCharts(theChart, data);
+  console.debug('draw charts.');
+  chart.empty();
+  Morris.Line({
+    element: chart,
+    data: data,
+    xkey: 'date',
+    ykeys: ['passed', 'failed', 'broken', 'pending'],
+    labels: ['passed', 'failed', 'broken', 'pending'],
+    lineColors: ['#5cb85c', '#d9534f', '#f0ad4e', 'gray'],
+    hideHover: 'auto'
   });
+}
 
-  $(window).on('resize', function() {
-    var theChart = $(".test-run-summary[data-type=<%= @type %>]").find("#chart");
-    var data = <%= @history_data.to_json.html_safe %>
-    drawCharts(theChart, data);
-  });
+$(document).ready(function() {
+  var theChart = $(".test-run-summary[data-type=<%= @type %>]").find("#chart");
+  var data = <%= @history_data.to_json.html_safe %>
+  drawCharts(theChart, data);
+});
+
+$(window).on('resize', function() {
+  var theChart = $(".test-run-summary[data-type=<%= @type %>]").find("#chart");
+  var data = <%= @history_data.to_json.html_safe %>
+  drawCharts(theChart, data);
+});

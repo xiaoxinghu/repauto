@@ -32,3 +32,13 @@ public/assets/
 
 # ignore raw data
 /public/raw
+
+# ignore node_modules
+/node_modules
+
+*tmp*
+
+public/*
+!public/*.html
+!public/*.ico
+!public/robots.txt

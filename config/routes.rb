@@ -1,4 +1,34 @@
 Rails.application.routes.draw do
+  namespace :api, defaults: { format: :json } do
+    resources :projects, only: [:show, :index] do
+      member do
+        get 'run_types'
+        get 'trend'
+      end
+    end
+    resources :attachments, only: [:show] do
+      member do
+        get 'raw'
+      end
+    end
+    resources :test_runs, only: [:show, :index] do
+      member do
+        get 'progress'
+        get 'detail'
+        get 'archive'
+        get 'restore'
+      end
+      collection do
+        get 'diff'
+      end
+    end
+    resources :test_cases, only: [:show] do
+      member do
+        get :history
+        post :comment
+      end
+    end
+  end
 
   resources :projects, only: [:index, :show] do
     # collection do

@@ -4,20 +4,6 @@ class TestRunsController < ApplicationController
 
   def index
     @project = Project.find(params[:project_id])
-    limit = 7.days.ago.to_i * 1000
-    collection = TestRun
-                 .where(project_path: @project.path)
-                 .exists(archived_at: false)
-    if params[:type]
-      collection = collection.where(type: params[:type])
-    end
-    query = collection.sort(start: -1)
-    patch_summary query
-    @run_types = TestRun
-                 .where(project_path: @project.path)
-                 .exists(archived_at: false).distinct('type')
-
-    @test_runs = Kaminari.paginate_array(query.to_a).page(params[:page]).per(20)
   end
 
   def patch_summary(test_runs)
@@ -42,10 +28,6 @@ class TestRunsController < ApplicationController
 
   def bin
     @project = Project.find(params[:project_id])
-    @archived = TestRun
-                .where(project_path: @project.path)
-                .where(archived_at: { :$gte => 7.days.ago })
-                .sort(archived_at: -1)
   end
 
   def show
@@ -346,15 +328,16 @@ class TestRunsController < ApplicationController
   end
 
   def diff
-    left = TestRun.find(params[:id])
-    right = TestRun.find(params[:baseline])
-    if left[:start] > right[:start]
-      @baseline = right
-      @test_run = left
-    else
-      @baseline = left
-      @test_run = right
-    end
+    @project = Project.find(params[:project_id])
+    # left = TestRun.find(params[:id])
+    # right = TestRun.find(params[:baseline])
+    # if left[:start] > right[:start]
+    #   @baseline = right
+    #   @test_run = left
+    # else
+    #   @baseline = left
+    #   @test_run = right
+    # end
   end
 
   def fetch_tree
