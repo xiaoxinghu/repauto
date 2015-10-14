@@ -32,8 +32,10 @@ module TestRunPlugin
       keep_file = path.join(DataSync.configuration.keep_file_name)
       if status_file.exist?
         status = YAML.load_file(status_file)
-        cleanup = (status[:status] == 'done')
-        test_run.status = status
+        if status
+          cleanup = (status[:status] == 'done')
+          test_run.status = status
+        end
       end
       cleanup = (path.mtime < 10.minutes.ago) unless keep_file.exist?
       # import attachments
