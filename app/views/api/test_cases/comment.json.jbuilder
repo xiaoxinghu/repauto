@@ -1,2 +1,2 @@
-json.id @test_result.id
-json.comments @test_result.comments
+json.id @test_case.id
+json.comments @test_case.comments

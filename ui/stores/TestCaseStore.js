@@ -90,10 +90,10 @@ function group(data, by) {
         break;
       case GroupBy.TODO:
         if (item.status == 'passed' || (item.comments && item.comments.length > 0)) {return null};
-        return item.test_suite.name;
+        return item.test_suite;
         break;
       default:
-        return item.test_suite.name;
+        return item.test_suite;
         break;
     }
   }.bind(this));

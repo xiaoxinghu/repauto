@@ -17,8 +17,8 @@ module Api
         status: params[:status],
         comment: params[:comment]
       )
-      @test_result.comments.push comment
-      @test_result.save!
+      @test_case.comments.push comment
+      @test_case.save!
     end
   end
 end
