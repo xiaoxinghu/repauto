@@ -58,6 +58,13 @@ var Row = React.createClass({
       </div>,
       <div key={_.uniqueId('type')} className="cell"><strong>{testRun.type}</strong></div>,
     ];
+    var trStatus = testRun.status;
+    if (trStatus && trStatus != 'done') {
+      console.log('got status', testRun);
+      content.push(
+        <span key={_.uniqueId('trStatus')} className="label label-default">{trStatus}</span>
+      );
+    }
     if (testRun.todo > 0) {
       content.push(
         <span key={_.uniqueId('status')} className="badge">{testRun.todo}</span>

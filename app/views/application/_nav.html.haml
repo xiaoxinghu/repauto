@@ -50,9 +50,3 @@
           = "last sync: #{time} ago"
       - if Rails.env == 'development' && false
         %p.navbar-text.navbar-right= "#{controller_name} -> #{action_name}"
-    -# .container
-    -#   = consolidate_button
-    -#   - if Rails.env == 'development'
-    -#     %p.nav.navbar-nav= "#{controller_name} -> #{action_name}"
-    -#     %p.nav.navbar-nav= "console: #{Project.all.first.name}"
-    -#     = link_to 'refresh', sync_projects_path, method: :post, class: 'btn btn-primary navbar-btn pull-right', type: 'button'

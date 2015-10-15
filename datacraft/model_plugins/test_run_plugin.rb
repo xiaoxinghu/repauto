@@ -33,8 +33,9 @@ module TestRunPlugin
       if status_file.exist?
         status = YAML.load_file(status_file)
         if status.is_a? Hash
-          cleanup = (status[:status] && (status[:status] == 'done'))
-          test_run.status = status
+          cleanup = (status['status'] && (status['status'] == 'done'))
+          test_run.status = status['status']
+          test_run.save!
         end
       else
         cleanup = (path.mtime < 10.minutes.ago) unless keep_file.exist?
