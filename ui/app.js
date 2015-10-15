@@ -3,10 +3,11 @@ var TestRunDetail, TestRunDiff, TestRunIndex, ready;
 TestRunIndex = require('./components/test_run/Index');
 TestRunDetail = require('./components/test_run/Detail');
 TestRunDiff = require('./components/test_run/Diff');
-ProjectTrend = require('./components/project/Trend')
+ProjectTrend = require('./components/project/Trend');
 var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Layout = require('./Layout');
 
 ready = function() {
   return $('div[data-load]').each(function() {
@@ -19,6 +20,8 @@ ready = function() {
 $(document).ready(ready);
 
 $(document).on('page:change', ready);
+
+Layout.process();
 
 window.ReactAutoMount = {
   CLASS_NAME_ATTR: 'data-react-class',

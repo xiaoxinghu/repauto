@@ -7,7 +7,7 @@
       = stylesheet_link_tag link
     - js_cdn_links.each do |l|
       = javascript_include_tag l
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'app', media: 'all'
     = csrf_meta_tags
   %body{data: {parmas: params}}
     = render partial: "nav", locals: {project: @project}
