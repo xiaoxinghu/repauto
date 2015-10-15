@@ -6,7 +6,7 @@ namespace :repauto do
     puts 'install node components'
     `npm install`
     puts 'build assets'
-    `gulp build`
+    `gulp`
     # if Rails.env == 'production'
     #   `nginx -s stop`
     #   `nginx`
