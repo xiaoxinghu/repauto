@@ -88,7 +88,7 @@ function setFilter(filter) {
   reset();
   _filter = filter;
   if (filter.type != FilterType.ALL) {
-    _fetchData.type = filter.type;
+    _fetchData.name = filter.type;
   }
   loadMore();
 }

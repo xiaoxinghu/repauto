@@ -63,7 +63,7 @@ module Api
     end
 
     def query_params
-      custom_params = params.permit(:project, :type, :archived)
+      custom_params = params.permit(:project, :name, :archived)
       archived = custom_params.delete(:archived)
       custom_params[:archived_at.exists] = archived
       custom_params

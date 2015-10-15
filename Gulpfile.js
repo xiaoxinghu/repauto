@@ -19,10 +19,6 @@ var config = {
     dest: './public/javascripts/'
   }
 }
-// var scriptsDir = './ui';
-// var styleDir = './ui/style';
-// var buildDir = './public/javascripts';
-
 
 function handleErrors() {
   var args = Array.prototype.slice.call(arguments);
