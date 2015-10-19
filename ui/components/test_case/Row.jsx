@@ -18,9 +18,14 @@ var Row = React.createClass({
     display.push(
       testCase.name
     );
+    var style = {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis'
+    };
     return (
-      <a href="#"
-        className={"hideOverflow list-group-item small list-group-item-" + helper.getStatusMeta(testCase.status).context}
+      <a href="#" style={style}
+        className={"list-group-item small list-group-item-" + helper.getStatusMeta(testCase.status).context}
         onClick={this.onClick}>
         {display}
       </a>

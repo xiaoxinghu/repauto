@@ -32,9 +32,15 @@ var Group = React.createClass({
     }, this);
     var gid = _.uniqueId('g');
     var lid = _.uniqueId('l');
+    var style = {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis'
+    };
     return (
       <div id={gid}>
-        <a className="list-group-item hideOverflow"
+        <a className="list-group-item"
+          style={style}
           data-toggle="collapse"
           data-target={'#' + lid}
           data-parent={'#' + gid}>
