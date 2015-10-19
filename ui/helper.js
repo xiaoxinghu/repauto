@@ -1,14 +1,12 @@
 var moment = require('moment');
+var _ = require('lodash');
 
 function getPassRate(status) {
   if (!status) {
     return 0;
   }
   var passed = status.passed || 0;
-  var total = passed;
-  total += status.failed || 0;
-  total += status.broken || 0;
-  total += status.pending || 0;
+  var total = _.sum(status);
   var pr = Math.round(passed / total * 1000) / 10
   return pr;
 }
@@ -110,6 +108,7 @@ function showDate(time) {
 }
 
 function showDateTime(time) {
+  // console.debug(time.toLocaleString());
   return moment(time).format("YYYY-MM-DD h:mm:ss a");
 }
 

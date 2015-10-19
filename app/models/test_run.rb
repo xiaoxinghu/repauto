@@ -9,6 +9,8 @@ class TestRun
   field :start, type: Time
   field :stop, type: Time
   field :status, type: String
+  field :dirty, type: Boolean, default: -> { true }
+  embeds_one :report
   paginates_per 20
 
   def todo
@@ -18,7 +20,18 @@ class TestRun
       .size
   end
 
+  def gen_report
+    return report if has_report? && !dirty
+    self.report = Report.gen(self)
+    self.dirty = false
+    self.save!
+    report
+  end
+
   def counts
+    # if self[:counts] && self[:dirty] == false
+    #   return self[:counts]
+    # end
     return self[:counts] if self[:counts]
     counts = {}
     test_cases.each do |tc|

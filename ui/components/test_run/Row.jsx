@@ -48,7 +48,9 @@ var Row = React.createClass({
         <span className="label label-default">{testRun.status}</span>
       );
     }
-    var status = testRun.counts || 'cannot get status';
+    var status = testRun.report.original_status || 'cannot get status';
+    var pr = helper.getPassRate(status);
+    status.pr = pr + '%';
     var content = [
       <div key={_.uniqueId('start')} className="cell">
         <strong>{helper.showDateTime(testRun.start)}</strong>
@@ -65,9 +67,9 @@ var Row = React.createClass({
         <span key={_.uniqueId('trStatus')} className="label label-default">{trStatus}</span>
       );
     }
-    if (testRun.todo > 0) {
+    if (testRun.report.todo > 0) {
       content.push(
-        <span key={_.uniqueId('status')} className="badge">{testRun.todo}</span>
+        <span key={_.uniqueId('status')} className="badge">{testRun.report.todo}</span>
       );
     }
     content.push(

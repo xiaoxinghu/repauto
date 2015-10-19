@@ -49,6 +49,7 @@ module TestRunPlugin
         a.save!
         archive(file, path.join(DataSync.configuration.archive_folder)) if DataSync.configuration.auto_cleanup
       end
+      test_run.dirty = true
       test_run.save!
       # FileUtils.rm_r(path) if DataSync.configuration.auto_cleanup && cleanup
     end

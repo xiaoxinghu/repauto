@@ -19,6 +19,9 @@ module Api
       )
       @test_case.comments.push comment
       @test_case.save!
+      test_run = @test_case.test_run
+      test_run.dirty = true
+      test_run.save!
     end
   end
 end

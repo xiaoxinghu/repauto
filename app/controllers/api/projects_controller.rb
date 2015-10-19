@@ -16,7 +16,8 @@ module Api
         .sort(start: -1)
         .limit(30)
       @trend = history.map do |test_run|
-        data = test_run.counts.clone
+        # data = test_run.counts.clone
+        data = test_run.report.status_count.clone
         data[:time] = test_run.start
         data
       end

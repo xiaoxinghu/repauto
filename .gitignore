@@ -45,3 +45,5 @@ public/*
 
 # logs
 *.log
+
+/lib/tasks/try.rake

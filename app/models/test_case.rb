@@ -18,4 +18,8 @@ class TestCase
     TestCaseDef.find(def_id)
   end
 
+  def processed_status
+    return status unless has_comments?
+    comments.last.status
+  end
 end
