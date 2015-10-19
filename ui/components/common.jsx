@@ -5,5 +5,6 @@ module.exports = {
   SearchBar: require('./common/SearchBar'),
   HoverToShow: require('./common/HoverToShow'),
   RadioSet: require('./common/RadioSet'),
-  CommentBox: require('./common/CommentBox')
+  CommentBox: require('./common/CommentBox'),
+  Stretchable: require('./common/Stretchable')
 }

@@ -42,3 +42,6 @@ public/*
 !public/*.html
 !public/*.ico
 !public/robots.txt
+
+# logs
+*.log

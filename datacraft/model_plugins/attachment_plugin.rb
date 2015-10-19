@@ -15,6 +15,7 @@ module AttachmentPlugin
       type, data = process(file)
       attachment = {
         file_name: file_name,
+        full_path: file.cleanpath.to_s,
         type: type,
         size: data.size,
         data: BSON::Binary.new(data, :generic)

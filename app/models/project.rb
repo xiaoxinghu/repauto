@@ -1,6 +1,8 @@
 class Project
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  include Mongoid::Timestamps
+
   has_many :test_runs, dependent: :delete do
     def active
       exists(archived_at: false)

@@ -1,9 +1,0 @@
-.mini_status
-  - if defined?(status)
-    - status_in_order = %w(passed broken failed pending rate)
-    - total = 0
-    %div
-      - status_in_order.each do |s|
-        - if status[s]
-          %span{ class: "label label-#{status_map(s)}" }
-            = s == 'rate' ? number_to_percentage(status[s], precision: 1) : status[s]

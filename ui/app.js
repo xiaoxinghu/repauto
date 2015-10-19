@@ -4,24 +4,11 @@ TestRunIndex = require('./components/test_run/Index');
 TestRunDetail = require('./components/test_run/Detail');
 TestRunDiff = require('./components/test_run/Diff');
 ProjectTrend = require('./components/project/Trend');
+MiniTrend = require('./components/project/MiniTrend');
+
 var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Layout = require('./Layout');
-
-ready = function() {
-  return $('div[data-load]').each(function() {
-    var path;
-    path = $(this).attr('data-load');
-    $.get(path);
-  });
-};
-
-$(document).ready(ready);
-
-$(document).on('page:change', ready);
-
-Layout.process();
 
 window.ReactAutoMount = {
   CLASS_NAME_ATTR: 'data-react-class',
@@ -43,11 +30,5 @@ window.ReactAutoMount = {
 }
 
 $(function() {
-  console.log('hey!');
   window.ReactAutoMount.mountComponents();
 });
-
-// ReactDOM.render(
-//   <TestRunIndex />,
-//   document.getElementById('TestRunIndex')
-// );

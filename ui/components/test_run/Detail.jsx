@@ -16,7 +16,7 @@ var Detail = React.createClass({
         <div className="col-sm-3">
           <TestCaseList />
         </div>
-        <div className="col-sm-9 full-height fill">
+        <div className="col-sm-9">
           <MainView store={Store}/>
         </div>
       </div>

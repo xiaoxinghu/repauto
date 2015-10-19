@@ -1,6 +1,7 @@
 var React = require('react');
 var View = require('../../constants/TestCase').View;
 var Detail = require('./Detail');
+var Stretchable = require('../common').Stretchable;
 var _ = require('lodash');
 
 var MainView = React.createClass({
@@ -35,9 +36,9 @@ var MainView = React.createClass({
       );
     }, this);
     return (
-      <div className='row'>
+      <Stretchable>
         {columns}
-      </div>
+      </Stretchable>
     );
   }
 });

@@ -16,7 +16,7 @@ require 'rails/test_unit/railtie'
 Bundler.require(*Rails.groups)
 
 module Repauto
-  VERSION = '2.3.0'
+  VERSION = '0.2.0'
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -36,8 +36,6 @@ module Repauto
     # config.mongoid.logger = Logger.new($stdout, :warn)
     config.assets.enabled = false
     config.assets.image_optim = {pngout: false, svgo: false}
-    Mongoid.logger.level = Logger::WARN
-    Mongo::Logger.logger.level = Logger::WARN
     # config.react.addons = true # defaults to false
     # Tell browserify-rails how to treat .js.jsx files
     # config.browserify_rails.commandline_options = "-t reactify --extension=\".js.jsx\""

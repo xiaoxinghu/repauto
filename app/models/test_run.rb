@@ -1,7 +1,7 @@
 class TestRun
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  has_many :attachments, autosave: true, dependent: :delete
+  has_many :attachments, dependent: :delete
   belongs_to :project
   has_many :test_cases, dependent: :delete
 

@@ -66,6 +66,7 @@ module Api
       custom_params = params.permit(:project, :name, :archived)
       archived = custom_params.delete(:archived)
       custom_params[:archived_at.exists] = archived
+      custom_params[:start.exists] = true
       custom_params
     end
   end

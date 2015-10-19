@@ -1,6 +1,7 @@
 var React = require('react');
 var SearchBar = require('../common').SearchBar;
 var RadioSet = require('../common').RadioSet;
+var Stretchable = require('../common').Stretchable;
 var Group = require('./Group');
 var GroupedList = require('./GroupedList');
 var TestCaseStore = require('../../stores/TestCaseStore');

@@ -45,11 +45,12 @@ module TestRunPlugin
                           DataSync.configuration.allure_file_pattern)
       Attachment.scan_for_attachments(pattern).each do |file|
         att = Attachment.parse(file)
-        test_run.attachments.build(att)
-        test_run.save! # this might be a performance drag, but for data dignity sake when crash happens
-        FileUtils.remove_file(file) if DataSync.configuration.auto_cleanup
+        a = test_run.attachments.build(att)
+        a.save!
+        archive(file, path.join(DataSync.configuration.archive_folder)) if DataSync.configuration.auto_cleanup
       end
-      FileUtils.rm_r(path) if DataSync.configuration.auto_cleanup && cleanup
+      test_run.save!
+      # FileUtils.rm_r(path) if DataSync.configuration.auto_cleanup && cleanup
     end
 
     private
@@ -58,6 +59,11 @@ module TestRunPlugin
       project_sn, name, sn = path.each_filename.to_a.last(3)
       project = Project.find_by(sn: project_sn)
       [project, name, sn]
+    end
+
+    def archive(file, to)
+      to.mkdir unless to.exist?
+      FileUtils.mv file, to
     end
 
   end

@@ -3,12 +3,12 @@
   %p
     = "Dashboard for #{@project.project}."
 
-%h3
-  %i.fa.fa-wrench
-  Maintenance
-
--# .container-fluid#summary-view
--#   .row
--#     - @types.each do |t|
--#       .col-md-3.test-run-summary{ data: { type: t, load: fetch_history_project_path(@project, type: t, format: :js) } }
--#         = spinner
+.container-fluid#summary-view
+  .row
+    - @types.each do |t|
+      .col-md-3
+        = react_component('MiniTrend',
+          url: project_test_runs_path(@project, type: t),
+          api: trend_api_project_path(@project),
+          runType: t,
+          params: params)

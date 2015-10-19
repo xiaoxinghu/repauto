@@ -1,7 +1,0 @@
-%ul.nav.nav-tabs
-  %li{:role => "presentation", :class => ("active" if controller_name == "projects")}
-    = link_to "home", project_path(project.id)
-  %li{:role => "presentation", :class => ("active" if ["test_runs", "test_suites"].include? controller_name)}
-    = link_to "Test Run", project_test_runs_path(project.id)
-  %li{:role => "presentation", :class => ("active" if controller_name == "dashboards")}
-    = link_to "dashboards", project_dashboards_path(project.id)

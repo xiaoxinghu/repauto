@@ -1,5 +1,6 @@
 var React = require('react');
 var Group = require('./Group');
+var Stretchable = require('../common').Stretchable;
 var Action = require('../../actions/TestCaseActions');
 var _ = require('lodash');
 
@@ -18,9 +19,9 @@ var GroupedList = React.createClass({
       );
     }, this);
     return (
-      <div className="row full-height fill">
+      <Stretchable>
         {groupedTestCases}
-      </div>
+      </Stretchable>
     );
   }
 });

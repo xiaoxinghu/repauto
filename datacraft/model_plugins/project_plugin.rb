@@ -63,6 +63,7 @@ module ProjectPlugin
       project = Project.where(sn: data[:sn]).first_or_create
       project.update(data)
       project.save!
+      project.touch
       project
     end
   end

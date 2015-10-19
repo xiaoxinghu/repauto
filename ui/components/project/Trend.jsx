@@ -1,28 +1,24 @@
 var React = require('react');
 var GraphStyle = require('../../constants/Misc').GraphStyle;
+var TrendGraph = require('./TrendGraph');
+var Stretchable = require('../common').Stretchable;
 var _ = require('lodash');
 
 var Trend = React.createClass({
   getInitialState: function() {
     return {
       selected: '',
-      data: {},
-      style: GraphStyle.AREA
+      data: {}
     };
   },
 
-
-  _handleTypeChange: function(e) {
-    this.setState({selected: e.target.value});
-    var fetchData = {
-      type: e.target.value
-    };
+  _fetchData: function(type) {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
       cache: false,
       success: this._gotData,
-      data: fetchData,
+      data: {type: type},
       error: function(xhr, status, err) {
         console.error(_source, status, err.toString());
       }
@@ -30,32 +26,16 @@ var Trend = React.createClass({
   },
 
   _gotData: function(data) {
-    console.log(data);
-    var target = $('#morrisGraph');
-    target.empty();
-    var d = {
-      element: target,
-      data: data,
-      xkey: 'time',
-      ykeys: ['passed', 'failed', 'broken', 'pending'],
-      labels: ['passed', 'failed', 'broken', 'pending'],
-      lineColors: ['#5cb85c', '#d9534f', '#f0ad4e', 'gray'],
-      hideHover: 'auto'
-    }
-    switch (this.state.style) {
-      case GraphStyle.LINE:
-        new Morris.Line(d);
-        break;
-      case GraphStyle.AREA:
-        new Morris.Area(d);
-        break;
-      default:
+    console.debug('got', data);
+    this.setState({data: data});
+  },
 
-    }
+  _handleTypeChange: function(e) {
+    this._fetchData(e.target.value);
+    this.setState({selected: e.target.value});
   },
 
   render: function() {
-    console.log(this.state.selected);
     var types = this.props.types.map(function(t) {
       return (
         <option key={_.uniqueId('type')} value={t}>{t}</option>
@@ -75,7 +55,7 @@ var Trend = React.createClass({
           {panel}
         </div>
         <div className='col-sm-9'>
-          <div id='morrisGraph' />
+          <TrendGraph data={this.state.data} height='400px' width='600px' />
         </div>
       </div>
     );
