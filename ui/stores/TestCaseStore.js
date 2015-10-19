@@ -34,7 +34,6 @@ function init(source) {
 }
 
 function gotData(data) {
-  console.debug("got", data);
   if (data.test_cases) {
     _mode = Mode.DETAIL;
     detailGotData(data);

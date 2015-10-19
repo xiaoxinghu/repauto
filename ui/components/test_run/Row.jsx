@@ -62,7 +62,6 @@ var Row = React.createClass({
     ];
     var trStatus = testRun.status;
     if (trStatus && trStatus != 'done') {
-      console.log('got status', testRun);
       content.push(
         <span key={_.uniqueId('trStatus')} className="label label-default">{trStatus}</span>
       );

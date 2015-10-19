@@ -11,7 +11,6 @@ var Row = React.createClass({
     var testCase = this.props.data;
     var display = [];
     if (testCase.comments && testCase.comments.length > 0) {
-      console.log('got comment');
       display.push(
         <i key="icon" className="fa fa-comment" />
       );

@@ -29,16 +29,15 @@ var MiniTrend = React.createClass({
   },
 
   _gotData: function(data) {
-    console.debug('got', data);
     this.setState({data: data});
   },
 
   render: function() {
     var heading = [
-      <h3 className='panel-title pull-left'>
+      <h3 key='heading' className='panel-title pull-left'>
         {this.props.runType}
       </h3>,
-      <a href={this.props.url} className='btn btn-primary pull-right'>
+      <a key='search' href={this.props.url} className='btn btn-primary pull-right'>
         <i className='fa fa-search' />
       </a>
     ];
