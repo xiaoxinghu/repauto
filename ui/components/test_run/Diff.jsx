@@ -28,13 +28,12 @@ var Diff = React.createClass({
 
   render: function() {
     var all = Store.getAll();
-    console.debug(all);
     return (
       <div className="row">
         <div className="col-sm-3">
           <GroupedList data={all}/>
         </div>
-        <div className="col-sm-9 full-height fill">
+        <div className="col-sm-9">
           <MainView store={Store}/>
         </div>
       </div>

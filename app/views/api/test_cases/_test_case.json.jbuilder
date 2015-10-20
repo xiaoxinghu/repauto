@@ -1,6 +1,7 @@
 json.id test_case.id.to_s
 test_case_def = test_case.definition
 json.name test_case_def.name
+json.md5 test_case_def.md5
 json.test_suite test_case_def.test_suite
 json.start test_case.start
 json.stop test_case.stop
