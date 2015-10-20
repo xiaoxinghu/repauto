@@ -7,6 +7,7 @@ var reactify = require('reactify');
 var watchify = require('watchify');
 var notify = require("gulp-notify");
 var sourcemaps = require('gulp-sourcemaps');
+var babelify = require('babelify');
 
 var config = {
   css: {
@@ -38,9 +39,10 @@ function compileJS(watch) {
     cache: {},
     extensions: ['.jsx', '.coffee', '.js'],
     packageCache: {},
+    transform: [babelify.configure({optional: ['es7.exportExtensions']}), reactify]
   };
   var bundler = watch ? watchify(browserify(props)) : browserify(props);
-  bundler.transform(reactify);
+  // bundler.transform(reactify).transform(babel);
   function rebundle() {
     var stream = bundler.bundle();
     return stream.on('error', handleErrors)

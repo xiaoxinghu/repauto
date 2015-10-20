@@ -16,7 +16,6 @@ var _prev, _current;
 function init(source) {
   console.debug('init TestCaseStore');
   _source = source;
-  _grouped = {};
   _all = {};
   _showing = [];
   _history = {};

@@ -24,7 +24,7 @@ var Info = React.createClass({
 
 
   render: function() {
-    sample = {
+    var sample = {
       passed: 'passed',
       failed: 'failed',
       broken: 'broken',
