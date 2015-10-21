@@ -10,6 +10,7 @@
     "node": ">= 0.10"
   },
   "devDependencies": {
+    "babel-core": "^5.8.25",
     "babelify": "^6.3.0",
     "browserify": "^10.2.6",
     "coffeeify": "^1.1.0",
@@ -18,6 +19,7 @@
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.6",
+    "isomorphic-fetch": "^2.2.0",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
@@ -27,6 +29,11 @@
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
     "reactify": "^1.1.1",
+    "redux": "^3.0.3",
+    "redux-devtools": "^2.1.5",
+    "redux-logger": "^2.0.4",
+    "redux-promise": "^0.5.0",
+    "redux-thunk": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
   }

@@ -16,7 +16,7 @@ var config = {
   },
   js: {
     root: './ui',
-    main: 'app.js',
+    main: 'redux_app.js',
     dest: './public/javascripts/'
   }
 }
@@ -39,7 +39,7 @@ function compileJS(watch) {
     cache: {},
     extensions: ['.jsx', '.coffee', '.js'],
     packageCache: {},
-    transform: [babelify.configure({optional: ['es7.exportExtensions']}), reactify]
+    transform: [babelify.configure({optional: ['es7.exportExtensions', 'es7.decorators']}), reactify]
   };
   var bundler = watch ? watchify(browserify(props)) : browserify(props);
   // bundler.transform(reactify).transform(babel);

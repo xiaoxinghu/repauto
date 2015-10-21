@@ -11,8 +11,7 @@
     = csrf_meta_tags
   %body{data: {parmas: params}}
     = render partial: "nav", locals: {project: @project}
-    -# = react_component('ProjectNav', links: [{summary: 'www.google.com'}])
-
+    #root
     .container-fluid
       = content_for?(:content) ? yield(:content) : yield
-    = javascript_include_tag 'app'
+    = javascript_include_tag 'redux_app'
