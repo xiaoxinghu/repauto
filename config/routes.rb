@@ -32,17 +32,17 @@ Rails.application.routes.draw do
   end
 
   # views
-  resources :projects, only: [:index, :show] do
-    member do
-      get 'trend', to: 'projects#trend', as: 'trend'
-    end
-    resources :test_runs, only: [:index, :show], shallow: true do
-      collection do
-        get 'bin'
-        get 'diff'
-      end
-    end
-  end
+  # resources :projects, only: [:index, :show] do
+  #   member do
+  #     get 'trend', to: 'projects#trend', as: 'trend'
+  #   end
+  #   resources :test_runs, only: [:index, :show], shallow: true do
+  #     collection do
+  #       get 'bin'
+  #       get 'diff'
+  #     end
+  #   end
+  # end
 
   get 'welcome/index'
 
@@ -100,4 +100,6 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  match '*all', to: 'welcome#index', via: [:get]
 end

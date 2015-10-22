@@ -16,7 +16,7 @@ var config = {
   },
   js: {
     root: './ui',
-    main: 'redux_app.js',
+    main: 'app_with_router.js',
     dest: './public/javascripts/'
   }
 }
