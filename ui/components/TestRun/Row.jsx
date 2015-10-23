@@ -1,11 +1,16 @@
 import React, {Component, PropTypes} from 'react';
-import { Link } from 'react-router';
-import StatusBadge from './StatusBadge';
-import helper from '../helper';
+import StatusBadge from '../StatusBadge/StatusBadge';
+import ClassNames from 'classnames';
+import helper from '../../helper';
 
 export default class TestRunRow extends Component {
+  _handleClick(e) {
+    e.preventDefault();
+    this.props.onRowClick();
+  }
+
   render() {
-    const { run } = this.props;
+    const { run, selected } = this.props;
     var status = run.report.original_status || 'cannot get status';
     var pr = helper.getPassRate(status);
     status.pr = pr + '%';
@@ -26,9 +31,12 @@ export default class TestRunRow extends Component {
       </div>
     );
     return (
-      <Link to={`/projects/${run.projectId}/runs/${run.id}`} className='list-group-item'>
+      <a href='#' className={ClassNames(
+          'list-group-item',
+          {'active': selected}
+        )} onClick={this._handleClick.bind(this)}>
         {content}
-      </Link>
+      </a>
     );
   }
 }

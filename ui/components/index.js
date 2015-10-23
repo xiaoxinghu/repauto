@@ -1,3 +1,4 @@
 export NavBar from './NavBar/NavBar';
-export TestRunRow from './TestRunRow';
-export StatusBadge from './StatusBadge';
+export TestRunRow from './TestRun/Row';
+export TestRunToolbar from './TestRun/Toolbar';
+export StatusBadge from './StatusBadge/StatusBadge';

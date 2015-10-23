@@ -7,6 +7,7 @@ const actions = constants('TEST_RUN_', [
   'RECEIVE',
   'FILTER',
   'SELECT',
+  'UNSELECT',
 ]);
 
 // actions
@@ -46,11 +47,26 @@ export function fetchTestRuns(projectId, name) {
   }
 }
 
+export function selectTestRun(id) {
+  return {
+    type: actions.SELECT,
+    id: id
+  };
+}
+
+export function unSelectTestRun(id) {
+  return {
+    type: actions.UNSELECT,
+    id: id
+  };
+}
+
 // the reducer
 export default function reducer(state = {
   isFetching: false,
   didInvalidate: false,
   name: 'ALL',
+  selected: [],
   all: []
 }, action) {
   switch (action.type) {
@@ -74,6 +90,26 @@ export default function reducer(state = {
       return _.assign({}, state, {
         didInvalidate: true,
         name: action.name
+      });
+    case actions.SELECT:
+      let selected;
+      if (action.id) {
+        selected = _.uniq([action.id, ...state.selected]);
+      } else {
+        selected = state.all.map((run) => run.id);
+      }
+      return _.assign({}, state, {
+        selected: selected
+      });
+    case actions.UNSELECT:
+      if (action.id) {
+        selected = _.without(state.selected, action.id);
+      } else {
+        console.info('unselect all');
+        selected = [];
+      }
+      return _.assign({}, state, {
+        selected: selected
       });
     default:
       return state;

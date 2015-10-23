@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { Link } from 'react-router';
-import helper from '../helper';
+import helper from '../../helper';
 
 export default class StatusBadge extends Component {
   render() {

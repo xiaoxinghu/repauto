@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
-import { pushState } from 'redux-router'
+import { pushState } from 'redux-router';
 import _ from 'lodash';
 
 @connect(

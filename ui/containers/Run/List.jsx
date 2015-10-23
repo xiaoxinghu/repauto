@@ -1,32 +1,49 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { fetchTestRuns } from '../../redux/modules/run'
-import { TestRunRow } from '../../components';
+import { pushState } from 'redux-router';
+import { fetchTestRuns, selectTestRun, unSelectTestRun } from '../../redux/modules/run'
+import { TestRunRow, TestRunToolbar } from '../../components';
 var _ = require('lodash');
 
 @connect(
   state => ({
     runs: state.run.all,
-    projectId: state.router.params.projectId
-  })
+    project: state.project.active,
+    selected: state.run.selected
+  }),
+  {pushState, fetchTestRuns, selectTestRun, unSelectTestRun}
 )
 export default class List extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchTestRuns());
+    const { fetchTestRuns } = this.props;
+    fetchTestRuns();
   }
+
+  _handleRowClick(run) {
+    const { selectTestRun, unSelectTestRun, selected } = this.props;
+    if (selected.includes(run.id)) {
+      unSelectTestRun(run.id);
+    } else {
+      selectTestRun(run.id);
+    }
+    // const { pushState, project } = this.props;
+    // pushState(null, `/projects/${project.id}/runs/${run.id}`);
+  }
+
   render() {
-    const { runs, projectId } = this.props;
+    const { runs, selected } = this.props;
     const rows = runs.map(function(tr) {
-      tr.projectId = projectId;
       return (
-        <TestRunRow key={_.uniqueId('TEST_RUN_ROW')} run={tr} />
+        <TestRunRow
+          key={_.uniqueId('TEST_RUN_ROW')}
+          run={tr}
+          selected={selected.includes(tr.id)}
+          onRowClick={() => this._handleRowClick(tr)} />
       );
-      // return (<h1>{tr.type}-{tr.start}</h1>);
-    });
+    }, this);
     return (
       <div>
-        Test Run List
+        <TestRunToolbar />
         <div className='list-group'>
           {rows}
         </div>
