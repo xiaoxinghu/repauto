@@ -4,24 +4,31 @@ import {
   routerStateReducer,
   reduxReactRouter
 } from 'redux-router';
-import { Route, Link } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 import {
   App,
   Navbar,
+  ProjectContext,
   ProjectSummary,
   ProjectTrend,
   TestRunList,
-  TestRunDetail
+  TestRunDetail,
+  NotFound,
 } from './containers';
+import { activateProject } from './redux/modules/project';
 
-export default () => {
+export default (store) => {
   return (
     <ReduxRouter>
       <Route path="/" component={App}>
-        <Route path="projects/:projectId" component={ProjectSummary} />
-        <Route path="projects/:projectId/trend" component={ProjectTrend} />
-        <Route path="projects/:projectId/runs" component={TestRunList} />
-        <Route path="projects/:projectId/runs/:runId" component={TestRunDetail} />
+        <Route path="projects/:projectId" component={ProjectContext}>
+          <IndexRoute component={ProjectSummary} />
+          <Route path="summary" component={ProjectSummary} />
+          <Route path="trend" component={ProjectTrend} />
+          <Route path="runs" component={TestRunList} />
+          <Route path="runs/:runId" component={TestRunDetail} />
+        </Route>
+        <Route path="*" component={NotFound} status={404} />
       </Route>
     </ReduxRouter>
   );

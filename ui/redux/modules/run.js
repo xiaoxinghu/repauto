@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { constants } from '../../lib';
 import _ from 'lodash';
-var actions = constants('TEST_RUN_', [
+const actions = constants('TEST_RUN_', [
   'INVALIDATE',
   'REQUEST',
   'RECEIVE',

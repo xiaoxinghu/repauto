@@ -6,11 +6,6 @@ import { activateProject } from '../../redux/modules/project'
   state => ({projectId: state.router.params.projectId})
 )
 class Summary extends Component {
-  componentDidMount() {
-    const { dispatch, projectId } = this.props;
-    dispatch(activateProject(projectId));
-  }
-
   render() {
     return (
       <div>

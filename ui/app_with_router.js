@@ -13,7 +13,7 @@ const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    {getRoutes()}
+    {getRoutes(store)}
   </Provider>,
   dest
 );

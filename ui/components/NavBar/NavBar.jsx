@@ -1,32 +1,36 @@
 import React, {Component, PropTypes} from 'react';
 import { IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
+import { pushState } from 'redux-router'
 import _ from 'lodash';
 
 @connect(
   state => ({
     projects: state.project.all,
-    a: state.project.active,
-    active: state.router.params.projectId })
+    active: state.project.active,
+    a: state.router.params.projectId }),
+    {pushState}
 )
 export default class NavBar extends Component {
   render() {
-    const {projects, active} = this.props;
-    var items = projects.map(function(project) {
+    console.info('rendering navbar');
+    const { projects, active, pushState } = this.props;
+    var items = _.values(projects).map(function(project) {
       return (
         <li  key={_.uniqueId('PROJECT')}>
-          <Link to={`/projects/${project.id}`}>{project.name}</Link>
+          <a href='#' onClick={function() {
+              pushState(null, `/projects/${project.id}`);
+            }}>{project.name}</a>
         </li>);
     });
-    var activeProject = projects.find(p => p.id == active);
     var dropdownText = 'Select Project';
-    if (activeProject) {
-      dropdownText = activeProject.name;
+    if (!_.isEmpty(active)) {
+      dropdownText = active.name;
       var navPanel = (
         <ul className='nav navbar-nav'>
-          <li><Link to={`/projects/${activeProject.id}`}>Summary</Link></li>
-          <li><Link to={`/projects/${activeProject.id}/trend`}>Trend</Link></li>
-          <li><Link to={`/projects/${activeProject.id}/runs`}>Test Runs</Link></li>
+          <li><Link to={`/projects/${active.id}`}>Summary</Link></li>
+          <li><Link to={`/projects/${active.id}/trend`}>Trend</Link></li>
+          <li><Link to={`/projects/${active.id}/runs`}>Test Runs</Link></li>
         </ul>
       );
     }

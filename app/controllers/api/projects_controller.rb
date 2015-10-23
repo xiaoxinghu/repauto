@@ -1,10 +1,11 @@
 module Api
   class ProjectsController < Api::BaseController
-    before_action :set_resource, only: [:show, :run_types, :trend]
+    before_action :set_resource, only: [:show, :run_names, :trend]
 
-    def run_types
-      @types = TestRun.where(project_path: @project.path).distinct(:type)
-      respond_with @types
+    def run_names
+      names = @project.test_runs.distinct(:name)
+      # @types = TestRun.where(project_path: @project.path).distinct(:type)
+      respond_with names
     end
 
     def trend
