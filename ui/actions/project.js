@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import constants from './constants';
 
@@ -31,10 +31,10 @@ function shouldFetch(state) {
   return false;
 }
 
-export function fetchProjects() {
+export function fetch() {
   return (dispatch, getState) => {
     if (shouldFetch(getState())) {
-      return fetch(`/api/projects`)
+      return _fetch(`/api/projects`)
         .then(response => response.json())
         .then(json => dispatch(receiveProjects(json)));
     } else {

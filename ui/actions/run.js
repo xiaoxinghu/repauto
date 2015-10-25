@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import constants from './constants';
 
@@ -7,8 +7,8 @@ export const ACTION = constants('TEST_RUN_', [
   'REQUEST',
   'RECEIVE',
   'FILTER',
-  'SELECT',
-  'UNSELECT',
+  'MARK',
+  'UNMARK',
 ]);
 
 function receive(json) {
@@ -27,11 +27,11 @@ function shouldFetch(state) {
   return false;
 }
 
-export function fetchTestRuns(projectId, name) {
+export function fetch(projectId, name) {
   return (dispatch, getState) => {
     if (shouldFetch(getState())) {
       console.debug('really fetching test Runs');
-      return fetch(`/api/test_runs`)
+      return _fetch(`/api/test_runs`)
         .then(response => response.json())
         .then(json => dispatch(receive(json)));
     } else {
@@ -40,16 +40,16 @@ export function fetchTestRuns(projectId, name) {
   };
 }
 
-export function selectTestRun(id) {
+export function mark(id) {
   return {
-    type: ACTION.SELECT,
+    type: ACTION.MARK,
     id: id
   };
 }
 
-export function unSelectTestRun(id) {
+export function unmark(id) {
   return {
-    type: ACTION.UNSELECT,
+    type: ACTION.UNMARK,
     id: id
   };
 }

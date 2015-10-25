@@ -9,7 +9,7 @@ export default function reducer(state = {
   isFetching: false,
   didInvalidate: false,
   name: 'ALL',
-  selected: [],
+  marked: [],
   all: []
 }, action) {
   switch (action.type) {
@@ -34,25 +34,25 @@ export default function reducer(state = {
         didInvalidate: true,
         name: action.name
       });
-    case run.ACTION.SELECT:
-      let selected;
+    case run.ACTION.MARK:
+      let marked;
       if (action.id) {
-        selected = _.uniq([action.id, ...state.selected]);
+        marked = _.uniq([action.id, ...state.marked]);
       } else {
-        selected = state.all.map((run) => run.id);
+        marked = state.all.map((run) => run.id);
       }
       return _.assign({}, state, {
-        selected: selected
+        marked: marked
       });
-    case run.ACTION.UNSELECT:
+    case run.ACTION.UNMARK:
       if (action.id) {
-        selected = _.without(state.selected, action.id);
+        marked = _.without(state.marked, action.id);
       } else {
-        console.info('unselect all');
-        selected = [];
+        console.info('unmark all');
+        marked = [];
       }
       return _.assign({}, state, {
-        selected: selected
+        marked: marked
       });
     default:
       return state;

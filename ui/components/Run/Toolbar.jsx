@@ -3,22 +3,22 @@ import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { unSelectTestRun } from '../../actions/run';
+import { unmark } from '../../actions/run';
 import _ from 'lodash';
 
 @connect(
   state => ({
     project: state.project.active,
     runName: state.run.name,
-    selected: state.run.selected
+    selected: state.run.marked
   }),
-  {pushState, unSelectTestRun}
+  {pushState, unmark}
 )
 export default class Toolbar extends Component {
   _handleClear() {
-    const { unSelectTestRun } = this.props;
+    const { unmark } = this.props;
     console.info('clear test run');
-    unSelectTestRun();
+    unmark();
   }
 
   render() {

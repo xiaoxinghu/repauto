@@ -10,7 +10,7 @@ export default class TestRunRow extends Component {
   }
 
   render() {
-    const { run, selected } = this.props;
+    const { run, marked } = this.props;
     var status = run.report.original_status || 'cannot get status';
     var pr = helper.getPassRate(status);
     status.pr = pr + '%';
@@ -33,7 +33,7 @@ export default class TestRunRow extends Component {
     return (
       <a href='#' className={ClassNames(
           'list-group-item',
-          {'active': selected}
+          {'active': marked}
         )} onClick={this._handleClick.bind(this)}>
         {content}
       </a>
@@ -43,5 +43,5 @@ export default class TestRunRow extends Component {
 
 TestRunRow.PropTypes = {
   run: PropTypes.object.isRequired,
-  selected: PropTypes.bool
+  marked: PropTypes.bool
 }

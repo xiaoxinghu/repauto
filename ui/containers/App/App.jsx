@@ -1,15 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { NavBar } from '../../components';
-import { fetchProjects } from '../../actions/project';
+import { fetch } from '../../actions/project';
 
 @connect(
-  state => ({projects: state.project.all})
+    state => ({projects: state.project.all}),
+    {fetch}
 )
 export default class App extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchProjects());
+    const { fetch } = this.props;
+    fetch();
   }
 
   render() {

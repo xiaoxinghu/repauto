@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
-import { fetchTestRuns, selectTestRun, unSelectTestRun } from '../../actions/run';
+import { fetch, mark, unmark } from '../../actions/run';
 import { TestRunRow, TestRunToolbar } from '../../components';
 var _ = require('lodash');
 
@@ -9,35 +9,35 @@ var _ = require('lodash');
   state => ({
     runs: state.run.all,
     project: state.project.active,
-    selected: state.run.selected
+    marked: state.run.marked
   }),
-  {pushState, fetchTestRuns, selectTestRun, unSelectTestRun}
+  {pushState, fetch, mark, unmark}
 )
 export default class List extends Component {
   componentDidMount() {
-    const { fetchTestRuns } = this.props;
-    fetchTestRuns();
+    const { fetch } = this.props;
+    fetch();
   }
 
   _handleRowClick(run) {
-    const { selectTestRun, unSelectTestRun, selected } = this.props;
-    if (selected.includes(run.id)) {
-      unSelectTestRun(run.id);
+    const { mark, unmark, marked } = this.props;
+    if (marked.includes(run.id)) {
+      unmark(run.id);
     } else {
-      selectTestRun(run.id);
+      mark(run.id);
     }
     // const { pushState, project } = this.props;
     // pushState(null, `/projects/${project.id}/runs/${run.id}`);
   }
 
   render() {
-    const { runs, selected } = this.props;
+    const { runs, marked } = this.props;
     const rows = runs.map(function(tr) {
       return (
         <TestRunRow
           key={_.uniqueId('TEST_RUN_ROW')}
           run={tr}
-          selected={selected.includes(tr.id)}
+          marked={marked.includes(tr.id)}
           onRowClick={() => this._handleRowClick(tr)} />
       );
     }, this);
