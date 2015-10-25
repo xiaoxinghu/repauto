@@ -11,7 +11,7 @@ var containers = {
   'TestRunList': TestRunList,
   'TestRunIndex': TestRunIndex,
   'MiniTrend': MiniTrend,
-  'ProjectTrend': ProjectTrend,
+  'ProjectTrend': ProjectTrend
 };
 
 var $ = require('jquery');

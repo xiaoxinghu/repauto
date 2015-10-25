@@ -1,26 +1,26 @@
 import fetch from 'isomorphic-fetch';
-import { constants } from '../../lib';
 import _ from 'lodash';
-const actions = constants('PROJECT_', [
+import constants from './constants';
+
+export const ACTION = constants('PROJECT_', [
   'ACTIVATE',
   'FETCH',
   'RECEIVE',
 ]);
 
-// actions
 export function activateProject(projectId) {
   return {
-    type: actions.ACTIVATE,
+    type: ACTION.ACTIVATE,
     projectId
   };
 }
 
 function receiveProjects(json) {
   return {
-    type: actions.RECEIVE,
+    type: ACTION.RECEIVE,
     projects: _.indexBy(json, 'id'),
     receivedAt: Date.now()
-  }
+  };
 }
 
 function shouldFetch(state) {
@@ -40,25 +40,5 @@ export function fetchProjects() {
     } else {
       return Promise.resolve();
     }
-  }
-}
-
-// the reducer
-export default function reducer(state = {
-  active: {},
-  all: {}
-}, action = {}) {
-  switch (action.type) {
-    case actions.ACTIVATE:
-      return _.assign({}, state, {active: state.all[action.projectId]});
-      break;
-    case actions.RECEIVE:
-      return _.assign({}, state, {
-        all: action.projects,
-        lastUpdated: action.receivedAt
-      });
-      break;
-    default:
-      return state;
-  }
+  };
 }

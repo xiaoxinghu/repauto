@@ -15,7 +15,7 @@ import {
   TestRunDetail,
   NotFound,
 } from './containers';
-import { activateProject } from './redux/modules/project';
+import { activateProject } from './actions/project';
 
 export default (store) => {
   return (

@@ -2,7 +2,7 @@ import 'babel-core/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import configureStore from './redux/store'
+import configureStore from './store';
 import getRoutes from './routes';
 
 const dest = document.getElementById('root');

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
-import { fetchTestRuns, selectTestRun, unSelectTestRun } from '../../redux/modules/run'
+import { fetchTestRuns, selectTestRun, unSelectTestRun } from '../../actions/run';
 import { TestRunRow, TestRunToolbar } from '../../components';
 var _ = require('lodash');
 

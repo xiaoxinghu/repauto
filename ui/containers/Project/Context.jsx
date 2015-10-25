@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { activateProject } from '../../redux/modules/project'
+import { activateProject } from '../../actions/project';
 
 @connect(
   state => ({

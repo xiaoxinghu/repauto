@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { unSelectTestRun } from '../../redux/modules/run'
+import { unSelectTestRun } from '../../actions/run';
 import _ from 'lodash';
 
 @connect(

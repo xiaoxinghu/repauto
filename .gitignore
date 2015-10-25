@@ -46,4 +46,7 @@ public/*
 # logs
 *.log
 
+# tern
+*.tern-port
+
 /lib/tasks/try.rake
