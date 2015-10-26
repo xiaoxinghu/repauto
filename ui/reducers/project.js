@@ -10,11 +10,6 @@ export default function reducer(state = {
   all: {}
 }, action = {}) {
   switch (action.type) {
-    case project.ACTION.ACTIVATE:
-      return _.assign({}, state, {
-        active: state.all[action.projectId]
-      });
-      break;
     case project.ACTION.RECEIVE:
       return _.assign({}, state, {
         all: action.projects,

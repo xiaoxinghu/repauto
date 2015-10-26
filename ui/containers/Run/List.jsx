@@ -7,15 +7,15 @@ var _ = require('lodash');
 
 @connect(
   state => ({
-    runs: state.run.all,
-    project: state.project.active,
+    runs: state.run.data,
     marked: state.run.marked
   }),
   {pushState, fetch, mark, unmark}
 )
 export default class List extends Component {
   componentDidMount() {
-    const { fetch } = this.props;
+    const { fetch, runs } = this.props;
+    console.info('----- mount List', runs);
     fetch();
   }
 
@@ -26,13 +26,12 @@ export default class List extends Component {
     } else {
       mark(run.id);
     }
-    // const { pushState, project } = this.props;
-    // pushState(null, `/projects/${project.id}/runs/${run.id}`);
   }
 
   render() {
     const { runs, marked } = this.props;
-    const rows = runs.map(function(tr) {
+    const data = runs || {all: []};
+    const rows = data.all.map(function(tr) {
       return (
         <TestRunRow
           key={_.uniqueId('TEST_RUN_ROW')}

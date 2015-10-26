@@ -8,13 +8,6 @@ export const ACTION = constants('PROJECT_', [
   'RECEIVE',
 ]);
 
-export function activateProject(projectId) {
-  return {
-    type: ACTION.ACTIVATE,
-    projectId
-  };
-}
-
 function receiveProjects(json) {
   return {
     type: ACTION.RECEIVE,

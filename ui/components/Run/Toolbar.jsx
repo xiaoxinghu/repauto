@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { unmark } from '../../actions/run';
+import { unmark, invalidate, filter, fetch, VIEW, remove } from '../../actions/run';
 import _ from 'lodash';
 
 @connect(
   state => ({
-    project: state.project.active,
-    runName: state.run.name,
-    selected: state.run.marked
+    activeProject: state.project.all[state.router.params.projectId],
+    activeFilter: state.run.filter,
+    marked: state.run.marked
   }),
-  {pushState, unmark}
+  {pushState, unmark, invalidate, filter, fetch, remove}
 )
 export default class Toolbar extends Component {
   _handleClear() {
@@ -21,38 +21,59 @@ export default class Toolbar extends Component {
     unmark();
   }
 
+    _handleFilter(selected) {
+        const { unmark, invalidate, filter, fetch } = this.props;
+        unmark();
+        invalidate();
+        filter(selected);
+        fetch();
+    }
+
+    _handleDelete() {
+        const {remove, marked} = this.props;
+        for (let id of marked) {
+            this.props.remove(id);
+        }
+        // console.info('delete');
+    }
+
   render() {
-    const { project, runName, selected } = this.props;
-    let runs = ['ALL', ...project.run_names || []];
-    const options = runs.map((name) => {
+    const { activeProject, activeFilter, marked } = this.props;
+      let runNames = [];
+      if (activeProject) {
+          runNames = activeProject.run_names;
+      }
+    const options = runNames.map((name) => {
       return (
-        <option key={_.uniqueId('type')} value={name}>{name}</option>
+        <option key={_.uniqueId('filter')} value={name}>{name}</option>
       );
     });
 
-    var filter = (
-      <select className="form-control" onChange={this._filterByType} value={runName}>
+    var filterBox = (
+      <select className="form-control" onChange={(e) => this._handleFilter(e.target.value)} value={activeFilter}>
+        <option value={VIEW.ALL}>ALL</option>
         {options}
+        <option value={VIEW.BIN}>DELETED</option>
       </select>
     );
     var buttons = [
       <button key="btnDelete" className={ClassNames(
           'btn', 'btn-danger',
-          {'disabled': selected.length == 0}
-        )} onClick={this._handleDelete}>
+          {'disabled': marked.length == 0}
+        )} onClick={() => this._handleDelete()}>
         <i className="fa fa-trash" />
       </button>,
       <button key="btnClear" className={ClassNames({
           'btn': true,
           'btn-default': true,
-          'disabled': selected.length == 0
+          'disabled': marked.length == 0
         })} onClick={() => this._handleClear()}>
         clear
       </button>,
       <button key="btnDiff" className={ClassNames({
           'btn': true,
           'btn-default': true,
-          'disabled': selected.length != 2
+          'disabled': marked.length != 2
         })} onClick={this._handleDiff}>
         diff
       </button>
@@ -60,7 +81,7 @@ export default class Toolbar extends Component {
     return (
       <div className="btn-toolbar inline">
         <div className="btn-group">
-          {filter}
+          {filterBox}
         </div>
         <div className="btn-group" role="group" aria-label="...">
           {buttons}
@@ -72,5 +93,5 @@ export default class Toolbar extends Component {
 
 // Toolbar.PropTypes = {
 //   run: PropTypes.object.isRequired,
-//   runName: PropTypes.bool
+//   filter: PropTypes.bool
 // }
