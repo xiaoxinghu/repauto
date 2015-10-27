@@ -35,7 +35,7 @@ var CommentForm = React.createClass({
       {label: 'failed', value: 'failed'}
     ];
     return (
-      <form className="form-horizontal" onSubmit={this.handleSubmit}>
+      <form className="form-horizontal" onSubmit={(e) => this.handleSubmit(e)}>
         <div className="form-group">
           <input type="text" className="form-control" ref="name" id="name" placeholder="Identity Yourself" />
         </div>

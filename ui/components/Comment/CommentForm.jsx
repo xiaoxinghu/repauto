@@ -1,7 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import RadioSet from '../RadioSet/RadioSet';
+
 export default class CommentForm extends Component {
-  handleSubmit(e) {
+  constructor(props){
+    super(props);
+    this.state = {status: 'failed'};
+  }
+
+  _handleSubmit(e) {
     e.preventDefault();
     var name = React.findDOMNode(this.refs.name).value.trim();
     var comment = React.findDOMNode(this.refs.comment).value.trim();
@@ -20,7 +26,7 @@ export default class CommentForm extends Component {
     React.findDOMNode(this.refs.comment).value = '';
   }
 
-  handleStatusChange(selected) {
+  _handleStatusChange(selected) {
     this.setState({status: selected});
   }
   render() {
@@ -29,7 +35,7 @@ export default class CommentForm extends Component {
       {label: 'failed', value: 'failed'}
     ];
     return (
-      <form className="form-horizontal" onSubmit={this.handleSubmit}>
+      <form className="form-horizontal" onSubmit={this._handleSubmit.bind(this)}>
         <div className="form-group">
           <input type="text" className="form-control" ref="name" id="name" placeholder="Identity Yourself" />
         </div>
@@ -37,7 +43,7 @@ export default class CommentForm extends Component {
           <textarea className="form-control" ref="comment" id="comment" placeholder="Add Comment" row="3" />
         </div>
         <div className="form-group">
-          <RadioSet group="status" onChange={this.handleStatusChange} radios={radios} selected={this.state.status} />
+          <RadioSet group="status" onChange={(selected) => this._handleStatusChange(selected)} radios={radios} selected={this.state.status} />
         </div>
         <button type='submit' className="btn btn-default">Submit</button>
       </form>

@@ -4,7 +4,7 @@ import CommentForm from './CommentForm';
 
 export default class CommentBox extends Component {
 
-  handleCommentSubmit(comment) {
+  _handleCommentSubmit(comment) {
     this.props.onCommentSubmit(comment);
   }
 
@@ -16,7 +16,7 @@ export default class CommentBox extends Component {
           <CommentList comments={this.props.comments}/>
         </div>
         <div className="panel-footer">
-          <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
+          <CommentForm onCommentSubmit={this.props.onCommentSubmit}/>
         </div>
       </div>
     );

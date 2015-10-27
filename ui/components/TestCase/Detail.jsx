@@ -6,8 +6,9 @@ import { HistoryLine, CommentBox, Gallery } from '../index';
 import _ from 'lodash';
 
 export default class Detail extends Component {
-  handleCommentSubmit(comment) {
+  _handleCommentSubmit(comment) {
     //Actions.comment(this.props.id, comment);
+    console.info('commenting', comment);
   }
 
   render() {
@@ -79,6 +80,7 @@ export default class Detail extends Component {
                 {content}
               </ul>
             </div>
+            <CommentBox onCommentSubmit={(comment) => this._handleCommentSubmit(comment)} comments={data.comments || []}/>
           </div>
           <div className="col-lg-8">
             <Gallery images={images}/>
