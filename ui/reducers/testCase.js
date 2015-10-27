@@ -27,12 +27,34 @@ function data(state = {
       lastUpdated: action.receivedAt
     });
   case testCase.ACTION.RECEIVE_HISTORY:
-    let newState = _.assign({}, state);
-    let newData = _.assign({}, state.all[action.id], {
+    // let newState = _.assign({}, state);
+    // let newData = _.assign({}, state.all[action.id], {
+    //   history: action.data
+    // });
+    // newState.all[action.id] = newData;
+    // return _.assign({}, newState);
+    state.all[action.id] = _.assign({}, state.all[action.id], {
       history: action.data
     });
-    newState.all[action.id] = newData;
-    return _.assign({}, newState);
+    return _.assign({}, state);
+  case testCase.ACTION.UPDATE_COMMENT:
+    // let s = _.assign({}, state);
+    // let d = _.assign({}, state.all[action.id], {
+    //   comments: action.comments
+    // });
+    // s.all[action.id] = d;
+    // return _.assign({}, s);
+
+    // let s = _.assign({}, state);
+    // s.all[action.id] = _.assign({}, s.all[action.id], {
+    //   comments: action.comments
+    // });
+    // return _.assign({}, s);
+
+    state.all[action.id] = _.assign({}, state.all[action.id], {
+      comments: action.comments
+    });
+    return _.assign({}, state);
   default:
     return state;
   }
@@ -71,6 +93,10 @@ function spotlight(state = {}, action) {
   case testCase.ACTION.SPOTLIGHT_DIFF:
     return _.assign({}, state, {
       diffWith: action.with
+    });
+  case testCase.ACTION.SPOTLIGHT_REFRESH:
+    return _.assign({}, state, {
+      refresh: Date.now()
     });
   default:
     return state;

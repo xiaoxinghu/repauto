@@ -15,7 +15,7 @@ class TestRun
 
   def gen_report
     return report if has_report? && !dirty
-    self.report = Report.gen(self)
+    report = Report.gen(self)
     self.dirty = false
     self.save!
     report

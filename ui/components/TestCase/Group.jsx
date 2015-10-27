@@ -5,17 +5,6 @@ import Row from './Row';
 import { spotlight } from '../../actions/testCase';
 import _ from 'lodash';
 
-function getSummary(test_cases) {
-  var summary = {};
-  test_cases.forEach(function(c) {
-    if (!summary[c.status]) {
-      summary[c.status] = 0;
-    }
-    summary[c.status] += 1;
-  });
-  return summary;
-};
-
 @connect(
   state => ({
     selected: state.testCase.spotlight.on
@@ -26,6 +15,17 @@ export default class Group extends Component {
   _handleRowClick(id) {
     const {spotlight} = this.props;
     spotlight(id);
+  }
+
+  _getSummary(data) {
+    var summary = {};
+    data.forEach(function(c) {
+      if (!summary[c.status]) {
+        summary[c.status] = 0;
+      }
+      summary[c.status] += 1;
+    });
+    return summary;
   }
 
   render() {
@@ -54,6 +54,9 @@ export default class Group extends Component {
           data-target={'#' + lid}
           data-parent={'#' + gid}>
           {name}
+          <div className="pull-right">
+            <StatusBadge status={this._getSummary(data)} />
+          </div>
         </a>
         <div className="sublinks collapse" id={lid}>
           {testCaseRows}

@@ -10,8 +10,10 @@ export const ACTION = constants('TEST_CASE_', [
   'GROUP_BY',
   'UPDATE_LIST_VIEW',
   'SPOTLIGHT_ON',
+  'SPOTLIGHT_REFRESH',
   'SPOTLIGHT_DIFF',
   'RECEIVE_HISTORY',
+  'UPDATE_COMMENT',
 ]);
 
 export const GROUP_BY = constants('TEST_CASE_GROUP_BY_', [
@@ -170,5 +172,30 @@ export function spotlightDiff(target) {
 export function invalidate() {
   return {
     type: ACTION.INVALIDATE
+  };
+}
+
+function updateComment(json) {
+  console.info('updateComment', json);
+  return {
+    type: ACTION.UPDATE_COMMENT,
+    id: json.id,
+    comments: json.comments
+  };
+}
+
+export function comment(testCaseId, comment) {
+  return (dispatch, getState) => {
+    const url = `/api/test_cases/${testCaseId}/comment`;
+    const body = JSON.stringify(comment);
+    return _fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body
+    }).then(response => response.json())
+      .then(json => dispatch(updateComment(json)));
   };
 }

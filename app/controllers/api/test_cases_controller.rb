@@ -1,6 +1,7 @@
 module Api
   class TestCasesController < Api::BaseController
     before_action :set_resource, only: [:archive, :history, :comment]
+    skip_before_filter :verify_authenticity_token
 
     def history
       test_case_def = @test_case.definition
@@ -12,6 +13,7 @@ module Api
     end
 
     def comment
+      puts "got body: #{request.body.read}"
       comment = Comment.new(
         user: params[:user],
         status: params[:status],

@@ -34,7 +34,7 @@ function request(filter) {
   };
 }
 
-function shouldFetch(state, filter) {
+function shouldFetch(state, filter, more) {
   const run = state.run.data;
   if (!run) {
     return true;
@@ -42,12 +42,18 @@ function shouldFetch(state, filter) {
   if (!run.isFetching && _.isEmpty(run.all)) {
     return true;
   }
+  if (more && run.meta.nextPage) {
+    return true;
+  }
   return false;
 }
 
-function getUrl(projectId, filter) {
+function getUrl(state) {
+  const projectId = state.router.params.projectId;
+  const filter = state.run.filter;
+  const nextPage = state.run.data.meta.nextPage;
   console.info('get url', projectId, filter);
-  let url = `/api/test_runs?project=${projectId}`;
+  let url = `/api/test_runs?project=${projectId}&page=${nextPage}`;
   switch(filter) {
   case VIEW.ALL:
     break;
@@ -61,15 +67,13 @@ function getUrl(projectId, filter) {
   return url;
 }
 
-export function fetch() {
+export function fetch(more = false) {
   return (dispatch, getState) => {
     const state = getState();
-    const projectId = state.router.params.projectId;
-    const filter = state.run.filter;
-    if (shouldFetch(state, filter)) {
+    if (shouldFetch(state, filter, more)) {
       console.debug('really fetching test Runs');
       dispatch(request(filter));
-      const url = getUrl(projectId, filter);
+      const url = getUrl(state);
       console.info('url:', url);
       return _fetch(url)
         .then(response => response.json())

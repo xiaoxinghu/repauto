@@ -9,7 +9,6 @@ export default class CommentBox extends Component {
   }
 
   render() {
-    console.info('render comment', this.props.comments);
     return (
       <div className="panel panel-default">
         <div className="panel-body">

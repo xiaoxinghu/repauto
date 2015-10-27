@@ -7,6 +7,7 @@ import _ from 'lodash';
 @connect(
   state => ({
     main: state.testCase.data.all[state.testCase.spotlight.on],
+    refresh: state.testCase.spotlight.refresh,
     diffWith: state.testCase.spotlight.diffWith
   }),
   {}
@@ -14,6 +15,7 @@ import _ from 'lodash';
 export default class MainView extends Component {
 
   render() {
+    console.info('rendering main view', this.props.refresh);
     const { main, diffWith } = this.props;
     let panels = [];
     if (main) {

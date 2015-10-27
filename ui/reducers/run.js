@@ -43,6 +43,7 @@ function data(state = {
   isFetching: false,
   meta: {
     currentPage: 0,
+    nextPage: 1,
     totalPages: 0,
     totalCount: 0
   },
@@ -54,6 +55,7 @@ function data(state = {
         all: [],
         meta: {
           currentPage: 0,
+          nextPage: 1,
           totalPages: 0,
           totalCount: 0
         }
@@ -65,9 +67,10 @@ function data(state = {
     case run.ACTION.RECEIVE:
       return _.assign({}, state, {
         isFetching: false,
-        all: action.data,
+        all: state.all.concat(action.data),
         meta: {
           currentPage: action.meta.current_page,
+          nextPage: action.meta.next_page,
           totalPages: action.meta.total_pages,
           totalCount: action.meta.total_count
         },

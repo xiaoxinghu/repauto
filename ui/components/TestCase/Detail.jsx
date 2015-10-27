@@ -3,12 +3,20 @@ import { connect } from 'react-redux';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import { HistoryLine, CommentBox, Gallery } from '../index';
+import { comment } from '../../actions/testCase';
 import _ from 'lodash';
 
+
+@connect(
+  state => ({
+    refresh: state.testCase.spotlight.refresh
+  }),
+  {comment}
+)
 export default class Detail extends Component {
-  _handleCommentSubmit(comment) {
-    //Actions.comment(this.props.id, comment);
-    console.info('commenting', comment);
+  _handleCommentSubmit(content) {
+    const {comment, data} = this.props;
+    comment(data.id, content);
   }
 
   render() {
@@ -104,4 +112,3 @@ export default class Detail extends Component {
     );
   }
 };
-

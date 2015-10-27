@@ -25,6 +25,17 @@ export default class TestRunRow extends Component {
         <strong>{run.name}</strong>
       </div>,
     ];
+    let trStatus = run.status;
+    if (trStatus && trStatus != 'done') {
+      content.push(
+        <span key='trStatus' className="label label-default">{trStatus}</span>
+      );
+    }
+    if (run.report.todo > 0) {
+      content.push(
+        <span key='todo' className="badge">{run.report.todo}</span>
+      );
+    }
     content.push(
       <div key='status' className="pull-right">
         <StatusBadge status={status} />

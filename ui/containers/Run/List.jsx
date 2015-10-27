@@ -35,6 +35,10 @@ export default class List extends Component {
     }
   }
 
+  _loadMore() {
+    this.props.fetch(true);
+  }
+
   render() {
     const { runs, marked } = this.props;
     const data = runs || {all: []};
@@ -47,12 +51,22 @@ export default class List extends Component {
           onRowClick={(e) => this._handleRowClick(e, tr)} />
       );
     }, this);
+    if (runs.meta.nextPage) {
+      var loadMore = (
+        <ul className="pager">
+          <li>
+            <a href="#" onClick={() => this._loadMore()}>More</a>
+          </li>
+        </ul>
+      )
+    }
     return (
       <div>
         <TestRunToolbar />
         <div className='list-group'>
           {rows}
         </div>
+        {loadMore}
       </div>
     );
   }

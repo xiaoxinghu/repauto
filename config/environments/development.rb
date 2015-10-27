@@ -40,4 +40,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.cache_store = :memory_store
+
+  Mongoid.logger.level = Logger::WARN
+  Mongo::Logger.logger.level = Logger::WARN
 end
