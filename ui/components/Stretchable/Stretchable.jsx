@@ -1,27 +1,27 @@
-var React = require('react');
-var Stretchable = React.createClass({
-  getInitialState: function() {
-    return {
-      height: 500
-    };
-  },
+import React, {Component, PropTypes} from 'react';
 
-  componentDidMount: function() {
+export default class Stretchable extends Component {
+  constructor(props){
+    super(props);
+    this.state = {height: 500};
+  }
+
+  componentDidMount() {
     this._stretch();
     window.addEventListener('resize', this._stretch);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     window.removeEventListener('resize', this._stretch);
-  },
+  }
 
-  _stretch: function() {
+  _stretch() {
     var rects = this.refs.stretchable.getClientRects();
     // console.debug(window.innerHeight, rects[0].top);
     this.setState({height: window.innerHeight - rects[0].top});
-  },
+  }
 
-  render: function() {
+  render() {
     var style = {
       height: this.state.height,
       width: '100%',
@@ -33,6 +33,4 @@ var Stretchable = React.createClass({
       </div>
     );
   }
-});
-
-module.exports = Stretchable;
+};

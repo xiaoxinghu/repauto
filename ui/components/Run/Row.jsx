@@ -6,7 +6,7 @@ import helper from '../../helper';
 export default class TestRunRow extends Component {
   _handleClick(e) {
     e.preventDefault();
-    this.props.onRowClick();
+    this.props.onRowClick(e);
   }
 
   render() {

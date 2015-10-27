@@ -1,21 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-class Detail extends Component {
+import { TestCaseListView, TestCaseMainView } from '../../components';
+
+export default class Detail extends Component {
   render() {
-    const { testRunId } = this.props.params;
     return (
-      <div>
-        Test Run Detail {testRunId}
+      <div className="row">
+        <div className="col-sm-3">
+          <TestCaseListView />
+        </div>
+        <div className="col-sm-9">
+          <TestCaseMainView />
+        </div>
       </div>
     );
   }
 }
-
-function select(state) {
-  return {
-    projects: state.project.all,
-    active: state.project.active
-  };
-}
-
-export default connect(select)(Detail);
