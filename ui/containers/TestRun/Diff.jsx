@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { TestCaseListView, TestCaseMainView } from '../../components';
-import { fetch } from '../../actions/testCase';
+import { fetch } from '../../modules/TestCase';
 
 @connect(
   state => ({

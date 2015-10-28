@@ -1,6 +1,6 @@
 import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
-import constants from './constants';
+import constants from '../../lib/constants';
 
 export const ACTION = constants('PROJECT_', [
   'RECEIVE_TREND',

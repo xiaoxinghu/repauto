@@ -3,8 +3,9 @@ import { routerStateReducer } from 'redux-router';
 
 import project from './Project';
 import testRun from './TestRun';
-import testCase from '../reducers/testCase';
+import testCase from './TestCase';
 
+console.info(testCase);
 export default combineReducers({
   router: routerStateReducer,
   project,

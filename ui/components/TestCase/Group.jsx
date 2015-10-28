@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import StatusBadge from '../StatusBadge/StatusBadge';
 import Row from './Row';
-import { spotlight } from '../../actions/testCase';
+import { spotlight } from '../../modules/TestCase';
 import _ from 'lodash';
 
 @connect(

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import { HistoryLine, CommentBox, Gallery } from '../index';
-import { comment } from '../../actions/testCase';
+import { comment } from '../../modules/TestCase';
 import _ from 'lodash';
 
 

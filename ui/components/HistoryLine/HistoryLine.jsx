@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { spotlightDiff } from '../../actions/testCase';
+import { spotlightDiff } from '../../modules/TestCase';
 import _ from 'lodash';
 
 @connect(

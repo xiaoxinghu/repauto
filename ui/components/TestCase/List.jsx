@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import StatusBadge from '../StatusBadge/StatusBadge';
 import { SearchBar, RadioSet, Stretchable } from '../../components';
 import Group from './Group';
-import { fetch, groupBy, filter, GROUP_BY } from '../../actions/testCase';
+import { fetch, groupBy, filter, GROUP_BY } from '../../modules/TestCase';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import _ from 'lodash';
@@ -11,8 +11,8 @@ import _ from 'lodash';
 @connect(
   state => ({
     all: state.testCase.data.all,
-    selectedGroupBy: state.testCase.listView.groupBy,
-    processed: state.testCase.listView.processed
+    selectedGroupBy: state.testCase.list.groupBy,
+    processed: state.testCase.list.processed
   }),
   {fetch, groupBy, filter}
 )
