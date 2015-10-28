@@ -10,7 +10,8 @@ import _ from 'lodash';
   state => ({
     activeProject: state.project.data[state.router.params.projectId],
     activeFilter: state.testRun.data.filter,
-    marked: state.testRun.marked
+    marked: state.testRun.marked,
+    path: state.router.location.pathname
   }),
   {pushState, unmark, invalidate, filter, fetch, remove}
 )
@@ -35,6 +36,11 @@ export default class Toolbar extends Component {
             this.props.remove(id);
         }
         // console.info('delete');
+    }
+
+    _handleDiff() {
+      const {pushState, marked, path} = this.props;
+      pushState(null, `${path}/diff/${marked[0]}/${marked[1]}`);
     }
 
   render() {
@@ -74,7 +80,7 @@ export default class Toolbar extends Component {
           'btn': true,
           'btn-default': true,
           'disabled': marked.length != 2
-        })} onClick={this._handleDiff}>
+        })} onClick={this._handleDiff.bind(this)}>
         diff
       </button>
     ];

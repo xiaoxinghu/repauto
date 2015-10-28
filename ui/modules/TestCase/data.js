@@ -1,7 +1,7 @@
 import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import constants from '../../lib/constants';
-import * as list from './list';
+import {updateListView} from './list';
 
 const ACTION = constants('TEST_CASE_', [
   'INVALIDATE',
@@ -46,7 +46,7 @@ export function fetch() {
       return _fetch(url)
         .then(response => response.json())
         .then(json => dispatch(receive(json)))
-        .then(() => dispatch(list.updateListView(getState())));
+        .then(() => dispatch(updateListView(getState())));
     } else {
       return Promise.resolve();
     }
@@ -83,13 +83,11 @@ import { combineReducers } from 'redux';
 export default function reducer(state = {
   isFetching: false,
   all: {},
-  history: {}
 }, action) {
   switch(action.type) {
   case ACTION.INVALIDATE:
     return _.assign({}, state, {
       all: {},
-      history: {}
     });
   case ACTION.REQUEST:
     return _.assign({}, state, {
@@ -102,30 +100,11 @@ export default function reducer(state = {
       lastUpdated: action.receivedAt
     });
   case ACTION.RECEIVE_HISTORY:
-    // let newState = _.assign({}, state);
-    // let newData = _.assign({}, state.all[action.id], {
-    //   history: action.data
-    // });
-    // newState.all[action.id] = newData;
-    // return _.assign({}, newState);
     state.all[action.id] = _.assign({}, state.all[action.id], {
       history: action.data
     });
     return _.assign({}, state);
   case ACTION.UPDATE_COMMENT:
-    // let s = _.assign({}, state);
-    // let d = _.assign({}, state.all[action.id], {
-    //   comments: action.comments
-    // });
-    // s.all[action.id] = d;
-    // return _.assign({}, s);
-
-    // let s = _.assign({}, state);
-    // s.all[action.id] = _.assign({}, s.all[action.id], {
-    //   comments: action.comments
-    // });
-    // return _.assign({}, s);
-
     state.all[action.id] = _.assign({}, state.all[action.id], {
       comments: action.comments
     });

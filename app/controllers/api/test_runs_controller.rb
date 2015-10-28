@@ -28,8 +28,8 @@ module Api
     end
 
     def diff
-      tr1 = TestRun.find(params[:left])
-      tr2 = TestRun.find(params[:right])
+      tr1 = TestRun.find(params[:id1])
+      tr2 = TestRun.find(params[:id2])
       @prev, @current = [tr1, tr2].sort_by(&:start).map(&:test_cases)
       # changes = {}
       # processed = []
