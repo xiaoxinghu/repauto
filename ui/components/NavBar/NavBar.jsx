@@ -15,7 +15,6 @@ import _ from 'lodash';
 )
 export default class NavBar extends Component {
   render() {
-    console.info('rendering navbar');
     const { projects, activeProject, pushState, invalidate, invalidateTrend } = this.props;
     var items = _.values(projects).map(function(project) {
       return (

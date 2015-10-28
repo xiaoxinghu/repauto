@@ -16,7 +16,6 @@ import _ from 'lodash';
 export default class List extends Component {
   componentDidMount() {
     const { fetch, runs } = this.props;
-    console.info('----- mount List', runs);
     fetch();
   }
 
@@ -30,7 +29,6 @@ export default class List extends Component {
     }
     } else {
       const {pushState, path} = this.props;
-      console.info('going to ', run.id);
       pushState(null, `${path}/${run.id}`);
     }
   }

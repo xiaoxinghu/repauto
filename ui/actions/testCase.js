@@ -66,7 +66,6 @@ export function fetch() {
 }
 
 function group(data, by) {
-  console.info('group by', by);
   let grouped;
   switch(by) {
   case GROUP_BY.FEATURE:
@@ -89,7 +88,6 @@ function group(data, by) {
 
 function updateListView(state) {
   // filter
-  console.info('filter: ', state.testCase.listView.filter);
   const data = _.values(state.testCase.data.all);
   let filtered = data.filter((d) => {
     return d.name.toLowerCase().includes(state.testCase.listView.filter.toLowerCase());
@@ -110,7 +108,6 @@ function switchSpotlight(id) {
 }
 
 function gotHistory(id, json) {
-  console.info('got history', json);
   return {
     type: ACTION.RECEIVE_HISTORY,
     id,
@@ -122,7 +119,6 @@ export function spotlight(id) {
   return (dispatch, getState) => {
     dispatch(switchSpotlight(id));
     if (!getState().testCase.data.all[id].history) {
-      console.info('fetching history', id);
       const url = `/api/test_cases/${id}/history`;
       return _fetch(url)
         .then(response => response.json())
@@ -141,7 +137,6 @@ function changeGroupBy(by) {
 }
 
 function setFilter(keyword) {
-  console.info('set filter: ', keyword);
   return {
     type: ACTION.FILTER,
     keyword
@@ -176,7 +171,6 @@ export function invalidate() {
 }
 
 function updateComment(json) {
-  console.info('updateComment', json);
   return {
     type: ACTION.UPDATE_COMMENT,
     id: json.id,

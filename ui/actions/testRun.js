@@ -52,7 +52,6 @@ function getUrl(state) {
   const projectId = state.router.params.projectId;
   const filter = state.testRun.filter;
   const nextPage = state.testRun.data.meta.nextPage;
-  console.info('get url', projectId, filter);
   let url = `/api/test_runs?project=${projectId}&page=${nextPage}`;
   switch(filter) {
   case VIEW.ALL:
@@ -71,10 +70,8 @@ export function fetch(more = false) {
   return (dispatch, getState) => {
     const state = getState();
     if (shouldFetch(state, filter, more)) {
-      console.debug('really fetching test Runs');
       dispatch(request(filter));
       const url = getUrl(state);
-      console.info('url:', url);
       return _fetch(url)
         .then(response => response.json())
         .then(json => dispatch(receive(filter, json)));

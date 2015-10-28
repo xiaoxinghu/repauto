@@ -56,7 +56,6 @@ export function fetchTrend(run) {
     let state = getState();
     const projectId = state.router.params.projectId;
     if (shouldFetchTrend(getState(), run)) {
-      console.info('should fetch trend');
       return _fetch(`/api/projects/${projectId}/trend?name=${run}`)
         .then(response => response.json())
         .then(json => dispatch(receiveTrend(run, json)));

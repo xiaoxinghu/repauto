@@ -16,7 +16,6 @@ function marked(state = [], action) {
       if (action.id) {
         marked = _.without(state, action.id);
       } else {
-        console.info('unmark all');
         marked = [];
       }
     return marked;

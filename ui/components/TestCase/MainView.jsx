@@ -15,23 +15,22 @@ import _ from 'lodash';
 export default class MainView extends Component {
 
   render() {
-    console.info('rendering main view', this.props.refresh);
     const { main, diffWith } = this.props;
     let panels = [];
     if (main) {
       panels.push(
-        <TestCaseDetail key='main' data={main} history={main.history} />
+        <TestCaseDetail data={main} history={main.history} />
       );
     }
     if (diffWith) {
       panels.push(
-        <TestCaseDetail key='diffWith' data={diffWith} />
+        <TestCaseDetail data={diffWith} />
       );
     }
     const width = 'col-sm-' + (12 / panels.length).toString();
     const content = panels.map((p) => {
       return (
-        <div className={width}>
+        <div key={_.uniqueId('detail')} className={width}>
           {p}
         </div>
       );

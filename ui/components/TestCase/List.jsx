@@ -1,10 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import StatusBadge from '../StatusBadge/StatusBadge';
-//import { SearchBar, RadioSet } from '../../components';
-import SearchBar from '../SearchBar/SearchBar';
-import RadioSet from '../RadioSet/RadioSet';
-import Stretchable from '../Stretchable/Stretchable';
+import { SearchBar, RadioSet, Stretchable } from '../../components';
 import Group from './Group';
 import { fetch, groupBy, filter, GROUP_BY } from '../../actions/testCase';
 import ClassNames from 'classnames';
@@ -20,19 +17,11 @@ import _ from 'lodash';
   {fetch, groupBy, filter}
 )
 export default class TestCaseList extends Component {
-  componentDidMount() {
-    const { fetch, runs } = this.props;
-    console.info('----- mount List', runs);
-    fetch();
-  }
-
   _handleSearch(text) {
-    console.info('searching', text);
     this.props.filter(text);
   }
 
   _handleGroupByChange(selected) {
-    console.info('selected', selected);
     this.props.groupBy(selected);
   }
 
@@ -60,4 +49,3 @@ export default class TestCaseList extends Component {
     );
   }
 };
-
