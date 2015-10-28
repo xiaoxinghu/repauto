@@ -16,7 +16,6 @@ import {
   TestRunDiff,
   NotFound,
 } from './containers';
-import { activateProject } from './actions/project';
 
 export default (store) => {
   return (

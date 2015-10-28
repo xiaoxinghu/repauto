@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { TrendCard } from '../../components';
-import { fetchTrend } from '../../actions/project';
+import { fetchTrend } from '../../modules/Project';
 import _ from 'lodash';
 
 @connect(

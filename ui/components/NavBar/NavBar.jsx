@@ -2,8 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import { IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
-import { invalidate } from '../../actions/testRun';
-import { invalidateTrend } from '../../actions/project';
+import { invalidate } from '../../modules/TestRun';
+import { invalidateTrend } from '../../modules/Project';
 import _ from 'lodash';
 
 @connect(

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { fetch, mark, unmark } from '../../actions/testRun';
+import { fetch, mark, unmark } from '../../modules/TestRun';
 import { TestRunRow, TestRunToolbar, Stretchable, TestCaseDetail } from '../../components';
 import _ from 'lodash';
 
