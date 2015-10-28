@@ -1,9 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import StatusBadge from '../StatusBadge/StatusBadge';
-import { SearchBar, RadioSet, Stretchable } from '../../components';
-import Group from './Group';
-import { fetch, groupBy, filter, GROUP_BY } from '../../modules/TestCase';
+import { StatusBadge, SearchBar, RadioSet, Stretchable, Collapsible, TestCaseRow } from '../../components';
+import { fetch, groupBy, filter, GROUP_BY, spotlight } from '../../modules/TestCase';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import _ from 'lodash';
@@ -11,10 +9,11 @@ import _ from 'lodash';
 @connect(
   state => ({
     all: state.testCase.data.all,
+    selected: state.testCase.spotlight.on,
     selectedGroupBy: state.testCase.list.groupBy,
     processed: state.testCase.list.processed
   }),
-  {fetch, groupBy, filter}
+  {fetch, groupBy, filter, spotlight}
 )
 export default class TestCaseList extends Component {
   _handleSearch(text) {
@@ -25,13 +24,48 @@ export default class TestCaseList extends Component {
     this.props.groupBy(selected);
   }
 
+  _handleRowClick(id) {
+    const {spotlight} = this.props;
+    spotlight(id);
+  }
+
+  _generateList(data) {
+    const {selected} = this.props;
+    return data.map(function (testCase, i) {
+      return (
+        <TestCaseRow
+          key={_.uniqueId('tcr')}
+          data={testCase}
+          selected={selected == testCase.id}
+          onRowClick={() => this._handleRowClick(testCase.id)} />
+      );
+    }, this);
+  }
+
+  _getSummary(data) {
+    var summary = {};
+    data.forEach(function(c) {
+      if (!summary[c.status]) {
+        summary[c.status] = 0;
+      }
+      summary[c.status] += 1;
+    });
+    return summary;
+  }
+
   render() {
     const {processed, all, selectedGroupBy} = this.props;
     const list = _.keys(processed).map((group) => {
-      return (
-        <Group key={_.uniqueId('group')} name={group} data={processed[group].map((d) => all[d])} />
+      const data = processed[group].map((d) => all[d]);
+      const badge = (
+        <StatusBadge status={this._getSummary(data)} />
       );
-    });
+      return (
+        <Collapsible key={group} title={group} badge={badge}>
+          {this._generateList(data)}
+        </Collapsible>
+      );
+    }, this);
     const radios = [
       {label: (<i className="fa fa-star" />), value: GROUP_BY.FEATURE},
       {label: (<i className="fa fa-exclamation-triangle" />), value: GROUP_BY.ERROR},
