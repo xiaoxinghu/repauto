@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import { fetch, mark, unmark } from '../../actions/run';
-import { TestRunRow, TestRunToolbar } from '../../components';
+import { TestRunRow, TestRunToolbar, TestRunInfo } from '../../components';
 import _ from 'lodash';
 
 @connect(
@@ -62,11 +62,20 @@ export default class List extends Component {
     }
     return (
       <div>
-        <TestRunToolbar />
-        <div className='list-group'>
-          {rows}
+        <div className="row toolbar">
+          <div className="col-md-3">
+            <TestRunToolbar />
+          </div>
+          <div className="col-md-9">
+            <TestRunInfo />
+          </div>
         </div>
-        {loadMore}
+        <div className='row'>
+          <div className='list-group'>
+            {rows}
+          </div>
+          {loadMore}
+        </div>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 export NavBar from './NavBar/NavBar';
 export Stretchable from './Stretchable/Stretchable';
 export TestRunRow from './Run/Row';
+export TestRunInfo from './Run/Info';
 export TestRunToolbar from './Run/Toolbar';
 export StatusBadge from './StatusBadge/StatusBadge';
 export TestCaseListView from './TestCase/List';
