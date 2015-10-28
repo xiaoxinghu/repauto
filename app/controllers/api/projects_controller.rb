@@ -13,7 +13,7 @@ module Api
         .test_runs
         .active
         .where(:start.ne => nil)
-        .where(name: params[:type])
+        .where(name: params[:name])
         .sort(start: -1)
         .limit(30)
       @trend = history.map do |test_run|

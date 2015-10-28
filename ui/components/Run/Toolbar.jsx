@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 @connect(
   state => ({
-    activeProject: state.project.all[state.router.params.projectId],
+    activeProject: state.project.data[state.router.params.projectId],
     activeFilter: state.run.filter,
     marked: state.run.marked
   }),

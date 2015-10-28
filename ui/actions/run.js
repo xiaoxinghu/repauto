@@ -85,7 +85,6 @@ export function fetch(more = false) {
 }
 
 export function invalidate() {
-  console.info('invalidate');
   return {
     type: ACTION.INVALIDATE
   };

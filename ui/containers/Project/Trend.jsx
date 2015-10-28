@@ -1,15 +1,56 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import { TrendGraph } from '../../components';
+import { fetchTrend } from '../../actions/project';
+import _ from 'lodash';
+
 @connect(
-  state => ({projects: state.project.all})
+  state => ({
+    project: state.project.data[state.router.params.projectId],
+    trends: state.project.trends
+  }),
+  {fetchTrend}
 )
 export default class Trend extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {selected: ''};
+  }
+
+  _handleSwitchRun(e) {
+    const run = e.target.value;
+    if (run != '') {
+      this.props.fetchTrend(run);
+    }
+    this.setState({selected: run});
+  }
+
   render() {
-    const { projectId } = this.props.params;
-    return (
+    const {project, trends} = this.props;
+    const {selected} = this.state;
+    let run_names = project ? project.run_names : [];
+    var types = run_names.map(function(t) {
+      return (
+        <option key={_.uniqueId('run')} value={t}>{t}</option>
+      )
+    });
+    var panel = (
       <div>
-        <h1>Project Trend {projectId}</h1>
+        <select className="form-control" onChange={this._handleSwitchRun.bind(this)} value={selected}>
+          <option key={_.uniqueId('type')} value=''>Select Run</option>
+          {types}
+        </select>
+      </div>
+    );
+    return (
+      <div className='row'>
+        <div className='col-sm-3'>
+          {panel}
+        </div>
+        <div className='col-sm-9'>
+          <TrendGraph data={trends[selected]} />
+        </div>
       </div>
     );
   }
-}
+};

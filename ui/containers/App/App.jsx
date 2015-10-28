@@ -4,7 +4,7 @@ import { NavBar } from '../../components';
 import { fetch } from '../../actions/project';
 
 @connect(
-    state => ({projects: state.project.all}),
+    state => ({projects: state.project.data}),
     {fetch}
 )
 export default class App extends Component {

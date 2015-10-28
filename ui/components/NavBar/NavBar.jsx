@@ -3,24 +3,26 @@ import { IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import { invalidate } from '../../actions/run';
+import { invalidateTrend } from '../../actions/project';
 import _ from 'lodash';
 
 @connect(
   state => ({
-    projects: state.project.all,
-    activeProject: state.project.all[state.router.params.projectId],
+    projects: state.project.data,
+    activeProject: state.project.data[state.router.params.projectId],
     a: state.router.params.projectId }),
-    {pushState, invalidate}
+    {pushState, invalidate, invalidateTrend}
 )
 export default class NavBar extends Component {
   render() {
     console.info('rendering navbar');
-    const { projects, activeProject, pushState, invalidate } = this.props;
+    const { projects, activeProject, pushState, invalidate, invalidateTrend } = this.props;
     var items = _.values(projects).map(function(project) {
       return (
         <li  key={_.uniqueId('PROJECT')}>
           <a href='#' onClick={function() {
               invalidate();
+              invalidateTrend();
               pushState(null, `/projects/${project.id}`);
             }}>{project.name}</a>
         </li>);

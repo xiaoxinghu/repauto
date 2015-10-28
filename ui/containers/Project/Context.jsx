@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 @connect(
   state => ({
-    projects: state.project.all,
+    projects: state.project.data,
     activeProjectId: state.router.params.projectId})
 )
 export default class Context extends Component {

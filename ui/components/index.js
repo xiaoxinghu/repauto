@@ -10,3 +10,5 @@ export HistoryLine from './HistoryLine/HistoryLine';
 export CommentBox from './Comment/CommentBox';
 export Gallery from './Gallery/Gallery';
 export RadioSet from './RadioSet/RadioSet';
+export TrendGraph from './Trend/Graph';
+export TrendCard from './Trend/Card';
