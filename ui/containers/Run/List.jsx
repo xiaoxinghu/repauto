@@ -70,12 +70,10 @@ export default class List extends Component {
             <TestRunInfo />
           </div>
         </div>
-        <div className='row'>
-          <div className='list-group'>
-            {rows}
-          </div>
-          {loadMore}
+        <div className='list-group'>
+          {rows}
         </div>
+        {loadMore}
       </div>
     );
   }
