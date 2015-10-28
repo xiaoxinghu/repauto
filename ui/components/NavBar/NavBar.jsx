@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
-import { invalidate } from '../../actions/run';
+import { invalidate } from '../../actions/testRun';
 import { invalidateTrend } from '../../actions/project';
 import _ from 'lodash';
 

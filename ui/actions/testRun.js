@@ -35,7 +35,7 @@ function request(filter) {
 }
 
 function shouldFetch(state, filter, more) {
-  const run = state.run.data;
+  const run = state.testRun.data;
   if (!run) {
     return true;
   }
@@ -50,8 +50,8 @@ function shouldFetch(state, filter, more) {
 
 function getUrl(state) {
   const projectId = state.router.params.projectId;
-  const filter = state.run.filter;
-  const nextPage = state.run.data.meta.nextPage;
+  const filter = state.testRun.filter;
+  const nextPage = state.testRun.data.meta.nextPage;
   console.info('get url', projectId, filter);
   let url = `/api/test_runs?project=${projectId}&page=${nextPage}`;
   switch(filter) {
@@ -121,7 +121,7 @@ function removed(id) {
 export function remove(id) {
   return (dispatch, getState) => {
     const state = getState();
-    const filter = state.run.filter;
+    const filter = state.testRun.filter;
     let action = 'archive';
     if (filter == VIEW.BIN) {
       action = 'restore';

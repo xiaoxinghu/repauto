@@ -1,3 +1,3 @@
 export * as project from './project';
-export * as run from './run';
+export * as testRun from './testRun';
 export * as testCase from './testCase';

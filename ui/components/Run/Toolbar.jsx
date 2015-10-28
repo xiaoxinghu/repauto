@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { unmark, invalidate, filter, fetch, VIEW, remove } from '../../actions/run';
+import { unmark, invalidate, filter, fetch, VIEW, remove } from '../../actions/testRun';
 import _ from 'lodash';
 
 @connect(
   state => ({
     activeProject: state.project.data[state.router.params.projectId],
-    activeFilter: state.run.filter,
-    marked: state.run.marked
+    activeFilter: state.testRun.filter,
+    marked: state.testRun.marked
   }),
   {pushState, unmark, invalidate, filter, fetch, remove}
 )

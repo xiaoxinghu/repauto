@@ -1,13 +1,10 @@
 import { combineReducers } from 'redux';
-import {
-  run
-}
-from '../actions';
+import { testRun } from '../actions';
 import _ from 'lodash';
 
 function marked(state = [], action) {
   switch (action.type) {
-    case run.ACTION.MARK:
+    case testRun.ACTION.MARK:
       let marked;
       if (action.id) {
         marked = _.uniq([action.id, ...state]);
@@ -15,7 +12,7 @@ function marked(state = [], action) {
         marked = state.all.map((run) => run.id);
       }
     return marked;
-    case run.ACTION.UNMARK:
+    case testRun.ACTION.UNMARK:
       if (action.id) {
         marked = _.without(state, action.id);
       } else {
@@ -28,11 +25,11 @@ function marked(state = [], action) {
   }
 }
 
-function filter(state = run.VIEW.ALL, action) {
+function filter(state = testRun.VIEW.ALL, action) {
   switch (action.type) {
-  case run.ACTION.INVALIDATE:
-    return run.VIEW.ALL;
-  case run.ACTION.FILTER:
+  case testRun.ACTION.INVALIDATE:
+    return testRun.VIEW.ALL;
+  case testRun.ACTION.FILTER:
     return action.filter;
   default:
     return state;
@@ -50,7 +47,7 @@ function data(state = {
   all: []
 }, action) {
   switch (action.type) {
-    case run.ACTION.INVALIDATE:
+    case testRun.ACTION.INVALIDATE:
       return _.assign({}, state, {
         all: [],
         meta: {
@@ -60,11 +57,11 @@ function data(state = {
           totalCount: 0
         }
       });
-    case run.ACTION.REQUEST:
+    case testRun.ACTION.REQUEST:
       return _.assign({}, state, {
         isFetching: true
       });
-    case run.ACTION.RECEIVE:
+    case testRun.ACTION.RECEIVE:
       return _.assign({}, state, {
         isFetching: false,
         all: state.all.concat(action.data),
@@ -76,11 +73,11 @@ function data(state = {
         },
         lastUpdated: action.receivedAt
       });
-    case run.ACTION.FILTER:
+    case testRun.ACTION.FILTER:
       return _.assign({}, state, {
         name: action.name
       });
-    case run.ACTION.REMOVED:
+    case testRun.ACTION.REMOVED:
       return _.assign({}, state, {
         all: state.all.filter((run) => run.id != action.id)
       });
@@ -91,10 +88,10 @@ function data(state = {
 
 function data_(state = {}, action) {
   switch(action.type) {
-  case run.ACTION.INVALIDATE:
+  case testRun.ACTION.INVALIDATE:
     return {};
-  case run.ACTION.REQUEST:
-  case run.ACTION.RECEIVE:
+  case testRun.ACTION.REQUEST:
+  case testRun.ACTION.RECEIVE:
     return _.assign({}, state, {[action.filter]: runs(state[action.filter], action)});
   default:
     return state;

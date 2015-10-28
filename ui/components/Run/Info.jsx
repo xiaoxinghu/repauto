@@ -4,7 +4,7 @@ import StatusBadge from '../StatusBadge/StatusBadge';
 
 @connect(
   state => ({
-    total: state.run.data.all.length
+    total: state.testRun.data.all.length
   })
 )
 export default class Info extends Component {

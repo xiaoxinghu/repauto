@@ -2,12 +2,12 @@ import { combineReducers } from 'redux';
 import { routerStateReducer } from 'redux-router';
 
 import project from './project';
-import run from './run';
+import testRun from './testRun';
 import testCase from './testCase';
 
 export default combineReducers({
   router: routerStateReducer,
   project,
-  run,
+  testRun,
   testCase
 });

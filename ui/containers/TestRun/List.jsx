@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
-import { fetch, mark, unmark } from '../../actions/run';
+import { fetch, mark, unmark } from '../../actions/testRun';
 import { TestRunRow, TestRunToolbar, TestRunInfo } from '../../components';
 import _ from 'lodash';
 
 @connect(
   state => ({
-    runs: state.run.data,
+    runs: state.testRun.data,
     path: state.router.location.pathname,
-    marked: state.run.marked
+    marked: state.testRun.marked
   }),
   {pushState, fetch, mark, unmark}
 )
