@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { NavBar } from '../../components';
-import { fetch } from '../../actions/project';
+import { fetch } from '../../modules/Project';
 
 @connect(
     state => ({projects: state.project.data}),

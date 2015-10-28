@@ -4,7 +4,8 @@ import promiseMiddleware from 'redux-promise';
 import createLogger from 'redux-logger';
 import {reduxReactRouter} from 'redux-router';
 import createHistory from 'history/lib/createBrowserHistory';
-import reducer from './reducers';
+// import reducer from './reducers';
+import reducer from './modules';
 
 const loggerMiddleware = createLogger();
 

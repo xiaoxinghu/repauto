@@ -1,8 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { TestCaseListView, TestCaseMainView } from '../../components';
+import { fetch } from '../../actions/testCase';
 
-export default class Detail extends Component {
+@connect(
+  state => ({
+  }),
+  {fetch}
+)
+export default class Diff extends Component {
+  componentDidMount() {
+    const { fetch, runs } = this.props;
+    fetch();
+  }
+
   render() {
     return (
       <div className="row">

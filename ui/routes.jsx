@@ -13,6 +13,7 @@ import {
   ProjectTrend,
   TestRunList,
   TestRunDetail,
+  TestRunDiff,
   NotFound,
 } from './containers';
 import { activateProject } from './actions/project';
@@ -27,6 +28,7 @@ export default (store) => {
           <Route path="trend" component={ProjectTrend} />
           <Route path="runs" component={TestRunList} />
           <Route path="runs/:runId" component={TestRunDetail} />
+          <Route path="runs/diff/:id1/:id2" component={TestRunDiff} />
         </Route>
         <Route path="*" component={NotFound} status={404} />
       </Route>
