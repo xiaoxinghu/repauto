@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { unmark, invalidate, filter, fetch, VIEW, remove } from '../../actions/testRun';
+import { unmark, invalidate, filter, fetch, VIEW, remove } from '../../modules/TestRun';
 import _ from 'lodash';
 
 @connect(
@@ -21,13 +21,13 @@ export default class Toolbar extends Component {
     unmark();
   }
 
-    _handleFilter(selected) {
-        const { unmark, invalidate, filter, fetch } = this.props;
-        unmark();
-        invalidate();
-        filter(selected);
-        fetch();
-    }
+  _handleFilter(selected) {
+    const { unmark, invalidate, filter, fetch } = this.props;
+    unmark();
+    invalidate();
+    filter(selected);
+    fetch();
+  }
 
     _handleDelete() {
         const {remove, marked} = this.props;

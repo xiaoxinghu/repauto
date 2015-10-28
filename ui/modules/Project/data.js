@@ -2,7 +2,7 @@ import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import constants from './constants';
 
-export const ACTION = constants('PROJECT_', [
+const ACTION = constants('PROJECT_', [
   'RECEIVE',
 ]);
 
@@ -39,7 +39,7 @@ export default function reducer(state = {
 }, action) {
   switch (action.type) {
     case ACTION.RECEIVE:
-      return action.projects
+    return action.projects;
     default:
       return state;
   }

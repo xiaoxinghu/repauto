@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import data from './data';
-import trends from './trend';
+import marked from './marked';
 
 const reducer = combineReducers({
   data,
-  trends
+  marked
 });
 
 export * from './data';
-export * from './trend';
+export * from './marked';
 
 export default reducer;
