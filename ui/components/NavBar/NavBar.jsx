@@ -54,15 +54,15 @@ export default class NavBar extends Component {
       </li>
     );
     return (
-      <div className='navbar navbar-default navbar-fixed-top'>
+      <div className='navbar navbar-default navbar-fixed-top navbar-inverse'>
         <div className='container-fluid'>
           <Link to='/' className='navbar-brand' component={IndexLink}>
             Repauto
           </Link>
-          {navPanel}
-          <ul className='nav navbar-nav navbar-right'>
+          <ul className='nav navbar-nav'>
             {projectList}
           </ul>
+          {navPanel}
         </div>
       </div>
     );
