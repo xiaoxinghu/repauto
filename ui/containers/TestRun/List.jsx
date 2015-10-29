@@ -29,7 +29,7 @@ export default class List extends Component {
       mark(run.id);
     }
     } else {
-      const {pushState, path} = this.props;
+      const {pushState, path, invalidate} = this.props;
       pushState(null, `${path}/${run.id}`);
     }
   }

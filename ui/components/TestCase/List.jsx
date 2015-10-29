@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { StatusBadge, SearchBar, RadioSet, Stretchable, Collapsible, TestCaseRow } from '../../components';
-import { fetch, groupBy, filter, GROUP_BY, spotlight } from '../../modules/TestCase';
+import { fetchDetail, groupBy, filter, GROUP_BY, spotlight } from '../../modules/TestCase';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import _ from 'lodash';
@@ -10,12 +10,17 @@ import _ from 'lodash';
   state => ({
     all: state.testCase.data.all,
     selected: state.testCase.spotlight.on,
-    selectedGroupBy: state.testCase.list.groupBy,
-    processed: state.testCase.list.processed
+    selectedGroupBy: state.testCase.listView.groupBy,
+    processed: state.testCase.listView.processed
   }),
-  {fetch, groupBy, filter, spotlight}
+  {fetchDetail, groupBy, filter, spotlight}
 )
 export default class TestCaseList extends Component {
+  componentDidMount() {
+    const { fetchDetail } = this.props;
+    fetchDetail();
+  }
+
   _handleSearch(text) {
     this.props.filter(text);
   }

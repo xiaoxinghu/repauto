@@ -1,20 +1,35 @@
 import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import constants from '../../lib/constants';
-import {updateListView} from './list';
+import {updateListView} from './listView';
+import {updateDiffView} from './diffView';
 
 const ACTION = constants('TEST_CASE_', [
   'INVALIDATE',
   'REQUEST',
-  'RECEIVE',
+  'RECEIVE_DETAIL',
+  'RECEIVE_DIFF',
   'RECEIVE_HISTORY',
   'UPDATE_COMMENT',
 ]);
 
-function receive(json) {
+function receiveDetail(json) {
   return {
-    type: ACTION.RECEIVE,
+    type: ACTION.RECEIVE_DETAIL,
     data: _.indexBy(json.test_cases, 'id'),
+    receivedAt: Date.now()
+  };
+}
+
+function receiveDiff(json) {
+  const all = _.indexBy(json.current.concat(json.prev), 'id');
+  const current = _.mapValues(_.indexBy(json.current, 'md5'), (d) => d.id);
+  const prev = _.mapValues(_.indexBy(json.prev, 'md5'), (d) => d.id);
+  return {
+    type: ACTION.RECEIVE_DIFF,
+    all,
+    current,
+    prev,
     receivedAt: Date.now()
   };
 }
@@ -36,7 +51,7 @@ function shouldFetch(state) {
   return false;
 }
 
-export function fetch() {
+export function fetchDetail() {
   return (dispatch, getState) => {
     const state = getState();
     const { runId } = state.router.params;
@@ -45,8 +60,25 @@ export function fetch() {
       const url = `/api/test_runs/${runId}/detail`;
       return _fetch(url)
         .then(response => response.json())
-        .then(json => dispatch(receive(json)))
+        .then(json => dispatch(receiveDetail(json)))
         .then(() => dispatch(updateListView(getState())));
+    } else {
+      return Promise.resolve();
+    }
+  };
+}
+
+export function fetchDiff() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { id1, id2 } = state.router.params;
+    if (shouldFetch(state)) {
+      dispatch(request());
+      const url = `/api/test_runs/diff?id1=${id1}&id2=${id2}`;
+      return _fetch(url)
+        .then(response => response.json())
+        .then(json => dispatch(receiveDiff(json)))
+        .then(() => dispatch(updateDiffView(getState())));
     } else {
       return Promise.resolve();
     }
@@ -82,6 +114,7 @@ import { combineReducers } from 'redux';
 
 export default function reducer(state = {
   isFetching: false,
+  diff: {},
   all: {},
 }, action) {
   switch(action.type) {
@@ -93,10 +126,20 @@ export default function reducer(state = {
     return _.assign({}, state, {
       isFetching: true
     });
-  case ACTION.RECEIVE:
+  case ACTION.RECEIVE_DETAIL:
     return _.assign({}, state, {
       isFetching: false,
       all: action.data,
+      lastUpdated: action.receivedAt
+    });
+  case ACTION.RECEIVE_DIFF:
+    return _.assign({}, state, {
+      isFetching: false,
+      all: action.all,
+      diffMap: {
+        current: action.current,
+        prev: action.prev
+      },
       lastUpdated: action.receivedAt
     });
   case ACTION.RECEIVE_HISTORY:

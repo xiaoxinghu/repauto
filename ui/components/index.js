@@ -8,6 +8,8 @@ export TestRunToolbar from './TestRun/Toolbar';
 export StatusBadge from './StatusBadge/StatusBadge';
 export TestCaseListView from './TestCase/List';
 export TestCaseRow from './TestCase/Row';
+export TestCaseDiffRow from './TestCase/DiffRow';
+export TestCaseDiffList from './TestCase/DiffList';
 export TestCaseMainView from './TestCase/MainView';
 export TestCaseDetail from './TestCase/Detail';
 export HistoryLine from './HistoryLine/HistoryLine';

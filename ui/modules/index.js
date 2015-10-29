@@ -4,7 +4,6 @@ import { routerStateReducer } from 'redux-router';
 import project from './Project';
 import testRun from './TestRun';
 import testCase from './TestCase';
-import diffView from './DiffView';
 
 console.info(testCase);
 export default combineReducers({
@@ -12,5 +11,4 @@ export default combineReducers({
   project,
   testRun,
   testCase,
-  diffView
 });

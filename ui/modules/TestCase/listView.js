@@ -1,8 +1,8 @@
-import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import constants from '../../lib/constants';
 
 const ACTION = constants('TEST_CASE_', [
+  'INVALIDATE',
   'FILTER',
   'GROUP_BY',
   'UPDATE_LIST_VIEW',
@@ -40,10 +40,10 @@ export function updateListView(state) {
   // filter
   const data = _.values(state.testCase.data.all);
   let filtered = data.filter((d) => {
-    return d.name.toLowerCase().includes(state.testCase.list.filter.toLowerCase());
+    return d.name.toLowerCase().includes(state.testCase.listView.filter.toLowerCase());
   });
   // group
-  let grouped = group(filtered, state.testCase.list.groupBy);
+  let grouped = group(filtered, state.testCase.listView.groupBy);
   return {
     type: ACTION.UPDATE_LIST_VIEW,
     updated: _.mapValues(grouped, (list) => list.map((tc) => tc.id))
@@ -88,6 +88,12 @@ export default function reducer(state = {
   processed: {}
 }, action) {
   switch(action.type) {
+  case ACTION.INVALIDATE:
+    return _.assign({}, state, {
+      groupBy: GROUP_BY.FEATURE,
+      processed: {},
+      filter: '',
+    });
   case ACTION.UPDATE_LIST_VIEW:
     return _.assign({}, state, {
       processed: action.updated

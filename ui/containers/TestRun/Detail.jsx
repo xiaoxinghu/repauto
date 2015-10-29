@@ -1,17 +1,23 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { fetch } from '../../modules/TestCase';
+import { fetchDetail, invalidate } from '../../modules/TestCase';
 import { TestCaseListView, TestCaseMainView } from '../../components';
 
 @connect(
   state => ({
+    currentRun: state.router.params.runId
   }),
-  {fetch}
+  {fetchDetail, invalidate}
 )
 export default class Detail extends Component {
   componentDidMount() {
-    const { fetch, runs } = this.props;
-    fetch();
+    const { fetchDetail } = this.props;
+    fetchDetail();
+  }
+
+  componentWillUnmount() {
+    const { invalidate } = this.props;
+    invalidate();
   }
 
   render() {

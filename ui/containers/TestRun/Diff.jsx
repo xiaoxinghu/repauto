@@ -1,24 +1,29 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { TestCaseListView, TestCaseMainView } from '../../components';
-import { fetch } from '../../modules/DiffView';
+import { TestCaseDiffList, TestCaseMainView } from '../../components';
+import { fetchDiff, invalidate } from '../../modules/TestCase';
 
 @connect(
   state => ({
   }),
-  {fetch}
+  {fetchDiff, invalidate}
 )
 export default class Diff extends Component {
   componentDidMount() {
-    const { fetch, runs } = this.props;
-    fetch();
+    const { fetchDiff } = this.props;
+    fetchDiff();
+  }
+
+  componentWillUnmount() {
+    const { invalidate } = this.props;
+    invalidate();
   }
 
   render() {
     return (
       <div className="row">
         <div className="col-sm-3">
-          <TestCaseListView />
+          <TestCaseDiffList />
         </div>
         <div className="col-sm-9">
           <TestCaseMainView />
