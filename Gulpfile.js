@@ -16,7 +16,7 @@ var config = {
   },
   js: {
     root: './ui',
-    main: 'app_with_router.js',
+    main: 'app.js',
     dest: './public/javascripts/'
   }
 }
