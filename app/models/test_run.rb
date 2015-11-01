@@ -14,8 +14,8 @@ class TestRun
   paginates_per 20
 
   def gen_report
-    return report if has_report? && !dirty
-    report = Report.gen(self)
+    return self.report if has_report? && !self.dirty
+    self.report = Report.gen(self)
     self.dirty = false
     self.save!
     report
