@@ -19,7 +19,7 @@ class TestCase
   end
 
   def processed_status
-    return status unless has_comments?
+    return status unless has_comments? && comments.last.status
     comments.last.status
   end
 end

@@ -18,7 +18,7 @@ module Api
         .limit(30)
       @trend = history.map do |test_run|
         # data = test_run.counts.clone
-        data = test_run.gen_report.original_status.clone
+        data = Report.of(test_run).original_status.clone
         data[:time] = test_run.start
         data
       end

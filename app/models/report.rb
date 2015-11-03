@@ -6,6 +6,14 @@ class Report
   field :processed_status, type: Hash
   field :todo, type: Integer
 
+  def self.of(test_run)
+    return test_run.report if test_run.report? && !test_run.dirty
+    gen(test_run)
+    test_run.report
+  end
+
+  private
+
   def self.gen(test_run)
     ori = {}
     pro = {}
@@ -20,6 +28,11 @@ class Report
       todo += 1 if tc.status != 'passed' && !tc.has_comments?
       total += 1
     end
-    Report.new(original_status: ori, processed_status: pro, todo: todo)
+    report = test_run.report
+    report.original_status = ori
+    report.processed_status = pro
+    report.todo = todo
+    test_run.dirty = false
+    test_run.save!
   end
 end

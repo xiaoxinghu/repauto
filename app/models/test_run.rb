@@ -10,14 +10,6 @@ class TestRun
   field :stop, type: Time
   field :status, type: String
   field :dirty, type: Boolean, default: -> { true }
-  embeds_one :report
+  embeds_one :report, autobuild: true
   paginates_per 20
-
-  def gen_report
-    return self.report if has_report? && !self.dirty
-    self.report = Report.gen(self)
-    self.dirty = false
-    self.save!
-    report
-  end
 end
