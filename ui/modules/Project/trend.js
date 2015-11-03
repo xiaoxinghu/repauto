@@ -9,7 +9,6 @@ export const ACTION = constants('PROJECT_', [
 
 function receiveTrend(run, json) {
   const data = patchData(json);
-  console.info(json, data);
   return {
     type: ACTION.RECEIVE_TREND,
     run,

@@ -5,7 +5,6 @@ import project from './Project';
 import testRun from './TestRun';
 import testCase from './TestCase';
 
-console.info(testCase);
 export default combineReducers({
   router: routerStateReducer,
   project,

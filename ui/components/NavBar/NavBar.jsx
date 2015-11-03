@@ -16,16 +16,29 @@ import _ from 'lodash';
 export default class NavBar extends Component {
   render() {
     const { projects, activeProject, pushState, invalidate, invalidateTrend } = this.props;
-    var items = _.values(projects).map(function(project) {
-      return (
-        <li  key={_.uniqueId('PROJECT')}>
-          <a href='#' onClick={function() {
-              invalidate();
-              invalidateTrend();
-              pushState(null, `/projects/${project.id}`);
-            }}>{project.name}</a>
-        </li>);
-    });
+    const grouped = _.groupBy(_.values(projects), 'stream');
+    var items = [];
+    for (let stream in grouped) {
+      items.push(
+        <li className="dropdown-header" key={_.uniqueId('STREAM')}>
+          {stream}
+        </li>
+      );
+      items.push(...grouped[stream].map((project) => {
+        return (
+          <li  key={_.uniqueId('PROJECT')}>
+            <a href='#' onClick={function() {
+                invalidate();
+                invalidateTrend();
+                pushState(null, `/projects/${project.id}`);
+              }}>{project.name}</a>
+          </li>);
+      }));
+      items.push(
+        <li key={_.uniqueId('DIV')} role='separator' className='divider' />
+      );
+    }
+    items.pop();
     var dropdownText = 'Select Project';
     if (!_.isEmpty(activeProject)) {
       dropdownText = activeProject.name;
