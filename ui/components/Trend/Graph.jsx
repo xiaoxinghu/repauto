@@ -10,7 +10,7 @@ const STYLE = {
 export default class Graph extends Component {
   constructor(props){
     super(props);
-    this.state = {style: STYLE.LINE};
+    this.state = {style: STYLE.AREA};
   }
 
   componentDidUpdate() {
@@ -60,8 +60,8 @@ export default class Graph extends Component {
   render() {
     this.graphId = _.uniqueId('morrisTarget');
     const radios = [
-      {label: (<i className="fa fa-line-chart" />), value: STYLE.LINE},
-      {label: (<i className="fa fa-area-chart" />), value: STYLE.AREA}
+      {label: (<i className="fa fa-area-chart" />), value: STYLE.AREA},
+      {label: (<i className="fa fa-line-chart" />), value: STYLE.LINE}
     ];
     var style = {
       height: this.props.height,
