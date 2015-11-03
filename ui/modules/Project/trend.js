@@ -8,11 +8,26 @@ export const ACTION = constants('PROJECT_', [
 ]);
 
 function receiveTrend(run, json) {
+  const data = patchData(json);
+  console.info(json, data);
   return {
     type: ACTION.RECEIVE_TREND,
     run,
-    data: json
+    data: data
   };
+}
+
+function patchData(json) {
+  const template = _.reduce(json, (template, d) => {
+    template = {};
+    for(let k in d) {
+      template[k] = 0;
+    }
+    return template;
+  });
+  return json.map((d) => {
+    return _.assign({}, template, d);
+  });
 }
 
 function shouldFetchTrend(state, run) {
