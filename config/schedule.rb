@@ -24,4 +24,5 @@ set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log
 
 every 30.minutes do
   rake "data:sync"
+  rake "data:cleanup"
 end

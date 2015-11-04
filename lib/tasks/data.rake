@@ -57,7 +57,7 @@ namespace :data do
   end
 
   task cleanup: :environment do
-    measure = Benchmark.measure do
+    measure = Benchmark.measure('cleanup') do
       date = DataCleanup.configuration.max_life.days.ago
       Project.all.each do |project|
         project.test_runs.archived.where(:start.lte => 2.weeks.ago).delete_all
