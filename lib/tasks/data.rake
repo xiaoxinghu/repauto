@@ -57,32 +57,35 @@ namespace :data do
   end
 
   task cleanup: :environment do
-    date = DataCleanup.configuration.max_life.days.ago
-    Project.all.each do |project|
-      project.test_runs.archived.where(:start.lte => 2.weeks.ago).delete_all
-      project.run_types.each do |type|
-        total = project.test_runs.where(name: type).size
-        max_to_del = total - DataCleanup.configuration.keep_amount
-        next unless max_to_del > 0
-        to_del = project.test_runs
+    measure = Benchmark.measure do
+      date = DataCleanup.configuration.max_life.days.ago
+      Project.all.each do |project|
+        project.test_runs.archived.where(:start.lte => 2.weeks.ago).delete_all
+        project.run_types.each do |type|
+          total = project.test_runs.where(name: type).size
+          max_to_del = total - DataCleanup.configuration.keep_amount
+          next unless max_to_del > 0
+          to_del = project.test_runs
           .active
           .where(name: type)
           .where(:start.lte => date)
           .order_by(start: 'asc')
           .limit(max_to_del)
-        to_del.each do |td|
-          archive = TestRun.new(
-            name: td.name,
-            start: td.start,
-            stop: td.stop,
-            project: td.project,
-            report: td.report
-          )
-          archive.with(collection: 'archived_test_runs').save!
-          td.delete
+          to_del.each do |td|
+            archive = TestRun.new(
+              name: td.name,
+              start: td.start,
+              stop: td.stop,
+              project: td.project,
+              report: td.report)
+            archive.with(collection: 'archived_test_runs').save!
+            td.delete
+          end
         end
       end
     end
+
+    puts measure
   end
 
   task dry_clean: :environment do
