@@ -2,28 +2,6 @@ require 'uri'
 require 'datacraft'
 
 namespace :data do
-  desc 'Sync data to database, sync all projects if param project is not given'
-  task :sync_old, [:project] => [:environment, :mount] do |_task, args|
-    start = Time.now
-    logger = Logger.new(STDOUT)
-    logger.level = Rails.logger.level
-    Rails.logger = logger
-    logger.info 'Start Syncing...'
-    insts = ['sync_projects.rb',
-             'sync_test_runs.rb',
-             'sync_test_cases.rb',
-             'sync_test_run_time.rb']
-    insts.each do |i|
-      puts "running instruction #{i}..."
-      inst = Datacraft::Instruction.from_file "#{Rails.root}/lib/sync/#{i}"
-      Datacraft.run inst
-    end
-    # insts.each { |inst| Datacraft.run inst }
-    finish = Time.now
-    logger.info "Sync Finished.
-    Started at #{start}. Took #{finish - start} seconds."
-  end
-
   desc 'Manually sync data to database,
   turn off and on background sync task automatically'
   task :msync, [:project] => :environment do |_task, args|
@@ -75,6 +53,51 @@ namespace :data do
       puts "#{Time.now} -> #{task}"
       instruction = Datacraft.parse(script)
       Datacraft.run instruction
+    end
+  end
+
+  task cleanup: :environment do
+    date = DataCleanup.configuration.max_life.days.ago
+    Project.all.each do |project|
+      project.run_types.each do |type|
+        total = project.test_runs.where(name: type).size
+        max_to_del = total - DataCleanup.configuration.keep_amount
+        next unless max_to_del > 0
+        to_del = project.test_runs
+          .where(name: type)
+          .where(:start.lte => date)
+          .order_by(start: 'asc')
+          .limit(max_to_del)
+        to_del.each do |td|
+          archive = TestRun.new(
+            name: td.name,
+            start: td.start,
+            stop: td.stop,
+            project: td.project,
+            report: td.report
+          )
+          archive.with(collection: 'archived_test_runs').save!
+          td.delete
+        end
+      end
+    end
+  end
+
+  task dry_clean: :environment do
+    date = DataCleanup.configuration.max_life.days.ago
+    Project.all.each do |project|
+      project.run_types.each do |type|
+        total = project.test_runs.where(name: type).size
+        max_to_del = total - DataCleanup.configuration.keep_amount
+        puts "project: #{project.project}, run: #{type}, total: #{total}, max delete: #{max_to_del}"
+        next unless max_to_del > 0
+        to_del = project.test_runs
+          .where(name: type)
+          .where(:start.lte => date)
+          .order_by(start: 'asc')
+          .limit(max_to_del)
+        puts "all to del: #{to_del.size}"
+      end
     end
   end
 
