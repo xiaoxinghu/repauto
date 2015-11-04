@@ -66,11 +66,11 @@ namespace :data do
           max_to_del = total - DataCleanup.configuration.keep_amount
           next unless max_to_del > 0
           to_del = project.test_runs
-          .active
-          .where(name: type)
-          .where(:start.lte => date)
-          .order_by(start: 'asc')
-          .limit(max_to_del)
+            .active
+            .where(name: type)
+            .where(:start.lte => date)
+            .order_by(start: 'asc')
+            .limit(max_to_del).to_a
           to_del.each do |td|
             archive = TestRun.new(
               name: td.name,
@@ -102,7 +102,7 @@ namespace :data do
           .where(name: type)
           .where(:start.lte => date)
           .order_by(start: 'asc')
-          .limit(max_to_del)
+          .limit(max_to_del).to_a
         puts "all to del: #{to_del.size}"
       end
     end
