@@ -59,11 +59,13 @@ namespace :data do
   task cleanup: :environment do
     date = DataCleanup.configuration.max_life.days.ago
     Project.all.each do |project|
+      project.test_runs.archived.where(:start.lte => 2.weeks.ago).delete_all
       project.run_types.each do |type|
         total = project.test_runs.where(name: type).size
         max_to_del = total - DataCleanup.configuration.keep_amount
         next unless max_to_del > 0
         to_del = project.test_runs
+          .active
           .where(name: type)
           .where(:start.lte => date)
           .order_by(start: 'asc')
@@ -86,12 +88,14 @@ namespace :data do
   task dry_clean: :environment do
     date = DataCleanup.configuration.max_life.days.ago
     Project.all.each do |project|
+      project.test_runs.archived.where(:start.lte => 2.weeks.ago).delete_all
       project.run_types.each do |type|
-        total = project.test_runs.where(name: type).size
+        total = project.test_runs.active.where(name: type).size
         max_to_del = total - DataCleanup.configuration.keep_amount
         puts "project: #{project.project}, run: #{type}, total: #{total}, max delete: #{max_to_del}"
         next unless max_to_del > 0
         to_del = project.test_runs
+          .active
           .where(name: type)
           .where(:start.lte => date)
           .order_by(start: 'asc')
