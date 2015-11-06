@@ -1,4 +1,5 @@
 export App from './App/App';
+export Home from './Home/Home';
 export TestRunList from './TestRun/List';
 export TestRunDetail from './TestRun/Detail';
 export TestRunDiff from './TestRun/Diff';

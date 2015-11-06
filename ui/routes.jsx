@@ -7,6 +7,7 @@ import {
 import { Route, IndexRoute } from 'react-router';
 import {
   App,
+  Home,
   Navbar,
   ProjectContext,
   ProjectSummary,
@@ -21,6 +22,7 @@ export default (store) => {
   return (
     <ReduxRouter>
       <Route path="/" component={App}>
+        <IndexRoute component={Home} />
         <Route path="projects/:projectId" component={ProjectContext}>
           <IndexRoute component={ProjectSummary} />
           <Route path="summary" component={ProjectSummary} />

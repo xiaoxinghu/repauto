@@ -1,4 +1,5 @@
 export NavBar from './NavBar/NavBar';
+export ProjectMini from './Project/Mini';
 export Stretchable from './Stretchable/Stretchable';
 export Collapsible from './Collapsible/Collapsible';
 export SearchBar from './SearchBar/SearchBar';
@@ -18,3 +19,5 @@ export Gallery from './Gallery/Gallery';
 export RadioSet from './RadioSet/RadioSet';
 export TrendGraph from './Trend/Graph';
 export TrendCard from './Trend/Card';
+export DonutChart from './Chart/Donut';
+

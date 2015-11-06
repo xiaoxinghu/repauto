@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       member do
         get 'run_names'
         get 'trend'
+        get 'summary'
       end
     end
     resources :attachments, only: [:show] do
