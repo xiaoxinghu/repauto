@@ -4,6 +4,7 @@ import { pushState } from 'redux-router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { fetch, filter, invalidate } from '../../modules/TestRun';
+import { StatusBadge } from '../../components';
 
 @connect(
   state => ({
@@ -36,8 +37,14 @@ export default class Card extends Component {
     var graph = (
       <TrendGraph data={data} />
     );
-    var lastRun = (
-      <h5 className='list-group-item-heading'>Last Run</h5>
+    let last = _.sortBy(data, 'time')[data.length - 1];
+    const lastRun = (
+      <h5 className='list-group-item-heading'>
+        Last Run
+        <div className='pull-right'>
+          <StatusBadge status={last} />
+        </div>
+      </h5>
     );
     return (
       <div className='panel panel-default'>
