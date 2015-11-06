@@ -18,11 +18,12 @@ module Api
         query = query.where(name: params[:name])
       end
 
-      query = query.sort(start: -1).limit(30)
+      query = query.sort(start: -1).limit(100)
       @trend = query.map do |test_run|
-        # data = test_run.counts.clone
-        data = Report.of(test_run).original_status.clone
+        data = {}
         data[:time] = test_run.start
+        data[:ori] = Report.of(test_run).original_status
+        data[:proc] = Report.of(test_run).processed_status
         data
       end
       respond_with @trend

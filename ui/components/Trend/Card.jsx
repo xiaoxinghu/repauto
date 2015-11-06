@@ -34,8 +34,11 @@ export default class Card extends Component {
         <i className='fa fa-search' />
       </a>
     ];
+    let trendData = data.map((trend) => {
+      return _.assign({}, trend.ori, {time: trend.time});
+    });
     var graph = (
-      <TrendGraph data={data} />
+      <TrendGraph data={trendData} />
     );
     let last = _.sortBy(data, 'time')[data.length - 1];
     const lastRun = (

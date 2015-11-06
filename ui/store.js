@@ -19,6 +19,5 @@ const createStoreWithMiddleware = compose(
   reduxReactRouter({ createHistory })
 )(createStore);
 export default function configureStore() {
-  console.debug('configureStore');
   return createStoreWithMiddleware(reducer);
 }

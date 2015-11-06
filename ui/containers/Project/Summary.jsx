@@ -45,7 +45,6 @@ export default class Summary extends Component {
         <div id='ProjectSummary'>
           <div className='page-header'>
             <h2>{project.name}</h2>
-            <p>summary view</p>
           </div>
           <div className='container-fluid'>
             <div className='row'>

@@ -42,13 +42,19 @@ export default class Trend extends Component {
         </select>
       </div>
     );
+    let trendData = [];
+    if (trends[selected]) {
+      trendData = trends[selected].map((trend) => {
+        return _.assign({}, trend.ori, {time: trend.time});
+      });
+    }
     return (
       <div className='row'>
         <div className='col-sm-3'>
           {panel}
         </div>
         <div className='col-sm-9'>
-          <TrendGraph data={trends[selected]} />
+          <TrendGraph data={trendData} />
         </div>
       </div>
     );
