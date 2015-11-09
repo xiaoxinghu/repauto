@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import data from './data';
-import trends from './trend';
+import trend from './trend';
 import summary from './summary';
 
 const reducer = combineReducers({
   data,
-  trends,
+  trend,
   summary
 });
 

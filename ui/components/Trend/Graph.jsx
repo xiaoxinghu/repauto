@@ -40,7 +40,7 @@ export default class Graph extends Component {
       labels: ['passed', 'failed', 'broken', 'pending'],
       lineColors: ['#5cb85c', '#d9534f', '#f0ad4e', 'gray'],
       hideHover: 'auto'
-    }
+    };
     switch (this.state.style) {
       case STYLE.LINE:
         new Morris.Line(d);

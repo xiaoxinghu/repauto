@@ -2,7 +2,7 @@ import _fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import constants from '../../lib/constants';
 
-export const ACTION = constants('PROJECT_', [
+const ACTION = constants('PROJECT_', [
   'RECEIVE_TREND',
   'INVALIDATE_TREND',
 ]);
@@ -31,7 +31,7 @@ function patchData(json) {
 
 function shouldFetchTrend(state, run) {
   const projectId = state.router.params.projectId;
-  const trends = state.project.trends;
+  const trends = state.project.trend.data;
   return !(trends && trends[run]);
 }
 
@@ -68,12 +68,17 @@ function trend(state = [], action = {}) {
   }
 }
 
-export default function trends(state = {}, action) {
+export default function reducer(state = {
+  data: {}
+}, action) {
   switch (action.type) {
     case ACTION.RECEIVE_TREND:
-      return _.assign({}, state, {
-        [action.run]: trend(state[action.run], action)
-      });
+    const data = _.assign({}, state.data, {
+      [action.run]: trend(state[action.run], action)
+    });
+    return _.assign({}, state, {
+      data: data
+    });
     case ACTION.INVALIDATE_TREND:
       return {};
     default:

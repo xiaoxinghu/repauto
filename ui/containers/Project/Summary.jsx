@@ -7,7 +7,7 @@ import _ from 'lodash';
 @connect(
   state => ({
     project: state.project.data[state.router.params.projectId],
-    trends: state.project.trends
+    trends: state.project.trend.data
   }),
   {fetchTrend}
 )
@@ -38,7 +38,7 @@ export default class Summary extends Component {
         <div key={_.uniqueId('trend')} className='col-md-3'>
           <TrendCard title={name} data={trends[name]} />
         </div>
-      )
+      );
     });
     if (project) {
       content = (

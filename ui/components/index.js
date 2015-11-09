@@ -1,5 +1,6 @@
 export NavBar from './NavBar/NavBar';
 export ProjectMini from './Project/Mini';
+export ProjectTrendControlPanel from './Project/TrendControlPanel';
 export Stretchable from './Stretchable/Stretchable';
 export Collapsible from './Collapsible/Collapsible';
 export SearchBar from './SearchBar/SearchBar';
