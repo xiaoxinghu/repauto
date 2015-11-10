@@ -11,11 +11,11 @@ module TestRunPlugin
     def check(path)
       _project_sn, _name, time = path.to_s.split('/').last(3)
       return [false, 'allure folder does not exist'] unless Pathname.new("#{path}/allure").exist?
-      begin
-        Time.strptime(time, '%Y-%m-%d-%H-%M-%S')
-      rescue StandardError => e
-        return [false, e.message]
-      end
+      # begin
+        # Time.strptime(time, '%Y-%m-%d-%H-%M-%S')
+      # rescue StandardError => e
+        # return [false, e.message]
+      # end
       [true, nil]
     end
 

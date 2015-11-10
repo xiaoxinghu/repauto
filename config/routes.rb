@@ -19,15 +19,17 @@ Rails.application.routes.draw do
         get 'detail'
         get 'archive'
         get 'restore'
+        get 'start'
+        get 'stop'
       end
       collection do
         get 'diff'
       end
-    end
-    resources :test_cases, only: [:show] do
-      member do
-        get :history
-        post :comment
+      resources :test_cases, shallow: true, only: [:show, :create] do
+        member do
+          get :history
+          post :comment
+        end
       end
     end
   end

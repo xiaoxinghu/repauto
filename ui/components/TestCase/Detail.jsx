@@ -60,9 +60,11 @@ export default class Detail extends Component {
         );
       });
 
-      var images = data.attachments.map(function(att) {
+      var images = data.attachments.map(att => {
         return {
           url: att.url,
+          type: att.type,
+          title: att.title,
           caption: (<div>{att.title}</div>)
         };
       });
