@@ -1,20 +1,16 @@
 module Api
   class TestRunsController < Api::BaseController
-    before_action :set_resource, only: [:progress, :detail, :archive, :restore]
+    before_action :set_resource, only: [:show, :update, :archive, :restore]
+    include ParamTool
 
-    def detail
-      # @test_cases = @test_run.test_cases
-      # @test_cases = []
-      # @test_run.test_suites.each do |ts|
-      #   ts.test_cases.each do |tc|
-      #     tc[:test_suite] = ts
-      #     @test_cases << tc
-      #   end
-      # end
-    end
-
-    def progress
-      respond_with get_resource
+    def index
+      project = Project.find(params[:project_id])
+      query = project.test_runs
+        .where(query_params)
+        .page(page_params[:page])
+        .per(page_params[:page_size])
+        .order_by(start: 'desc')
+      @test_runs = query
     end
 
     def archive
@@ -31,31 +27,21 @@ module Api
       tr1 = TestRun.find(params[:id1])
       tr2 = TestRun.find(params[:id2])
       @prev, @current = [tr1, tr2].sort_by(&:start).map(&:test_cases)
-      # changes = {}
-      # processed = []
-      # tr1 = TestRun.find(params[:left])
-      # tr2 = TestRun.find(params[:right])
-      # base, target = [tr1, tr2].sort_by(&:start).map(&:test_cases)
-      # target.each do |tc|
-      #   old = base.select { |x| x.get_md5 == tc.get_md5 }
-      #   if old.size > 0
-      #     if old[0][:status] != tc[:status]
-      #       key = "newly #{tc[:status]}"
-      #       changes[key] ||= []
-      #       tc[:prev] = old[0]
-      #       changes[key] << tc
-      #     end
-      #   else
-      #     key = 'new test cases'
-      #     changes[key] ||= []
-      #     changes[key] << tc
-      #   end
-      #   processed << tc.get_md5
-      # end
-      # missing = base.select { |x| !processed.include?(x.get_md5) }
-      # changes['missing test cases'] = missing if missing.size > 0
-      # @changes = changes
-      # respond_with changes
+    end
+
+    def create
+      begin
+        validate_params([:project_id, :name, :status], params)
+        project = Project.find(params[:project_id])
+        @test_run = project.test_runs.build(name: params[:name], start: Time.now, status: params[:status])
+        @test_run.save!
+      rescue StandardError => error
+        @error = error
+      end
+    end
+
+    def update
+
     end
 
     def order_params

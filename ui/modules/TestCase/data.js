@@ -57,7 +57,8 @@ export function fetchDetail() {
     const { runId } = state.router.params;
     if (shouldFetch(state)) {
       dispatch(request());
-      const url = `/api/test_runs/${runId}/detail`;
+      const url = `/api/test_runs/${runId}/test_cases`;
+      console.info('fetching test cases', url);
       return _fetch(url)
         .then(response => response.json())
         .then(json => dispatch(receiveDetail(json)))
@@ -74,7 +75,7 @@ export function fetchDiff() {
     const { id1, id2 } = state.router.params;
     if (shouldFetch(state)) {
       dispatch(request());
-      const url = `/api/test_runs/diff?id1=${id1}&id2=${id2}`;
+      const url = `/api/test_runs/diff/${id1}/${id2}`;
       return _fetch(url)
         .then(response => response.json())
         .then(json => dispatch(receiveDiff(json)))

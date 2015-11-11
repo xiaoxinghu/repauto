@@ -1,12 +1,6 @@
 module Api
   class ProjectsController < Api::BaseController
-    before_action :set_resource, only: [:show, :run_names, :trend, :summary]
-
-    def run_names
-      names = @project.test_runs.distinct(:name)
-      # @types = TestRun.where(project_path: @project.path).distinct(:type)
-      respond_with names
-    end
+    before_action :set_resource, only: [:show, :trend, :summary]
 
     def trend
       query = @project

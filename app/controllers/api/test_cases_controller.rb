@@ -3,13 +3,23 @@ module Api
     before_action :set_resource, only: [:archive, :history, :comment]
     skip_before_filter :verify_authenticity_token
 
+    def index
+      test_run = TestRun.find(params[:test_run_id])
+      @test_cases = test_run.test_cases
+        .where(query_params)
+    end
+
     def history
       test_case_def = @test_case.definition
       @history = TestCase
-                 .where(def_id: test_case_def.id)
-                 .where(:start.lt => @test_case.start)
-                 .sort(start: -1)
-                 .limit(10)
+      .where(def_id: test_case_def.id)
+      .where(:start.lt => @test_case.start)
+      .sort(start: -1)
+      .limit(10)
+    end
+
+    def create
+      puts "creating #{params}"
     end
 
     def comment

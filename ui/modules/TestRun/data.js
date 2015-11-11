@@ -50,7 +50,7 @@ function getUrl(state) {
   const projectId = state.router.params.projectId;
   const filter = state.testRun.data.filter;
   const nextPage = state.testRun.data.meta.nextPage;
-  let url = `/api/test_runs?project=${projectId}&page=${nextPage}`;
+  let url = `/api/projects/${projectId}/test_runs?page=${nextPage}`;
   switch(filter) {
   case VIEW.ALL:
     break;
