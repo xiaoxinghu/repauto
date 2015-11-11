@@ -3,7 +3,6 @@ require './datacraft/model_plugins/project_plugin'
 require './datacraft/model_plugins/test_run_plugin'
 
 set :benchmark, true
-set :parallel, true
 
 class TestRunFolders
   def each

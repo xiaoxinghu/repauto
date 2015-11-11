@@ -3,7 +3,6 @@ require './datacraft/model_plugins/attachment_plugin'
 require './datacraft/model_plugins/test_case_plugin'
 
 set :benchmark, true
-set :parallel, true
 
 class AttachmentsToProcess
   def each

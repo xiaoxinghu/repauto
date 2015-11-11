@@ -2,6 +2,7 @@ module Api
   class ProjectsController < Api::BaseController
     before_action :set_resource, only: [:show, :trend, :summary]
 
+    api! 'Get the trend of project.'
     def trend
       query = @project
         .test_runs
@@ -23,6 +24,7 @@ module Api
       respond_with @trend
     end
 
+    api! 'Get summary of project.'
     def summary
       query = @project
         .test_runs
