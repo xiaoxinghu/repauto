@@ -19,6 +19,11 @@ module Api
       respond_with get_resource
     end
 
+    rescue_from Apipie::ParamError do |e|
+      @error = e
+      render 'api/error', status: :unprocessable_entity
+    end
+
     private
 
     # Returns the resource from the created instance variable

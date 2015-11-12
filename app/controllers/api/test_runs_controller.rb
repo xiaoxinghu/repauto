@@ -1,7 +1,6 @@
 module Api
   class TestRunsController < Api::BaseController
     before_action :set_resource, only: [:show, :update, :archive, :restore]
-    include ParamTool
 
     api! 'List all test runs under project.'
     def index
@@ -39,14 +38,23 @@ module Api
     param :project_id, String, desc: 'project id', required: true
     param :name, String, desc: 'test run name', required: true
     param :status, ['running', 'done'], desc: 'test run current status', required: true
+    param :start_time, String, desc: 'start time in milliseconds, default set to now'
     description <<-EOS
 Create a new test run.
     EOS
+    example <<-EOS
+# if success
+status: ok
+id: 1234567
+# if error
+status: error
+message: something went wrong
+    EOS
     def create
       begin
-        validate_params([:project_id, :name, :status], params)
         project = Project.find(params[:project_id])
-        @test_run = project.test_runs.build(name: params[:name], start: Time.now, status: params[:status])
+        start_time = params[:start_time] || Time.zone.now
+        @test_run = project.test_runs.build(name: params[:name], start: start_time, status: params[:status])
         @test_run.save!
       rescue StandardError => error
         @error = error

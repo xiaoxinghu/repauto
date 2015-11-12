@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         member do
           get 'archive'
           get 'restore'
+          get 'stop'
         end
 
         resources :test_cases, shallow: true, only: [:index, :show, :create] do
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
 
     get 'test_runs/diff/:id1/:id2' => 'test_runs#diff'
 
-    resources :attachments, only: [:show] do
+    resources :attachments, only: [:create, :show] do
       member do
         get 'raw'
       end
