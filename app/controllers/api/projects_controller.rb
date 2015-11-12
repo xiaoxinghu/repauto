@@ -2,6 +2,11 @@ module Api
   class ProjectsController < Api::BaseController
     before_action :set_resource, only: [:show, :trend, :summary]
 
+    api! 'Get all projects.'
+    def index
+      super
+    end
+
     api! 'Get the trend of project.'
     def trend
       query = @project
@@ -42,6 +47,16 @@ module Api
         memo
       end
       respond_with stats
+    end
+
+    api! 'Create a project.'
+    param :name, String, desc: 'project name', required: true
+    param :stream, String, desc: 'project stream', required: true
+    def create
+      if Project.where(name: params[:name]).exists?
+        raise "Project name '#{params[:name]}' already exists."
+      end
+      @project = Project.create!(name: params[:name], stream: params[:stream])
     end
 
     # def query_params

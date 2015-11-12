@@ -1,6 +1,6 @@
 module Api
   class TestRunsController < Api::BaseController
-    before_action :set_resource, only: [:show, :update, :archive, :restore]
+    before_action :set_resource, only: [:show, :stop, :update, :archive, :restore]
 
     api! 'List all test runs under project.'
     def index
@@ -64,6 +64,16 @@ message: something went wrong
     api!
     def update
 
+    end
+
+    api! 'Stop the run.'
+    param :stop_time, String, desc: 'stop time in milliseconds, default set to now'
+    def stop
+      stop_time = params[:stop_time] || Time.zone.now
+      @test_run.update_attributes!(
+        stop_time: stop_time,
+        status: 'done'
+      )
     end
 
     def order_params

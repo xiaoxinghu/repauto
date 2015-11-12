@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   apipie
   # restful api
   namespace :api, defaults: { format: :json } do
-    resources :projects, only: [:show, :index] do
+    resources :projects, only: [:show, :index, :create, :update] do
       member do
         get 'trend'
         get 'summary'

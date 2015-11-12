@@ -24,6 +24,16 @@ module Api
       render 'api/error', status: :unprocessable_entity
     end
 
+    rescue_from Mongoid::Errors::MongoidError do |e|
+      @error = e
+      render 'api/error', status: :unprocessable_entity
+    end
+
+    rescue_from StandardError do |e|
+      @error = e
+      render 'api/error', status: :unprocessable_entity
+    end
+
     private
 
     # Returns the resource from the created instance variable
