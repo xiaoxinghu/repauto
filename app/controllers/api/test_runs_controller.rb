@@ -42,22 +42,16 @@ module Api
 Create a new test run.
     EOS
     example <<-EOS
-# if success
-status: ok
+# if success, status: 200
 id: 1234567
-# if error
-status: error
+# if error, status: 422
 message: something went wrong
     EOS
     def create
-      begin
-        project = Project.find(params[:project_id])
-        start_time = params[:start_time] || Time.zone.now
-        @test_run = project.test_runs.build(name: params[:name], start: start_time, status: params[:status])
-        @test_run.save!
-      rescue StandardError => error
-        @error = error
-      end
+      project = Project.find(params[:project_id])
+      start_time = params[:start_time] || Time.zone.now
+      @test_run = project.test_runs.build(name: params[:name], start: start_time, status: params[:status])
+      @test_run.save!
     end
 
     api!
