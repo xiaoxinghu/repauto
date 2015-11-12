@@ -110,7 +110,7 @@ export function remove(id) {
     }
     const url = `/api/test_runs/${id}/${action}`;
     console.info('remove url', url);
-    return _fetch(url)
+    return _fetch(url, {method: 'put'})
       .then(response => response.json())
       .then(json => dispatch(removed(id)));
   };

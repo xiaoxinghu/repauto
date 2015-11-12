@@ -33,7 +33,7 @@ export default class Toolbar extends Component {
     _handleDelete() {
         const {remove, marked} = this.props;
         for (let id of marked) {
-            this.props.remove(id);
+            remove(id);
         }
         // console.info('delete');
     }

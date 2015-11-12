@@ -10,9 +10,9 @@ Rails.application.routes.draw do
 
       resources :test_runs, shallow: true, only: [:show, :index, :create, :update] do
         member do
-          get 'archive'
-          get 'restore'
-          get 'stop'
+          put 'archive'
+          put 'restore'
+          put 'stop'
         end
 
         resources :test_cases, shallow: true, only: [:index, :show, :create] do
