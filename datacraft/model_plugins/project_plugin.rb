@@ -45,7 +45,7 @@ module ProjectPlugin
         if arg.is_a? Array
           arg.each { |a| md5 << a }
         else
-          md5 << arg
+          md5 << (arg || '')
         end
       end
       md5.hexdigest
