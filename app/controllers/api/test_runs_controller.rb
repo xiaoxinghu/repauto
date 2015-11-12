@@ -35,7 +35,6 @@ module Api
     end
 
     api! 'Create a new test run.'
-    param :project_id, String, desc: 'project id', required: true
     param :name, String, desc: 'test run name', required: true
     param :status, ['running', 'done'], desc: 'test run current status', required: true
     param :start_time, String, desc: 'start time in milliseconds, default set to now'

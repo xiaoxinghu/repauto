@@ -53,7 +53,7 @@ module Api
     param :name, String, desc: 'project name', required: true
     param :stream, String, desc: 'project stream', required: true
     def create
-      if Project.where(name: params[:name]).exists?
+      if Project.any_of({name: params[:name]}, {project: params[:name]}).exists?
         raise "Project name '#{params[:name]}' already exists."
       end
       @project = Project.create!(name: params[:name], stream: params[:stream])
