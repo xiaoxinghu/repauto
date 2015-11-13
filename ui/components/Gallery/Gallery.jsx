@@ -18,7 +18,7 @@ export default class Gallery extends Component {
   }
 
   _buildGrid(data) {
-    var images = data.filter(d => d.type == 'image').map(function(image) {
+    var images = data.filter(d => d.type == 'screenshot').map(function(image) {
       var style = {
         overflow: 'hidden',
         whiteSpace: 'nowrap',
@@ -43,7 +43,7 @@ export default class Gallery extends Component {
   }
 
   _buildSlider(data) {
-    var images = data.filter(d => d.type == 'image').map(function(image) {
+    var images = data.filter(d => d.type == 'screenshot').map(function(image) {
       return (
         <img src={image.url}></img>
       );
@@ -57,7 +57,7 @@ export default class Gallery extends Component {
 
   _buildTextView(data) {
 
-    var content = data.filter(d => d.type == 'text').map(text => {
+    var content = data.filter(d => d.type == 'log').map(text => {
       console.info('text', text);
       const style = {
         width: "100%",

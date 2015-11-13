@@ -12,11 +12,12 @@ module AttachmentPlugin
 
     def parse(file)
       file_name = file.basename.to_s
-      type, data = process(file)
+      type, mime, data = process(file)
       attachment = {
         file_name: file_name,
         full_path: file.cleanpath.to_s,
         type: type,
+        mime: mime,
         size: data.size,
         data: BSON::Binary.new(data, :generic)
       }
@@ -31,11 +32,12 @@ module AttachmentPlugin
 
     def process(file)
       file_name = file.basename.to_s
+      mime = Rack::Mime.mime_type(file.extname)
       data = IO.binread(file)
-      type = :image if image?(file_name)
+      type = :screenshot if file_name.include?('attachment') && mime.start_with?('image/')
       type = :test_suite if file_name.end_with?('-testsuite.xml')
-      type = :text if text_file?(file_name)
-      [type, data]
+      type = :log if file_name.include?('attachment') && ( mime == 'text/plain' )
+      [type, mime, data]
     end
 
     def optimize_image(file)

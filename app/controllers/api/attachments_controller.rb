@@ -9,6 +9,7 @@ module Api
 
     api! 'upload an attachment'
     param :desc, String, desc: 'description of the attachment', required: true
+    param :type, ['log', 'screenshot'], desc: 'type of the attachment', required: true
     param :time, String, desc: 'timestamp', required: true
     param :file, File, desc: 'the attachment file', required: true
     param :test_case_id, String, desc: 'test case id', required: true
@@ -18,7 +19,7 @@ module Api
       data = IO.binread(file.tempfile)
       a = {
         desc: params[:desc],
-        type: :image,
+        type: type,
         size: data.size,
         time: params[:time],
         mime: file.content_type,
