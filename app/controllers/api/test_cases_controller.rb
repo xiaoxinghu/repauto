@@ -26,7 +26,6 @@ module Api
     param :start_time, String, desc: 'name', required: true
     param :stop_time, String, desc: 'name', required: true
     param :tags, Array, desc: 'name', required: true
-    param :test_run_id, String, desc: 'name', required: true
     param :test_suite, String, desc: 'test suite name', required: true
     param :steps, Array, desc: 'steps', required: true do
       param :name, String, desc: 'name of the step', required: true
