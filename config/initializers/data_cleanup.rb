@@ -9,4 +9,5 @@ DataCleanup.configure do |config|
   config.max_life = 14
   # keep the numbers
   config.keep_report = true
+  config.garbage_rate = 0.1
 end

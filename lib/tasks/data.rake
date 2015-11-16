@@ -60,6 +60,7 @@ namespace :data do
     measure = Benchmark.measure('cleanup') do
       date = DataCleanup.configuration.max_life.days.ago
       Project.all.each do |project|
+        # cleanup the deleted ones
         project.test_runs.archived.where(:start.lte => 2.weeks.ago).delete_all
         project.run_types.each do |type|
           total = project.test_runs.where(name: type).size

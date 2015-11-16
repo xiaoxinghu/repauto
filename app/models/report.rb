@@ -4,15 +4,8 @@ class Report
   embedded_in :test_run
   field :original_status, type: Hash
   field :processed_status, type: Hash
+  field :total, type: Integer
   field :todo, type: Integer
-
-  def self.of(test_run)
-    return test_run.report if test_run.report? && !test_run.dirty
-    gen(test_run)
-    test_run.report
-  end
-
-  private
 
   def self.gen(test_run)
     ori = {}
@@ -32,7 +25,7 @@ class Report
     report.original_status = ori
     report.processed_status = pro
     report.todo = todo
-    test_run.dirty = false
-    test_run.save!
+    report.total = total
+    report
   end
 end

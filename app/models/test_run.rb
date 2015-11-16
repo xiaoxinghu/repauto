@@ -3,7 +3,7 @@ class TestRun
   include Mongoid::Attributes::Dynamic
   has_many :attachments, dependent: :delete
   belongs_to :project
-  has_many :test_cases, dependent: :delete
+  has_many :test_cases, dependent: :delete, after_add: :mark_dirty
 
   field :name, type: String
   field :start, type: Time
@@ -12,4 +12,16 @@ class TestRun
   field :dirty, type: Boolean, default: -> { true }
   embeds_one :report, autobuild: true
   paginates_per 20
+
+  before_save do |doc|
+    if doc.dirty
+      doc.report = Report.gen(doc)
+      doc.dirty = false
+      doc
+    end
+  end
+
+  def mark_dirty(doc)
+    self.dirty = true
+  end
 end

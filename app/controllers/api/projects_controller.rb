@@ -22,8 +22,8 @@ module Api
       @trend = query.map do |test_run|
         data = {}
         data[:time] = test_run.start
-        data[:ori] = Report.of(test_run).original_status
-        data[:proc] = Report.of(test_run).processed_status
+        data[:ori] = test_run.report.original_status
+        data[:proc] = test_run.report.processed_status
         data
       end
       respond_with @trend
@@ -40,7 +40,7 @@ module Api
 
       stats = {ori: {}, proc: {}, total_runs: 0}
       stats = query.reduce(stats) do |memo, test_run|
-        report = Report.of(test_run)
+        report = test_run.report
         memo[:ori].merge!(report.original_status){ |_k, a, b| a + b }
         memo[:proc].merge!(report.processed_status){ |_k, a, b| a + b }
         memo[:total_runs] += 1

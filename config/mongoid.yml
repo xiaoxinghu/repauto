@@ -142,5 +142,5 @@ test:
         - localhost:27017
       options:
         read:
-          mode: primary
+          mode: :primary
         max_pool_size: 1
