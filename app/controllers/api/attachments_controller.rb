@@ -19,9 +19,9 @@ module Api
       data = IO.binread(file.tempfile)
       a = {
         desc: params[:desc],
-        type: type,
+        type: params[:type],
         size: data.size,
-        time: params[:time],
+        time: Time.at(params[:time].to_i / 1000.0),
         mime: file.content_type,
         data: BSON::Binary.new(data, :generic)
       }

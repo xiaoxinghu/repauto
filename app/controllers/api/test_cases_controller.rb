@@ -23,17 +23,46 @@ module Api
     api! 'Create a test case.'
     param :name, String, desc: 'name', required: true
     param :status, String, desc: 'name', required: true
-    param :start_time, String, desc: 'name', required: true
-    param :stop_time, String, desc: 'name', required: true
+    param :start, String, desc: 'start time in milliseconds', required: true
+    param :stop, String, desc: 'name', required: true
     param :tags, Array, desc: 'name', required: true
     param :test_suite, String, desc: 'test suite name', required: true
-    param :steps, Array, desc: 'steps', required: true do
+    param :failure, Hash, desc: 'failure info' do
+      param :message, String, desc: 'failure message', required: true
+      param :stack_trace, String, desc: 'stack trace', required: true
+    end
+    param :steps, Array, desc: 'steps' do
       param :name, String, desc: 'name of the step', required: true
-      param :start_time, String, desc: 'name of the step', required: true
-      param :stop_time, String, desc: 'name of the step', required: true
+      param :start, String, desc: 'name of the step', required: true
+      param :stop, String, desc: 'name of the step', required: true
       param :status, ['passed', 'failed', 'broken', 'pending'], desc: 'name of the step', required: true
     end
     def create
+      test_run = TestRun.find(params[:test_run_id])
+      test_case_def = TestCaseDef.find_or_create(params[:name],
+        params[:test_suite],
+        params[:steps].map { |step| step[:name] })
+      @test_case = test_run.test_cases.build(
+        status: params[:status],
+        start: Time.at(params[:start].to_i / 1000.0),
+        stop: Time.at(params[:stop].to_i / 1000.0),
+        tags: params[:tags],
+        def_id: test_case_def.id
+      )
+      (params[:steps] || []).each do |step|
+        @test_case.steps.push Step.new(
+          start: Time.at(params[:start].to_i / 1000.0),
+          stop: Time.at(params[:stop].to_i / 1000.0),
+          status: params[:status])
+      end
+      if params[:failure]
+        @test_case.failure = Failure.new(
+          message: params[:failure][:message],
+          stack_trace: params[:failure][:stack_trace]
+        )
+      end
+      @test_case.save!
+      test_run.save! if test_run.changed?
       puts "creating test case: #{params}"
     end
 
