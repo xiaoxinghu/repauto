@@ -9,7 +9,7 @@ module Api
 
     api! 'upload an attachment'
     param :desc, String, desc: 'description of the attachment', required: true
-    param :type, ['log', 'screenshot'], desc: 'type of the attachment', required: true
+    param :type, ['log', 'screenshot', 'pagesource'], desc: 'type of the attachment', required: true
     param :time, String, desc: 'timestamp', required: true
     param :file, File, desc: 'the attachment file', required: true
     param :test_case_id, String, desc: 'test case id', required: true
@@ -17,16 +17,16 @@ module Api
       file = params[:file]
       test_case = TestCase.find(params[:test_case_id])
       data = IO.binread(file.tempfile)
-      a = {
+      @attachment = Attachment.new(
         desc: params[:desc],
         type: params[:type],
         size: data.size,
         time: Time.at(params[:time].to_i / 1000.0),
         mime: file.content_type,
         data: BSON::Binary.new(data, :generic)
-      }
-      @attachment = test_case.attachments.build(a)
+      )
       @attachment.save!
+      test_case.attachments.push @attachment
       test_case.save!
     end
   end

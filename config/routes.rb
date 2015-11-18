@@ -31,6 +31,8 @@ Rails.application.routes.draw do
         get 'raw'
       end
     end
+
+    get 'system/info' => 'system#info'
   end
 
   root 'welcome#index'

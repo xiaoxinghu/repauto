@@ -29,7 +29,7 @@ module Api
     param :test_suite, String, desc: 'test suite name', required: true
     param :failure, Hash, desc: 'failure info' do
       param :message, String, desc: 'failure message', required: true
-      param :stack_trace, String, desc: 'stack trace', required: true
+      param :stack_trace, String, desc: 'stack trace'
     end
     param :steps, Array, desc: 'steps' do
       param :name, String, desc: 'name of the step', required: true
@@ -41,9 +41,9 @@ module Api
       test_run = TestRun.find(params[:test_run_id])
       test_case_def = TestCaseDef.find_or_create(params[:name],
         params[:test_suite],
-        params[:steps].map { |step| step[:name] })
+        (params[:steps] || []).map { |step| step[:name] })
       @test_case = test_run.test_cases.build(
-        status: params[:status],
+        status: params[:status].downcase,
         start: Time.at(params[:start].to_i / 1000.0),
         stop: Time.at(params[:stop].to_i / 1000.0),
         tags: params[:tags],
