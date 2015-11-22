@@ -46,7 +46,7 @@ module TestRunPlugin
       Attachment.scan_for_attachments(pattern).each do |file|
         att = Attachment.parse(file)
         a = test_run.attachments.build(att)
-        a.save!
+        try_save a
         archive(file, path.join(DataSync.configuration.archive_folder)) if DataSync.configuration.auto_cleanup
       end
       test_run.dirty = true
@@ -55,6 +55,14 @@ module TestRunPlugin
     end
 
     private
+
+    def try_save(attachment)
+      begin
+        attachment.save!
+      rescue Mongo::Error::MaxBSONSize
+        puts "attachment too big (#{attachment.size}, #{attachment.full_path})"
+      end
+    end
 
     def interpret_path(path)
       project_sn, name, sn = path.each_filename.to_a.last(3)
