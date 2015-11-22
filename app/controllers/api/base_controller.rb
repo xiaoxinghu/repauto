@@ -19,15 +19,15 @@ module Api
       respond_with get_resource
     end
 
-    rescue_from Apipie::ParamError do |e|
-      @error = e
-      render 'api/error', status: :unprocessable_entity
-    end
+    # rescue_from Apipie::ParamError do |e|
+    #   @error = e
+    #   render 'api/error', status: :unprocessable_entity
+    # end
 
-    rescue_from Mongoid::Errors::MongoidError do |e|
-      @error = e
-      render 'api/error', status: :unprocessable_entity
-    end
+    # rescue_from Mongoid::Errors::MongoidError do |e|
+    #   @error = e
+    #   render 'api/error', status: :unprocessable_entity
+    # end
 
     rescue_from StandardError do |e|
       @error = e

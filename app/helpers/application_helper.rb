@@ -38,4 +38,8 @@ module ApplicationHelper
     return '' unless actions.any? { |a| a == action_name }
     'active'
   end
+
+  def legalize(content)
+    content.force_encoding("ISO-8859-1").encode("UTF-8")
+  end
 end
