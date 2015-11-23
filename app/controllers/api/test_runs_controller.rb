@@ -60,11 +60,11 @@ message: something went wrong
     end
 
     api! 'Stop the run.'
-    param :stop_time, String, desc: 'stop time in milliseconds, default set to now'
+    param :stop, String, desc: 'stop time in milliseconds, default set to now'
     def stop
-      stop_time = params[:stop_time] || Time.zone.now
+      stop = params[:stop] || Time.zone.now
       @test_run.update_attributes!(
-        stop_time: stop_time,
+        stop: stop,
         status: 'done'
       )
     end
