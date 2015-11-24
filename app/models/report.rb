@@ -12,7 +12,9 @@ class Report
     pro = {}
     todo = 0
     total = 0
-    test_run.test_cases.each do |tc|
+    grouped = test_run.test_cases.group_by { |tc| tc.definition.md5 }
+    grouped.each do |k, v|
+      tc = v.max_by(&:start)
       ori[tc.status] ||= 0
       ori[tc.status] += 1
       ps = tc.processed_status
