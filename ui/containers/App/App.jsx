@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { NavBar } from '../../components';
+import { NavBar, About } from '../../components';
 import { fetch } from '../../modules/Project';
 
 @connect(
@@ -17,6 +17,7 @@ export default class App extends Component {
     return (
       <div>
         <NavBar />
+        <About id="about"/>
         <div>
           {this.props.children}
         </div>

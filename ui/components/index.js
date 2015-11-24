@@ -1,4 +1,5 @@
 export NavBar from './NavBar/NavBar';
+export About from './About/About';
 export ProjectMini from './Project/Mini';
 export ProjectTrendControlPanel from './Project/TrendControlPanel';
 export Stretchable from './Stretchable/Stretchable';

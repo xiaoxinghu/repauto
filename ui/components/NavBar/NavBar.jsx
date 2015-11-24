@@ -52,7 +52,11 @@ import _ from 'lodash';
       }
       var infoPanel = (
           <ul className='nav navbar-nav pull-right'>
-            <li><Link to='#'>About</Link></li>
+            <li>
+              <a href="#" data-toggle="modal" data-target="#about">
+                <i className="fa fa-info-circle fa-lg" />
+              </a>
+            </li>
           </ul>
       );
       const projectList = (
