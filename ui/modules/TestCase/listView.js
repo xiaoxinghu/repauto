@@ -23,7 +23,14 @@ function group(all, ids, by) {
     break;
   case GROUP_BY.ERROR:
     let errored = ids.filter((id) => all[id].failure);
-    grouped = _.groupBy(errored, 'failure.message');
+    grouped = _.groupBy(errored, (id) => {
+      // get rid of GUID
+      const msg = all[id].failure.message.replace(
+          /[{]?[0-9a-fA-F]{8}[-]?([0-9a-fA-F]{4}[-]?){3}[0-9a-fA-F]{12}[}]?/i,
+        '<guid>');
+      console.info(msg);
+      return msg;
+    });
     break;
   case GROUP_BY.TODO:
     let todos = ids.filter((id) => {

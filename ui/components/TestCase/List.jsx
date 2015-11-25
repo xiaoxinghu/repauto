@@ -60,13 +60,14 @@ export default class TestCaseList extends Component {
 
   render() {
     const {processed, all, selectedGroupBy} = this.props;
+    let index = 0;
     const list = _.keys(processed).map((group) => {
       const data = processed[group].map((d) => all[d]);
       const badge = (
         <StatusBadge status={this._getSummary(data)} />
       );
       return (
-        <Collapsible key={group} title={group} badge={badge}>
+        <Collapsible key={"group_" + index++} title={group} badge={badge}>
           {this._generateList(data)}
         </Collapsible>
       );
