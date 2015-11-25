@@ -1,6 +1,7 @@
 class TestRun
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  include Mongoid::Timestamps
   has_many :attachments, dependent: :delete
   belongs_to :project
   has_many :test_cases, dependent: :delete, after_add: :mark_dirty

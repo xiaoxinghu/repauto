@@ -15,21 +15,21 @@ export const GROUP_BY = constants('TEST_CASE_GROUP_BY_', [
   'TODO',
 ]);
 
-function group(data, by) {
+function group(all, ids, by) {
   let grouped;
   switch(by) {
   case GROUP_BY.FEATURE:
-    grouped = _.groupBy(data, 'test_suite');
+    grouped = _.groupBy(ids, (id) => all[id].test_suite);
     break;
   case GROUP_BY.ERROR:
-    let errored = data.filter((d) => d.failure);
+    let errored = ids.filter((id) => all[id].failure);
     grouped = _.groupBy(errored, 'failure.message');
     break;
   case GROUP_BY.TODO:
-    let todos = data.filter((d) => {
-      return ( d.status != 'passed' ) && (d.comments.length == 0);
+    let todos = ids.filter((id) => {
+      return ( all[id].status != 'passed' ) && (all[id].comments.length == 0);
     });
-    grouped = _.groupBy(todos, 'test_suite');
+    grouped = _.groupBy(todos, (id) => all[id].test_suite);
   default:
     break;
   }
@@ -38,15 +38,18 @@ function group(data, by) {
 
 export function updateListView(state) {
   // filter
-  const data = _.values(state.testCase.data.all);
-  let filtered = data.filter((d) => {
-    return d.name.toLowerCase().includes(state.testCase.listView.filter.toLowerCase());
+  const { all, dupFree } = state.testCase.data;
+
+  // filter by keywords
+  let filtered = dupFree.filter((id) => {
+    return all[id].name.toLowerCase().includes(state.testCase.listView.filter.toLowerCase());
   });
-  // group
-  let grouped = group(filtered, state.testCase.listView.groupBy);
+
+  // grouping
+  let grouped = group(all, filtered, state.testCase.listView.groupBy);
   return {
     type: ACTION.UPDATE_LIST_VIEW,
-    updated: _.mapValues(grouped, (list) => list.map((tc) => tc.id))
+    updated: grouped
   };
 }
 
@@ -92,7 +95,7 @@ export default function reducer(state = {
     return _.assign({}, state, {
       groupBy: GROUP_BY.FEATURE,
       processed: {},
-      filter: '',
+      filter: ''
     });
   case ACTION.UPDATE_LIST_VIEW:
     return _.assign({}, state, {

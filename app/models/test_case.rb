@@ -1,7 +1,8 @@
 class TestCase
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  belongs_to :test_run
+  include Mongoid::Timestamps
+  belongs_to :test_run, touch: true
   embeds_one :failure
   embeds_many :steps
   embeds_many :comments

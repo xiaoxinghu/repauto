@@ -14,9 +14,17 @@ const ACTION = constants('TEST_CASE_', [
 ]);
 
 function receiveDetail(json) {
+  console.info('size', json.test_cases.length);
+  const data = _.indexBy(json.test_cases, 'id');
+  const grouped = _.values(_.groupBy(json.test_cases, 'md5'));
+  const dupFree = grouped.map((group) => {
+    const latest = _.max(group, (d) => {return Date.parse(d.start);});
+    return latest.id;
+  });
   return {
     type: ACTION.RECEIVE_DETAIL,
-    data: _.indexBy(json.test_cases, 'id'),
+    data: data,
+    dupFree: dupFree,
     receivedAt: Date.now()
   };
 }
@@ -117,11 +125,13 @@ export default function reducer(state = {
   isFetching: false,
   diff: {},
   all: {},
+  dupFree: []
 }, action) {
   switch(action.type) {
   case ACTION.INVALIDATE:
     return _.assign({}, state, {
       all: {},
+      dupFree: []
     });
   case ACTION.REQUEST:
     return _.assign({}, state, {
@@ -131,6 +141,7 @@ export default function reducer(state = {
     return _.assign({}, state, {
       isFetching: false,
       all: action.data,
+      dupFree: action.dupFree,
       lastUpdated: action.receivedAt
     });
   case ACTION.RECEIVE_DIFF:

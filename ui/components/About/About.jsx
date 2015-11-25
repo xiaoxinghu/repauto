@@ -15,7 +15,7 @@ import _ from 'lodash';
     render() {
       const { id } = this.props;
       return (
-        <div id={id} className="modal fade" tabindex="-1" role="dialog">
+        <div id={id} className="modal fade" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">

@@ -7,7 +7,7 @@ function getPassRate(status) {
   }
   var passed = status.passed || 0;
   var total = _.sum(status);
-  var pr = Math.round(passed / total * 1000) / 10
+  var pr = Math.round(passed / total * 1000) / 10;
   return pr;
 }
 
