@@ -3,6 +3,7 @@ class Project
   include Mongoid::Attributes::Dynamic
   include Mongoid::Timestamps
 
+  has_many :test_case_defs, dependent: :delete
   has_many :test_runs, dependent: :delete do
     def active
       exists(archived_at: false)

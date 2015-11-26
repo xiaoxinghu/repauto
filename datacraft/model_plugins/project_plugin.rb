@@ -7,7 +7,7 @@ module ProjectPlugin
   module InstanceMethods
     def scan_for_test_runs
       pattern = File.join(DataSync.configuration.root,
-                          sn,
+                          self[:sn],
                           DataSync.configuration.test_run_pattern)
       Pathname.glob(pattern).select(&:directory?)
     end
@@ -23,7 +23,7 @@ module ProjectPlugin
           s['name']
         end
       end
-      TestCaseDef.find_or_create(name, test_suite, steps)
+      TestCaseDef.find_or_create(self, name, test_suite, steps)
     end
   end
 

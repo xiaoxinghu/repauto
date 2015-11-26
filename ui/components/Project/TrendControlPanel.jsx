@@ -33,7 +33,7 @@ export default class TrendControlPanel extends Component {
       </div>
     );
     const radios = [
-      {label: ('processed'), value: 'proc'},
+      {label: ('manual'), value: 'proc'},
       {label: ('raw'), value: 'ori'}
     ];
     const modeToggle = (

@@ -4,6 +4,7 @@ require 'digest'
 class TestCaseDef
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  belongs_to :project
 
   field :name, type: String
   field :test_suite, type: String
@@ -16,9 +17,12 @@ class TestCaseDef
     doc.md5 = doc.gen_md5
   end
 
-  def self.find_or_create(name, test_suite, steps)
+  def self.find_or_create(project, name, test_suite, steps)
     d = TestCaseDef.new(
-      name: name, test_suite: test_suite, steps: steps)
+      project: project,
+      name: name,
+      test_suite: test_suite,
+      steps: steps)
     md5 = d.gen_md5
     match = TestCaseDef.where(md5: md5).first
     return match if match
@@ -28,6 +32,7 @@ class TestCaseDef
 
   def gen_md5
     md5 = Digest::MD5.new
+    md5 << ( project.id.to_s )
     md5 << ( name || '' )
     md5 << ( test_suite || '' )
     steps.each do |step|
@@ -35,4 +40,5 @@ class TestCaseDef
     end
     md5.hexdigest
   end
+
 end

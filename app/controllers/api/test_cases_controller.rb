@@ -39,7 +39,9 @@ module Api
     end
     def create
       test_run = TestRun.find(params[:test_run_id])
-      test_case_def = TestCaseDef.find_or_create(params[:name],
+      test_case_def = TestCaseDef.find_or_create(
+        test_run.project,
+        params[:name],
         params[:test_suite],
         (params[:steps] || []).map { |step| step[:name] })
       @test_case = test_run.test_cases.build(
