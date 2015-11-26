@@ -12,6 +12,7 @@ import {
   ProjectContext,
   ProjectSummary,
   ProjectTrend,
+  ProjectMatrix,
   TestRunList,
   TestRunDetail,
   TestRunDiff,
@@ -27,6 +28,7 @@ export default (store) => {
           <IndexRoute component={ProjectSummary} />
           <Route path="summary" component={ProjectSummary} />
           <Route path="trend" component={ProjectTrend} />
+          <Route path="matrix" component={ProjectMatrix} />
           <Route path="runs" component={TestRunList} />
           <Route path="runs/:runId" component={TestRunDetail} />
           <Route path="runs/diff/:id1/:id2" component={TestRunDiff} />

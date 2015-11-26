@@ -46,6 +46,7 @@ import _ from 'lodash';
           <ul className='nav navbar-nav'>
             <li><Link to={`/projects/${activeProject.id}`}>Summary</Link></li>
             <li><Link to={`/projects/${activeProject.id}/trend`}>Trend</Link></li>
+            <li><Link to={`/projects/${activeProject.id}/matrix`}>Matrix</Link></li>
             <li><Link to={`/projects/${activeProject.id}/runs`}>Test Runs</Link></li>
           </ul>
         );

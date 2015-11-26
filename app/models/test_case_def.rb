@@ -30,6 +30,10 @@ class TestCaseDef
     d
   end
 
+  def history(limit=20)
+    TestCase.where(def_id: id).order_by(start: 'desc').limit(limit)
+  end
+
   def gen_md5
     md5 = Digest::MD5.new
     md5 << ( project.id.to_s )

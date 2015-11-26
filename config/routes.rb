@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :projects, only: [:show, :index, :create, :update] do
       member do
         get 'trend'
+        get 'matrix'
         get 'summary'
       end
 

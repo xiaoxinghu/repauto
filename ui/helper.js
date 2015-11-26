@@ -20,23 +20,28 @@ function getStatusMeta(status) {
   switch (status) {
     case 'passed':
       formated.context = 'success';
-      formated.icon = 'fa fa-check';
+      // formated.icon = 'fa fa-check';
+    formated.icon = 'glyphicon glyphicon-ok';
       break;
     case 'failed':
       formated.context = 'danger';
-      formated.icon = 'fa fa-times';
+      // formated.icon = 'fa fa-times';
+    formated.icon = 'glyphicon glyphicon-remove';
       break;
     case 'broken':
       formated.context = 'warning';
-      formated.icon = 'fa fa-bolt';
+      // formated.icon = 'fa fa-bolt';
+    formated.icon = 'glyphicon glyphicon-alert';
       break;
     case 'pending':
       formated.context = 'default';
-      formated.icon = 'fa fa-ban';
+      // formated.icon = 'fa fa-ban';
+    formated.icon = 'glyphicon glyphicon-ban-circle';
       break;
     case 'todo':
       formated.context = 'primary';
-      formated.icon = 'fa fa-check-square-o';
+      // formated.icon = 'fa fa-check-square-o';
+    formated.icon = 'glyphicon glyphicon-check';
       break;
     case 'pr':
       formated.context = 'info';

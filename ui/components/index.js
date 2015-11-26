@@ -22,4 +22,5 @@ export RadioSet from './RadioSet/RadioSet';
 export TrendGraph from './Trend/Graph';
 export TrendCard from './Trend/Card';
 export DonutChart from './Chart/Donut';
+export Matrix from './Matrix/Matrix';
 

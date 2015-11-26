@@ -9,5 +9,5 @@ export default combineReducers({
   router: routerStateReducer,
   project,
   testRun,
-  testCase,
+  testCase
 });

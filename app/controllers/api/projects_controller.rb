@@ -1,6 +1,6 @@
 module Api
   class ProjectsController < Api::BaseController
-    before_action :set_resource, only: [:show, :trend, :summary]
+    before_action :set_resource, only: [:show, :trend, :matrix, :summary]
 
     api! 'Get all projects.'
     def index
@@ -27,6 +27,14 @@ module Api
         data
       end
       respond_with @trend
+    end
+
+    api! 'Get the matrix of project.'
+    def matrix
+      @matrix = []
+      @project.test_case_defs.each do |tcd|
+        @matrix << { def: tcd, history: tcd.history.to_a }
+      end
     end
 
     api! 'Get summary of project.'
