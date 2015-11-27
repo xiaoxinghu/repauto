@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { unmark, invalidate, filter, fetch, VIEW, remove } from '../../modules/TestRun';
+import { unmark, invalidate, filter, fetch, VIEW, remove, merge } from '../../modules/TestRun';
+import { invalidateTrend } from '../../modules/Project';
+import { Modal, Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import _ from 'lodash';
 
 @connect(
@@ -11,11 +13,17 @@ import _ from 'lodash';
     activeProject: state.project.data[state.router.params.projectId],
     activeFilter: state.testRun.data.filter,
     marked: state.testRun.marked,
+    all: state.testRun.data.all,
     path: state.router.location.pathname
   }),
-  {pushState, unmark, invalidate, filter, fetch, remove}
+  {pushState, unmark, invalidate, filter, fetch, remove, merge, invalidateTrend}
 )
 export default class Toolbar extends Component {
+  constructor(props){
+    super(props);
+    this.state = {showNameSelector: false};
+  }
+
   _handleClear() {
     const { unmark } = this.props;
     console.info('clear test run');
@@ -30,21 +38,34 @@ export default class Toolbar extends Component {
     fetch();
   }
 
-    _handleDelete() {
-        const {remove, marked} = this.props;
-        for (let id of marked) {
-            remove(id);
-        }
-        // console.info('delete');
+  _handleDelete() {
+    const {remove, marked, invalidateTrend} = this.props;
+    for (let id of marked) {
+      remove(id);
+      invalidateTrend();
     }
+  }
 
-    _handleDiff() {
-      const {pushState, marked, path} = this.props;
-      pushState(null, `${path}/diff/${marked[0]}/${marked[1]}`);
+  _handleDiff() {
+    const {pushState, marked, path, merge} = this.props;
+    pushState(null, `${path}/diff/${marked[0]}/${marked[1]}`);
+  }
+
+  _handleMerge() {
+    const {marked, all, merge} = this.props;
+    const selectedNames = _.uniq(marked.map((id) => {
+      return _.find(all, 'id', id).name;
+    }));
+    console.info(selectedNames);
+    if (selectedNames.length > 1) {
+      this.setState({showNameSelector: true});
+    } else {
+      merge(marked);
     }
+  }
 
   render() {
-    const { activeProject, activeFilter, marked } = this.props;
+    const { activeProject, activeFilter, marked, all } = this.props;
       let runNames = [];
       if (activeProject) {
           runNames = activeProject.run_names;
@@ -62,37 +83,38 @@ export default class Toolbar extends Component {
         <option value={VIEW.BIN}>DELETED</option>
       </select>
     );
-    var buttons = [
-      <button key="btnDelete" className={ClassNames(
-          'btn', 'btn-danger',
-          {'disabled': marked.length == 0}
-        )} onClick={() => this._handleDelete()}>
-        <i className="fa fa-trash" />
-      </button>,
-      <button key="btnClear" className={ClassNames({
-          'btn': true,
-          'btn-default': true,
-          'disabled': marked.length == 0
-        })} onClick={() => this._handleClear()}>
-        clear
-      </button>,
-      <button key="btnDiff" className={ClassNames({
-          'btn': true,
-          'btn-default': true,
-          'disabled': marked.length != 2
-        })} onClick={this._handleDiff.bind(this)}>
-        diff
-      </button>
-    ];
+
     return (
-      <div className="btn-toolbar inline">
-        <div className="btn-group">
+      <ButtonToolbar bsClass="inline">
+        <ButtonGroup>
           {filterBox}
-        </div>
-        <div className="btn-group" role="group" aria-label="...">
-          {buttons}
-        </div>
-      </div>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button bsStyle="danger"
+            disabled={marked.length == 0}
+            onClick={this._handleDelete.bind(this)}>delete</Button>
+          <Button bsStyle="default"
+            disabled={marked.length == 0}
+            onClick={this._handleClear.bind(this)}>clear</Button>
+          <Button bsStyle="default"
+            disabled={marked.length != 2}
+            onClick={this._handleDiff.bind(this)}>diff</Button>
+          <Button bsStyle="default"
+            disabled={marked.length < 2}
+            onClick={this._handleMerge.bind(this)}>merge</Button>
+        </ButtonGroup>
+        <Modal show={this.state.showNameSelector}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h4>Text in a modal</h4>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => this.setState({showNameSelector: false})}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </ButtonToolbar>
     );
   }
 }

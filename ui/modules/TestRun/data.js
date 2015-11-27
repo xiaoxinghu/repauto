@@ -7,6 +7,7 @@ const ACTION = constants('RUN_', [
   'REQUEST',
   'RECEIVE',
   'REMOVED',
+  'MERGED',
   'FILTER',
 ]);
 
@@ -100,6 +101,16 @@ function removed(id) {
   };
 }
 
+function merged() {
+  return (dispatch, getState) => {
+    dispatch(invalidate());
+    dispatch(fetch());
+    return {
+      type: ACTION.MERGED
+    };
+  };
+}
+
 export function remove(id) {
   return (dispatch, getState) => {
     const state = getState();
@@ -109,10 +120,31 @@ export function remove(id) {
       action = 'restore';
     }
     const url = `/api/test_runs/${id}/${action}`;
-    console.info('remove url', url);
     return _fetch(url, {method: 'put'})
       .then(response => response.json())
       .then(json => dispatch(removed(id)));
+  };
+}
+
+export function merge(ids, name) {
+  console.info('merging start', ids, name);
+  return (dispatch, getState) => {
+    console.info('merging callback');
+    const state = getState();
+    const url = '/api/test_runs/merge';
+    console.info('merging', ids, name, url);
+    return _fetch(url, {
+      method: 'put',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ids: ids
+      })
+    })
+      .then(response => response.json())
+      .then(json => dispatch(merged()));
   };
 }
 

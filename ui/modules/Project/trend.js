@@ -80,7 +80,7 @@ export default function reducer(state = {
       data: data
     });
     case ACTION.INVALIDATE_TREND:
-      return {};
+    return {data: {}};
     default:
       return state;
   }

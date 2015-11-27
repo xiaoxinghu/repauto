@@ -86,7 +86,6 @@ import _ from 'lodash';
               {projectList}
             </ul>
             {navPanel}
-            {infoPanel}
           </div>
         </div>
       );

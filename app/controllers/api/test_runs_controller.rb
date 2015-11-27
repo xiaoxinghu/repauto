@@ -54,11 +54,6 @@ message: something went wrong
       @test_run.save!
     end
 
-    api!
-    def update
-
-    end
-
     api! 'Stop the run.'
     param :stop, String, desc: 'stop time in milliseconds, default set to now'
     def stop
@@ -67,6 +62,20 @@ message: something went wrong
         stop: stop,
         status: 'done'
       )
+    end
+
+    api! 'Merge test runs.'
+    param :ids, Array, desc: 'test run ids to merge with', required: true
+    param :name, String, desc: 'new name for the merged run'
+    def merge
+      @test_run = TestRun.find(params[:ids][0])
+      rest = params[:ids][1..-1]
+      rest.each do |id|
+        test_run = TestRun.find(id)
+        @test_run.merge! test_run
+      end
+      @test_run.name = params[:name] if params[:name]
+      @test_run.save! if @test_run.changed?
     end
 
     def order_params

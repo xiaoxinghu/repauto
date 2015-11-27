@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         get 'summary'
       end
 
-      resources :test_runs, shallow: true, only: [:show, :index, :create, :update] do
+      resources :test_runs, shallow: true, only: [:show, :index, :create] do
         member do
           put 'archive'
           put 'restore'
@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     end
 
     get 'test_runs/diff/:id1/:id2' => 'test_runs#diff'
+    put 'test_runs/merge' => 'test_runs#merge'
 
     resources :attachments, only: [:create, :show] do
       member do

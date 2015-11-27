@@ -18,7 +18,12 @@ export default class Row extends Component {
       var status = helper.getStatusMeta(d.status);
       var className = 'btn btn-' + status.context;
       return (
-        <button key={_.uniqueId('matrix_row')} type='button' className={className} onClick={this.handleClick.bind(this, d)}>
+        <button key={_.uniqueId('matrix_row')}
+          type='button'
+          className={className}
+          data-toggle="tooltip"
+          data-placement="right"
+          title={d.start}>
           <span className={status.icon + ' statusIcon'} />
         </button>
       );
