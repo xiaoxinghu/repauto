@@ -20,7 +20,7 @@ export default class StatusBadge extends Component {
           <span key={s} className={"label label-" + meta.context}>
             {status[s]}
           </span>
-        )
+        );
       });
     }
     return (

@@ -7,7 +7,6 @@ const ACTION = constants('PROJECT_SUMMARY_', [
 ]);
 
 function receive(json, id) {
-  console.info('receive', json, id);
   return {
     type: ACTION.RECEIVE,
     summary: json,

@@ -3,23 +3,23 @@ import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import { invalidate } from '../../modules/TestRun';
 import { invalidateTrend } from '../../modules/Project';
-import { fetchSumamry } from '../../modules/Project';
 import { ProjectMini } from '../../components';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import _ from 'lodash';
 
 @connect(
     state => ({
       projects: state.project.data
     }),
-    {pushState, invalidate, invalidateTrend}
+    { pushState, invalidate, invalidateTrend }
 )
 export default class Home extends Component {
-//  componentDidMount() {
-//    const { fetchSumamry, projects } = this.props;
-//    _.keys(projects).forEach((id) => {
-//      fetchSumamry(id);
-//    });
-//  }
+  // componentDidMount() {
+  //   const { fetchSumamry, projects } = this.props;
+  //   _.keys(projects).forEach((id) => {
+  //     fetchSumamry(id);
+  //   });
+  // }
 
   _genGroup(projects) {
     const list = projects.map((project) => {
@@ -30,9 +30,9 @@ export default class Home extends Component {
       );
     });
     return (
-      <ul key={_.uniqueId('group')} className='list-group'>
+      <ListGroup>
         {list}
-      </ul>
+      </ListGroup>
     );
   }
 
