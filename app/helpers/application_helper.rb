@@ -3,7 +3,7 @@ require 'addressable/uri'
 module ApplicationHelper
   def css_cdn_links
     [
-      'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css',
+      'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css',
       'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css',
       '//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css',
       'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css'

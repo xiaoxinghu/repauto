@@ -7,10 +7,15 @@ const STYLE = {
   AREA: 'AREA'
 };
 
+const MODE = {
+  VALUE: 'VALUE',
+  PERCENTAGE: 'PERCENTAGE'
+};
+
 export default class Graph extends Component {
   constructor(props){
     super(props);
-    this.state = {style: STYLE.AREA};
+    this.state = {style: STYLE.AREA, mode: MODE.VALUE};
   }
 
   componentDidUpdate() {
@@ -30,16 +35,18 @@ export default class Graph extends Component {
     if (_.isEmpty(this.props.data)) {
       return;
     }
+    const data = this._process(this.props.data, this.state.mode);
     var target = $('#' + this.graphId);
     target.empty();
     var d = {
       element: target,
-      data: this.props.data,
+      data: data,
       xkey: 'time',
       ykeys: ['passed', 'failed', 'broken', 'pending'],
       labels: ['passed', 'failed', 'broken', 'pending'],
       lineColors: ['#5cb85c', '#d9534f', '#f0ad4e', 'gray'],
-      hideHover: 'auto'
+      hideHover: 'auto',
+      smooth: false
     };
     switch (this.state.style) {
       case STYLE.LINE:
@@ -52,8 +59,32 @@ export default class Graph extends Component {
     }
   }
 
+  _process(data, mode) {
+    if (mode == MODE.VALUE) {
+      return data;
+    }
+    const processed = data.map((d) => {
+      const total = _.sum(d);
+      return _.mapValues(d, (n, k) => {
+        if (k == 'time') {
+          return n;
+        } else {
+          return n / total;
+        }
+      });
+    });
+    console.info("data", data);
+    console.info("processed", processed);
+    return processed;
+  }
+
   _changeStyle(style) {
     this.setState({style: style});
+    this._draw();
+  }
+
+  _changeMode(mode) {
+    this.setState({mode: mode});
     this._draw();
   }
 
@@ -63,6 +94,10 @@ export default class Graph extends Component {
       {label: (<i className="fa fa-area-chart" />), value: STYLE.AREA},
       {label: (<i className="fa fa-line-chart" />), value: STYLE.LINE}
     ];
+    const modeRadios = [
+      {label: (<i className="fa fa-hashtag" />), value: MODE.VALUE},
+      {label: (<i className="fa fa-percent" />), value: MODE.PERCENTAGE}
+    ];
     var style = {
       height: this.props.height,
       width: this.props.width
@@ -71,6 +106,7 @@ export default class Graph extends Component {
     return (
       <div>
         <RadioSet group="view" onChange={this._changeStyle.bind(this)} radios={radios} selected={this.state.style} />
+        <RadioSet group="mode" onChange={this._changeMode.bind(this)} radios={modeRadios} selected={this.state.mode} />
         <div id={this.graphId} />
       </div>
     );

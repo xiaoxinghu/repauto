@@ -25,7 +25,7 @@ export default class Donut extends Component {
       element: target,
       data: this.props.data,
       resize: true
-    }
+    };
     new Morris.Donut(d);
   }
 

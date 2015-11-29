@@ -23,8 +23,11 @@ export default class RadioSet extends Component {
         </button>
       );
     }, this);
+    const style = {
+      margin: "0 5px 0 5px"
+    };
     return (
-      <div className="btn-group" role="group" aria-label="...">
+      <div style={style} className="btn-group" role="group" aria-label="...">
         {content}
       </div>
     );
