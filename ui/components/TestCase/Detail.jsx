@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import { HistoryLine, CommentBox, Gallery } from '../index';
-import { comment } from '../../modules/TestCase';
+import { comment, spotlightDiff } from '../../modules/TestCase';
 import _ from 'lodash';
 
 
@@ -11,12 +11,17 @@ import _ from 'lodash';
   state => ({
     refresh: state.testCase.spotlight.refresh
   }),
-  {comment}
+  {comment, spotlightDiff}
 )
 export default class Detail extends Component {
   _handleCommentSubmit(content) {
     const {comment, data} = this.props;
     comment(data.id, content);
+  }
+
+  _diffWithHistory(target) {
+    const {spotlightDiff} = this.props;
+    spotlightDiff(target);
   }
 
   render() {
@@ -84,7 +89,7 @@ export default class Detail extends Component {
       var container = (
         <div className="row">
           <div className="col-lg-4">
-            <HistoryLine history={history} />
+            <HistoryLine history={history} onClick={(id) => this._diffWithHistory(id)} />
             <div>
               <ul className="media-list">
                 {content}

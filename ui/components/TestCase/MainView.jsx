@@ -1,40 +1,47 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { fetch, mark, unmark } from '../../modules/TestRun';
-import { TestRunRow, TestRunToolbar, Stretchable, TestCaseDetail } from '../../components';
+import { SPOTLIGHT_MODE } from '../../modules/TestCase';
+import { TestRunRow, TestRunToolbar, Stretchable, TestCaseDetail, TestCaseGrid } from '../../components';
 import _ from 'lodash';
 
 @connect(
   state => ({
-    main: state.testCase.data.all[state.testCase.spotlight.on],
-    refresh: state.testCase.spotlight.refresh,
-    diffWith: state.testCase.spotlight.diffWith
+    spotlight: state.testCase.spotlight.on.map((id) => state.testCase.data.all[id]),
+    diffWith: state.testCase.spotlight.diffWith,
+    mode: state.testCase.spotlight.mode
   }),
   {}
 )
 export default class MainView extends Component {
 
   render() {
-    const { main, diffWith } = this.props;
-    let panels = [];
-    if (main) {
-      panels.push(
-        <TestCaseDetail data={main} history={main.history} />
+    const { spotlight, diffWith, mode } = this.props;
+    if (mode == SPOTLIGHT_MODE.DETAIL) {
+      let panels = [];
+      const main = spotlight[0];
+      if (main) {
+        panels.push(
+          <TestCaseDetail data={main} history={main.history} />
+        );
+      }
+      if (diffWith) {
+        panels.push(
+          <TestCaseDetail data={diffWith} />
+        );
+      }
+      const width = 'col-sm-' + (12 / panels.length).toString();
+      var content = panels.map((p) => {
+        return (
+          <div key={_.uniqueId('detail')} className={width}>
+            {p}
+          </div>
+        );
+      });
+    } else if (mode == SPOTLIGHT_MODE.GRID) {
+      var content = (
+        <TestCaseGrid data={spotlight} />
       );
     }
-    if (diffWith) {
-      panels.push(
-        <TestCaseDetail data={diffWith} />
-      );
-    }
-    const width = 'col-sm-' + (12 / panels.length).toString();
-    const content = panels.map((p) => {
-      return (
-        <div key={_.uniqueId('detail')} className={width}>
-          {p}
-        </div>
-      );
-    });
     return (
       <Stretchable>
         <div className="row">

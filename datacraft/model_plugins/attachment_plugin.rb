@@ -19,7 +19,8 @@ module AttachmentPlugin
         type: type,
         mime: mime,
         size: data.size,
-        data: BSON::Binary.new(data, :generic)
+        data: BSON::Binary.new(data, :generic),
+        time: file.birthtime
       }
       # attachment = Attachment.where(file_name: file_name).first_or_create
       # attachment.type, data = process(file)

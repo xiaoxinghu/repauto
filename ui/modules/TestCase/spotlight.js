@@ -9,17 +9,33 @@ const ACTION = constants('TEST_CASE_', [
   'SPOTLIGHT_DIFF',
 ]);
 
-function switchSpotlight(id) {
+export const SPOTLIGHT_MODE = constants('TEST_CASE_SPOTLIGHT_MODE_', [
+  'DETAIL',
+  'GRID'
+]);
+
+function spotlightOn(ids, mode) {
   return {
     type: ACTION.SPOTLIGHT_ON,
-    id
+    ids,
+    mode
   };
 }
 
-export function spotlight(id) {
+export function spotlight(target, mode = SPOTLIGHT_MODE.DETAIL) {
   return (dispatch, getState) => {
-    dispatch(switchSpotlight(id));
-    if (!getState().testCase.data.all[id].history) {
+    let ids = [];
+    if (Array.isArray(target)) {
+      ids = target;
+      if (ids.length > 2) {
+        mode = SPOTLIGHT_MODE.GRID;
+      }
+    } else if(typeof target === 'string') {
+      ids = [target];
+    }
+    dispatch(spotlightOn(ids, mode));
+    const id = ids[0]; // only fetch history for the first one.
+    if (mode == SPOTLIGHT_MODE.DETAIL && !getState().testCase.data.all[id].history) {
       const url = `/api/test_cases/${id}/history`;
       return _fetch(url)
         .then(response => response.json())
@@ -55,16 +71,20 @@ export function comment(testCaseId, comment) {
 
 // reducer
 
-export default function reducer(state = {}, action) {
+export default function reducer(state = {
+  on: []
+}, action) {
   switch(action.type) {
   case ACTION.SPOTLIGHT_ON:
     return _.assign({}, state, {
-      on: action.id,
-      diffWith: null
+      on: action.ids,
+      diffWith: null,
+      mode: action.mode
     });
   case ACTION.SPOTLIGHT_DIFF:
     return _.assign({}, state, {
-      diffWith: action.with
+      diffWith: action.with,
+      mode: SPOTLIGHT_MODE.DETAIL
     });
   case ACTION.SPOTLIGHT_REFRESH:
     return _.assign({}, state, {

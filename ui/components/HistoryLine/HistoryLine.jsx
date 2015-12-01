@@ -2,17 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import ClassNames from 'classnames';
 import helper from '../../helper';
-import { spotlightDiff } from '../../modules/TestCase';
 import _ from 'lodash';
 
-@connect(
-  state => ({}),
-  {spotlightDiff}
-)
 export default class HistroyLine extends Component {
   handleClick(target) {
-    const {spotlightDiff} = this.props;
-    spotlightDiff(target);
+    this.props.onClick(target);
   }
 
   render() {

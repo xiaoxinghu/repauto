@@ -37,6 +37,12 @@ function group(all, ids, by) {
       return ( all[id].status != 'passed' ) && (all[id].comments.length == 0);
     });
     grouped = _.groupBy(todos, (id) => all[id].test_suite);
+    break;
+  case GROUP_BY.GRID:
+    grouped = _.groupBy(ids, (id) => {
+      return all[id].name.split('_')[0];
+    });
+    break;
   default:
     break;
   }

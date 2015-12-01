@@ -84,7 +84,6 @@ export default class Gallery extends Component {
       {label: ('log'), value: VIEW.TEXT}
     ];
     let content;
-    console.info('view', this.state.view);
     if (this.state.view == VIEW.GRID) {
       content = this._buildGrid(this.props.images);
     } else if (this.state.view == VIEW.SLIDER) {

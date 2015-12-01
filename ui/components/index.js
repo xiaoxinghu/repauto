@@ -14,6 +14,7 @@ export TestCaseDiffRow from './TestCase/DiffRow';
 export TestCaseDiffList from './TestCase/DiffList';
 export TestCaseMainView from './TestCase/MainView';
 export TestCaseDetail from './TestCase/Detail';
+export TestCaseGrid from './TestCase/Grid';
 export HistoryLine from './HistoryLine/HistoryLine';
 export CommentBox from './Comment/CommentBox';
 export Gallery from './Gallery/Gallery';

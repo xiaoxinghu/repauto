@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { StatusBadge, SearchBar, RadioSet, Stretchable, Collapsible, TestCaseRow } from '../../components';
-import { fetchDetail, groupBy, filter, GROUP_BY, spotlight } from '../../modules/TestCase';
+import { fetchDetail, groupBy, filter, GROUP_BY, spotlight, SPOTLIGHT_MODE } from '../../modules/TestCase';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import _ from 'lodash';
@@ -58,6 +58,13 @@ export default class TestCaseList extends Component {
     return summary;
   }
 
+  _handleGroupClick(ids) {
+    const { selectedGroupBy, spotlight } = this.props;
+    if (selectedGroupBy == GROUP_BY.GRID) {
+      spotlight(ids, SPOTLIGHT_MODE.GRID);
+    }
+  }
+
   render() {
     const {processed, all, selectedGroupBy} = this.props;
     let index = 0;
@@ -67,7 +74,10 @@ export default class TestCaseList extends Component {
         <StatusBadge status={this._getSummary(data)} />
       );
       return (
-        <Collapsible key={"group_" + index++} title={group} badge={badge}>
+        <Collapsible
+          key={"group_" + index++}
+          title={group}
+          badge={badge} onClick={() => this._handleGroupClick(processed[group])}>
           {this._generateList(data)}
         </Collapsible>
       );
