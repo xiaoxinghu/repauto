@@ -13,6 +13,7 @@ export const GROUP_BY = constants('TEST_CASE_GROUP_BY_', [
   'ERROR',
   'GRID',
   'TODO',
+  'RERUN',
 ]);
 
 function group(all, ids, by) {
@@ -42,6 +43,10 @@ function group(all, ids, by) {
     grouped = _.groupBy(ids, (id) => {
       return all[id].name.split('_')[0];
     });
+    break;
+  case GROUP_BY.RERUN:
+    const reruns = ids.filter((id) => all[id].rerun > 0);
+    grouped = _.groupBy(reruns, (id) => all[id].test_suite);
     break;
   default:
     break;

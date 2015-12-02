@@ -86,7 +86,8 @@ export default class TestCaseList extends Component {
       {label: (<i className="fa fa-star" />), value: GROUP_BY.FEATURE},
       {label: (<i className="fa fa-exclamation-triangle" />), value: GROUP_BY.ERROR},
       {label: (<i className="glyphicon glyphicon-th" />), value: GROUP_BY.GRID},
-      {label: (<i className="fa fa-check-square-o" />), value: GROUP_BY.TODO}
+      {label: (<i className="fa fa-check-square-o" />), value: GROUP_BY.TODO},
+      {label: (<i className="fa fa-refresh" />), value: GROUP_BY.RERUN}
     ];
     return (
       <div className="test-case-list">

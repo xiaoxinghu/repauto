@@ -19,6 +19,9 @@ function receiveDetail(json) {
   const grouped = _.values(_.groupBy(json.test_cases, 'md5'));
   const dupFree = grouped.map((group) => {
     const latest = _.max(group, (d) => {return Date.parse(d.start);});
+    if (group.length > 1) {
+      latest.rerun = group.length - 1;
+    }
     return latest.id;
   });
   return {

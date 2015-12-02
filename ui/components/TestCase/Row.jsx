@@ -17,6 +17,11 @@ export default class Row extends Component {
         <i key="icon" className="fa fa-comment" />
       );
     }
+    if (data.rerun > 0) {
+      display.push(
+        <i key="icon" className="fa fa-refresh" />
+      );
+    }
     display.push(
       data.name
     );
