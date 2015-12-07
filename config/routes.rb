@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         get 'summary'
       end
 
-      resources :test_runs, shallow: true, only: [:show, :index, :create] do
+      resources :test_runs, shallow: true, only: [:show, :index, :create, :update] do
         member do
           put 'archive'
           put 'restore'

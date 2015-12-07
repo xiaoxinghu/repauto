@@ -36,8 +36,8 @@ module Api
 
     api! 'Create a new test run.'
     param :name, String, desc: 'test run name', required: true
-    param :status, ['running', 'done'], desc: 'test run current status', required: true
-    param :start_time, String, desc: 'start time in milliseconds, default set to now'
+    param :status, String, desc: 'test run current status', required: true
+    param :start, String, desc: 'start time in milliseconds, default set to now'
     description <<-EOS
 Create a new test run.
     EOS
@@ -49,7 +49,7 @@ message: something went wrong
     EOS
     def create
       project = Project.find(params[:project_id])
-      start_time = params[:start_time] || Time.zone.now
+      start_time = params[:start] || Time.zone.now
       @test_run = project.test_runs.build(name: params[:name], start: start_time, status: params[:status])
       @test_run.save!
     end
@@ -62,6 +62,18 @@ message: something went wrong
         stop: stop,
         status: 'done'
       )
+    end
+
+    api! 'Update existing test run.'
+    param :name, String, desc: 'test run name'
+    param :status, String, desc: 'test run current status'
+    param :start, String, desc: 'start time in milliseconds, default set to now'
+    param :stop, String, desc: 'stop time in milliseconds, default set to now'
+    def update
+      @test_run.start = Time.at(params[:start].to_i / 1000.0) if params[:start]
+      @test_run.stop = Time.at(params[:stop].to_i / 1000.0) if params[:stop]
+      @test_run.status = params[:status] if params[:status]
+      @test_run.save! if @test_run.changed?
     end
 
     api! 'Merge test runs.'
