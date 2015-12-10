@@ -1,8 +1,14 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
 import ClassNames from 'classnames';
 import helper from '../../helper';
 import _ from 'lodash';
 
+@connect(
+  state => ({
+    selected: state.testCase.spotlight.on
+  })
+)
 export default class Row extends Component {
   _handleClick(e) {
     e.preventDefault();
@@ -37,7 +43,7 @@ export default class Row extends Component {
           'list-group-item',
           'small',
           'list-group-item-' + helper.getStatusMeta(data.status).context,
-          {'active': selected}
+          {'active': _.includes(selected, data.id)}
         )} onClick={this._handleClick.bind(this)}>
         {display}
       </a>

@@ -9,7 +9,6 @@ import _ from 'lodash';
 @connect(
   state => ({
     all: state.testCase.data.all,
-    selected: state.testCase.spotlight.on,
     selectedGroupBy: state.testCase.listView.groupBy,
     processed: state.testCase.listView.processed
   }),
@@ -41,7 +40,6 @@ export default class TestCaseList extends Component {
         <TestCaseRow
           key={_.uniqueId('tcr')}
           data={testCase}
-          selected={_.includes(selected, testCase.id)}
           onRowClick={() => this._handleRowClick(testCase.id)} />
       );
     }, this);

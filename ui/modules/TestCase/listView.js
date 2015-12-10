@@ -65,6 +65,12 @@ export function updateListView(state) {
 
   // grouping
   let grouped = group(all, filtered, state.testCase.listView.groupBy);
+  // sort
+  // let sorted = _.mapValues(grouped, (items) => {
+  //   return _.sortBy(items, (id) => {
+  //     return all[id].name;
+  //   });
+  // })
   return {
     type: ACTION.UPDATE_LIST_VIEW,
     updated: grouped
