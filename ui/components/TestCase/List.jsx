@@ -41,7 +41,7 @@ export default class TestCaseList extends Component {
         <TestCaseRow
           key={_.uniqueId('tcr')}
           data={testCase}
-          selected={selected == testCase.id}
+          selected={_.includes(selected, testCase.id)}
           onRowClick={() => this._handleRowClick(testCase.id)} />
       );
     }, this);
