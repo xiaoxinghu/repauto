@@ -16,7 +16,7 @@ module ProjectPlugin
       name = hash['name']
       test_suite = hash['test_suite']
       steps = []
-      if hash.key? 'steps'
+      if hash.key? 'steps' && hash['steps'] != nil
         ss = hash['steps']['step']
         ss = [ss] if ss.is_a? Hash
         steps = ss.map do |s|
