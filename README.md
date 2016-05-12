@@ -4,9 +4,10 @@ I have to take Repauto down from GitHub for various reasons. One of them being
 it was originally tailored for our internal use at Fiserv. The legacy code base
 makes it difficult to evolve in a generic way. We still use it internally so it
 is not easy to make it both tailored and generic at the same time. So I decided
-to make Repauto an internal software only. A new open sourced version of the
-software is under development. It is a rewrite of Repauto which makes it
-flexible, and also with powerful features inherited from Repauto. Stay tuned.
+to make Repauto an internal software only. A [new open sourced version of the
+software](https://github.com/xiaoxinghu/testmon) is under development. It is a rewrite of Repauto which makes it
+flexible, and also with powerful features inherited from Repauto. It is still 
+in a very early stage.
 
 ## Repauto
 
